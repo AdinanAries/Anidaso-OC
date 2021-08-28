@@ -1,13 +1,195 @@
-body {
+* {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  font-family: "roboto";
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  background-color: #000d1a;
+}
+
+.wrapper{
+  max-width: 1800px;
+  margin: auto;
+  padding: 0 10px;
+}
+.main-header {
+  padding: 10px 0;
+  min-height: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  padding-left: 310px;
+  background-color: #000d1a;
+  /*background-color: #0a1724;
+  border-bottom: 1px solid rgba(255,255,255,0.2);*/
+}
+.main-search-box{
+
+}
+.main-search-box-title{
+
+}
+.main-menu-button{
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+}
+.side-menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+  max-width: 300px;
+  background-color: #0a1724;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+.side-menu-items-list{
+  /*padding: 0 10px;*/
+  margin-bottom: 40px;
+}
+.side-menu-each-item{
+  display: flex;
+  flex-direction: row !important;
+  padding: 15px 10px;
+  height: 70px;
+  cursor: pointer;
+  border-left: 4px solid rgba(255, 166, 0, 0.247);
+}
+.side-menu-each-item:hover{
+  background-color: rgba(255,255,255,0.1);
+}
+.side-menu-each-item.active {
+  border-left: 4px solid orange;
+  background-color: rgba(255,255,255,0.1);
+
+}
+.side-menu-each-item p{
+  letter-spacing: 1px;
+  color: white;
+  font-size: 14px;
+}
+.side-menu-each-item img{
+  width: auto;
+  height: 40px;
+}
+.side-menu-each-item i{
+  color: yellow;
+  font-size: 20px;
+}
+.side-menu-each-item-name{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+main{
+  width: 100vw;
+  padding-left: 310px;
+  padding-top:  80px;
+  padding-right: 10px;
+}
+.main-seaction-containers{
+  background-color: white;
+  min-height: 300px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 1px 2px 3px rgba(0,0,0,0.6);
+}
+#bookings-container{
+  
+}
+.booking-pane-search-type-options{
+  display: flex;
+}
+.booking-pane-search-inputs-area{
+  display: flex;
+}
+.booking-pane-search-inputs-area-inputs-section{
+  padding: 10px;
+  margin-top: 10px;
+  width: 60%;
+  max-width: 900px;
+}
+.booking-pane-search-inputs-area-other-section{
+  padding: 10px;
+  margin-top: 10px;
+  width: calc(40% - 10px);
+  margin-left: 10px;
+  background-color: rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 6px
+}
+.two-inputs-flex-container{
+  display: flex;
+  justify-content: space-between;
+}
+.two-inputs-flex-child{
+  width: calc(50% - 10px);
+}
+@media screen and (max-width: 700px){
+  .side-menu{
+    display: none;
+    top: 55px;
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.3);
+  }
+  main{
+    padding-left: 0;
+    padding-top:  55px;
+    padding-right: 0;
+  }
+  .main-header {
+    padding-left: 0;
+    height: auto;
+  }
+  .main-search-box-title{
+    display: none;
+  }
+  .header-icon-titles{
+    display: none;
+  }
+  .main-menu-button{
+    display: flex;
+  }
+  .main-seaction-containers{
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+  .main-menu-company-title{
+    display: none;
+  }
+  .booking-pane-search-type-options{
+    width: 100%;
+  }
+  .booking-pane-search-type-each-option{
+    width: 33%;
+  }
+  .booking-pane-search-inputs-area{
+    display: block;
+  }
+  .booking-pane-search-inputs-area-inputs-section{
+    padding: 0;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .booking-pane-search-inputs-area-other-section{
+    width: 100%;
+    min-height: 200px;
+    margin-left: 0;
+  }
+  .two-inputs-flex-container{
+    display: block;
+  }
+  .two-inputs-flex-child{
+    width: 100%;
+  }
+  .two-inputs-flex-child.last{
+    margin-top: 10px;
+  }
 }
