@@ -26,6 +26,12 @@ body {
   /*background-color: #0a1724;
   border-bottom: 1px solid rgba(255,255,255,0.2);*/
 }
+.header-icon{
+  font-size: 19px;
+}
+.header-icon.bumpup{
+  font-size: 20px;
+}
 .main-search-box{
 
 }
@@ -146,6 +152,12 @@ main{
   .main-header {
     padding-left: 0;
     height: auto;
+  }
+  .header-icon{
+    font-size: 23px;
+  }
+  .header-icon.bumpup{
+    font-size: 25px;
   }
   .main-search-box-title{
     display: none;
