@@ -12,8 +12,15 @@ let SideMenu = () => {
     return(
         <div id="main-menu-container" className="side-menu">
             <div className="main-menu-company-title" style={{padding: "20px 10px"}}>
-                <p style={{textAlign: "center", color: "orange", fontSize: 19, fontWeight: "bolder", letterSpacing: 1}}>
-                    Anidaso O.C.</p>
+                {/*<p style={{textAlign: "center", color: "orange", fontSize: 19, fontWeight: "bolder", letterSpacing: 1}}>
+                    Anidaso O.C.</p>*/}
+                <div className="site_logo_container">
+                    <div style={{height: "100%", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                        <p><span>An</span>i<span>d</span>a<span>s</span>o<sup style={{fontSize: 12}}>&reg;</sup></p>
+                    </div>
+                </div>
+                <p style={{color: "white", fontSize: 14}}>
+                    Operational Center</p>
             </div>
             <div className="side-menu-items-list">
                 <p style={{fontSize: 14, color: "rgb(0,255,255)", margin: "10px", marginBottom: "20px"}}>
