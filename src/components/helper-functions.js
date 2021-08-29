@@ -35,6 +35,11 @@ function setActiveNavOption(className, id){
 
 export function toggle_show_main_sections(type){
 
+    if($(window).width() <= 700){
+        //show_main_menu();
+        document.getElementById("main-menu-container").style.display = "none";
+    }
+
     document.getElementById("bookings-container").style.display = "none";
     document.getElementById("channels-container").style.display = "none";
     document.getElementById("support-container").style.display = "none";
