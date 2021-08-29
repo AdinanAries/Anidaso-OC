@@ -4,7 +4,9 @@
   box-sizing: border-box;
   font-family: "roboto";
 }
-
+input:focus{
+ outline: none;
+}
 body {
   background-color: #000d1a;
 }
@@ -25,6 +27,19 @@ body {
   background-color: #000d1a;
   /*background-color: #0a1724;
   border-bottom: 1px solid rgba(255,255,255,0.2);*/
+}
+.header-right-side-icon{
+  cursor: pointer;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.header-right-side-icon:hover p{
+  color: orange !important;
+}
+.header-right-side-icon:hover i{
+  color: skyblue !important;
 }
 .header-icon{
   font-size: 19px;

@@ -19,17 +19,23 @@ function Header(){
                         </div>
                     </div>
                     <div style={{display: "flex"}}>
-                        <div style={{padding: "0 10px", marginLeft: 10, display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                        <div className="header-right-side-icon" style={{cursor: "pointer", padding: "0 10px", marginLeft: 10, display: "flex", flexDirection: "column", justifyContent: "center"}}>
                             <p className="header-icon bumpup" style={{marginBottom: 5, textAlign: "center"}}>
                                 <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-user" aria-hidden="true"></i>
                             </p>
                             <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Account</p>
                         </div>
-                        <div style={{padding: "0 10px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                        <div className="header-right-side-icon">
                             <p className="header-icon" style={{marginBottom: 5, textAlign: "center"}}>
                                 <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-bell" aria-hidden="true"></i>
                             </p>
                             <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Notifications</p>
+                        </div>
+                        <div className="header-right-side-icon">
+                            <p className="header-icon" style={{marginBottom: 5, textAlign: "center"}}>
+                                <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-cogs" aria-hidden="true"></i>
+                            </p>
+                            <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Settings</p>
                         </div>
                     </div>
                 </div>

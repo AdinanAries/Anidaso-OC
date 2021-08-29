@@ -1,4 +1,6 @@
 import BookedFlightsSearchForm from "./booked-flghts-search-form";
+import BookedHotelsSearchForm from "./booked-hotels-search-form";
+import BookedCarsSearchForm from "./booked-cars-search-form";
 
 import { show_booking_search_type_form } from "./helper-functions";
 
@@ -26,6 +28,9 @@ let BookingsContainer = ()=>{
                             Search Booking
                         </p>
                         <BookedFlightsSearchForm />
+                        <BookedHotelsSearchForm />
+                        <BookedCarsSearchForm />
+
                     </div>
                     <div className="booking-pane-search-inputs-area-other-section">
 

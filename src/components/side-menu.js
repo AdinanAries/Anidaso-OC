@@ -6,6 +6,8 @@ import customersIcon from "./icons/customers-icon.png";
 import clientsIcon from "./icons/clients-icon.png";
 import staffIcon from "./icons/staff-icon.png";
 
+import { toggle_show_main_sections } from "./helper-functions";
+
 let SideMenu = () => {
     return(
         <div id="main-menu-container" className="side-menu">
@@ -17,7 +19,7 @@ let SideMenu = () => {
                 <p style={{fontSize: 14, color: "rgb(0,255,255)", margin: "10px", marginBottom: "20px"}}>
                     Main menu
                 </p>
-                <div className="side-menu-each-item active">
+                <div onClick={()=> toggle_show_main_sections("bookings")} id="side-menu-bookings-item" className="side-menu-each-item active">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={bookingsIcon} />
@@ -27,7 +29,7 @@ let SideMenu = () => {
                         <p>Bookings</p>
                     </div>
                 </div>
-                <div className="side-menu-each-item">
+                <div onClick={()=> toggle_show_main_sections("channels")} id="side-menu-channels-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={channelsIcon} />
@@ -37,7 +39,7 @@ let SideMenu = () => {
                         <p>Channels</p>
                     </div>
                 </div>
-                <div className="side-menu-each-item">
+                <div onClick={()=> toggle_show_main_sections("support")} id="side-menu-support-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={supportIcon} />
@@ -52,7 +54,7 @@ let SideMenu = () => {
                 <p style={{fontSize: 14, color: "rgb(0,255,255)", margin: "10px", marginBottom: "20px"}}>
                     Misc. Menu
                 </p>
-                <div className="side-menu-each-item">
+                <div onClick={()=> toggle_show_main_sections("analytics")} id="side-menu-analytics-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={analyticsIcon} />
@@ -62,7 +64,7 @@ let SideMenu = () => {
                         <p>Analytics</p>
                     </div>
                 </div>
-                <div className="side-menu-each-item">
+                <div onClick={()=> toggle_show_main_sections("customers")} id="side-menu-customers-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={customersIcon} />
@@ -72,7 +74,7 @@ let SideMenu = () => {
                         <p>Customers</p>
                     </div>
                 </div>
-                <div className="side-menu-each-item">
+                <div onClick={()=> toggle_show_main_sections("clients")} id="side-menu-clients-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={clientsIcon} />
@@ -82,7 +84,7 @@ let SideMenu = () => {
                         <p>Clients</p>
                     </div>
                 </div>
-                <div className="side-menu-each-item">
+                <div onClick={()=> toggle_show_main_sections("staff")} id="side-menu-staff-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={staffIcon} />
