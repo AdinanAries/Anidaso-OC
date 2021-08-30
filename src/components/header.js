@@ -25,7 +25,10 @@ function Header(){
                             </p>
                             <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Account</p>
                         </div>
-                        <div className="header-right-side-icon">
+                        <div style={{position: "relative"}} className="header-right-side-icon">
+                            <div className="header-icon-status-indicator">
+
+                            </div>
                             <p className="header-icon" style={{marginBottom: 5, textAlign: "center"}}>
                                 <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-bell" aria-hidden="true"></i>
                             </p>

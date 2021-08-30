@@ -47,6 +47,9 @@ export function toggle_show_main_sections(type){
     document.getElementById("customers-container").style.display = "none";
     document.getElementById("clients-container").style.display = "none";
     document.getElementById("staff-container").style.display = "none";
+    document.getElementById("deals-container").style.display = "none";
+    document.getElementById("sales-container").style.display = "none";
+    document.getElementById("marketing-container").style.display = "none";
 
     if(type === "bookings"){
         setActiveNavOption("side-menu-each-item", "side-menu-bookings-item");
@@ -69,6 +72,16 @@ export function toggle_show_main_sections(type){
     }else if(type === "staff"){
         setActiveNavOption("side-menu-each-item", "side-menu-staff-item");
         $("#staff-container").toggle("up");
+    }else if(type === "deals"){
+        setActiveNavOption("side-menu-each-item", "side-menu-deals-item");
+        $("#deals-container").toggle("up");
+    }else if(type === "sales"){
+        setActiveNavOption("side-menu-each-item", "side-menu-sales-item");
+        $("#sales-container").toggle("up");
+    }
+    else if(type === "marketing"){
+        setActiveNavOption("side-menu-each-item", "side-menu-marketing-item");
+        $("#marketing-container").toggle("up");
     }
 }
 

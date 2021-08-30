@@ -33,13 +33,136 @@ let BookingsContainer = ()=>{
 
                     </div>
                     <div className="booking-pane-search-inputs-area-other-section">
-
+                        <p style={{fontSize: 14, color: "red", fontWeight: "bolder", letterSpacing: 1}}>
+                            <i style={{marginRight: 5}} className="fa fa-exclamation"></i>
+                            Alert</p>
                     </div>
                 </div>
              </div>
              <div className="main-seaction-containers">
-                <p style={{color: "", fontWeight: "bolder", fontSize: 14}}>
-                    View search results here</p>
+             <p style={{color: "", fontWeight: "bolder", fontSize: 14}}>
+                            Recent Bookings
+                        </p>
+                 <div style={{padding: 10, display: "flex"}}>
+                    <p style={{fontSize: 14, fontWeight: "bolder", marginRight: 20, color: "rgba(0,0,0,0.6)"}}>
+                        Filters: 
+                    </p>
+                    <div style={{marginRight: 10}}>
+                        <p style={{fontSize: 13, marginBottom: 5}}>Type</p>
+                        <select style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}>
+                            <option>
+                                All
+                            </option>
+                            <option>
+                                Flights
+                            </option>
+                        </select>
+                    </div>
+                    <div style={{marginRight: 10}}>
+                        <p style={{fontSize: 13, marginBottom: 5}}>Booking Dates</p>
+                        <input value="March 23 - Jun 15" style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}/>
+                    </div>
+                 </div>
+                <table id="bookings-pane-booking-list">
+                    <tr>
+                        <td className="header">
+                            Type
+                        </td>
+                        <td className="header">
+                            Confirmation
+                        </td>
+                        <td className="header mobile-hidden">
+                            Email
+                        </td>
+                        <td className="header mobile-hidden">
+                            Name
+                            </td>
+                        <td className="header">
+                            Booking Date
+                        </td>
+                        <td className="header"></td>
+                    </tr>
+                    <tr>
+                        <td className="bookings-pane-booking-list-column first booking-type-col">
+                            flight
+                        </td>
+                        <td className="bookings-pane-booking-list-column second">
+                            0233922278
+                        </td>
+                        <td className="bookings-pane-booking-list-column first mobile-hidden">
+                            adinanaries@outlook.com
+                        </td>
+                        <td className="bookings-pane-booking-list-column second mobile-hidden">
+                            Mohammed Adinan
+                        </td>
+                        <td className="bookings-pane-booking-list-column first">
+                            March 23 2021
+                        </td>
+                        <td className="bookings-pane-booking-list-column second edit-icon">
+                            <i className="fa fa-pencil" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="bookings-pane-booking-list-column first booking-type-col">
+                            flight
+                        </td>
+                        <td className="bookings-pane-booking-list-column second">
+                            0233922278
+                        </td>
+                        <td className="bookings-pane-booking-list-column first mobile-hidden">
+                            adinanaries@outlook.com
+                        </td>
+                        <td className="bookings-pane-booking-list-column second mobile-hidden">
+                            Mohammed Adinan
+                        </td>
+                        <td className="bookings-pane-booking-list-column first">
+                            March 23 2021
+                        </td>
+                        <td className="bookings-pane-booking-list-column second edit-icon">
+                            <i className="fa fa-pencil" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="bookings-pane-booking-list-column first booking-type-col">
+                            hotel
+                        </td>
+                        <td className="bookings-pane-booking-list-column second">
+                           4353543534
+                        </td>
+                        <td className="bookings-pane-booking-list-column first mobile-hidden">
+                            kinki@gmail.com
+                        </td>
+                        <td className="bookings-pane-booking-list-column second mobile-hidden">
+                            Kwaku Manu
+                        </td>
+                        <td className="bookings-pane-booking-list-column first">
+                            April 14 2021
+                        </td>
+                        <td className="bookings-pane-booking-list-column second edit-icon">
+                            <i className="fa fa-pencil" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="bookings-pane-booking-list-column first booking-type-col">
+                            flight
+                        </td>
+                        <td className="bookings-pane-booking-list-column second">
+                            0233922278
+                        </td>
+                        <td className="bookings-pane-booking-list-column first mobile-hidden">
+                            adinanaries@outlook.com
+                        </td>
+                        <td className="bookings-pane-booking-list-column second mobile-hidden">
+                            Mohammed Adinan
+                        </td>
+                        <td className="bookings-pane-booking-list-column first">
+                            March 23 2021
+                        </td>
+                        <td className="bookings-pane-booking-list-column second edit-icon">
+                            <i className="fa fa-pencil" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                </table>
              </div>
         </section>
     )

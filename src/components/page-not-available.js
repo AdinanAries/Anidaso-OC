@@ -2,7 +2,7 @@ import errorIcon from "./icons/error-icon.png";
 
 function PageNA(){
     return (
-        <div style={{display: "flex", height: "calc(100vh - 80px)", flexDirection: "column", justifyContent: 'center'}}>
+        <div style={{display: "flex", height: "calc(100vh - 80px)", flexDirection: "column", justifyContent: 'center', padding: "0 10px"}}>
             <div style={{position: "relative", width: "fit-content", margin: "auto", padding: 20, borderBottomRightRadius: 20, borderTopLeftRadius: 20, border: "1px solid rgba(255,255,0,0.2)", backgroundColor: "rgba(255,255,0,0.1)"}}>
                 <p style={{position: "absolute", top: -30}}><img src={errorIcon} style={{width: 50, height: 'auto'}}/></p>
                 <p style={{textAlign: "center", color: "lightgreen", fontWeight: "bolder"}}>

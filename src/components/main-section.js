@@ -5,6 +5,9 @@ import AnalyticsContainer from "./analytics-container";
 import CustomersContainer from "./customers-container";
 import ClientsContainer from "./clients-container";
 import StaffContainer from "./staff-container";
+import DealsContainer from "./deals-container";
+import SalesContainer from "./sales-container";
+import MarketingContainer from "./marketing-container";
 
 let MainSection = ()=>{
     return (
@@ -16,6 +19,9 @@ let MainSection = ()=>{
             <CustomersContainer />
             <ClientsContainer />
             <StaffContainer />
+            <DealsContainer />
+            <SalesContainer />
+            <MarketingContainer />
         </main>
     );
 }
