@@ -30,7 +30,7 @@ function BookedHotelsSearchForm(){
                     Origin Airport</p>
                 <input style={{padding: 10, borderRadius: 4, border: "1px solid rgba(0,0,0,0.4)", width: "calc(100%)"}}/>
             </div>*/}
-            <div style={{cursor: "pointer", padding: 10, marginTop: 10, textAlign: "center", backgroundColor: "rgb(122,23,255)", color: "white", borderRadius: 6}}>
+            <div className="standard-action-button">
                 Search
             </div>
         </div>

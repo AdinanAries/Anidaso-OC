@@ -13,7 +13,7 @@ function Header(){
                             Search by confirmation number</p>
                         <div className="main-search-box" style={{borderRadius: 20, width: "calc(100vw - 152px)", maxWidth: 500, margin: "auto", overflow: "hidden", backgroundColor: "white"}}>
                             <input style={{border: "none", width: "calc(100% - 60px)", padding: 10}} placeholder="enter confirmation number here"/>
-                            <button style={{border: "none", backgroundColor: "rgba(113,12,255)", padding: 10.5, borderRadius: 0, width: 60}}>
+                            <button className="top-search-box-submit-btn">
                                 <i style={{color: "white"}} className="fa fa-search"></i>
                             </button>
                         </div>

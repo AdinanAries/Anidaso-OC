@@ -1,3 +1,9 @@
+import { show_bookings_pane_search_results_page } from "./helper-functions";
+
+function FlightSearchFunction(){
+    show_bookings_pane_search_results_page();
+}
+
 function BookedFlightsSearchForm(){
     return (
         <div id="bookings-pane-booked-flights-search-form" style={{marginTop: 10}}>
@@ -30,7 +36,7 @@ function BookedFlightsSearchForm(){
                     Origin Airport</p>
                 <input style={{padding: 10, borderRadius: 4, border: "1px solid rgba(0,0,0,0.4)", width: "calc(100%)"}}/>
             </div>*/}
-            <div style={{cursor: "pointer", padding: 10, marginTop: 10, textAlign: "center", backgroundColor: "rgb(122,23,255)", color: "white", borderRadius: 6}}>
+            <div className="standard-action-button" onClick={FlightSearchFunction}>
                 Search
             </div>
         </div>
