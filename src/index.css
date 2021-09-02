@@ -25,6 +25,16 @@ ul li {
   margin: 0 15px;
 }*/
 
+.full-screen-container-shaded-bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 101;
+}
+
 .animated-status-icon {
   background: #333;
   border-radius: 50%;
@@ -408,13 +418,30 @@ main {
   max-width: 900px;
 }
 .booking-pane-search-inputs-area-other-section {
-  padding: 10px;
+  /*padding: 10px;*/
   margin-top: 10px;
   width: calc(40% - 10px);
   margin-left: 10px;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  /*background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.3);*/
   border-radius: 6px;
+}
+#booking-home-page-booking-tracker-view-more-btn{
+  margin-left: 20px;
+  margin-bottom: 5px;
+  background-color: rgba(133,11,244,0.2);
+  border: 1px solid rgba(133,11,244,0.4);
+  padding: 10px 20px;
+  /*color: rgba(255,55,25,0.8);*/
+  color: white;
+  cursor: pointer;
+  font-weight: initial;
+  border-radius: 6px;
+}
+#booking-home-page-booking-tracker-view-more-btn:hover{
+  background-color: rgb(47, 0, 90);
+  border: 1px solid rgba(255,255,255,0.6);
+  color: white !important;
 }
 .two-inputs-flex-container {
   display: flex;

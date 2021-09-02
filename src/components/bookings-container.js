@@ -48,14 +48,15 @@ let BookingsContainer = ()=>{
 
                         </div>
                         <div className="booking-pane-search-inputs-area-other-section">
-                            <div style={{fontSize: 13, fontWeight: "bolder", letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
-                                <div style={{marginTop: 5}}>
-                                    <i style={{marginRight: 5, color: "blue"}} className="fa fa-history"></i>
-                                    Last Viewed</div>
-                                <div style={{marginLeft: 20, marginTop: -5, marginBottom: 5, backgroundColor: "slateblue", padding: "10px 20px", color: "white", cursor: "pointer", fontWeight: "initial", borderRadius: 6}}>
-                                    view again</div>
-                            </div>
-                                <div style={{backgroundColor: "rgb(43,23,0)",borderRadius: 6, padding: 10}}>
+                            
+                            <div style={{backgroundColor: "rgb(43,23,0)",borderRadius: 6, padding: 10}}>
+                                <div style={{fontSize: 13, fontWeight: "bolder", letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
+                                    <div style={{marginTop: 5, color: "white"}}>
+                                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-history"></i>
+                                        Last Viewed</div>
+                                    <div onClick={()=>select_booking_from_list("home")} id="booking-home-page-booking-tracker-view-more-btn">
+                                        view again</div>
+                                </div>
                                 <p style={{color: "white", margin: 5, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
                                     <i style={{color: "crimson", marginRight: 10, fontSize: 17}} className="fa fa-plane"></i>
                                     Fight Booking
@@ -94,10 +95,16 @@ let BookingsContainer = ()=>{
                                     </div>
                                 </div>
                                 <div style={{letterSpacing: 1, padding: 5, paddingLeft: 15, borderLeft: "3px solid orange", backgroundColor: "rgba(255,255,255,0.1)", color: "white", fontSize: 13}}>
-                                    <p style={{letterSpacing: 1, color: "white", fontSize: 13}}>
+                                    <p style={{letterSpacing: 1, color: "white", fontSize: 13, marginBottom: 5}}>
                                         Confirmation: 
                                         <span style={{marginLeft: 10, color: "orange"}}>
                                             97362223673836
+                                        </span>
+                                    </p>
+                                    <p style={{letterSpacing: 1, color: "white", fontSize: 13}}>
+                                        Email: 
+                                        <span style={{marginLeft: 10, color: "orange"}}>
+                                            adinanaries@outlook.com
                                         </span>
                                     </p>
                                 </div>
