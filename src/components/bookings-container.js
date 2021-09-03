@@ -49,7 +49,7 @@ let BookingsContainer = ()=>{
                         </div>
                         <div className="booking-pane-search-inputs-area-other-section">
                             
-                            <div style={{backgroundColor: "rgb(43,23,0)",borderRadius: 6, padding: 10}}>
+                            <div style={{backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
                                 <div style={{fontSize: 13, fontWeight: "bolder", letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
                                     <div style={{marginTop: 5, color: "white"}}>
                                         <i style={{marginRight: 5, color: "aqua"}} className="fa fa-history"></i>
@@ -637,7 +637,7 @@ let BookingsContainer = ()=>{
                     <div className="general-two-flex-children">
                         <div className="general-two-flex-child first shaded-info-center">
                             
-                            <div style={{backgroundColor: "rgb(43,23,0)",borderTopLeftRadius: 6, borderTopRightRadius: 6, borderBottom: "4px solid rgba(255,255,255,0.4)", padding: 10, marginBottom: 10}}>
+                            <div style={{backgroundColor: "rgb(43,23,99)",borderTopLeftRadius: 6, borderTopRightRadius: 6, borderBottom: "4px solid rgba(255,255,255,0.4)", padding: 10, marginBottom: 10}}>
                                 <p style={{color: "white", margin: 5, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
                                     <i style={{color: "crimson", marginRight: 10, fontSize: 17}} className="fa fa-plane"></i>
                                     Fight Booking

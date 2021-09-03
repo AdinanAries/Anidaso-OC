@@ -1,4 +1,4 @@
-import { show_main_menu } from "./helper-functions";
+import { show_main_menu, show_notifications_container, toggle_show_main_sections } from "./helper-functions";
 
 function Header(){
     return (
@@ -25,7 +25,7 @@ function Header(){
                             </p>
                             <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Account</p>
                         </div>
-                        <div style={{position: "relative"}} className="header-right-side-icon">
+                        <div onClick={show_notifications_container} style={{position: "relative"}} className="header-right-side-icon">
                             <div className="header-icon-status-indicator">
 
                             </div>
@@ -34,7 +34,7 @@ function Header(){
                             </p>
                             <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Notifications</p>
                         </div>
-                        <div className="header-right-side-icon">
+                        <div onClick={()=>toggle_show_main_sections("settings")} id="top-menu-settings-btn" className="header-right-side-icon">
                             <p className="header-icon" style={{marginBottom: 5, textAlign: "center"}}>
                                 <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-cogs" aria-hidden="true"></i>
                             </p>

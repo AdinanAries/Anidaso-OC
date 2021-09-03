@@ -40,6 +40,8 @@ export function toggle_show_main_sections(type){
         document.getElementById("main-menu-container").style.display = "none";
     }
 
+    document.getElementById("notifications-container").style.display = "none";
+
     document.getElementById("bookings-container").style.display = "none";
     document.getElementById("channels-container").style.display = "none";
     document.getElementById("support-container").style.display = "none";
@@ -50,6 +52,7 @@ export function toggle_show_main_sections(type){
     document.getElementById("deals-container").style.display = "none";
     document.getElementById("sales-container").style.display = "none";
     document.getElementById("marketing-container").style.display = "none";
+    document.getElementById("settings-container").style.display = "none";
 
     if(type === "bookings"){
         setActiveNavOption("side-menu-each-item", "side-menu-bookings-item");
@@ -82,6 +85,9 @@ export function toggle_show_main_sections(type){
     else if(type === "marketing"){
         setActiveNavOption("side-menu-each-item", "side-menu-marketing-item");
         $("#marketing-container").toggle("up");
+    }else if(type === "settings"){
+        setActiveNavOption("top-menu-settings-btn", "side-menu-marketing-item");
+        $("#settings-container").toggle("up");
     }
 }
 
@@ -101,6 +107,10 @@ export function show_bookings_pane_selected_results_page(){
     document.getElementById("bookings-container-main-pane").style.display = "none";
     document.getElementById("booking-container-search-results-pane").style.display = "none";
     $("#booking-container-selected-results-pane").toggle("up");
+}
+
+export function show_notifications_container(){
+    $("#notifications-container").toggle("up")
 }
 
 /*$(".box").animate({
