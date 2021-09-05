@@ -54,6 +54,9 @@ export function toggle_show_main_sections(type){
     document.getElementById("marketing-container").style.display = "none";
     document.getElementById("settings-container").style.display = "none";
 
+    document.getElementById("top-menu-settings-btn").classList.remove("active");
+    document.getElementById("top-menu-notifications-btn").classList.remove("active");
+
     if(type === "bookings"){
         setActiveNavOption("side-menu-each-item", "side-menu-bookings-item");
         $("#bookings-container").toggle("up");
@@ -86,7 +89,7 @@ export function toggle_show_main_sections(type){
         setActiveNavOption("side-menu-each-item", "side-menu-marketing-item");
         $("#marketing-container").toggle("up");
     }else if(type === "settings"){
-        setActiveNavOption("top-menu-settings-btn", "side-menu-marketing-item");
+        setActiveNavOption("side-menu-each-item", "top-menu-settings-btn");
         $("#settings-container").toggle("up");
     }
 }
@@ -110,7 +113,14 @@ export function show_bookings_pane_selected_results_page(){
 }
 
 export function show_notifications_container(){
-    $("#notifications-container").toggle("up")
+    $("#notifications-container").toggle("up");
+    setTimeout(()=>{
+        if(document.getElementById("notifications-container").style.display === "none"){
+            document.getElementById("top-menu-notifications-btn").classList.remove("active");
+        }else{
+            document.getElementById("top-menu-notifications-btn").classList.add("active");
+        }
+    }, 500);
 }
 
 /*$(".box").animate({

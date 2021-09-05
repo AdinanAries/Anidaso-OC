@@ -283,6 +283,12 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+.header-right-side-icon.active p{
+  color: red !important;
+}
+.header-right-side-icon.active i{
+  color: red !important;
+}
 .header-right-side-icon:hover p {
   color: orange !important;
 }

@@ -8,6 +8,7 @@ import StaffContainer from "./staff-container";
 import DealsContainer from "./deals-container";
 import SalesContainer from "./sales-container";
 import MarketingContainer from "./marketing-container";
+import SettingsContainer from "./settings-container";
 
 let MainSection = ()=>{
     return (
@@ -22,6 +23,7 @@ let MainSection = ()=>{
             <DealsContainer />
             <SalesContainer />
             <MarketingContainer />
+            <SettingsContainer />
         </main>
     );
 }

@@ -25,7 +25,7 @@ function Header(){
                             </p>
                             <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Account</p>
                         </div>
-                        <div onClick={show_notifications_container} style={{position: "relative"}} className="header-right-side-icon">
+                        <div onClick={show_notifications_container} style={{position: "relative"}} id="top-menu-notifications-btn" className="header-right-side-icon">
                             <div className="header-icon-status-indicator">
 
                             </div>

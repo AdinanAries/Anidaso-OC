@@ -49,7 +49,7 @@ let BookingsContainer = ()=>{
                         </div>
                         <div className="booking-pane-search-inputs-area-other-section">
                             
-                            <div style={{backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
+                            <div style={{display: "none",backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
                                 <div style={{fontSize: 13, fontWeight: "bolder", letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
                                     <div style={{marginTop: 5, color: "white"}}>
                                         <i style={{marginRight: 5, color: "aqua"}} className="fa fa-history"></i>
@@ -109,6 +109,67 @@ let BookingsContainer = ()=>{
                                     </p>
                                 </div>
                             </div>
+                            <div style={{backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
+                                <div style={{fontSize: 13, fontWeight: "bolder", letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
+                                    <div style={{marginTop: 5, color: "white"}}>
+                                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-history"></i>
+                                        Last Viewed</div>
+                                    <div onClick={()=>select_booking_from_list("home")} id="booking-home-page-booking-tracker-view-more-btn">
+                                        view again</div>
+                                </div>
+                                <p style={{color: "white", margin: 5, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
+                                    <i style={{color: "crimson", marginRight: 10, fontSize: 17}} className="fa fa-building"></i>
+                                    Hotel Booking
+                                </p>
+                                <div className="booking-status-tracker">
+                                    <div className="booking-status-tracker-stage" style={{borderTop: "5px solid lightgreen"}}>
+                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "green", right: "calc(100% - 14px)"}}>
+                                            <i className="fa fa-user"></i>
+                                        </div>
+                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "green"}}>
+                                            <i className="fa fa-money"></i>
+                                        </div>
+                                        <p className="booking-status-tracker-stage-title" style={{display: "flex", justifyContent: "space-between", width: "calc(100% + 40px)", marginLeft: -20}}>
+                                            <span>Booked</span> <span>Paid-for</span></p>
+                                    </div>
+                                    <div  className="booking-status-tracker-stage"style={{borderTop: "5px solid gold",}}>
+                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "goldenrod"}}>
+                                            <i className="fa fa-key"></i>
+                                        </div>
+                                        <p className="booking-status-tracker-stage-title">
+                                            Checked-in</p>
+                                    </div>
+                                    <div className="booking-status-tracker-stage" style={{borderTop: "5px solid orange",}}>
+                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "orangered"}}>
+                                        <i className="fa fa-bed"></i>
+                                        </div>
+                                        <p className="booking-status-tracker-stage-title">
+                                            Staying</p>
+                                    </div>
+                                    <div className="booking-status-tracker-stage" style={{borderTop: "5px solid red",}}>
+                                        <p className="booking-status-tracker-stage-title">
+                                            Checked-out</p>
+                                        <div className="booking-status-tracker-stage-point active animated-status-icon">
+                                            <i className="fa fa-history"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{letterSpacing: 1, padding: 5, paddingLeft: 15, borderLeft: "3px solid orange", backgroundColor: "rgba(255,255,255,0.1)", color: "white", fontSize: 13}}>
+                                    <p style={{letterSpacing: 1, color: "white", fontSize: 13, marginBottom: 5}}>
+                                        Confirmation: 
+                                        <span style={{marginLeft: 10, color: "orange"}}>
+                                            97362223673836
+                                        </span>
+                                    </p>
+                                    <p style={{letterSpacing: 1, color: "white", fontSize: 13}}>
+                                        Email: 
+                                        <span style={{marginLeft: 10, color: "orange"}}>
+                                            adinanaries@outlook.com
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        
                         </div>
                     </div>
                 </div>
@@ -157,6 +218,8 @@ let BookingsContainer = ()=>{
                         </tr>
                         <tr onClick={()=>select_booking_from_list("home")}>
                             <td className="bookings-pane-booking-list-column first booking-type-col">
+                                <i style={{marginRight: 5, color: "rgb(255,122,122)"}} className="fa fa-history"></i>
+                                <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
                                 flight
                             </td>
                             <td className="bookings-pane-booking-list-column second">
@@ -177,6 +240,8 @@ let BookingsContainer = ()=>{
                         </tr>
                         <tr onClick={()=>select_booking_from_list("home")}>
                             <td className="bookings-pane-booking-list-column first booking-type-col">
+                                <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
+                                <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
                                 flight
                             </td>
                             <td className="bookings-pane-booking-list-column second">
@@ -197,6 +262,8 @@ let BookingsContainer = ()=>{
                         </tr>
                         <tr onClick={()=>select_booking_from_list("home")}>
                             <td className="bookings-pane-booking-list-column first booking-type-col">
+                                <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
+                                <i style={{marginRight: 5, color: "aqua"}} className="fa fa-building"></i>
                                 hotel
                             </td>
                             <td className="bookings-pane-booking-list-column second">
@@ -217,6 +284,8 @@ let BookingsContainer = ()=>{
                         </tr>
                         <tr onClick={()=>select_booking_from_list("home")}>
                             <td className="bookings-pane-booking-list-column first booking-type-col">
+                                <i style={{marginRight: 5, color: "skyblue"}} className="fa fa-level-up"></i>
+                                <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
                                 flight
                             </td>
                             <td className="bookings-pane-booking-list-column second">
@@ -290,6 +359,8 @@ let BookingsContainer = ()=>{
                             </tr>
                             <tr onClick={()=>select_booking_from_list("results")}>
                                 <td className="bookings-pane-booking-list-column first booking-type-col">
+                                    <i style={{marginRight: 5, color: "rgb(255,122,122)"}} className="fa fa-history"></i>
+                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
                                     One-way
                                 </td>
                                 <td className="bookings-pane-booking-list-column second">
@@ -310,6 +381,8 @@ let BookingsContainer = ()=>{
                             </tr>
                             <tr onClick={()=>select_booking_from_list("results")}>
                                 <td className="bookings-pane-booking-list-column first booking-type-col">
+                                    <i style={{marginRight: 5, color: "skyblue"}} className="fa fa-level-up"></i>
+                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
                                     Rount-trip
                                 </td>
                                 <td className="bookings-pane-booking-list-column second">
@@ -330,6 +403,8 @@ let BookingsContainer = ()=>{
                             </tr>
                             <tr onClick={()=>select_booking_from_list("results")}>
                                 <td className="bookings-pane-booking-list-column first booking-type-col">
+                                    <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
+                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
                                     Multi-city
                                 </td>
                                 <td className="bookings-pane-booking-list-column second">
@@ -350,6 +425,8 @@ let BookingsContainer = ()=>{
                             </tr>
                             <tr onClick={()=>select_booking_from_list("results")}>
                                 <td className="bookings-pane-booking-list-column first booking-type-col">
+                                    <i style={{marginRight: 5, color: "skyblue"}} className="fa fa-level-up"></i>
+                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
                                     Round-trip
                                 </td>
                                 <td className="bookings-pane-booking-list-column second">
