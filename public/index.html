@@ -10,6 +10,15 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="./scripts/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -52,5 +61,54 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      
+        $(function() {
+          $('#booked-flight-search-dates-input').daterangepicker({
+            opens: 'left',
+            //autoUpdateInput: false,
+            locale: {
+              cancelLabel: 'Clear'
+            }
+          }, function(start, end, label) {
+        
+            setTimeout(()=>{
+              document.getElementById("booked-flight-search-dates-input").value = start.format('YYYY-MM-DD') +" to "+ end.format('YYYY-MM-DD');
+              //document.getElementById("booked-flight-search-dates-input").value = start.toString().substring(0,11) +" - "+ end.toString().substring(0,11);
+            }, 100);
+        
+            //fligh_search_data.departure_date = start.format('YYYY-MM-DD');
+            //fligh_search_data.return_date = end.format('YYYY-MM-DD');
+        
+            //window.localStorage.setItem("flights_post_data", JSON.stringify(fligh_search_data));
+        
+            //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+          });
+        });
+
+        $(function() {
+          $('#booked-hotel-search-dates-input').daterangepicker({
+            opens: 'left',
+            //autoUpdateInput: false,
+            locale: {
+              cancelLabel: 'Clear'
+            }
+          }, function(start, end, label) {
+        
+            setTimeout(()=>{
+              document.getElementById("booked-hotel-search-dates-input").value = start.format('YYYY-MM-DD') +" to "+ end.format('YYYY-MM-DD');
+              //document.getElementById("booked-flight-search-dates-input").value = start.toString().substring(0,11) +" - "+ end.toString().substring(0,11);
+            }, 100);
+        
+            //fligh_search_data.departure_date = start.format('YYYY-MM-DD');
+            //fligh_search_data.return_date = end.format('YYYY-MM-DD');
+        
+            //window.localStorage.setItem("flights_post_data", JSON.stringify(fligh_search_data));
+        
+            //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+          });
+        });
+      
+    </script>
   </body>
 </html>

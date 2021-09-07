@@ -114,13 +114,19 @@ export function show_bookings_pane_selected_results_page(){
 
 export function show_notifications_container(){
     $("#notifications-container").toggle("up");
-    setTimeout(()=>{
+    document.getElementById("top-menu-notifications-btn").classList.add("active");
+    /*setTimeout(()=>{
         if(document.getElementById("notifications-container").style.display === "none"){
             document.getElementById("top-menu-notifications-btn").classList.remove("active");
         }else{
             document.getElementById("top-menu-notifications-btn").classList.add("active");
         }
-    }, 500);
+    }, 500);*/
+}
+
+export function hide_notifications_container(){
+    $("#notifications-container").toggle("up");
+    document.getElementById("top-menu-notifications-btn").classList.remove("active");
 }
 
 /*$(".box").animate({
