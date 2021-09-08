@@ -4,6 +4,33 @@
   box-sizing: border-box;
   font-family: "roboto";
 }
+ul li{
+  list-style-type: none;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /*background: #f1f1f1;
+  background: rgba(255,255,255,0.2);*/
+  border-left: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  /*background: #888;*/
+  background: rgba(255, 255, 255, 0.123);
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  /*background: #555;*/
+  background: rgba(255, 255, 255, 0.26);
+}
 body {
   margin: 0;
   padding: 0;
@@ -316,7 +343,8 @@ body {
   top: 0;
   left: 0;
   z-index: 100;
-  width: 100vw;
+  width: calc(100vw - 10px);
+  max-width: 1900px;
   padding-left: 310px;
   background-color: #000d1a;
   /*background-color: #0a1724;
@@ -417,7 +445,7 @@ body {
   justify-content: center;
 }
 main {
-  width: 100vw;
+  width: calc(100vw - 15px);
   padding-left: 310px;
   padding-top: 80px;
   padding-right: 10px;
@@ -429,6 +457,7 @@ main {
   padding: 10px;
   margin-bottom: 10px;
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
+  max-width: 1600px;
 }
 #bookings-container {
 }
@@ -534,10 +563,12 @@ main {
   main {
     padding-left: 0;
     padding-top: 55px;
+    width: 100%;
     padding-right: 0;
   }
   .main-header {
     padding-left: 0;
+    width: 100%;
     height: auto;
   }
   .header-icon {

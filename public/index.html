@@ -62,7 +62,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <script>
-      
+
         $(function() {
           $('#booked-flight-search-dates-input').daterangepicker({
             opens: 'left',
@@ -109,6 +109,17 @@
           });
         });
       
+        function changeAirportsInput(airport, iata, icao, input_id){
+            document.getElementById(input_id).value = airport;
+            //fligh_search_data.origin_iata = iata;
+
+            if(iata === "\\N" || iata === "N"){
+                //fligh_search_data.origin_iata = icao;
+                document.getElementById(input_id).value = "(" + icao + ") " + airport.split(")")[1];
+            }
+
+            //window.localStorage.setItem("flights_post_data", JSON.stringify(fligh_search_data));
+        }
     </script>
   </body>
 </html>

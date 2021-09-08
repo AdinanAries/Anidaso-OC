@@ -305,7 +305,28 @@ let BookingsContainer = ()=>{
                             </td>
                         </tr>
                     </table>
-                
+                    <div style={{display: "flex", flexDirection: "row"}}>
+                        <div style={{cursor: "pointer", background: "rgba(0,124,0,0.2)", color: "green", fontSize: 19, width: 50, textAlign: "center", padding: 10}}>
+                            <i className="fa fa-caret-left"></i>
+                        </div>
+                        <div style={{display: "flex", flexDirection: "row"}}>
+                            <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(232,124,0,0.2)", color: "orangered", display: "flex", flexDirection: "column", justifyContent: "center", width: 50, textAlign: "center", padding: 10}}>
+                                1
+                            </div>
+                            <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(232,124,0,0.2)", color: "orangered", display: "flex", flexDirection: "column", justifyContent: "center", width: 50, textAlign: "center", padding: 10}}>
+                                20
+                            </div>
+                            <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(232,124,0,0.2)", color: "orangered", display: "flex", flexDirection: "column", justifyContent: "center", width: 50, textAlign: "center", padding: 10}}>
+                                40
+                            </div>
+                            <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(232,124,0,0.2)", color: "orangered", display: "flex", flexDirection: "column", justifyContent: "center", width: 50, textAlign: "center", padding: 10}}>
+                                60
+                            </div>
+                        </div>
+                        <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(0,124,0,0.2)", color: "green", fontSize: 19, width: 50, textAlign: "center", padding: 10}}>
+                            <i className="fa fa-caret-right"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="booking-container-search-results-pane" style={{display: "none"}}>
