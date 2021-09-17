@@ -4,7 +4,7 @@
   box-sizing: border-box;
   font-family: "roboto";
 }
-ul li{
+ul li {
   list-style-type: none;
 }
 /* width */
@@ -16,14 +16,13 @@ ul li{
 ::-webkit-scrollbar-track {
   /*background: #f1f1f1;
   background: rgba(255,255,255,0.2);*/
-  border-left: 1px solid rgba(255,255,255,0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   /*background: #888;*/
   background: rgba(255, 255, 255, 0.123);
-
 }
 
 /* Handle on hover */
@@ -36,12 +35,13 @@ body {
   padding: 0;
   background: #262626;
 }
-#notification-content-container{
+#notification-content-container {
   max-width: 400px;
   width: 100%;
   height: 100%;
   background-color: white;
   padding: 10px;
+  padding-right: 20px;
 }
 .notifications-list-item {
   padding: 10px;
@@ -92,7 +92,7 @@ ul li {
 }*/
 .popup-close-window-btn {
   position: absolute;
-  right: 0;
+  right: 10px;
   top: 0;
   padding: 10px;
   color: crimson;
@@ -531,8 +531,62 @@ main {
 .two-inputs-flex-child {
   width: calc(50% - 10px);
 }
+.pagination-numbers-list {
+  display: flex;
+  flex-direction: row;
+}
+.pagination-numbers-list .previous-next-btn {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(0, 124, 0, 0.2);
+  color: green;
+  font-size: 19px;
+  width: 40px;
+  text-align: center;
+  height: 30px;
+}
+.pagination-numbers-list .previous-next-btn:hover{
+  background-color: green;
+  color: white;
+}
+.pagination-numbers-list .numbers {
+  display: flex;
+  flex-direction: row;
+}
+.pagination-numbers-list .numbers .each-number {
+  margin-left: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  background: rgba(232, 124, 0, 0.2);
+  color: orangered;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40px;
+  text-align: center;
+}
+.pagination-numbers-list .numbers .each-number.active{
+  background-color: orangered;
+  color: white;
+}
+.pagination-numbers-list .numbers .each-number:hover{
+  background-color: orangered;
+  color: white;
+}
 @media screen and (max-width: 700px) {
-  .close-btn-with-bg{
+  .pagination-numbers-list .previous-next-btn {
+    font-size: 16px;
+    width: 30px;
+  }
+  .pagination-numbers-list .numbers .each-number {
+    width: 30px;
+  }
+  .popup-close-window-btn {
+    right: 0;
+  }
+  .close-btn-with-bg {
     background-color: crimson;
     color: white;
     margin: 10px;
@@ -541,10 +595,11 @@ main {
     font-size: 14px;
     text-align: center;
   }
-  #notification-content-container{
+  #notification-content-container {
     height: calc(100% - 55px);
     position: fixed;
     top: 55px;
+    padding-right: 10px;
   }
   .general-two-flex-children {
     display: block;

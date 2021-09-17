@@ -190,7 +190,11 @@ var airline_codes = [
     {number: 0, code: "DY", name: "Norwegian Air Shuttle"}
 ];
 
-function set_airlines_filter_for_search(){
+export function return_airline_by_code(code){
+    return airline_codes.filter(each => each.code === code);
+}
+
+/*function set_airlines_filter_for_search(){
 
     show_prompt_to_user(
         `<i style="color: orangered; font-size: 22px; margin-right: 5px;" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
@@ -218,7 +222,7 @@ function set_airlines_filter_for_search(){
 
     //fligh_search_data.currencyCode = currency;
     window.localStorage.setItem("flights_post_data", JSON.stringify(fligh_search_data));
-    window.localStorage.setItem("flight_multi_city_search_data", JSON.stringify(flight_multi_city_search_data));*/
+    window.localStorage.setItem("flight_multi_city_search_data", JSON.stringify(flight_multi_city_search_data));/
 }
 //initial setting
 $(document).ready( ()=>{
@@ -264,4 +268,4 @@ function add_rental_car_to_hotel_search_func(){
         `Due to maintenance and expansion of services, we are unable to add rental cars to hotel searches at the moment.
         We apologize for this inconvenience.`
     );
-}
+}*/

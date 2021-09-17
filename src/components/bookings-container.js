@@ -3,11 +3,13 @@ import BookedHotelsSearchForm from "./booked-hotels-search-form";
 import BookedCarsSearchForm from "./booked-cars-search-form";
 
 import { show_booking_search_type_form, show_bookings_pane_main_page, show_bookings_pane_search_results_page, show_bookings_pane_selected_results_page } from "./helper-functions";
+import { getBookingById } from "./endpoint-calls";
 
 let where = "home";
-function select_booking_from_list(where_param){
+export function select_booking_from_list(where_param, id="none"){
     where = where_param;
     show_bookings_pane_selected_results_page()
+    getBookingById(id);
 }
 
 function back_from_selected_result_pane(){
@@ -156,7 +158,7 @@ let BookingsContainer = ()=>{
                                 </div>
                                 <div style={{letterSpacing: 1, padding: 5, paddingLeft: 15, borderLeft: "3px solid orange", backgroundColor: "rgba(255,255,255,0.1)", color: "white", fontSize: 13}}>
                                     <p style={{letterSpacing: 1, color: "white", fontSize: 13, marginBottom: 5}}>
-                                        Confirmation: 
+                                        Record ID: 
                                         <span style={{marginLeft: 10, color: "orange"}}>
                                             97362223673836
                                         </span>
@@ -194,11 +196,12 @@ let BookingsContainer = ()=>{
                         </div>
                         <div style={{marginRight: 10}}>
                             <p style={{fontSize: 13, marginBottom: 5}}>Booking Dates</p>
-                            <input value="March 23 - Jun 15" style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}/>
+                            <input id="bookings-pane-filter-by-dates-input" readOnly="true" style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}/>
                         </div>
                     </div>
-                    <table className="bookings-pane-booking-list">
-                        <tr className="header">
+                    <table id="bookings-pane-recent-bookings-list" className="bookings-pane-booking-list">
+                        {/*
+                            <tr className="header">
                             <td className="header">
                                 Type
                             </td>
@@ -216,116 +219,98 @@ let BookingsContainer = ()=>{
                             </td>
                             <td className="header"></td>
                         </tr>
-                        <tr onClick={()=>select_booking_from_list("home")}>
-                            <td className="bookings-pane-booking-list-column first booking-type-col">
-                                <i style={{marginRight: 5, color: "rgb(255,122,122)"}} className="fa fa-history"></i>
-                                <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                                flight
-                            </td>
-                            <td className="bookings-pane-booking-list-column second">
-                                0233922278
-                            </td>
-                            <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                adinanaries@outlook.com
-                            </td>
-                            <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                CGD - MAD
-                            </td>
-                            <td className="bookings-pane-booking-list-column first">
-                                March 23 2021
-                            </td>
-                            <td className="bookings-pane-booking-list-column second edit-icon">
-                                <i className="fa fa-pencil" aria-hidden="true"></i>
-                            </td>
-                        </tr>
-                        <tr onClick={()=>select_booking_from_list("home")}>
-                            <td className="bookings-pane-booking-list-column first booking-type-col">
-                                <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
-                                <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                                flight
-                            </td>
-                            <td className="bookings-pane-booking-list-column second">
-                                0233922278
-                            </td>
-                            <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                adinanaries@outlook.com
-                            </td>
-                            <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                LGA - ACC
-                            </td>
-                            <td className="bookings-pane-booking-list-column first">
-                                March 23 2021
-                            </td>
-                            <td className="bookings-pane-booking-list-column second edit-icon">
-                                <i className="fa fa-pencil" aria-hidden="true"></i>
-                            </td>
-                        </tr>
-                        <tr onClick={()=>select_booking_from_list("home")}>
-                            <td className="bookings-pane-booking-list-column first booking-type-col">
-                                <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
-                                <i style={{marginRight: 5, color: "aqua"}} className="fa fa-building"></i>
-                                hotel
-                            </td>
-                            <td className="bookings-pane-booking-list-column second">
-                            4353543534
-                            </td>
-                            <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                kinki@gmail.com
-                            </td>
-                            <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                ACC - NGA
-                            </td>
-                            <td className="bookings-pane-booking-list-column first">
-                                April 14 2021
-                            </td>
-                            <td className="bookings-pane-booking-list-column second edit-icon">
-                                <i className="fa fa-pencil" aria-hidden="true"></i>
-                            </td>
-                        </tr>
-                        <tr onClick={()=>select_booking_from_list("home")}>
-                            <td className="bookings-pane-booking-list-column first booking-type-col">
-                                <i style={{marginRight: 5, color: "skyblue"}} className="fa fa-level-up"></i>
-                                <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                                flight
-                            </td>
-                            <td className="bookings-pane-booking-list-column second">
-                                0233922278
-                            </td>
-                            <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                adinanaries@outlook.com
-                            </td>
-                            <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                MAD - CGD
-                            </td>
-                            <td className="bookings-pane-booking-list-column first">
-                                March 23 2021
-                            </td>
-                            <td className="bookings-pane-booking-list-column second edit-icon">
-                                <i className="fa fa-pencil" aria-hidden="true"></i>
-                            </td>
-                        </tr>
+                            <tr onClick={()=>select_booking_from_list("home")}>
+                                <td className="bookings-pane-booking-list-column first booking-type-col">
+                                    <i style={{marginRight: 5, color: "rgb(255,122,122)"}} className="fa fa-history"></i>
+                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
+                                    flight
+                                </td>
+                                <td className="bookings-pane-booking-list-column second">
+                                    0233922278
+                                </td>
+                                <td className="bookings-pane-booking-list-column first mobile-hidden">
+                                    adinanaries@outlook.com
+                                </td>
+                                <td className="bookings-pane-booking-list-column second mobile-hidden">
+                                    CGD - MAD
+                                </td>
+                                <td className="bookings-pane-booking-list-column first">
+                                    March 23 2021
+                                </td>
+                                <td className="bookings-pane-booking-list-column second edit-icon">
+                                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                            <tr onClick={()=>select_booking_from_list("home")}>
+                                <td className="bookings-pane-booking-list-column first booking-type-col">
+                                    <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
+                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
+                                    flight
+                                </td>
+                                <td className="bookings-pane-booking-list-column second">
+                                    0233922278
+                                </td>
+                                <td className="bookings-pane-booking-list-column first mobile-hidden">
+                                    adinanaries@outlook.com
+                                </td>
+                                <td className="bookings-pane-booking-list-column second mobile-hidden">
+                                    LGA - ACC
+                                </td>
+                                <td className="bookings-pane-booking-list-column first">
+                                    March 23 2021
+                                </td>
+                                <td className="bookings-pane-booking-list-column second edit-icon">
+                                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                            <tr onClick={()=>select_booking_from_list("home")}>
+                                <td className="bookings-pane-booking-list-column first booking-type-col">
+                                    <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
+                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-building"></i>
+                                    hotel
+                                </td>
+                                <td className="bookings-pane-booking-list-column second">
+                                4353543534
+                                </td>
+                                <td className="bookings-pane-booking-list-column first mobile-hidden">
+                                    kinki@gmail.com
+                                </td>
+                                <td className="bookings-pane-booking-list-column second mobile-hidden">
+                                    ACC - NGA
+                                </td>
+                                <td className="bookings-pane-booking-list-column first">
+                                    April 14 2021
+                                </td>
+                                <td className="bookings-pane-booking-list-column second edit-icon">
+                                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                            <tr onClick={()=>select_booking_from_list("home")}>
+                                <td className="bookings-pane-booking-list-column first booking-type-col">
+                                    <i style={{marginRight: 5, color: "skyblue"}} className="fa fa-level-up"></i>
+                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
+                                    flight
+                                </td>
+                                <td className="bookings-pane-booking-list-column second">
+                                    0233922278
+                                </td>
+                                <td className="bookings-pane-booking-list-column first mobile-hidden">
+                                    adinanaries@outlook.com
+                                </td>
+                                <td className="bookings-pane-booking-list-column second mobile-hidden">
+                                    MAD - CGD
+                                </td>
+                                <td className="bookings-pane-booking-list-column first">
+                                    March 23 2021
+                                </td>
+                                <td className="bookings-pane-booking-list-column second edit-icon">
+                                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                        */}
                     </table>
-                    <div style={{display: "flex", flexDirection: "row"}}>
-                        <div style={{cursor: "pointer", background: "rgba(0,124,0,0.2)", color: "green", fontSize: 19, width: 50, textAlign: "center", padding: 10}}>
-                            <i className="fa fa-caret-left"></i>
-                        </div>
-                        <div style={{display: "flex", flexDirection: "row"}}>
-                            <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(232,124,0,0.2)", color: "orangered", display: "flex", flexDirection: "column", justifyContent: "center", width: 50, textAlign: "center", padding: 10}}>
-                                1
-                            </div>
-                            <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(232,124,0,0.2)", color: "orangered", display: "flex", flexDirection: "column", justifyContent: "center", width: 50, textAlign: "center", padding: 10}}>
-                                20
-                            </div>
-                            <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(232,124,0,0.2)", color: "orangered", display: "flex", flexDirection: "column", justifyContent: "center", width: 50, textAlign: "center", padding: 10}}>
-                                40
-                            </div>
-                            <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(232,124,0,0.2)", color: "orangered", display: "flex", flexDirection: "column", justifyContent: "center", width: 50, textAlign: "center", padding: 10}}>
-                                60
-                            </div>
-                        </div>
-                        <div style={{marginLeft: "5px", cursor: "pointer", background: "rgba(0,124,0,0.2)", color: "green", fontSize: 19, width: 50, textAlign: "center", padding: 10}}>
-                            <i className="fa fa-caret-right"></i>
-                        </div>
+                    <div id="recent_bookings_pagination_list_markup" className="pagination-numbers-list">
+                        
                     </div>
                 </div>
             </div>
@@ -359,13 +344,13 @@ let BookingsContainer = ()=>{
                                 <input value="March 23 - Jun 15" style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}/>
                             </div>
                         </div>
-                        <table className="bookings-pane-booking-list">
+                        <table id="bookings-pane-search-results-bookings-list" className="bookings-pane-booking-list">
                             <tr className="header">
                                 <td className="header">
                                     Type
                                 </td>
                                 <td className="header">
-                                    Departure - Return
+                                    Travel Dates
                                 </td>
                                 <td className="header mobile-hidden">
                                     Email
@@ -374,9 +359,8 @@ let BookingsContainer = ()=>{
                                     Name
                                     </td>
                                 <td className="header">
-                                    Origin - Destination
+                                    Airports
                                 </td>
-                                <td className="header"></td>
                             </tr>
                             <tr onClick={()=>select_booking_from_list("results")}>
                                 <td className="bookings-pane-booking-list-column first booking-type-col">
@@ -395,9 +379,6 @@ let BookingsContainer = ()=>{
                                 </td>
                                 <td className="bookings-pane-booking-list-column first">
                                     MAD - CDG
-                                </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
                                 </td>
                             </tr>
                             <tr onClick={()=>select_booking_from_list("results")}>
@@ -418,9 +399,6 @@ let BookingsContainer = ()=>{
                                 <td className="bookings-pane-booking-list-column first">
                                     MAD - CDG
                                 </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
-                                </td>
                             </tr>
                             <tr onClick={()=>select_booking_from_list("results")}>
                                 <td className="bookings-pane-booking-list-column first booking-type-col">
@@ -439,9 +417,6 @@ let BookingsContainer = ()=>{
                                 </td>
                                 <td className="bookings-pane-booking-list-column first">
                                     MAD - CDG
-                                </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
                                 </td>
                             </tr>
                             <tr onClick={()=>select_booking_from_list("results")}>
@@ -462,11 +437,30 @@ let BookingsContainer = ()=>{
                                 <td className="bookings-pane-booking-list-column first">
                                     ACC - LGA
                                 </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
-                                </td>
                             </tr>
                         </table>
+                        <div id="search_results_bookings_pagination_list_markup" className="pagination-numbers-list">
+                            <div className="previous-next-btn">
+                                <i className="fa fa-caret-left"></i>
+                            </div>
+                            <div className="numbers">
+                                <div className="each-number">
+                                    1
+                                </div>
+                                <div className="each-number">
+                                    20
+                                </div>
+                                <div className="each-number">
+                                    40
+                                </div>
+                                <div className="each-number">
+                                    60
+                                </div>
+                            </div>
+                            <div style={{marginLeft: 5}} className="previous-next-btn">
+                                <i className="fa fa-caret-right"></i>
+                            </div>
+                        </div>
                     </div>
                     <div id="bookings-pane-hotels-search-results-list-container" style={{display: "none"}}>
                         <p style={{color: "", fontWeight: "bolder", fontSize: 14}}>
@@ -735,70 +729,125 @@ let BookingsContainer = ()=>{
                     <div className="general-two-flex-children">
                         <div className="general-two-flex-child first shaded-info-center">
                             
-                            <div style={{backgroundColor: "rgb(43,23,99)",borderTopLeftRadius: 6, borderTopRightRadius: 6, borderBottom: "4px solid rgba(255,255,255,0.4)", padding: 10, marginBottom: 10}}>
-                                <p style={{color: "white", margin: 5, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
-                                    <i style={{color: "crimson", marginRight: 10, fontSize: 17}} className="fa fa-plane"></i>
-                                    Fight Booking
-                                </p>
-                                <div className="booking-status-tracker">
-                                    <div className="booking-status-tracker-stage" style={{borderTop: "5px solid lightgreen"}}>
-                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "green", right: "calc(100% - 14px)"}}>
-                                            <i className="fa fa-user"></i>
-                                        </div>
-                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "green"}}>
-                                            <i className="fa fa-ticket"></i>
-                                        </div>
-                                        <p className="booking-status-tracker-stage-title" style={{display: "flex", justifyContent: "space-between", width: "calc(100% + 40px)", marginLeft: -20}}>
-                                            <span>Booked</span> <span>Ticketed</span></p>
-                                    </div>
-                                    <div  className="booking-status-tracker-stage"style={{borderTop: "5px solid gold",}}>
-                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "goldenrod"}}>
-                                            <i className="fa fa-briefcase"></i>
-                                        </div>
-                                        <p className="booking-status-tracker-stage-title">
-                                            Checked-in</p>
-                                    </div>
-                                    <div className="booking-status-tracker-stage" style={{borderTop: "5px solid orange",}}>
-                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "orangered"}}>
-                                        <i className="fa fa-plane"></i>
-                                        </div>
-                                        <p className="booking-status-tracker-stage-title">
-                                            Boarded</p>
-                                    </div>
-                                    <div className="booking-status-tracker-stage" style={{borderTop: "5px solid red",}}>
-                                        <p className="booking-status-tracker-stage-title">
-                                            Flown</p>
-                                        <div className="booking-status-tracker-stage-point active animated-status-icon">
-                                            <i className="fa fa-check"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style={{letterSpacing: 1, padding: 10, paddingLeft: 15, borderLeft: "3px solid orange", backgroundColor: "rgba(255,255,255,0.1)", color: "white", fontSize: 13}}>
-                                    <p style={{letterSpacing: 1, color: "white", fontSize: 13, marginBottom: 5}}>
-                                        Status: 
-                                        <span style={{marginLeft: 10, color: "orange"}}>
-                                            Flown
-                                        </span>
-                                    </p>
-                                    <p style={{letterSpacing: 1, color: "white", fontSize: 13, marginBottom: 5}}>
-                                        Confirmation: 
-                                        <span style={{marginLeft: 10, color: "orange"}}>
-                                            97362223673836
-                                        </span>
-                                    </p>
-                                </div>
+                            <div id="selected_booking_status_display_container">
+
+                            </div>
+
+                            <div id="selected_booking_general_information_container">
+
                             </div>
                             
-                            <p className="page-data-info-p">
-                                Type: 
-                                <span>
-                                    <i style={{color: "crimson", marginRight: 5}} className="fa fa-plane"></i>
-                                    Fights
-                                </span>
-                            </p>
+                            <div style={{marginTop: 20}}>
+                                <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 14, textAlign: "center"}}>
+                                    Travelers Information
+                                </p>
+                                <div id="selected_booking_travelers_or_guests_list">
+                                    
+                                </div>
+                            </div>
+                            <div style={{marginTop: 20}}>
+                                <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 14, textAlign: "center"}}>
+                                    Price Information
+                                </p>
+                                <div>
+                                    <div style={{marginBottom: 20, borderLeft: "3px solid orangered", padding: 10}}>
+                                        <p style={{fontSize: 14, fontWeight: "bolder", marginBottom: 5}}>
+                                            Base Price: 
+                                            <span style={{marginLeft: 10}}>$500.23</span>
+                                        </p>
+                                        <p style={{fontSize: 14, fontWeight: "bolder", marginBottom: 5,}}>
+                                            Taxes: 
+                                            <span style={{marginLeft: 10}}>$230.23</span>
+                                        </p>
+                                        <p style={{fontSize: 14, fontWeight: "bolder", marginBottom: 5, color: "brown"}}>
+                                            Total: 
+                                            <span style={{marginLeft: 10}}>$730.46</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        
                         </div>
                         <div className="general-two-flex-child second shaded-info-center">
-
+                            <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 14, marginBottom: 20, textAlign: "center"}}>
+                                Itenirary Information</p>
+                            <div>
+                                <div  style={{marginBottom: 20}}>
+                                    <p style={{color: "rgba(0,0,0,0.7)", fontSize: 14, marginBottom: 10}}>
+                                        <i style={{color: "orangered", marginRight: 5}} className="fa fa-check"></i>
+                                        Departure Segments
+                                        <span style={{marginLeft: 10, color: "blue"}}>14h 25mins</span>
+                                        </p>
+                                    <div>
+                                        <div style={{borderLeft: "3px solid orangered", padding: 10, marginLeft: 10}}>
+                                            <p style={{fontSize: 14, marginBottom: 5, color: "brown", fontWeight: "bolder"}}>
+                                                Accra, Ghana (ACC) - New York, USA (LGA)
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                March 24, 12:30am - March 25, 11:15pm
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                Amarican Airline, Etheopian Airline
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                Boem wide-belly B211
+                                            </p>
+                                        </div>
+                                        <div style={{borderLeft: "3px solid orangered", padding: 10, marginLeft: 10}}>
+                                            <p style={{fontSize: 14, marginBottom: 5, color: "brown", fontWeight: "bolder"}}>
+                                                Accra, Ghana (ACC) - New York, USA (LGA)
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                March 24, 12:30am - March 25, 11:15pm
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                Amarican Airline, Etheopian Airline
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                Boem wide-belly B211
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{marginBottom: 20}}>
+                                    <p style={{color: "rgba(0,0,0,0.7)", fontSize: 14, marginBottom: 10}}>
+                                        <i style={{color: "orangered", marginRight: 5}} className="fa fa-check"></i>
+                                        Return Segments
+                                        <span style={{marginLeft: 10, color: "blue"}}>14h 25mins</span>
+                                        </p>
+                                    <div>
+                                        <div style={{borderLeft: "3px solid orangered", padding: 10, marginLeft: 10}}>
+                                            <p style={{fontSize: 14, marginBottom: 5, color: "brown", fontWeight: "bolder"}}>
+                                                Accra, Ghana (ACC) - New York, USA (LGA)
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                March 24, 12:30am - March 25, 11:15pm
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                Amarican Airline, Etheopian Airline
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                Boem wide-belly B211
+                                            </p>
+                                        </div>
+                                        <div style={{borderLeft: "3px solid orangered", padding: 10, marginLeft: 10}}>
+                                            <p style={{fontSize: 14, marginBottom: 5, color: "brown", fontWeight: "bolder"}}>
+                                                Accra, Ghana (ACC) - New York, USA (LGA)
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                March 24, 12:30am - March 25, 11:15pm
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                Amarican Airline, Etheopian Airline
+                                            </p>
+                                            <p style={{fontSize: 14, marginBottom: 5}}>
+                                                Boem wide-belly B211
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
                         </div>
                     </div>
                 </div>

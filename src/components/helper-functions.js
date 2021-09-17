@@ -129,6 +129,238 @@ export function hide_notifications_container(){
     document.getElementById("top-menu-notifications-btn").classList.remove("active");
 }
 
+function generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn){
+    return `
+        <div id="${prevbtn}" class="previous-next-btn">
+            <i class="fa fa-caret-left"></i>
+        </div>
+        <div id="${numbers_list_elem_id}" class="numbers">
+            
+        </div>
+        <div id="${nextbtn}" style="margin-left: 5px;" class="previous-next-btn">
+            <i class="fa fa-caret-right"></i>
+        </div>
+    `;
+}
+
+function get_all_page_numbers(total_recs, limit){
+    let all_number_arr = [];
+    for(let p = 1; p < total_recs; p += limit){
+        all_number_arr.push(p);
+    }
+    return all_number_arr;
+}
+
+function generate_pagination_page_number(which, seed, limit, total, is_initial=false, current_active_page){
+    console.log(seed, limit, total)
+    let all_numbers_markup = "";
+    
+    for(let p = seed; p < total; p+=limit){
+        
+        if(current_active_page === p){
+            all_numbers_markup += `
+                <div id="${which}_pagination_each_number_${p}" class="each-number active">
+                    ${p}
+                </div>
+            `;
+        }else{
+            all_numbers_markup += `
+                <div id="${which}_pagination_each_number_${p}" class="each-number">
+                    ${p}
+                </div>
+            `;
+        }
+
+        //console.log(`${which}_pagination_each_number_${p}`);
+
+    }
+
+    return all_numbers_markup;
+}
+
+export function add_event_listeners_to_page_numbers(which, p){
+    
+    //console.log("p: ", p, ", which: ", which)
+    //console.log(document.getElementById(`${which}_pagination_each_number_${p}`));
+
+    document.getElementById(`${which}_pagination_each_number_${p}`).addEventListener("click", evnt=>{
+        //alert(which)
+        if(which === "recent"){
+
+            Array.from(document.getElementsByClassName("each-number")).forEach(each => {
+                each.classList.remove("active")
+            });
+            document.getElementById(`${which}_pagination_each_number_${p}`).classList.add("active");
+
+            current_active_page_number = p;
+
+        }else if(which === "search"){
+
+            Array.from(document.getElementsByClassName("each-number")).forEach(each => {
+                each.classList.remove("active")
+            });
+            document.getElementById(`${which}_pagination_each_number_${p}`).classList.add("active");
+
+            search_current_active_page_number = p;
+            //alert(search_current_active_page_number)
+
+        }
+
+    });
+}
+
+export let all_pages_arr;
+export let search_pages_arr;
+
+//depending on page width
+let seed;
+let search_seed;
+let total;
+let search_total;
+let limit;
+let search_limit;
+let current_active_page_number = 1;
+let search_current_active_page_number = 1;
+let first_page_number_index = 0;
+export let search_first_page_number_index = 0;
+let last_page_number_index = 9;
+export let search_last_page_number_index = 9;
+
+export function set_pagination_initial_pages_numbers(which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn){
+    
+    limit = limit_p;
+    all_pages_arr = get_all_page_numbers(total_recs, limit);
+
+    //depending on page width
+    seed = all_pages_arr[first_page_number_index];
+    total = all_pages_arr[last_page_number_index];
+
+    document.getElementById(container_elem_id).innerHTML = generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn);
+    document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, seed, limit, total, true, current_active_page_number);
+
+    document.getElementById(nextbtn).addEventListener("click", evnt => {
+        set_pagination_next_pages_numbers(which, numbers_list_elem_id);
+    });
+    document.getElementById(prevbtn).addEventListener("click", evnt => {
+        set_pagination_previous_pages_numbers(which, numbers_list_elem_id)
+    });
+
+}
+
+export function set_search_pagination_initial_pages_numbers(which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn){
+    
+    search_limit = limit_p;
+    search_pages_arr = get_all_page_numbers(total_recs, search_limit);
+
+    //depending on page width
+    search_seed = search_pages_arr[search_first_page_number_index];
+    search_total = search_pages_arr[search_last_page_number_index];
+
+    document.getElementById(container_elem_id).innerHTML = generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn);
+    document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, search_seed, search_limit, search_total, true, search_current_active_page_number);
+
+    document.getElementById(nextbtn).addEventListener("click", evnt => {
+        set_search_pagination_next_pages_numbers(which, numbers_list_elem_id);
+    });
+    document.getElementById(prevbtn).addEventListener("click", evnt => {
+        set_search_pagination_previous_pages_numbers(which, numbers_list_elem_id)
+    });
+
+}
+
+export function set_pagination_next_pages_numbers(which, numbers_list_elem_id){
+
+    ++first_page_number_index;
+    ++last_page_number_index;
+
+    if(last_page_number_index < all_pages_arr.length){
+
+        seed = all_pages_arr[first_page_number_index];
+        total = all_pages_arr[last_page_number_index];
+        document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, seed, limit, total,false,current_active_page_number);
+
+        for(let r=first_page_number_index; r<last_page_number_index; r++){
+            add_event_listeners_to_page_numbers("recent", all_pages_arr[r]);
+        }
+
+    }else{
+        --first_page_number_index;
+        --last_page_number_index;
+    }
+}
+
+export function set_search_pagination_next_pages_numbers(which, numbers_list_elem_id){
+
+    ++search_first_page_number_index;
+    ++search_last_page_number_index;
+
+    if(search_last_page_number_index < search_pages_arr.length){
+
+        search_seed = search_pages_arr[search_first_page_number_index];
+        search_total = search_pages_arr[search_last_page_number_index];
+        document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, search_seed, search_limit, search_total,false,search_current_active_page_number);
+
+        for(let r=search_first_page_number_index; r<search_last_page_number_index; r++){
+            add_event_listeners_to_page_numbers("search", search_pages_arr[r]);
+        }
+
+    }else{
+        --search_first_page_number_index;
+        --search_last_page_number_index;
+    }
+}
+
+export function set_pagination_previous_pages_numbers(which, numbers_list_elem_id){
+
+    --first_page_number_index;
+    --last_page_number_index;
+
+    if(first_page_number_index >= 0){
+
+        seed = all_pages_arr[first_page_number_index];
+        total = all_pages_arr[last_page_number_index];
+        document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, seed, limit, total, false, current_active_page_number);
+
+        for(let r=first_page_number_index; r<last_page_number_index; r++){
+            add_event_listeners_to_page_numbers("recent", all_pages_arr[r]);
+        }
+
+    }else{
+        ++first_page_number_index;
+        ++last_page_number_index;
+    }
+}
+
+export function set_search_pagination_previous_pages_numbers(which, numbers_list_elem_id){
+
+    --search_first_page_number_index;
+    --search_last_page_number_index;
+
+    if(search_first_page_number_index >= 0){
+
+        search_seed = search_pages_arr[search_first_page_number_index];
+        search_total = search_pages_arr[search_last_page_number_index];
+        document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, search_seed, search_limit, search_total, false, search_current_active_page_number);
+
+        for(let r=search_first_page_number_index; r<search_last_page_number_index; r++){
+            add_event_listeners_to_page_numbers("search", search_pages_arr[r]);
+        }
+
+    }else{
+        ++search_first_page_number_index;
+        ++search_last_page_number_index;
+    }
+}
+
+$(document).ready(()=>{
+    set_pagination_initial_pages_numbers("recent", 300, 20, "recent_bookings_pagination_list_markup", "pagination_page_numbers_list", "recent_bookings_pagination_nextbtn", "recent_bookings_pagination_prevbtn");
+    for(let r=0; r<last_page_number_index; r++){
+        add_event_listeners_to_page_numbers("recent", all_pages_arr[r]);
+    }
+    //console.log(document.getElementById("recent_pagination_each_number_1"));
+    
+});
+
 /*$(".box").animate({
     width: "toggle"
 });*/

@@ -1,17 +1,25 @@
 import $ from "jquery";
-import { show_bookings_pane_search_results_page } from "./helper-functions";
+import { show_bookings_pane_search_results_page, set_search_pagination_initial_pages_numbers, add_event_listeners_to_page_numbers, search_pages_arr, search_last_page_number_index } from "./helper-functions";
+import { render_recent_bookings_markup, render_search_result_bookings_markup, render_selected_booking_details } from "./markup-rendering";
 
 const serverBaseURL = "http://localhost:4000";
 
-let recentBookingsPaginationFirst = 1;
-let recentBookingsPaginationLast = 50;
+let recentBookingsPaginationSkip = 1;
+let recentBookingsPaginationLimit = 20;
 
 function getBookingByConfirmation(confirmation){
     $.ajax({
         type: "GET",
-        url: `${serverBaseURL}/get-recent-bookings/${confirmation}`,
+        url: `${serverBaseURL}/get-booking-by-confirmation-number/${confirmation}`,
         success: res => {
+            show_bookings_pane_search_results_page();
+            //setting pagination
+            set_search_pagination_initial_pages_numbers("search", 300, 10, "search_results_bookings_pagination_list_markup", "search_pagination_page_numbers_list", "search_bookings_pagination_nextbtn", "search_bookings_pagination_prevbtn");
+            for(let r=0; r<search_last_page_number_index; r++){
+                add_event_listeners_to_page_numbers("search", search_pages_arr[r]);
+            }
             console.log(res);
+            render_search_result_bookings_markup(res, "confirmation");
         },
         error: err => {
             console.log(err);
@@ -19,25 +27,13 @@ function getBookingByConfirmation(confirmation){
     });
 }
 
-export function getFlightBookingById(id){
+export function getBookingById(id){
     $.ajax({
         type: "GET",
-        url: `${serverBaseURL}/get-flight-booking-by-id/${id}`,
+        url: `${serverBaseURL}/get-booking-by-id/${id}`,
         success: res => {
             console.log(res);
-        },
-        error: err => {
-            console.log(err);
-        }
-    });
-}
-
-export function getHotelBookingById(id){
-    $.ajax({
-        type: "GET",
-        url: `${serverBaseURL}/get-hotel-booking-by-id/${id}`,
-        success: res => {
-            console.log(res);
+            render_selected_booking_details(res);
         },
         error: err => {
             console.log(err);
@@ -101,21 +97,26 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
 
 }
 
-export function getNextPageRecentBookings(){
-    recentBookingsPaginationFirst = recentBookingsPaginationLast;
-    recentBookingsPaginationLast += 50;
-    get_recent_bookings(recentBookingsPaginationFirst, recentBookingsPaginationLast);
+export function getNextPageRecentBookings(skip){
+    recentBookingsPaginationSkip = skip;
+    get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
 }
 //actions
 export function onclickGetBookingByConfirmation(){
 
-    let confirmation = document.getElementById("input").value;
+    let confirmation = document.getElementById("search-booking-by-confirmation-input").value;
     if(confirmation === ""){
-        alert("please enter confirmation number");
+        document.getElementById("search-booking-by-confirmation-input").focus();
+        document.getElementById("search-booking-by-confirmation-input").placeholder = "confirmation is requied";
+        document.getElementById("search-booking-by-confirmation-input").style.backgroundColor = "rgba(255,0,0,0.2)";
     }else{
         getBookingByConfirmation(confirmation);
     }
     
+}
+
+export function searchByConfirmationOninput(){
+    document.getElementById("search-booking-by-confirmation-input").style.backgroundColor = "white";
 }
 
 export function onclickSearchBookedHotel(){
@@ -143,12 +144,13 @@ export function onclickSearchBookedFlights(){
 }
 
 //onpageload functions
-function get_recent_bookings(pagesfrom, pagesto){
+function get_recent_bookings(skip, limit){
     $.ajax({
         type: "GET",
-        url: `${serverBaseURL}/get-recent-bookings/${pagesfrom}/${pagesto}`,
+        url: `${serverBaseURL}/get-recent-bookings/${skip}/${limit}`,
         success: res => {
             console.log(res);
+            render_recent_bookings_markup(res);
         },
         error: err => {
             console.log(err);
@@ -157,5 +159,5 @@ function get_recent_bookings(pagesfrom, pagesto){
 }
 
 setTimeout(()=>{
-    get_recent_bookings(recentBookingsPaginationFirst, recentBookingsPaginationLast);
+    get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
 })

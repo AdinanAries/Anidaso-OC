@@ -1,4 +1,5 @@
 import { show_main_menu, show_notifications_container, toggle_show_main_sections } from "./helper-functions";
+import { onclickGetBookingByConfirmation, searchByConfirmationOninput } from "./endpoint-calls";
 
 function Header(){
     return (
@@ -10,10 +11,10 @@ function Header(){
                     </div>
                     <div>
                         <p className="main-search-box-title" style={{color: "white", fontSize: 12, marginBottom: 5, fontWeight: "bolder", letterSpacing: 1}}>
-                            Search by confirmation number</p>
+                            Search by reference number</p>
                         <div className="main-search-box" style={{borderRadius: 20, width: "calc(100vw - 152px)", maxWidth: 500, margin: "auto", overflow: "hidden", backgroundColor: "white"}}>
-                            <input style={{border: "none", width: "calc(100% - 60px)", padding: 10}} placeholder="enter confirmation number here"/>
-                            <button className="top-search-box-submit-btn">
+                            <input onInput={searchByConfirmationOninput} id="search-booking-by-confirmation-input" style={{border: "none", width: "calc(100% - 60px)", padding: 10}} placeholder="enter ref. number here"/>
+                            <button onClick={onclickGetBookingByConfirmation} className="top-search-box-submit-btn">
                                 <i style={{color: "white"}} className="fa fa-search"></i>
                             </button>
                         </div>
