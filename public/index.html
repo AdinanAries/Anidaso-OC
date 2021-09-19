@@ -65,6 +65,7 @@
 
         $(function() {
           $('#booked-flight-search-dates-input').daterangepicker({
+            singleDatePicker: true,
             opens: 'left',
             //autoUpdateInput: false,
             locale: {
@@ -73,7 +74,7 @@
           }, function(start, end, label) {
         
             setTimeout(()=>{
-              document.getElementById("booked-flight-search-dates-input").value = start.format('YYYY-MM-DD') +" to "+ end.format('YYYY-MM-DD');
+              document.getElementById("booked-flight-search-dates-input").value = start.format('YYYY-MM-DD'); //+" - "+ end.format('YYYY-MM-DD');
               //document.getElementById("booked-flight-search-dates-input").value = start.toString().substring(0,11) +" - "+ end.toString().substring(0,11);
             }, 100);
         
@@ -88,6 +89,7 @@
 
         $(function() {
           $('#booked-hotel-search-dates-input').daterangepicker({
+            singleDatePicker: true,
             opens: 'left',
             //autoUpdateInput: false,
             locale: {
@@ -96,7 +98,7 @@
           }, function(start, end, label) {
         
             setTimeout(()=>{
-              document.getElementById("booked-hotel-search-dates-input").value = start.format('YYYY-MM-DD') +" to "+ end.format('YYYY-MM-DD');
+              document.getElementById("booked-hotel-search-dates-input").value = start.format('YYYY-MM-DD'); //+" - "+ end.format('YYYY-MM-DD');
               //document.getElementById("booked-flight-search-dates-input").value = start.toString().substring(0,11) +" - "+ end.toString().substring(0,11);
             }, 100);
         
@@ -111,6 +113,7 @@
       
         $(function() {
           $('#bookings-pane-filter-by-dates-input').daterangepicker({
+            singleDatePicker: true,
             opens: 'left',
             //autoUpdateInput: false,
             locale: {
@@ -119,7 +122,7 @@
           }, function(start, end, label) {
         
             setTimeout(()=>{
-              document.getElementById("bookings-pane-filter-by-dates-input").value = start.format('YYYY-MM-DD') +" to "+ end.format('YYYY-MM-DD');
+              document.getElementById("bookings-pane-filter-by-dates-input").value = start.format('YYYY-MM-DD'); //+" - "+ end.format('YYYY-MM-DD');
               //document.getElementById("booked-flight-search-dates-input").value = start.toString().substring(0,11) +" - "+ end.toString().substring(0,11);
             }, 100);
         

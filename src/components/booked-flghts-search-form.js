@@ -34,7 +34,7 @@ function BookedFlightsSearchForm(){
                 </div>
                 <div className="two-inputs-flex-child last">
                     <p style={{marginBottom: 5, fontSize: 14, color: "rgba(0,0,0,0.5)", fontWeight: "bolder"}}>
-                        Depature - Return Dates</p>
+                        Depature Date</p>
                     <input id="booked-flight-search-dates-input" readOnly="true" style={{padding: 10, borderRadius: 6, border: "1px solid rgba(0,0,0,0.4)", width: "calc(100%)"}}/>
                 </div>
             </div>

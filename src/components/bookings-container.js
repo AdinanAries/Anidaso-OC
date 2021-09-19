@@ -199,116 +199,118 @@ let BookingsContainer = ()=>{
                             <input id="bookings-pane-filter-by-dates-input" readOnly="true" style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}/>
                         </div>
                     </div>
-                    <table id="bookings-pane-recent-bookings-list" className="bookings-pane-booking-list">
-                        {/*
-                            <tr className="header">
-                            <td className="header">
-                                Type
-                            </td>
-                            <td className="header">
-                                Confirmation
-                            </td>
-                            <td className="header mobile-hidden">
-                                Email
-                            </td>
-                            <td className="header mobile-hidden">
-                                Origin - Destination
-                            </td>
-                            <td className="header">
-                                Booking Date
-                            </td>
-                            <td className="header"></td>
-                        </tr>
-                            <tr onClick={()=>select_booking_from_list("home")}>
-                                <td className="bookings-pane-booking-list-column first booking-type-col">
-                                    <i style={{marginRight: 5, color: "rgb(255,122,122)"}} className="fa fa-history"></i>
-                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                                    flight
+                    <div id="bookings-pane-recent-bookings-list-container">
+                        <table id="bookings-pane-recent-bookings-list" className="bookings-pane-booking-list">
+                            {/*
+                                <tr className="header">
+                                <td className="header">
+                                    Type
                                 </td>
-                                <td className="bookings-pane-booking-list-column second">
-                                    0233922278
+                                <td className="header">
+                                    Confirmation
                                 </td>
-                                <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                    adinanaries@outlook.com
+                                <td className="header mobile-hidden">
+                                    Email
                                 </td>
-                                <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                    CGD - MAD
+                                <td className="header mobile-hidden">
+                                    Origin - Destination
                                 </td>
-                                <td className="bookings-pane-booking-list-column first">
-                                    March 23 2021
+                                <td className="header">
+                                    Booking Date
                                 </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
-                                </td>
+                                <td className="header"></td>
                             </tr>
-                            <tr onClick={()=>select_booking_from_list("home")}>
-                                <td className="bookings-pane-booking-list-column first booking-type-col">
-                                    <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
-                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                                    flight
-                                </td>
-                                <td className="bookings-pane-booking-list-column second">
-                                    0233922278
-                                </td>
-                                <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                    adinanaries@outlook.com
-                                </td>
-                                <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                    LGA - ACC
-                                </td>
-                                <td className="bookings-pane-booking-list-column first">
-                                    March 23 2021
-                                </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
-                                </td>
-                            </tr>
-                            <tr onClick={()=>select_booking_from_list("home")}>
-                                <td className="bookings-pane-booking-list-column first booking-type-col">
-                                    <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
-                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-building"></i>
-                                    hotel
-                                </td>
-                                <td className="bookings-pane-booking-list-column second">
-                                4353543534
-                                </td>
-                                <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                    kinki@gmail.com
-                                </td>
-                                <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                    ACC - NGA
-                                </td>
-                                <td className="bookings-pane-booking-list-column first">
-                                    April 14 2021
-                                </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
-                                </td>
-                            </tr>
-                            <tr onClick={()=>select_booking_from_list("home")}>
-                                <td className="bookings-pane-booking-list-column first booking-type-col">
-                                    <i style={{marginRight: 5, color: "skyblue"}} className="fa fa-level-up"></i>
-                                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                                    flight
-                                </td>
-                                <td className="bookings-pane-booking-list-column second">
-                                    0233922278
-                                </td>
-                                <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                    adinanaries@outlook.com
-                                </td>
-                                <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                    MAD - CGD
-                                </td>
-                                <td className="bookings-pane-booking-list-column first">
-                                    March 23 2021
-                                </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
-                                </td>
-                            </tr>
-                        */}
-                    </table>
+                                <tr onClick={()=>select_booking_from_list("home")}>
+                                    <td className="bookings-pane-booking-list-column first booking-type-col">
+                                        <i style={{marginRight: 5, color: "rgb(255,122,122)"}} className="fa fa-history"></i>
+                                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
+                                        flight
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second">
+                                        0233922278
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column first mobile-hidden">
+                                        adinanaries@outlook.com
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second mobile-hidden">
+                                        CGD - MAD
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column first">
+                                        March 23 2021
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second edit-icon">
+                                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                                    </td>
+                                </tr>
+                                <tr onClick={()=>select_booking_from_list("home")}>
+                                    <td className="bookings-pane-booking-list-column first booking-type-col">
+                                        <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
+                                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
+                                        flight
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second">
+                                        0233922278
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column first mobile-hidden">
+                                        adinanaries@outlook.com
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second mobile-hidden">
+                                        LGA - ACC
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column first">
+                                        March 23 2021
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second edit-icon">
+                                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                                    </td>
+                                </tr>
+                                <tr onClick={()=>select_booking_from_list("home")}>
+                                    <td className="bookings-pane-booking-list-column first booking-type-col">
+                                        <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
+                                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-building"></i>
+                                        hotel
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second">
+                                    4353543534
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column first mobile-hidden">
+                                        kinki@gmail.com
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second mobile-hidden">
+                                        ACC - NGA
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column first">
+                                        April 14 2021
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second edit-icon">
+                                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                                    </td>
+                                </tr>
+                                <tr onClick={()=>select_booking_from_list("home")}>
+                                    <td className="bookings-pane-booking-list-column first booking-type-col">
+                                        <i style={{marginRight: 5, color: "skyblue"}} className="fa fa-level-up"></i>
+                                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
+                                        flight
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second">
+                                        0233922278
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column first mobile-hidden">
+                                        adinanaries@outlook.com
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second mobile-hidden">
+                                        MAD - CGD
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column first">
+                                        March 23 2021
+                                    </td>
+                                    <td className="bookings-pane-booking-list-column second edit-icon">
+                                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                                    </td>
+                                </tr>
+                            */}
+                        </table>
+                    </div>
                     <div id="recent_bookings_pagination_list_markup" className="pagination-numbers-list">
                         
                     </div>
@@ -489,40 +491,36 @@ let BookingsContainer = ()=>{
                         <table className="bookings-pane-booking-list">
                             <tr>
                                 <td className="header">
-                                    Type
+                                    Hotel Name
                                 </td>
                                 <td className="header">
-                                    Departure - Return
+                                    Checkin
                                 </td>
                                 <td className="header mobile-hidden">
+                                    City
+                                </td>
+                                <td className="header mobile-hidden">
+                                    Cust. Name
+                                </td>
+                                <td className="header">
                                     Email
                                 </td>
-                                <td className="header mobile-hidden">
-                                    Name
-                                    </td>
-                                <td className="header">
-                                    Origin - Destination
-                                </td>
-                                <td className="header"></td>
                             </tr>
                             <tr>
                                 <td className="bookings-pane-booking-list-column first booking-type-col">
-                                    One-way
+                                    Despite Properties
                                 </td>
                                 <td className="bookings-pane-booking-list-column second">
-                                    Mar 24 - Mar 26
+                                    Mar 24, 2021
                                 </td>
                                 <td className="bookings-pane-booking-list-column first mobile-hidden">
-                                    adinanaries@outlook.com
+                                    Mohammed Adinan
                                 </td>
                                 <td className="bookings-pane-booking-list-column second mobile-hidden">
-                                    Mohammed Adinan
+                                    adinanaries@outlook.com
                                 </td>
                                 <td className="bookings-pane-booking-list-column first">
                                     MAD - CDG
-                                </td>
-                                <td className="bookings-pane-booking-list-column second edit-icon">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
                                 </td>
                             </tr>
                             <tr>
