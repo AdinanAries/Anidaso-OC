@@ -51,46 +51,46 @@ let BookingsContainer = ()=>{
                         </div>
                         <div className="booking-pane-search-inputs-area-other-section">
                             
-                            <div style={{display: "none",backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
+                            <div style={{backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
                                 <div style={{fontSize: 13, fontWeight: "bolder", letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
                                     <div style={{marginTop: 5, color: "white"}}>
                                         <i style={{marginRight: 5, color: "aqua"}} className="fa fa-history"></i>
-                                        Last Viewed</div>
+                                        Preview</div>
                                     <div onClick={()=>select_booking_from_list("home")} id="booking-home-page-booking-tracker-view-more-btn">
-                                        view again</div>
+                                        see details</div>
                                 </div>
                                 <p style={{color: "white", margin: 5, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
                                     <i style={{color: "crimson", marginRight: 10, fontSize: 17}} className="fa fa-plane"></i>
-                                    Fight Booking
+                                    Ref: G5U28E
                                 </p>
                                 <div className="booking-status-tracker">
                                     <div className="booking-status-tracker-stage" style={{borderTop: "5px solid lightgreen"}}>
-                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "green", right: "calc(100% - 14px)"}}>
-                                            <i className="fa fa-user"></i>
-                                        </div>
-                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "green"}}>
+                                        <div className="booking-status-tracker-stage-point active animated-status-icon" style={{backgroundColor: "green", right: "calc(100% - 14px)"}}>
                                             <i className="fa fa-ticket"></i>
                                         </div>
+                                        <div className="booking-status-tracker-stage-point active animated-status-icon" style={{backgroundColor: "green"}}>
+                                            <i className="fa fa-credit-card"></i>
+                                        </div>
                                         <p className="booking-status-tracker-stage-title" style={{display: "flex", justifyContent: "space-between", width: "calc(100% + 40px)", marginLeft: -20}}>
-                                            <span>Booked</span> <span>Ticketed</span></p>
+                                            <span>Booking</span> <span>Payment</span></p>
                                     </div>
                                     <div  className="booking-status-tracker-stage"style={{borderTop: "5px solid gold",}}>
-                                        <div className="booking-status-tracker-stage-point" style={{backgroundColor: "goldenrod"}}>
-                                            <i className="fa fa-briefcase"></i>
+                                        <div className="booking-status-tracker-stage-point active animated-status-icon" style={{backgroundColor: "goldenrod"}}>
+                                            <i className="fa fa-envelope"></i>
                                         </div>
                                         <p className="booking-status-tracker-stage-title">
-                                            Checked-in</p>
+                                            Email Sent</p>
                                     </div>
                                     <div className="booking-status-tracker-stage" style={{borderTop: "5px solid orange",}}>
                                         <div className="booking-status-tracker-stage-point" style={{backgroundColor: "orangered"}}>
-                                        <i className="fa fa-plane"></i>
+                                        <i className="fa fa-exclamation-triangle"></i>
                                         </div>
-                                        <p className="booking-status-tracker-stage-title">
-                                            Boarded</p>
+                                        <p className="booking-status-tracker-stage-title" style={{color: "red"}}>
+                                            Errors?</p>
                                     </div>
                                     <div className="booking-status-tracker-stage" style={{borderTop: "5px solid red",}}>
-                                        <p className="booking-status-tracker-stage-title">
-                                            Flown</p>
+                                        <p className="booking-status-tracker-stage-title" style={{color: "lightgreen"}}>
+                                            All Good</p>
                                         <div className="booking-status-tracker-stage-point active animated-status-icon">
                                             <i className="fa fa-check"></i>
                                         </div>
@@ -111,13 +111,13 @@ let BookingsContainer = ()=>{
                                     </p>
                                 </div>
                             </div>
-                            <div style={{backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
+                            <div style={{display: "none", backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
                                 <div style={{fontSize: 13, fontWeight: "bolder", letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
                                     <div style={{marginTop: 5, color: "white"}}>
                                         <i style={{marginRight: 5, color: "aqua"}} className="fa fa-history"></i>
-                                        Last Viewed</div>
+                                        Preview</div>
                                     <div onClick={()=>select_booking_from_list("home")} id="booking-home-page-booking-tracker-view-more-btn">
-                                        view again</div>
+                                        see details</div>
                                 </div>
                                 <p style={{color: "white", margin: 5, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
                                     <i style={{color: "crimson", marginRight: 10, fontSize: 17}} className="fa fa-building"></i>
