@@ -7,6 +7,7 @@ const serverBaseURL = "http://localhost:4000";
 let recentBookingsPaginationSkip = 1;
 let recentBookingsPaginationLimit = 20;
 
+//this makes endpoint call to get bookings by provided reference number
 function getBookingByConfirmation(confirmation){
 
     if(document.getElementById("booking-container-search-results-pane").style.display === "none"){
@@ -143,6 +144,20 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
 
 }
 
+function get_notifications(skip, limit){
+    $.ajax({
+        type: "GET",
+        url: `${serverBaseURL}/get-notifications/${skip}/${limit}`,
+        success: res => {
+            //render notification function here
+            console.log("notifications response: ", res);
+        },
+        error: err => {
+            console.log(err);
+        }
+    });
+}
+
 export function getNextPageRecentBookings(skip){
     recentBookingsPaginationSkip = skip;
     get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
@@ -201,8 +216,9 @@ function get_recent_bookings(skip, limit){
         url: `${serverBaseURL}/get-recent-bookings/${skip}/${limit}`,
         success: res => {
             console.log(res);
-            if(res.lenght < 1){
+            if(res.length < 1){
                 render_no_booking_found_markup("bookings-pane-recent-bookings-list");
+                return null;
             }
             render_recent_bookings_markup(res);
         },
@@ -214,5 +230,6 @@ function get_recent_bookings(skip, limit){
 }
 
 setTimeout(()=>{
-    get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
-})
+    get_notifications(0,100);
+    //get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
+});

@@ -14,7 +14,10 @@ function Header(){
                             Search by reference number</p>
                         <div className="main-search-box" style={{borderRadius: 20, width: "calc(100vw - 152px)", maxWidth: 500, margin: "auto", overflow: "hidden", backgroundColor: "white"}}>
                             <input onInput={searchByConfirmationOninput} id="search-booking-by-confirmation-input" style={{border: "none", width: "calc(100% - 60px)", padding: 10}} placeholder="enter ref. number here"/>
-                            <button onClick={onclickGetBookingByConfirmation} className="top-search-box-submit-btn">
+                            <button onClick={()=>{
+                                onclickGetBookingByConfirmation();
+                                toggle_show_main_sections("bookings");
+                            }} className="top-search-box-submit-btn">
                                 <i style={{color: "white"}} className="fa fa-search"></i>
                             </button>
                         </div>

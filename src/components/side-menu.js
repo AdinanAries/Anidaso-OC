@@ -8,6 +8,7 @@ import staffIcon from "./icons/staff-icon.png";
 import dealsIcon from "./icons/deals-icon2.png";
 import salesIcon from "./icons/sales-icon.png";
 import marketingIcon from "./icons/marketing-icon.png";
+import wellgo_logo from "../WillgoLogo.png";
 
 import { toggle_show_main_sections } from "./helper-functions";
 
@@ -18,11 +19,14 @@ let SideMenu = () => {
                 {/*<p style={{textAlign: "center", color: "orange", fontSize: 19, fontWeight: "bolder", letterSpacing: 1}}>
                     Anidaso O.C.</p>*/}
                 <div className="site_logo_container">
-                    <div style={{height: "100%", display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                        <p><span>An</span>i<span>d</span>a<span>s</span>o<sup style={{fontSize: 12}}>&reg;</sup></p>
+                    <div style={{height: "100%", display: "flex", alignItems: "center"}}>
+                        <p style={{marginRight: 10}}>
+                            <img style={{width: 45}} src={wellgo_logo} alt="Logo"/></p>
+                        <p>Welldugo
+                            <sup style={{fontSize: 12}}>&reg;</sup></p>
                     </div>
                 </div>
-                <p style={{color: "white", fontSize: 14}}>
+                <p style={{color: "rgba(255,255,255,0.6)", marginTop: 10, fontSize: 13, textAlign: "center"}}>
                     Operational Center</p>
             </div>
             <div className="side-menu-items-list">
@@ -46,7 +50,7 @@ let SideMenu = () => {
                         </p>
                     </div>
                     <div className="side-menu-each-item-name">
-                        <p>Deals</p>
+                        <p>Packages & Deals</p>
                     </div>
                 </div>
                 <div onClick={()=> toggle_show_main_sections("support")} id="side-menu-support-item" className="side-menu-each-item">

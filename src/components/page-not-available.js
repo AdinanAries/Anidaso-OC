@@ -10,8 +10,8 @@ function PageNA(){
                 <p style={{textAlign: "center", color: "white", fontSize: 14, marginTop: 10}}>
                     This page is unable to load at the moment due to technical issues</p>
                 <p style={{textAlign: "right", color: "rgba(255,255,255,0.7)", fontSize: 13, marginTop: 20}}>
-                    <span style={{color: "orangered", fontSize: 13, marginRight: 5}}>Anidaso.com</span> 
-                    &copy; all rights reserved</p>
+                    <span style={{color: "red", fontSize: 13, marginRight: 5}}>BYTE THE CODE</span> 
+                    &reg; - all rights reserved</p>
             </div>
         </div>
     );
