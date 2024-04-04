@@ -113,8 +113,7 @@
       
         $(function() {
           $('#bookings-pane-filter-by-dates-input').daterangepicker({
-            singleDatePicker: true,
-            opens: 'left',
+            opens: 'right',
             //autoUpdateInput: false,
             locale: {
               cancelLabel: 'Clear'
@@ -122,8 +121,8 @@
           }, function(start, end, label) {
         
             setTimeout(()=>{
-              document.getElementById("bookings-pane-filter-by-dates-input").value = start.format('YYYY-MM-DD'); //+" - "+ end.format('YYYY-MM-DD');
-              //document.getElementById("booked-flight-search-dates-input").value = start.toString().substring(0,11) +" - "+ end.toString().substring(0,11);
+              document.getElementById("bookings-pane-filter-by-dates-input").value = start.format('YYYY-MM-DD') +" - "+ end.format('YYYY-MM-DD');
+              //document.getElementById("bookings-pane-filter-by-dates-input").value = start.toString().substring(0,11) +" - "+ end.toString().substring(0,11);
             }, 100);
         
             //fligh_search_data.departure_date = start.format('YYYY-MM-DD');

@@ -10,10 +10,16 @@ function Header(){
                         <i style={{color: "rgba(255,255,255,0.8)", fontSize: 30}} className="fa fa-bars"></i>
                     </div>
                     <div>
-                        <p className="main-search-box-title" style={{color: "white", fontSize: 12, marginBottom: 5, fontWeight: "bolder", letterSpacing: 1}}>
+                        <p className="main-search-box-title" 
+                            style={{color: "rgba(255,255,255,0.6)", fontSize: 12, marginBottom: 5, letterSpacing: 1}}>
                             Search by reference number</p>
-                        <div className="main-search-box" style={{borderRadius: 20, width: "calc(100vw - 152px)", maxWidth: 500, margin: "auto", overflow: "hidden", backgroundColor: "white"}}>
-                            <input onInput={searchByConfirmationOninput} id="search-booking-by-confirmation-input" style={{border: "none", width: "calc(100% - 60px)", padding: 10}} placeholder="enter ref. number here"/>
+                        <div className="main-search-box" 
+                            style={{borderRadius: 20, width: "calc(100vw - 152px)", border: "2px solid white",
+                            maxWidth: 300, margin: "auto", overflow: "hidden", backgroundColor: "white"}}>
+                            <input onInput={searchByConfirmationOninput} 
+                                id="search-booking-by-confirmation-input" 
+                                style={{border: "none", width: "calc(100% - 60px)", padding: 10}} 
+                                placeholder="enter ref. number here"/>
                             <button onClick={()=>{
                                 onclickGetBookingByConfirmation();
                                 toggle_show_main_sections("bookings");

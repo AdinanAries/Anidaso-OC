@@ -182,9 +182,9 @@ ul li {
   background-color: darkred !important;
 }
 .booking-status-tracker-stage-title {
-  color: rgba(212, 73, 183);
+  color: rgba(255, 255, 255, 0.733);
   margin-top: 20px;
-  font-size: 13px;
+  font-size: 12px;
   margin-right: -20px;
   text-align: right;
 }
@@ -220,6 +220,12 @@ input:focus {
 body {
   background-color: #000d1a;
 }
+.standard-search-input {
+  background-color: rgba(0,0,0,0.07);
+  border-radius: 50px;
+  padding: 14px; 
+  border: 1px solid rgba(0,0,0,0.1);
+}
 .standard-button {
   width: fit-content;
   padding: 10px;
@@ -241,22 +247,24 @@ body {
   padding: 10px;
   margin-top: 10px;
   text-align: center;
-  background-color: rgb(122, 23, 255);
+  background-color: #175794;
   color: white;
-  border-radius: 6px;
+  border-radius: 50px;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
 }
 .standard-action-button:hover {
-  background-color: rgb(96, 17, 199);
+  background-color: #0f5ea9;
 }
 .top-search-box-submit-btn {
   border: none;
-  background-color: rgba(113, 12, 255);
+  background-color: #175794;
   padding: 10.5px;
-  border-radius: 0;
+  border-radius: 50px;
+  box-shadow: 1px 2px 3px rgba(0,0,0,0.3);
   width: 60px;
 }
 .top-search-box-submit-btn:hover {
-  background-color: rgb(82, 13, 179);
+  background-color: #0f5ea9;
 }
 .site_logo_container {
   display: flex;
@@ -285,7 +293,7 @@ body {
 }
 .bookings-pane-booking-list {
   width: 100%;
-  border-spacing: 0 4px;
+  border-spacing: 0;
 }
 .bookings-pane-booking-list tr {
   cursor: pointer;
@@ -297,28 +305,28 @@ body {
   background-color: rgb(181, 255, 209);
 }
 .bookings-pane-booking-list tr:hover td.header {
-  background-color: rgb(242, 255, 170);
+  background-color: rgb(236, 236, 236);
 }
 .bookings-pane-booking-list tr:hover td.edit-icon,
 .bookings-pane-booking-list tr:hover td.booking-type-col {
-  background-color: rgb(0, 116, 116);
+  background-color: rgb(0, 59, 59);
 }
 .bookings-pane-booking-list td {
   padding: 10px;
   font-size: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .bookings-pane-booking-list-column {
 }
 .bookings-pane-booking-list-column.first {
-  background-color: rgb(190, 245, 255);
+  background-color: #eee;
 }
 .bookings-pane-booking-list-column.second {
-  background-color: rgb(148, 239, 255);
+  background-color: rgb(245, 245, 245);
 }
 .bookings-pane-booking-list td.header {
-  background-color: rgb(242, 255, 170);
-  font-weight: bolder;
-  color: green;
+  background-color: rgb(245, 245, 245);
+  color: rgba(0,0,0,0.8);
 }
 .bookings-pane-booking-list-column.booking-type-col {
   color: rgb(0, 233, 221);
@@ -327,7 +335,7 @@ body {
 .bookings-pane-booking-list-column.booking-type-col {
   cursor: pointer;
   color: white;
-  background-color: darkcyan;
+  background-color: rgb(0, 66, 66);
   text-align: center;
   /*font-size: 20px !important;
   padding: 0 !important;
@@ -467,7 +475,6 @@ main {
 .booking-pane-search-type-each-option {
   padding: 10px 20px;
   color: darkgrey;
-  border-bottom: 3px solid darkgrey;
   font-size: 14px;
   cursor: pointer;
 }
@@ -477,11 +484,10 @@ main {
 }
 .booking-pane-search-type-each-option.active {
   font-weight: bold;
-  color: blue;
-  border-bottom: 3px solid orangered;
+  color: rgb(8, 8, 130);
 }
 .booking-pane-search-type-each-option.active i {
-  color: brown;
+  color: rgb(168, 27, 154);
 }
 .booking-pane-search-type-each-option:hover {
   border-color: goldenrod;
@@ -510,7 +516,7 @@ main {
 #booking-home-page-booking-tracker-view-more-btn {
   margin-left: 20px;
   margin-bottom: 5px;
-  background-color: rgba(133, 11, 244, 0.2);
+  background-color: rgb(28, 0, 69);
   border: 1px solid rgba(133, 11, 244, 0.4);
   padding: 10px 20px;
   /*color: rgba(255,55,25,0.8);*/
@@ -529,18 +535,18 @@ main {
   justify-content: space-between;
 }
 .two-inputs-flex-child {
-  width: calc(50% - 10px);
+  width: calc(50% - 5px);
 }
 .pagination-numbers-list {
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
 }
 .pagination-numbers-list .previous-next-btn {
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: rgba(0, 124, 0, 0.2);
   color: green;
   font-size: 19px;
   width: 40px;
@@ -556,11 +562,11 @@ main {
   flex-direction: row;
 }
 .pagination-numbers-list .numbers .each-number {
-  margin-left: 5px;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
-  background: rgba(232, 124, 0, 0.2);
-  color: orangered;
+  background: rgb(239, 239, 239);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgb(24, 24, 24);
   display: flex;
   flex-direction: column;
   justify-content: center;

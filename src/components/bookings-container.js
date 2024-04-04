@@ -2,7 +2,12 @@ import BookedFlightsSearchForm from "./booked-flghts-search-form";
 import BookedHotelsSearchForm from "./booked-hotels-search-form";
 import BookedCarsSearchForm from "./booked-cars-search-form";
 
-import { show_booking_search_type_form, show_bookings_pane_main_page, show_bookings_pane_search_results_page, show_bookings_pane_selected_results_page } from "./helper-functions";
+import { 
+    show_booking_search_type_form, 
+    show_bookings_pane_main_page, 
+    show_bookings_pane_search_results_page, 
+    show_bookings_pane_selected_results_page 
+} from "./helper-functions";
 import { getBookingById } from "./endpoint-calls";
 
 let where = "home";
@@ -26,11 +31,15 @@ let BookingsContainer = ()=>{
              <div id="bookings-container-main-pane">
                 <div className="main-seaction-containers">
                     <div className="booking-pane-search-type-options">
-                        <div onClick={()=>show_booking_search_type_form("flights")} id="booking-pane-search-type-flights-option" className="booking-pane-search-type-each-option active">
+                        <div onClick={()=>show_booking_search_type_form("flights")} 
+                            id="booking-pane-search-type-flights-option" 
+                            className="booking-pane-search-type-each-option active">
                             <i className="fa fa-plane"></i>
                             Flights
                         </div>
-                        <div onClick={()=>show_booking_search_type_form("hotels")} id="booking-pane-search-type-hotels-option" className="booking-pane-search-type-each-option">
+                        <div onClick={()=>show_booking_search_type_form("hotels")} 
+                            id="booking-pane-search-type-hotels-option" 
+                                className="booking-pane-search-type-each-option">
                             <i className="fa fa-bed"></i>
                             Hotels
                         </div>
@@ -41,7 +50,7 @@ let BookingsContainer = ()=>{
                     </div>
                     <div className="booking-pane-search-inputs-area">
                         <div className="booking-pane-search-inputs-area-inputs-section">
-                            <p style={{color: "", fontWeight: "bolder", fontSize: 14}}>
+                            <p style={{color: "rgba(0,0,0,0.8)", fontWeight: "bolder", fontSize: 11}}>
                                 Search Booking
                             </p>
                             <BookedFlightsSearchForm />
@@ -51,12 +60,13 @@ let BookingsContainer = ()=>{
                         </div>
                         <div className="booking-pane-search-inputs-area-other-section">
                             
-                            <div style={{backgroundColor: "rgb(43,23,99)",borderRadius: 6, padding: 10}}>
+                            <div style={{backgroundColor: "#2b343d",borderRadius: 6, padding: 10}}>
                                 <div style={{fontSize: 13, fontWeight: "bolder", letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
                                     <div style={{marginTop: 5, color: "white"}}>
                                         <i style={{marginRight: 5, color: "aqua"}} className="fa fa-history"></i>
                                         Preview</div>
-                                    <div onClick={()=>select_booking_from_list("home")} id="booking-home-page-booking-tracker-view-more-btn">
+                                    <div onClick={()=>select_booking_from_list("home")} 
+                                        id="booking-home-page-booking-tracker-view-more-btn">
                                         see details</div>
                                 </div>
                                 <p style={{color: "white", margin: 5, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
@@ -176,7 +186,7 @@ let BookingsContainer = ()=>{
                     </div>
                 </div>
                 <div className="main-seaction-containers">
-                    <p style={{color: "", fontWeight: "bolder", fontSize: 14}}>
+                    <p style={{color: "rgba(0,0,0,0.8)", fontWeight: "bolder", fontSize: 12}}>
                         Recent Bookings
                     </p>
                     <div style={{padding: 10, display: "flex"}}>
@@ -185,7 +195,7 @@ let BookingsContainer = ()=>{
                         </p>
                         <div style={{marginRight: 10}}>
                             <p style={{fontSize: 13, marginBottom: 5}}>Type</p>
-                            <select style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}>
+                            <select style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
                                 <option>
                                     All
                                 </option>
@@ -195,12 +205,14 @@ let BookingsContainer = ()=>{
                             </select>
                         </div>
                         <div style={{marginRight: 10}}>
-                            <p style={{fontSize: 13, marginBottom: 5}}>Booking Dates</p>
-                            <input id="bookings-pane-filter-by-dates-input" readOnly="true" style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}/>
+                            <p style={{fontSize: 13, marginBottom: 5}}>Interval</p>
+                            <input id="bookings-pane-filter-by-dates-input" readOnly="true" 
+                                style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
                         </div>
                     </div>
                     <div id="bookings-pane-recent-bookings-list-container">
-                        <table id="bookings-pane-recent-bookings-list" className="bookings-pane-booking-list">
+                        <table id="bookings-pane-recent-bookings-list" 
+                            className="bookings-pane-booking-list">
                         {/** This is supposed to start a comment */}
                             <tr className="header">
                                 <td className="header">
@@ -332,7 +344,7 @@ let BookingsContainer = ()=>{
                             </p>
                             <div style={{marginRight: 10}}>
                                 <p style={{fontSize: 13, marginBottom: 5}}>Type</p>
-                                <select style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}>
+                                <select style={{padding: 10, borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
                                     <option>
                                         All
                                     </option>
@@ -343,7 +355,7 @@ let BookingsContainer = ()=>{
                             </div>
                             <div style={{marginRight: 10}}>
                                 <p style={{fontSize: 13, marginBottom: 5}}>Booking Dates</p>
-                                <input value="March 23 - Jun 15" style={{padding: 5, borderRadius: 4, border: "none", backgroundColor: "lightblue"}}/>
+                                <input value="March 23 - Jun 15" style={{padding: 10, borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
                             </div>
                         </div>
                         <table id="bookings-pane-search-results-bookings-list" className="bookings-pane-booking-list">
@@ -441,7 +453,8 @@ let BookingsContainer = ()=>{
                                 </td>
                             </tr>
                         </table>
-                        <div id="search_results_bookings_pagination_list_markup" className="pagination-numbers-list">
+                        <div id="search_results_bookings_pagination_list_markup" 
+                            className="pagination-numbers-list">
                             <div className="previous-next-btn">
                                 <i className="fa fa-caret-left"></i>
                             </div>
@@ -459,7 +472,7 @@ let BookingsContainer = ()=>{
                                     60
                                 </div>
                             </div>
-                            <div style={{marginLeft: 5}} className="previous-next-btn">
+                            <div className="previous-next-btn">
                                 <i className="fa fa-caret-right"></i>
                             </div>
                         </div>

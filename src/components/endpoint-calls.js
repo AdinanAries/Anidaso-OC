@@ -8,7 +8,7 @@ let recentBookingsPaginationSkip = 1;
 let recentBookingsPaginationLimit = 20;
 
 //this makes endpoint call to get bookings by provided reference number
-function getBookingByConfirmation(confirmation){
+function getBookingByRefNumber(ref_number){
 
     if(document.getElementById("booking-container-search-results-pane").style.display === "none"){
         show_bookings_pane_search_results_page();
@@ -17,7 +17,7 @@ function getBookingByConfirmation(confirmation){
 
     $.ajax({
         type: "GET",
-        url: `${serverBaseURL}/get-booking-by-confirmation-number/${confirmation}`,
+        url: `${serverBaseURL}/get-booking-by-confirmation-number/${ref_number}`,
         success: res => {
             
             if(res.length < 1){
@@ -171,7 +171,7 @@ export function onclickGetBookingByConfirmation(){
         document.getElementById("search-booking-by-confirmation-input").placeholder = "confirmation is requied";
         document.getElementById("search-booking-by-confirmation-input").style.backgroundColor = "rgba(255,0,0,0.2)";
     }else{
-        getBookingByConfirmation(confirmation);
+        getBookingByRefNumber(confirmation);
     }
     
 }
