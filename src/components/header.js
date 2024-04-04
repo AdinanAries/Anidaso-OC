@@ -1,7 +1,11 @@
 import { show_main_menu, show_notifications_container, toggle_show_main_sections } from "./helper-functions";
 import { onclickGetBookingByConfirmation, searchByConfirmationOninput } from "./endpoint-calls";
 
-function Header(){
+function Header(props){
+    const {
+        LogoutOnClick,
+    } = props;
+
     return (
         <div className="main-header">
             <div className="wrapper">
@@ -29,12 +33,6 @@ function Header(){
                         </div>
                     </div>
                     <div style={{display: "flex"}}>
-                        <div className="header-right-side-icon" style={{cursor: "pointer", padding: "0 10px", marginLeft: 10, display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                            <p className="header-icon bumpup" style={{marginBottom: 5, textAlign: "center"}}>
-                                <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-user" aria-hidden="true"></i>
-                            </p>
-                            <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Account</p>
-                        </div>
                         <div onClick={show_notifications_container} style={{position: "relative"}} id="top-menu-notifications-btn" className="header-right-side-icon">
                             <div className="header-icon-status-indicator">
 
@@ -49,6 +47,12 @@ function Header(){
                                 <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-cogs" aria-hidden="true"></i>
                             </p>
                             <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Settings</p>
+                        </div>
+                        <div onClick={LogoutOnClick} className="header-right-side-icon" style={{cursor: "pointer", padding: "0 10px", marginLeft: 10, display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                            <p className="header-icon bumpup" style={{marginBottom: 5, textAlign: "center"}}>
+                                <i style={{color: "rgba(255,0,0,0.6)"}} className="fa fa-sign-out" aria-hidden="true"></i>
+                            </p>
+                            <p className="header-icon-titles" style={{color: "rgba(255,0,0,0.6)", fontSize: 12}}>Logout</p>
                         </div>
                     </div>
                 </div>

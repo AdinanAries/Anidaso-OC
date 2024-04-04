@@ -183,30 +183,31 @@ export function add_event_listeners_to_page_numbers(which, p){
     //console.log("p: ", p, ", which: ", which)
     //console.log(document.getElementById(`${which}_pagination_each_number_${p}`));
 
-    document.getElementById(`${which}_pagination_each_number_${p}`).addEventListener("click", evnt=>{
-        //alert(which)
-        if(which === "recent"){
+    if(document.getElementById(`${which}_pagination_each_number_${p}`))
+        document.getElementById(`${which}_pagination_each_number_${p}`).addEventListener("click", evnt=>{
+            //alert(which)
+            if(which === "recent"){
 
-            Array.from(document.getElementsByClassName("each-number")).forEach(each => {
-                each.classList.remove("active")
-            });
-            document.getElementById(`${which}_pagination_each_number_${p}`).classList.add("active");
+                Array.from(document.getElementsByClassName("each-number")).forEach(each => {
+                    each.classList.remove("active")
+                });
+                document.getElementById(`${which}_pagination_each_number_${p}`).classList.add("active");
 
-            current_active_page_number = p;
+                current_active_page_number = p;
 
-        }else if(which === "search"){
+            }else if(which === "search"){
 
-            Array.from(document.getElementsByClassName("each-number")).forEach(each => {
-                each.classList.remove("active")
-            });
-            document.getElementById(`${which}_pagination_each_number_${p}`).classList.add("active");
+                Array.from(document.getElementsByClassName("each-number")).forEach(each => {
+                    each.classList.remove("active")
+                });
+                document.getElementById(`${which}_pagination_each_number_${p}`).classList.add("active");
 
-            search_current_active_page_number = p;
-            //alert(search_current_active_page_number)
+                search_current_active_page_number = p;
+                //alert(search_current_active_page_number)
 
-        }
+            }
 
-    });
+        });
 }
 
 export let all_pages_arr;
@@ -235,15 +236,19 @@ export function set_pagination_initial_pages_numbers(which, total_recs, limit_p,
     seed = all_pages_arr[first_page_number_index];
     total = all_pages_arr[last_page_number_index];
 
-    document.getElementById(container_elem_id).innerHTML = generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn);
-    document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, seed, limit, total, true, current_active_page_number);
+    if(document.getElementById(container_elem_id))
+        document.getElementById(container_elem_id).innerHTML = generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn);
+    if(document.getElementById(numbers_list_elem_id))
+        document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, seed, limit, total, true, current_active_page_number);
 
-    document.getElementById(nextbtn).addEventListener("click", evnt => {
-        set_pagination_next_pages_numbers(which, numbers_list_elem_id);
-    });
-    document.getElementById(prevbtn).addEventListener("click", evnt => {
-        set_pagination_previous_pages_numbers(which, numbers_list_elem_id)
-    });
+    if(document.getElementById(nextbtn))
+        document.getElementById(nextbtn).addEventListener("click", evnt => {
+            set_pagination_next_pages_numbers(which, numbers_list_elem_id);
+        });
+    if(document.getElementById(prevbtn))
+        document.getElementById(prevbtn).addEventListener("click", evnt => {
+            set_pagination_previous_pages_numbers(which, numbers_list_elem_id)
+        });
 
 }
 
@@ -255,16 +260,19 @@ export function set_search_pagination_initial_pages_numbers(which, total_recs, l
     //depending on page width
     search_seed = search_pages_arr[search_first_page_number_index];
     search_total = search_pages_arr[search_last_page_number_index];
+    if(document.getElementById(container_elem_id))
+        document.getElementById(container_elem_id).innerHTML = generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn);
+    if(document.getElementById(numbers_list_elem_id))
+        document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, search_seed, search_limit, search_total, true, search_current_active_page_number);
 
-    document.getElementById(container_elem_id).innerHTML = generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn);
-    document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, search_seed, search_limit, search_total, true, search_current_active_page_number);
-
-    document.getElementById(nextbtn).addEventListener("click", evnt => {
-        set_search_pagination_next_pages_numbers(which, numbers_list_elem_id);
-    });
-    document.getElementById(prevbtn).addEventListener("click", evnt => {
-        set_search_pagination_previous_pages_numbers(which, numbers_list_elem_id)
-    });
+    if(document.getElementById(nextbtn))
+        document.getElementById(nextbtn).addEventListener("click", evnt => {
+            set_search_pagination_next_pages_numbers(which, numbers_list_elem_id);
+        });
+    if(document.getElementById(prevbtn))
+        document.getElementById(prevbtn).addEventListener("click", evnt => {
+            set_search_pagination_previous_pages_numbers(which, numbers_list_elem_id)
+        });
 
 }
 
@@ -277,7 +285,8 @@ export function set_pagination_next_pages_numbers(which, numbers_list_elem_id){
 
         seed = all_pages_arr[first_page_number_index];
         total = all_pages_arr[last_page_number_index];
-        document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, seed, limit, total,false,current_active_page_number);
+        if(document.getElementById(numbers_list_elem_id))
+            document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, seed, limit, total,false,current_active_page_number);
 
         for(let r=first_page_number_index; r<last_page_number_index; r++){
             add_event_listeners_to_page_numbers("recent", all_pages_arr[r]);
