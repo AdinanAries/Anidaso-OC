@@ -80,15 +80,15 @@ const SelectedTicketPage = (props) =>  {
                             <div style={{display: "flex"}}>
                                 <div className="standard-action-button"
                                     style={{fontSize: 13, padding: "10px 20px", backgroundColor: "crimson", marginRight: 5}} >
-                                    Payment intent
+                                    Payment
                                 </div>
                                 <div className="standard-action-button"
                                     style={{fontSize: 13, padding: "10px 20px", backgroundColor: "brown", marginRight: 5}} >
-                                    Booking intent
+                                    Booking
                                 </div>
                                 <div className="standard-action-button"
                                     style={{fontSize: 13, padding: "10px 20px"}} >
-                                    Verify Payment
+                                    Verify
                                 </div>
                             </div>
                         </div>
