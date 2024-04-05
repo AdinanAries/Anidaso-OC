@@ -29,12 +29,15 @@ const LoginPage = (props) => {
                 <p style={{fontSize: 14, color: "skyblue", textAlign: "center", marginTop: 5}}>
                     Operational Center (OC)
                 </p>
-                <p style={{fontSize: 13, color: "red", textAlign: "center", marginTop: 20}}>
-                    <span style={{color: "rgba(255,255,255,0.5)"}}>
-                        Developed by</span> BYTE THE CODE &copy; {new Date().getFullYear()}
-                </p>
+                <a href="http://worksofbtc.com" rel="noreferrer" target="_blank" 
+                    style={{textDecoration: "none"}}>
+                    <p style={{fontSize: 13, color: "red", textAlign: "center", marginTop: 20}}>
+                        <span style={{color: "rgba(255,255,255,0.5)"}}>
+                            Developed by</span> BYTE THE CODE &copy; {new Date().getFullYear()}
+                    </p>
+                </a>
             </div>
-            <div style={{width: "calc(50%)", border: "1px solid rgba(255,255,255,0.1)", padding: 20}}>
+            <div style={{width: "calc(50%)", border: "1px solid rgba(255,255,255,0.1)", padding: 25, borderRadius: 9}}>
                 <p style={{color: "rgba(255,255,255,0.8)", textAlign: "center", fontSize: 19, marginBottom: 20}}>
                     Login</p>
                 <div>
@@ -60,7 +63,7 @@ const LoginPage = (props) => {
                     <div onClick={loginOnSubmit} className="standard-action-button">
                         login
                     </div>
-                    <p style={{marginTop: 20, cursor: "pointer", textAlign: "center", color: "lightgreen"}}>
+                    <p style={{marginTop: 20, cursor: "pointer", textAlign: "center", color: "lightgreen", fontSize: 14}}>
                         <span onClick={()=>alert("forgot password")}>
                             Forgot Password?</span></p>
                 </div>
