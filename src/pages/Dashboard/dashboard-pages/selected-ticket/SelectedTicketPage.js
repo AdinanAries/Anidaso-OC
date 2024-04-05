@@ -21,21 +21,21 @@ const SelectedTicketPage = (props) =>  {
             <div className="general-two-flex-children">
                 <div className="general-two-flex-child first shaded-info-center">
                     
-                    <BookingHealthChecker 
-                        title="Health Status"
-                    />
-
                     <div id="selected_booking_status_display_container">
-
+                        <BookingHealthChecker 
+                            title="Health Status"
+                        />
                     </div>
 
                     <div id="selected_booking_general_information_container">
-
+                        <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 14, textAlign: "center"}}>
+                            General
+                        </p>
                     </div>
                     
                     <div style={{marginTop: 20}}>
                         <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 14, textAlign: "center"}}>
-                            Travelers Information
+                            Passengers
                         </p>
                         <div id="selected_booking_travelers_or_guests_list">
                             
@@ -43,7 +43,7 @@ const SelectedTicketPage = (props) =>  {
                     </div>
                     <div style={{marginTop: 20}}>
                         <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 14, textAlign: "center"}}>
-                            Price Information
+                            Price
                         </p>
                         <div>
                             <div style={{marginBottom: 20, borderLeft: "3px solid orangered", padding: 10}}>
@@ -61,12 +61,43 @@ const SelectedTicketPage = (props) =>  {
                                 </p>
                             </div>
                         </div>
+                        <div>
+                            <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 14, textAlign: "center"}}>
+                                Payment
+                            </p>
+                            <div>
+                            <p style={{padding: 10, margin: "10px 0", borderLeft: "3px solid red", fontSize: 13}}>
+                                <i style={{color: "red", marginRight: 10}} 
+                                    className="fa fa-exclamation-triangle"></i>
+                                Booking was successful, but payment was unsuccessfull
+                            </p>
+                            </div>
+                            <p style={{padding: 10, margin: "10px 0", borderLeft: "3px solid green", fontSize: 13}}>
+                                This sections buttons can be used to view booking and payment confirmation details 
+                                in order to ensure that both the booking and payment was completed successfully 
+                                without errors
+                            </p>
+                            <div style={{display: "flex"}}>
+                                <div className="standard-action-button"
+                                    style={{fontSize: 13, padding: "10px 20px", backgroundColor: "crimson", marginRight: 5}} >
+                                    Payment intent
+                                </div>
+                                <div className="standard-action-button"
+                                    style={{fontSize: 13, padding: "10px 20px", backgroundColor: "brown", marginRight: 5}} >
+                                    Booking intent
+                                </div>
+                                <div className="standard-action-button"
+                                    style={{fontSize: 13, padding: "10px 20px"}} >
+                                    Verify Payment
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 
                 </div>
                 <div className="general-two-flex-child second shaded-info-center">
                     <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 14, marginBottom: 20, textAlign: "center"}}>
-                        Itenirary Information</p>
+                        Flights</p>
                     <div>
                         <div  style={{marginBottom: 20}}>
                             <p style={{color: "rgba(0,0,0,0.7)", fontSize: 14, marginBottom: 10}}>

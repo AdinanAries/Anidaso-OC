@@ -1,6 +1,12 @@
 import $ from "jquery";
 import { show_bookings_pane_search_results_page, set_search_pagination_initial_pages_numbers, add_event_listeners_to_page_numbers, search_pages_arr, search_last_page_number_index } from "./helper-functions";
-import { render_recent_bookings_markup, render_search_result_bookings_markup, render_selected_booking_details, render_component_loader_markup, render_no_booking_found_markup } from "./markup-rendering";
+import { 
+    render_recent_bookings_markup, 
+    render_search_result_bookings_markup, 
+    render_selected_booking_details, 
+    render_component_loader_markup, 
+    render_no_booking_found_markup 
+} from "./markup-rendering";
 
 const serverBaseURL = "http://localhost:4000";
 
@@ -104,7 +110,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
     if(document.getElementById("booking-container-search-results-pane").style.display === "none"){
         show_bookings_pane_search_results_page();
     }
-    //render_component_loader_markup("bookings-pane-search-results-bookings-list");
+    render_component_loader_markup("bookings-pane-search-results-bookings-list");
 
     let postObj = {
         origin: origin,
@@ -123,7 +129,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
         success: res => {
             
             if(res.length < 1){
-                //render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
+                render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
                 return null;
             }
 
@@ -137,7 +143,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
             render_search_result_bookings_markup(res, "flight");
         },
         error: err =>{
-            //render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
+            render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
             console.log(err);
         }
     });
