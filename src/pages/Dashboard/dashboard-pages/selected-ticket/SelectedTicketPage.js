@@ -102,7 +102,7 @@ const SelectedTicketPage = (props) =>  {
                         <div  style={{marginBottom: 20}}>
                             <p style={{color: "rgba(0,0,0,0.7)", fontSize: 14, marginBottom: 10}}>
                                 <i style={{color: "orangered", marginRight: 5}} className="fa fa-check"></i>
-                                Departure Segments
+                                Departure (1 stop)
                                 <span style={{marginLeft: 10, color: "blue"}}>14h 25mins</span>
                                 </p>
                             <div>
@@ -139,7 +139,7 @@ const SelectedTicketPage = (props) =>  {
                         <div style={{marginBottom: 20}}>
                             <p style={{color: "rgba(0,0,0,0.7)", fontSize: 14, marginBottom: 10}}>
                                 <i style={{color: "orangered", marginRight: 5}} className="fa fa-check"></i>
-                                Return Segments
+                                Return (1 stop)
                                 <span style={{marginLeft: 10, color: "blue"}}>14h 25mins</span>
                                 </p>
                             <div>
