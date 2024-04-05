@@ -1,10 +1,7 @@
 import './App.css';
 
-import Header from './components/header';
-import SideMenu from './components/side-menu';
-import MainSection from './components/main-section';
-import NotificationsContainer from "./components/notifications-container";
-import LoginPage from './LoginPage';
+import Dashboard from './pages/Dashboard/Dashboard';
+import LoginPage from './pages/LoginPage';
 import { useState } from 'react';
 
 function App() {
@@ -31,18 +28,14 @@ function App() {
 
   return (
     <div className="App">
-      {loggedIn ?
-        <>
-          <NotificationsContainer />
-          <Header
-             LogoutOnClick={LogoutOnClick}
+      {
+        loggedIn ?
+          <Dashboard
+            LogoutOnClick={LogoutOnClick}
+          /> :
+          <LoginPage 
+            LoginOnClick={LoginOnClick} 
           />
-          <SideMenu />
-          <MainSection />
-        </> :
-        <LoginPage 
-          LoginOnClick={LoginOnClick} 
-        />
       }
     </div>
   );

@@ -1,5 +1,5 @@
-import { show_main_menu, show_notifications_container, toggle_show_main_sections } from "./helper-functions";
-import { onclickGetBookingByConfirmation, searchByConfirmationOninput } from "./endpoint-calls";
+import { show_main_menu, show_notifications_container, toggle_show_main_sections } from "../helpers/helper-functions";
+import { onclickGetBookingByConfirmation, searchByConfirmationOninput } from "../helpers/endpoint-calls";
 
 function Header(props){
     const {

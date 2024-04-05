@@ -1,4 +1,4 @@
-import { onclickSearchBookedHotel } from "./endpoint-calls";
+import { onclickSearchBookedHotel } from "../helpers/endpoint-calls";
 
 function BookedHotelsSearchForm(){
     return (

@@ -1,5 +1,5 @@
 //import { show_bookings_pane_search_results_page } from "./helper-functions";
-import { onclickSearchBookedFlights } from "./endpoint-calls";
+import { onclickSearchBookedFlights } from "../helpers/endpoint-calls";
 import { 
     onInputAirportsAutocomplete, 
     showInputAirportsAutocompleteContainer, 

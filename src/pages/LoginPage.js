@@ -1,4 +1,4 @@
-import wellgo_logo from "./WillgoLogo.png";
+import wellgo_logo from "../WillgoLogo.png";
 
 const LoginPage = (props) => {
 

@@ -1,14 +1,14 @@
-import BookedFlightsSearchForm from "./booked-flghts-search-form";
-import BookedHotelsSearchForm from "./booked-hotels-search-form";
-import BookedCarsSearchForm from "./booked-cars-search-form";
+import BookedFlightsSearchForm from "../../../../components/booked-flghts-search-form";
+import BookedHotelsSearchForm from "../../../../components/booked-hotels-search-form";
+import BookedCarsSearchForm from "../../../../components/booked-cars-search-form";
 
 import { 
     show_booking_search_type_form, 
     show_bookings_pane_main_page, 
     show_bookings_pane_search_results_page, 
     show_bookings_pane_selected_results_page 
-} from "./helper-functions";
-import { getBookingById } from "./endpoint-calls";
+} from "../../../../helpers/helper-functions";
+import { getBookingById } from "../../../../helpers/endpoint-calls";
 
 let where = "home";
 export function select_booking_from_list(where_param, id="none"){
@@ -219,13 +219,13 @@ let BookingsContainer = ()=>{
                                     Type
                                 </td>
                                 <td className="header">
-                                    Confirmation
+                                    Reference No.
                                 </td>
                                 <td className="header mobile-hidden">
                                     Email
                                 </td>
                                 <td className="header mobile-hidden">
-                                    Origin - Destination
+                                    Departure - Destination
                                 </td>
                                 <td className="header">
                                     Booking Date

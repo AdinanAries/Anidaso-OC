@@ -1,5 +1,5 @@
 
-import PageNA from './page-not-available';
+import PageNA from '../../../../components/page-not-available';
 
 let SupportContainer = ()=>{
     return(

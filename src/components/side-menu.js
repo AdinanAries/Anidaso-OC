@@ -10,7 +10,7 @@ import salesIcon from "./icons/sales-icon.png";
 import marketingIcon from "./icons/marketing-icon.png";
 import wellgo_logo from "../WillgoLogo.png";
 
-import { toggle_show_main_sections } from "./helper-functions";
+import { toggle_show_main_sections } from "../helpers/helper-functions";
 
 let SideMenu = () => {
     return(
@@ -99,16 +99,6 @@ let SideMenu = () => {
                         <p>Customers</p>
                     </div>
                 </div>
-                <div onClick={()=> toggle_show_main_sections("clients")} id="side-menu-clients-item" className="side-menu-each-item">
-                    <div style={{marginRight: 10}}>
-                        <p>
-                            <img src={clientsIcon} />
-                        </p>
-                    </div>
-                    <div className="side-menu-each-item-name">
-                        <p>Clients</p>
-                    </div>
-                </div>
             </div>
             <div className="side-menu-items-list">
                 <p style={{fontSize: 14, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
@@ -142,6 +132,16 @@ let SideMenu = () => {
                     </div>
                     <div className="side-menu-each-item-name">
                         <p>Staff</p>
+                    </div>
+                </div>
+                <div onClick={()=> toggle_show_main_sections("clients")} id="side-menu-clients-item" className="side-menu-each-item">
+                    <div style={{marginRight: 10}}>
+                        <p>
+                            <img src={clientsIcon} />
+                        </p>
+                    </div>
+                    <div className="side-menu-each-item-name">
+                        <p>Partners</p>
                     </div>
                 </div>
             </div>

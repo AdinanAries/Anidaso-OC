@@ -1,4 +1,4 @@
-import { hide_notifications_container } from "./helper-functions";
+import { hide_notifications_container } from "../helpers/helper-functions";
 
 const NotificationsContainer = ()=>{
     return (
