@@ -1,4 +1,20 @@
 import $ from "jquery";
+import { getBookingById } from "./endpoint-calls";
+
+let where = "home";
+export function select_booking_from_list(where_param, id="none"){
+    where = where_param;
+    show_bookings_pane_selected_results_page()
+    getBookingById(id);
+}
+
+export function back_from_selected_result_pane(){
+    if(where === "home"){
+        show_bookings_pane_main_page();
+    }else if(where === "results"){
+        show_bookings_pane_search_results_page();
+    }
+}
 
 export function show_main_menu(){
     $("#main-menu-container").animate({

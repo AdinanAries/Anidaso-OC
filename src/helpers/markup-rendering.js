@@ -1,5 +1,5 @@
 import { return_airline_by_code } from "../data/airline_codes";
-import { select_booking_from_list } from "../pages/Dashboard/dashboard-pages/bookings/bookings-container";
+import { select_booking_from_list } from "./helper-functions";
 
 function returnEachRecentBookingMarkup(booking, index, type){
     //console.log("rendered booking: ", booking);

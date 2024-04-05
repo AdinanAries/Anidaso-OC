@@ -104,7 +104,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
     if(document.getElementById("booking-container-search-results-pane").style.display === "none"){
         show_bookings_pane_search_results_page();
     }
-    render_component_loader_markup("bookings-pane-search-results-bookings-list");
+    //render_component_loader_markup("bookings-pane-search-results-bookings-list");
 
     let postObj = {
         origin: origin,
@@ -123,7 +123,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
         success: res => {
             
             if(res.length < 1){
-                render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
+                //render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
                 return null;
             }
 
@@ -137,7 +137,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
             render_search_result_bookings_markup(res, "flight");
         },
         error: err =>{
-            render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
+            //render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
             console.log(err);
         }
     });
