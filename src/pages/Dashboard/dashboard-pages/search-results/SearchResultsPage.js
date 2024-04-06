@@ -11,15 +11,16 @@ const SearchResultsPage = (props) =>  {
                         Back
                     </div>
                     <div id="bookings-pane-fights-search-results-list-container">
-                        <p style={{color: "", fontWeight: "bolder", fontSize: 14}}>
+                        <p className="title-font-color-default" style={{fontSize: 12}}>
                             Search Results
                         </p>
                         <div style={{padding: 10, display: "flex"}}>
-                            <p style={{fontSize: 14, fontWeight: "bolder", marginRight: 20, color: "rgba(0,0,0,0.6)"}}>
+                            <p className="regular-font-color-dark-bg" style={{fontSize: 14, fontWeight: "bolder", marginRight: 20}}>
                                 Filters: 
                             </p>
                             <div style={{marginRight: 10}}>
-                                <p style={{fontSize: 13, marginBottom: 5}}>Type</p>
+                                <p className="regular-font-color-dark-bg" style={{fontSize: 13, marginBottom: 5}}>
+                                    Type</p>
                                 <select style={{padding: 10, borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
                                     <option>
                                         All
@@ -30,7 +31,9 @@ const SearchResultsPage = (props) =>  {
                                 </select>
                             </div>
                             <div style={{marginRight: 10}}>
-                                <p style={{fontSize: 13, marginBottom: 5}}>Booking Dates</p>
+                                <p className="regular-font-color-dark-bg" 
+                                style={{fontSize: 13, marginBottom: 5}}>
+                                    Booking Dates</p>
                                 <input value="March 23 - Jun 15" style={{padding: 10, borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
                             </div>
                         </div>

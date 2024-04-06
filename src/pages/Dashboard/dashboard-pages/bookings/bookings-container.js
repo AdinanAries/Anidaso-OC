@@ -40,7 +40,7 @@ let BookingsContainer = ()=>{
                     </div>
                     <div className="booking-pane-search-inputs-area">
                         <div className="booking-pane-search-inputs-area-inputs-section">
-                            <p style={{color: "rgba(0,0,0,0.8)", fontWeight: "bolder", fontSize: 11}}>
+                            <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 11, margin: 10}}>
                                 Search Booking
                             </p>
                             <BookedFlightsSearchForm />

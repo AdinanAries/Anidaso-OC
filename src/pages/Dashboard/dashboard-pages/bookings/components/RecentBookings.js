@@ -2,15 +2,17 @@ import { select_booking_from_list } from "../../../../../helpers/helper-function
 
 const RecentBookings = (props) => {
     return <div className="main-seaction-containers">
-        <p style={{color: "rgba(0,0,0,0.8)", fontWeight: "bolder", fontSize: 12}}>
+        <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12}}>
             Recent Bookings
         </p>
         <div style={{padding: 10, display: "flex"}}>
-            <p style={{fontSize: 14, fontWeight: "bolder", marginRight: 20, color: "rgba(0,0,0,0.6)"}}>
+            <p className="regular-font-color-dark-bg" style={{fontSize: 14, fontWeight: "bolder", marginRight: 20}}>
                 Filters: 
             </p>
             <div style={{marginRight: 10}}>
-                <p style={{fontSize: 13, marginBottom: 5}}>Type</p>
+                <p className="regular-font-color-dark-bg" 
+                    style={{fontSize: 13, marginBottom: 5}}>
+                        Type</p>
                 <select style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
                     <option>
                         All
@@ -21,7 +23,9 @@ const RecentBookings = (props) => {
                 </select>
             </div>
             <div style={{marginRight: 10}}>
-                <p style={{fontSize: 13, marginBottom: 5}}>Interval</p>
+                <p className="regular-font-color-dark-bg" 
+                    style={{fontSize: 13, marginBottom: 5}}>
+                        Interval</p>
                 <input id="bookings-pane-filter-by-dates-input" readOnly="true" 
                     style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
             </div>

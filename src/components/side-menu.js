@@ -8,29 +8,15 @@ import staffIcon from "./icons/staff-icon.png";
 import dealsIcon from "./icons/deals-icon2.png";
 import salesIcon from "./icons/sales-icon.png";
 import marketingIcon from "./icons/marketing-icon.png";
-import wellgo_logo from "../WillgoLogo.png";
 
 import { toggle_show_main_sections } from "../helpers/helper-functions";
 
 let SideMenu = () => {
     return(
         <div id="main-menu-container" className="side-menu">
-            <div className="main-menu-company-title" style={{padding: "20px 10px"}}>
-                {/*<p style={{textAlign: "center", color: "orange", fontSize: 19, fontWeight: "bolder", letterSpacing: 1}}>
-                    Anidaso O.C.</p>*/}
-                <div className="site_logo_container">
-                    <div style={{height: "100%", display: "flex", alignItems: "center"}}>
-                        <p style={{marginRight: 10}}>
-                            <img style={{width: 45}} src={wellgo_logo} alt="Logo"/></p>
-                        <p>Welldugo
-                            <sup style={{fontSize: 12}}>&reg;</sup></p>
-                    </div>
-                </div>
-                <p style={{color: "rgba(255,255,255,0.6)", marginTop: 10, fontSize: 13, textAlign: "center"}}>
-                    Operational Center</p>
-            </div>
+            
             <div className="side-menu-items-list">
-                <p style={{fontSize: 14, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
+                <p style={{fontSize: 12, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
                     Travel Agent
                 </p>
                 <div onClick={()=> toggle_show_main_sections("bookings")} id="side-menu-bookings-item" className="side-menu-each-item active">
@@ -66,7 +52,7 @@ let SideMenu = () => {
                 
             </div>
             <div className="side-menu-items-list">
-                <p style={{fontSize: 14, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
+                <p style={{fontSize: 12, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
                     Sales/Marketing
                 </p>
                 <div onClick={()=> toggle_show_main_sections("sales")} id="side-menu-sales-item" className="side-menu-each-item">
@@ -101,7 +87,7 @@ let SideMenu = () => {
                 </div>
             </div>
             <div className="side-menu-items-list">
-                <p style={{fontSize: 14, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
+                <p style={{fontSize: 12, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
                     Management
                 </p>
                 <div onClick={()=> toggle_show_main_sections("analytics")} id="side-menu-analytics-item" className="side-menu-each-item">

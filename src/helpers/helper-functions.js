@@ -27,17 +27,20 @@ export function show_booking_search_type_form(type){
         setActiveNavOption("booking-pane-search-type-each-option", "booking-pane-search-type-flights-option");
         document.getElementById("bookings-pane-booked-hotels-search-form").style.display = "none";
         document.getElementById("bookings-pane-booked-cars-search-form").style.display = "none";
-        $("#bookings-pane-booked-flights-search-form").toggle("up");
+        if(document.getElementById("bookings-pane-booked-flights-search-form").style.display==="none")
+            $("#bookings-pane-booked-flights-search-form").toggle("up");
     }else if(type === "hotels"){
         setActiveNavOption("booking-pane-search-type-each-option", "booking-pane-search-type-hotels-option");
         document.getElementById("bookings-pane-booked-flights-search-form").style.display = "none";
         document.getElementById("bookings-pane-booked-cars-search-form").style.display = "none";
-        $("#bookings-pane-booked-hotels-search-form").toggle("up");
+        if(document.getElementById("bookings-pane-booked-hotels-search-form").style.display==="none")
+            $("#bookings-pane-booked-hotels-search-form").toggle("up");
     }else if(type === "cars"){
         setActiveNavOption("booking-pane-search-type-each-option", "booking-pane-search-type-cars-option");
         document.getElementById("bookings-pane-booked-flights-search-form").style.display = "none";
         document.getElementById("bookings-pane-booked-hotels-search-form").style.display = "none";
-        $("#bookings-pane-booked-cars-search-form").toggle("up");
+        if(document.getElementById("bookings-pane-booked-cars-search-form").style.display==="none")
+            $("#bookings-pane-booked-cars-search-form").toggle("up");
     }
 
 }

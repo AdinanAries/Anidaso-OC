@@ -21,7 +21,10 @@ function BookedFlightsSearchForm(){
                 </div>
                 <div id="booked-flight-search-origin-input-container" 
                     className="two-inputs-flex-child first">
-                    <p style={{marginBottom: 5, fontSize: 14, color: "rgba(0,0,0,0.8)", fontWeight: "bolder"}}>
+                    <p className="subtitle-font-color-default" 
+                        style={{marginBottom: 5, fontSize: 13}} >
+                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
+                            className="fa fa-map-marker"></i>
                         Departure Airport</p>
                     <input 
                         onInput={onInputAirportsAutocomplete} 
@@ -29,10 +32,15 @@ function BookedFlightsSearchForm(){
                         onBlur={hideInputAirportsAutocompleteContainer} 
                         id="booked-flight-search-origin-input" autoComplete="off" 
                         className="standard-search-input"
-                        style={{width: "calc(100%)"}}/>
+                        style={{width: "calc(100%)"}}
+                        placeholder="enter city/airport here"
+                    />
                 </div>
                 <div id="booked-flight-search-destination-input-container" className="two-inputs-flex-child last">
-                    <p style={{marginBottom: 5, fontSize: 14, color: "rgba(0,0,0,0.8)", fontWeight: "bolder"}}>
+                    <p className="subtitle-font-color-default" 
+                        style={{marginBottom: 5, fontSize: 13}} >
+                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
+                            className="fa fa-map-marker"></i>
                         Destination Airport</p>
                     <input 
                         onInput={onInputAirportsAutocomplete} 
@@ -41,25 +49,37 @@ function BookedFlightsSearchForm(){
                         id="booked-flight-search-destination-input" 
                         autoComplete="off" 
                         className="standard-search-input"
-                        style={{width: "calc(100%)"}}/>
+                        style={{width: "calc(100%)"}}
+                        placeholder="enter city/airport here"
+                    />
                 </div>
             </div>
             <div className="two-inputs-flex-container" style={{marginTop: 10}}>
                 <div className="two-inputs-flex-child first">
-                    <p style={{marginBottom: 5, fontSize: 14, color: "rgba(0,0,0,0.8)", fontWeight: "bolder"}}>
+                    <p className="subtitle-font-color-default" 
+                        style={{marginBottom: 5, fontSize: 13}} >
+                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
+                            className="fa fa-envelope"></i>
                         Customer Email</p>
                     <input id="booked-flight-search-email-input" 
                         autoComplete="off" 
                         className="standard-search-input"
-                        style={{width: "calc(100%)"}}/>
+                        style={{width: "calc(100%)"}}
+                        placeholder="enter customer email here"
+                    />
                 </div>
                 <div className="two-inputs-flex-child last">
-                    <p style={{marginBottom: 5, fontSize: 14, color: "rgba(0,0,0,0.8)", fontWeight: "bolder"}}>
+                    <p className="subtitle-font-color-default" 
+                        style={{marginBottom: 5, fontSize: 13}} >
+                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
+                            className="fa fa-calendar"></i>
                         Depature Date</p>
                     <input id="booked-flight-search-dates-input" 
                         readOnly="true" 
                         className="standard-search-input"
-                        style={{width: "calc(100%)"}}/>
+                        style={{width: "calc(100%)"}}
+                        placeholder="select departure date"
+                    />
                 </div>
             </div>
             {/*<div style={{marginTop: 10}}>
