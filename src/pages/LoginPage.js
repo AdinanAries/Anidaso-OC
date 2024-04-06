@@ -42,17 +42,17 @@ const LoginPage = (props) => {
                     Login</p>
                 <div>
                     <div>
-                        <p style={{color: "white", marginBottom: 10}}>
-                            <i style={{color: "rgba(255,255,255,0.5)", marginRight: 10}} 
+                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                            <i style={{fontSize: 18, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
                                 className="fa fa-envelope"></i>
                             Email</p>
                         <input type="email"
                             style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
                             placeholder="enter you email here" />
                     </div>
-                    <div style={{marginTop: 10}}>
-                        <p style={{color: "white", marginBottom: 10}}>
-                            <i style={{color: "rgba(255,255,255,0.5)", marginRight: 10}} 
+                    <div style={{marginTop: 20}}>
+                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                            <i style={{fontSize: 19, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
                                 className="fa fa-lock"></i>
                             Password</p>
                         <input
@@ -60,7 +60,7 @@ const LoginPage = (props) => {
                             style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
                             placeholder="enter you password here" />
                     </div>
-                    <div onClick={loginOnSubmit} className="standard-action-button">
+                    <div onClick={loginOnSubmit} className="standard-action-button" style={{padding: 15}}>
                         login
                     </div>
                     <p style={{marginTop: 20, cursor: "pointer", textAlign: "center", color: "lightgreen", fontSize: 14}}>
