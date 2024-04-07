@@ -23,7 +23,7 @@ function getBookingByRefNumber(ref_number){
 
     $.ajax({
         type: "GET",
-        url: `${serverBaseURL}/get-booking-by-confirmation-number/${ref_number}`,
+        url: `${serverBaseURL}/api/bookings/get-by-reference-number/${ref_number}`,
         success: res => {
             
             if(res.length < 1){
@@ -32,7 +32,11 @@ function getBookingByRefNumber(ref_number){
             }
 
             //setting pagination
-            set_search_pagination_initial_pages_numbers("search", 300, 10, "search_results_bookings_pagination_list_markup", "search_pagination_page_numbers_list", "search_bookings_pagination_nextbtn", "search_bookings_pagination_prevbtn");
+            set_search_pagination_initial_pages_numbers("search", 300, 10, 
+                                                "search_results_bookings_pagination_list_markup", 
+                                                "search_pagination_page_numbers_list", 
+                                                "search_bookings_pagination_nextbtn", 
+                                                "search_bookings_pagination_prevbtn");
             for(let r=0; r<search_last_page_number_index; r++){
                 add_event_listeners_to_page_numbers("search", search_pages_arr[r]);
             }
@@ -122,7 +126,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
 
     $.ajax({
         type: "POST",
-        url: `${serverBaseURL}/search-booked-flight/`,
+        url: `${serverBaseURL}/api/bookings/search/`,
         data: JSON.stringify(postObj),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
