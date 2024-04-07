@@ -203,15 +203,14 @@ ul li {
   min-height: 200px;
 }
 .page-data-info-p {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 13px;
   margin-bottom: 5px;
-  color: rgba(0, 0, 0, 0.719);
+  color: rgba(255,255,255,0.8);
 }
 .page-data-info-p span {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: initial;
-  color: rgb(0, 41, 88);
+  color: rgb(143, 194, 252);
   margin-left: 10px;
 }
 input:focus {

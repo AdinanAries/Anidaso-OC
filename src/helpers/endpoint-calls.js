@@ -50,7 +50,7 @@ function getBookingByRefNumber(ref_number){
 export function getBookingById(id){
     $.ajax({
         type: "GET",
-        url: `${serverBaseURL}/get-booking-by-id/${id}`,
+        url: `${serverBaseURL}/api/bookings/get-by-id/${id}`,
         success: res => {
             console.log(res);
             render_selected_booking_details(res);
@@ -219,7 +219,7 @@ function get_recent_bookings(skip, limit){
 
     $.ajax({
         type: "GET",
-        url: `${serverBaseURL}/get-recent-bookings/${skip}/${limit}`,
+        url: `${serverBaseURL}/api/bookings/get-recent/${skip}/${limit}`,
         success: res => {
             console.log(res);
             if(res.length < 1){
@@ -235,7 +235,8 @@ function get_recent_bookings(skip, limit){
     });
 }
 
+// Initializations
 setTimeout(()=>{
     get_notifications(0,100);
-    //get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
+    get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
 });

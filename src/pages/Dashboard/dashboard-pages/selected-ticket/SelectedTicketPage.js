@@ -27,14 +27,17 @@ const SelectedTicketPage = (props) =>  {
                         />
                     </div>
 
-                    <div id="selected_booking_general_information_container">
-                        <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 12, textAlign: "center"}}>
+                    <div style={{marginTop: 20}}>
+                        <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 10}}>
                             General
                         </p>
+                        <div style={{borderLeft: "3px solid lightgreen", padding: 10, paddingRight: 0}} id="selected_booking_general_information_container">
+                            
+                        </div>
                     </div>
-                    
                     <div style={{marginTop: 20}}>
-                        <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 12, textAlign: "center"}}>
+                        <p className="title-font-color-default"
+                            style={{fontWeight: "bolder", fontSize: 12, marginBottom: 10}}>
                             Passengers
                         </p>
                         <div id="selected_booking_travelers_or_guests_list">
@@ -42,37 +45,39 @@ const SelectedTicketPage = (props) =>  {
                         </div>
                     </div>
                     <div style={{marginTop: 20}}>
-                        <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 12, textAlign: "center"}}>
+                        <p className="title-font-color-default" 
+                            style={{fontWeight: "bolder", fontSize: 12, marginBottom: 10}}>
                             Price
                         </p>
                         <div>
-                            <div style={{marginBottom: 20, borderLeft: "3px solid orangered", padding: 10}}>
-                                <p style={{fontSize: 13, fontWeight: "bolder", marginBottom: 5}}>
+                            <div style={{marginBottom: 20, borderLeft: "3px solid lightgreen", padding: 10, paddingRight: 0}}>
+                                <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginBottom: 5}}>
                                     Base Price: 
                                     <span style={{marginLeft: 10}}>$500.23</span>
                                 </p>
-                                <p style={{fontSize: 13, fontWeight: "bolder", marginBottom: 5,}}>
+                                <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginBottom: 5,}}>
                                     Taxes: 
                                     <span style={{marginLeft: 10}}>$230.23</span>
                                 </p>
-                                <p style={{fontSize: 13, fontWeight: "bolder", marginBottom: 5, color: "brown"}}>
+                                <p style={{color: "red", fontSize: 13, fontWeight: "bolder", marginBottom: 5}}>
                                     Total: 
                                     <span style={{marginLeft: 10}}>$730.46</span>
                                 </p>
                             </div>
                         </div>
                         <div>
-                            <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 12, textAlign: "center"}}>
+                            <p className="title-font-color-default"
+                                style={{fontWeight: "bolder", fontSize: 12, marginBottom: 10}}>
                                 Payment
                             </p>
                             <div>
-                            <p style={{padding: 10, margin: "10px 0", borderLeft: "3px solid red", fontSize: 13}}>
+                            <p style={{color: "rgba(255,255,255,0.8)", padding: 10, margin: "10px 0", borderLeft: "3px solid red", fontSize: 13}}>
                                 <i style={{color: "red", marginRight: 10}} 
                                     className="fa fa-exclamation-triangle"></i>
                                 Booking was successful, but payment was unsuccessfull
                             </p>
                             </div>
-                            <p style={{padding: 10, margin: "10px 0", borderLeft: "3px solid green", fontSize: 13}}>
+                            <p style={{color: "rgba(255,255,255,0.8)", padding: 10, margin: "10px 0", borderLeft: "3px solid lightgreen", fontSize: 13}}>
                                 This sections buttons can be used to view booking and payment confirmation details 
                                 in order to ensure that both the booking and payment was completed successfully 
                                 without errors
@@ -102,78 +107,79 @@ const SelectedTicketPage = (props) =>  {
                 
                 </div>
                 <div className="general-two-flex-child second shaded-info-center">
-                    <p style={{color: "rgba(0,0,0,0.7)", fontWeight: "bolder", fontSize: 12, marginBottom: 20, textAlign: "center"}}>
+                    <p className="title-font-color-default"
+                        style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
                         Flights</p>
                     <div>
                         <div  style={{marginBottom: 20}}>
-                            <p style={{color: "rgba(0,0,0,0.7)", fontSize: 13, marginBottom: 10}}>
-                                <i style={{color: "orangered", marginRight: 5}} className="fa fa-check"></i>
+                            <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginBottom: 10}}>
+                                <i style={{color: "lightgreen", marginRight: 5}} className="fa fa-check"></i>
                                 Departure (1 stop)
-                                <span style={{marginLeft: 10, color: "blue"}}>14h 25mins</span>
+                                <span style={{marginLeft: 10, color: "orange"}}>14h 25mins</span>
                                 </p>
                             <div>
-                                <div style={{borderLeft: "3px solid orangered", padding: 10, marginLeft: 10}}>
-                                    <p style={{fontSize: 13, marginBottom: 5, color: "brown", fontWeight: "bolder"}}>
+                                <div style={{borderLeft: "3px solid lightgreen", padding: 10, marginLeft: 10}}>
+                                    <p style={{fontSize: 13, marginBottom: 5, color: "lightgreen"}}>
                                         Accra, Ghana (ACC) - New York, USA (LGA)
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         March 24, 12:30am - March 25, 11:15pm
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         Amarican Airline, Etheopian Airline
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         Boem wide-belly B211
                                     </p>
                                 </div>
-                                <div style={{borderLeft: "3px solid orangered", padding: 10, marginLeft: 10}}>
-                                    <p style={{fontSize: 13, marginBottom: 5, color: "brown", fontWeight: "bolder"}}>
+                                <div style={{borderLeft: "3px solid yellowgreen", padding: 10, marginLeft: 10}}>
+                                    <p style={{fontSize: 13, marginBottom: 5, color: "yellowgreen"}}>
                                         Accra, Ghana (ACC) - New York, USA (LGA)
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         March 24, 12:30am - March 25, 11:15pm
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         Amarican Airline, Etheopian Airline
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         Boem wide-belly B211
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <div style={{marginBottom: 20}}>
-                            <p style={{color: "rgba(0,0,0,0.7)", fontSize: 13, marginBottom: 10}}>
-                                <i style={{color: "orangered", marginRight: 5}} className="fa fa-check"></i>
+                            <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginBottom: 10}}>
+                                <i style={{color: "lightgreen", marginRight: 5}} className="fa fa-check"></i>
                                 Return (1 stop)
-                                <span style={{marginLeft: 10, color: "blue"}}>14h 25mins</span>
+                                <span style={{marginLeft: 10, color: "orange"}}>14h 25mins</span>
                                 </p>
                             <div>
-                                <div style={{borderLeft: "3px solid orangered", padding: 10, marginLeft: 10}}>
-                                    <p style={{fontSize: 13, marginBottom: 5, color: "brown", fontWeight: "bolder"}}>
+                                <div style={{borderLeft: "3px solid lightgreen", padding: 10, marginLeft: 10}}>
+                                    <p style={{fontSize: 13, marginBottom: 5, color: "lightgreen"}}>
                                         Accra, Ghana (ACC) - New York, USA (LGA)
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         March 24, 12:30am - March 25, 11:15pm
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         Amarican Airline, Etheopian Airline
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         Boem wide-belly B211
                                     </p>
                                 </div>
-                                <div style={{borderLeft: "3px solid orangered", padding: 10, marginLeft: 10}}>
-                                    <p style={{fontSize: 13, marginBottom: 5, color: "brown", fontWeight: "bolder"}}>
+                                <div style={{borderLeft: "3px solid yellowgreen", padding: 10, marginLeft: 10}}>
+                                    <p style={{fontSize: 13, marginBottom: 5, color: "yellowgreen"}}>
                                         Accra, Ghana (ACC) - New York, USA (LGA)
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         March 24, 12:30am - March 25, 11:15pm
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         Amarican Airline, Etheopian Airline
                                     </p>
-                                    <p style={{fontSize: 13, marginBottom: 5}}>
+                                    <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 5}}>
                                         Boem wide-belly B211
                                     </p>
                                 </div>
