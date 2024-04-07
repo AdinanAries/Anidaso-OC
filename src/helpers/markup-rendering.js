@@ -50,7 +50,7 @@ function returnEachRecentBookingMarkup(booking, index, type){
 
 function returnEachFlightSearchBookingMarkup(booking, index, type){
     //console.log("rendered booking: ", booking);
-
+    
     /*{
         "originPayloads": [
             {
@@ -518,7 +518,6 @@ function returnEachFlightSearchBookingMarkup(booking, index, type){
         "__v": 0
     }*/
 
-
     let ref_number = "";
     let booking_type = "";
     let email_address = "";
@@ -919,16 +918,446 @@ function return_selected_flight_booking_travelers_markup(travelers){
     return travelers_markup;
 }
 
-export function render_selected_booking_details(booking){
-    console.log(booking);
-    
-    
+function return_selected_flight_booking_segments_markup(slices){
 
+    slices = [
+        {
+            "changeable": true,
+            "destination_type": "airport",
+            "origin_type": "airport",
+            "fare_brand_name": "Basic",
+            "conditions": {
+                "change_before_departure": {
+                    "penalty_currency": "GBP",
+                    "penalty_amount": "70.00",
+                    "allowed": true
+                }
+            },
+            "segments": [
+                {
+                    "origin_terminal": "2",
+                    "destination_terminal": "1",
+                    "aircraft": {
+                        "iata_code": "773",
+                        "name": "Boeing 777-300",
+                        "id": "arc_00009VMF8AhXSSRnQDI6HE"
+                    },
+                    "departing_at": "2024-03-25T18:34:00",
+                    "arriving_at": "2024-03-26T06:31:00",
+                    "operating_carrier": {
+                        "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                        "logo_lockup_url": null,
+                        "iata_code": "ZZ",
+                        "conditions_of_carriage_url": null,
+                        "name": "Duffel Airways",
+                        "id": "arl_00009VME7D6ivUu8dn35WK"
+                    },
+                    "marketing_carrier": {
+                        "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                        "logo_lockup_url": null,
+                        "iata_code": "ZZ",
+                        "conditions_of_carriage_url": null,
+                        "name": "Duffel Airways",
+                        "id": "arl_00009VME7D6ivUu8dn35WK"
+                    },
+                    "departure_terminal": "2",
+                    "arrival_terminal": "1",
+                    "operating_carrier_flight_number": "5888",
+                    "marketing_carrier_flight_number": "5888",
+                    "arrival_datetime": "2024-03-26T06:31:00",
+                    "departure_datetime": "2024-03-25T18:34:00",
+                    "distance": "5536.604381236755",
+                    "passengers": [
+                        {
+                            "baggages": [
+                                {
+                                    "quantity": 1,
+                                    "type": "checked"
+                                },
+                                {
+                                    "quantity": 1,
+                                    "type": "carry_on"
+                                }
+                            ],
+                            "cabin_class_marketing_name": "Economy",
+                            "passenger_id": "pas_0000AgBAgqaXF9lCGwIDkU",
+                            "seat": null,
+                            "cabin_class": "economy"
+                        }
+                    ],
+                    "duration": "PT7H57M",
+                    "destination": {
+                        "city_name": "London",
+                        "iata_city_code": "LON",
+                        "iata_country_code": "GB",
+                        "icao_code": "EGLL",
+                        "iata_code": "LHR",
+                        "latitude": 51.470311,
+                        "longitude": -0.458118,
+                        "city": {
+                            "city_name": null,
+                            "iata_city_code": "LON",
+                            "iata_country_code": "GB",
+                            "icao_code": null,
+                            "iata_code": "LON",
+                            "latitude": null,
+                            "longitude": null,
+                            "time_zone": null,
+                            "type": "city",
+                            "name": "London",
+                            "id": "cit_lon_gb"
+                        },
+                        "time_zone": "Europe/London",
+                        "type": "airport",
+                        "name": "Heathrow Airport",
+                        "id": "arp_lhr_gb"
+                    },
+                    "origin": {
+                        "city_name": "New York",
+                        "iata_city_code": "NYC",
+                        "iata_country_code": "US",
+                        "icao_code": "KLGA",
+                        "iata_code": "LGA",
+                        "latitude": 40.777062,
+                        "longitude": -73.873281,
+                        "city": {
+                            "city_name": null,
+                            "iata_city_code": "NYC",
+                            "iata_country_code": "US",
+                            "icao_code": null,
+                            "iata_code": "NYC",
+                            "latitude": null,
+                            "longitude": null,
+                            "time_zone": null,
+                            "type": "city",
+                            "name": "New York",
+                            "id": "cit_nyc_us"
+                        },
+                        "time_zone": "America/New_York",
+                        "type": "airport",
+                        "name": "LaGuardia Airport",
+                        "id": "arp_lga_us"
+                    },
+                    "id": "seg_0000AgBAgqq8JAEl3Jag3n"
+                }
+            ],
+            "duration": "PT7H57M",
+            "destination": {
+                "city_name": "London",
+                "iata_city_code": "LON",
+                "iata_country_code": "GB",
+                "icao_code": "EGLL",
+                "iata_code": "LHR",
+                "latitude": 51.470311,
+                "longitude": -0.458118,
+                "city": {
+                    "city_name": null,
+                    "iata_city_code": "LON",
+                    "iata_country_code": "GB",
+                    "icao_code": null,
+                    "iata_code": "LON",
+                    "latitude": null,
+                    "longitude": null,
+                    "time_zone": null,
+                    "type": "city",
+                    "name": "London",
+                    "id": "cit_lon_gb"
+                },
+                "time_zone": "Europe/London",
+                "type": "airport",
+                "name": "Heathrow Airport",
+                "id": "arp_lhr_gb"
+            },
+            "origin": {
+                "city_name": "New York",
+                "iata_city_code": "NYC",
+                "iata_country_code": "US",
+                "icao_code": "KLGA",
+                "iata_code": "LGA",
+                "latitude": 40.777062,
+                "longitude": -73.873281,
+                "city": {
+                    "city_name": null,
+                    "iata_city_code": "NYC",
+                    "iata_country_code": "US",
+                    "icao_code": null,
+                    "iata_code": "NYC",
+                    "latitude": null,
+                    "longitude": null,
+                    "time_zone": null,
+                    "type": "city",
+                    "name": "New York",
+                    "id": "cit_nyc_us"
+                },
+                "time_zone": "America/New_York",
+                "type": "airport",
+                "name": "LaGuardia Airport",
+                "id": "arp_lga_us"
+            },
+            "id": "sli_0000AgBArLeV06y64P3IgL"
+        },
+        {
+            "changeable": true,
+            "destination_type": "airport",
+            "origin_type": "airport",
+            "fare_brand_name": "Basic",
+            "conditions": {
+                "change_before_departure": {
+                    "penalty_currency": "GBP",
+                    "penalty_amount": "70.00",
+                    "allowed": true
+                }
+            },
+            "segments": [
+                {
+                    "origin_terminal": "2",
+                    "destination_terminal": "1",
+                    "aircraft": {
+                        "iata_code": "773",
+                        "name": "Boeing 777-300",
+                        "id": "arc_00009VMF8AhXSSRnQDI6HE"
+                    },
+                    "departing_at": "2024-03-27T20:07:00",
+                    "arriving_at": "2024-03-28T00:04:00",
+                    "operating_carrier": {
+                        "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                        "logo_lockup_url": null,
+                        "iata_code": "ZZ",
+                        "conditions_of_carriage_url": null,
+                        "name": "Duffel Airways",
+                        "id": "arl_00009VME7D6ivUu8dn35WK"
+                    },
+                    "marketing_carrier": {
+                        "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                        "logo_lockup_url": null,
+                        "iata_code": "ZZ",
+                        "conditions_of_carriage_url": null,
+                        "name": "Duffel Airways",
+                        "id": "arl_00009VME7D6ivUu8dn35WK"
+                    },
+                    "departure_terminal": "2",
+                    "arrival_terminal": "1",
+                    "operating_carrier_flight_number": "5888",
+                    "marketing_carrier_flight_number": "5888",
+                    "arrival_datetime": "2024-03-28T00:04:00",
+                    "departure_datetime": "2024-03-27T20:07:00",
+                    "distance": "5536.604381236755",
+                    "passengers": [
+                        {
+                            "baggages": [
+                                {
+                                    "quantity": 1,
+                                    "type": "checked"
+                                },
+                                {
+                                    "quantity": 1,
+                                    "type": "carry_on"
+                                }
+                            ],
+                            "cabin_class_marketing_name": "Economy",
+                            "passenger_id": "pas_0000AgBAgqaXF9lCGwIDkU",
+                            "seat": null,
+                            "cabin_class": "economy"
+                        }
+                    ],
+                    "duration": "PT7H57M",
+                    "destination": {
+                        "city_name": "New York",
+                        "iata_city_code": "NYC",
+                        "iata_country_code": "US",
+                        "icao_code": "KLGA",
+                        "iata_code": "LGA",
+                        "latitude": 40.777062,
+                        "longitude": -73.873281,
+                        "city": {
+                            "city_name": null,
+                            "iata_city_code": "NYC",
+                            "iata_country_code": "US",
+                            "icao_code": null,
+                            "iata_code": "NYC",
+                            "latitude": null,
+                            "longitude": null,
+                            "time_zone": null,
+                            "type": "city",
+                            "name": "New York",
+                            "id": "cit_nyc_us"
+                        },
+                        "time_zone": "America/New_York",
+                        "type": "airport",
+                        "name": "LaGuardia Airport",
+                        "id": "arp_lga_us"
+                    },
+                    "origin": {
+                        "city_name": "London",
+                        "iata_city_code": "LON",
+                        "iata_country_code": "GB",
+                        "icao_code": "EGLL",
+                        "iata_code": "LHR",
+                        "latitude": 51.470311,
+                        "longitude": -0.458118,
+                        "city": {
+                            "city_name": null,
+                            "iata_city_code": "LON",
+                            "iata_country_code": "GB",
+                            "icao_code": null,
+                            "iata_code": "LON",
+                            "latitude": null,
+                            "longitude": null,
+                            "time_zone": null,
+                            "type": "city",
+                            "name": "London",
+                            "id": "cit_lon_gb"
+                        },
+                        "time_zone": "Europe/London",
+                        "type": "airport",
+                        "name": "Heathrow Airport",
+                        "id": "arp_lhr_gb"
+                    },
+                    "id": "seg_0000AgBAgqq8JAEl3Jag3q"
+                }
+            ],
+            "duration": "PT7H57M",
+            "destination": {
+                "city_name": "New York",
+                "iata_city_code": "NYC",
+                "iata_country_code": "US",
+                "icao_code": "KLGA",
+                "iata_code": "LGA",
+                "latitude": 40.777062,
+                "longitude": -73.873281,
+                "city": {
+                    "city_name": null,
+                    "iata_city_code": "NYC",
+                    "iata_country_code": "US",
+                    "icao_code": null,
+                    "iata_code": "NYC",
+                    "latitude": null,
+                    "longitude": null,
+                    "time_zone": null,
+                    "type": "city",
+                    "name": "New York",
+                    "id": "cit_nyc_us"
+                },
+                "time_zone": "America/New_York",
+                "type": "airport",
+                "name": "LaGuardia Airport",
+                "id": "arp_lga_us"
+            },
+            "origin": {
+                "city_name": "London",
+                "iata_city_code": "LON",
+                "iata_country_code": "GB",
+                "icao_code": "EGLL",
+                "iata_code": "LHR",
+                "latitude": 51.470311,
+                "longitude": -0.458118,
+                "city": {
+                    "city_name": null,
+                    "iata_city_code": "LON",
+                    "iata_country_code": "GB",
+                    "icao_code": null,
+                    "iata_code": "LON",
+                    "latitude": null,
+                    "longitude": null,
+                    "time_zone": null,
+                    "type": "city",
+                    "name": "London",
+                    "id": "cit_lon_gb"
+                },
+                "time_zone": "Europe/London",
+                "type": "airport",
+                "name": "Heathrow Airport",
+                "id": "arp_lhr_gb"
+            },
+            "id": "sli_0000AgBArLeV06y64P3IgM"
+        }
+    ]
+
+    let markup = `<div  style="margin-bottom: 20px">`;
+
+    for(let i=0; i<slices.length; i++){
+        let segments= slices[i]?.segments;
+        let stops_count = (slices[i]?.segments?.length - 1);
+        let slice_title = "Departure Flight";
+        let slice_color = "skyblue";
+        if(i===1){
+            slice_title = "Return Flight";
+            slice_color = "yellow";
+        }
+
+        let stops_markup = ""
+        stops_markup = (stops_count > 1) ? `${stops_count} stops` : `1 stop`;
+        if(stops_count < 1) stops_markup = "nonstop";
+        let duration = slices[i]?.duration;
+
+        markup += `
+            <p style="color: ${slice_color}; font-size: 13px; margin-top: 20px; margin-bottom: 10px;">
+                <i style="color: lightgreen; margin-right: 5px;" class="fa fa-check"></i>
+                 ${slice_title} (${stops_markup})
+                <span style="margin-left: 10px; color: orange;">${duration}</span>
+            </p>
+            <div>
+        `;
+        for(let j=0; j<segments.length; j++){
+            let alts=(j%2);
+            let color = (alts) ? "yellowgreen" : "lightgreen";
+
+            let airports = `
+                ${segments[j]?.origin?.name}, 
+                ${segments[j]?.origin?.city_name}, 
+                (${segments[j]?.origin?.iata_country_code})
+                <span style="color: rgba(255,255,255,0.5); margin: 0 10px;">-</span>
+                ${segments[j]?.destination?.name}, 
+                ${segments[j]?.destination?.city_name}, 
+                (${segments[j]?.destination?.iata_country_code})
+            `;
+            
+            let travel_dates = `
+                ${segments[j]?.departure_datetime}
+                <span style="color: rgba(255,255,255,0.5); margin: 0 10px;">-</span>
+                ${segments[j]?.arrival_datetime}
+            `;
+
+            let aircraft = segments[j]?.aircraft?.name;
+            let operating_carrier = segments[j]?.operating_carrier?.name;
+
+            markup += `
+                <div style="border-left: 3px solid ${color}; padding: 10px; margin-left: 10px;">
+                    <p style="font-size: 13px; margin-bottom: 5px; color: ${color};">
+                        ${airports}
+                    </p>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 5px;">
+                        ${travel_dates}
+                    </p>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 5px;">
+                        ${operating_carrier}
+                    </p>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 5px;">
+                        ${aircraft}
+                    </p>
+                </div>
+            `;
+        }
+        markup += `</div>`;
+    }
+
+    markup += `</div>`;
+
+    return markup;
+}
+
+export function render_selected_booking_details(booking){
+    //console.log(booking);
+    
     let general_info = {};
-    let passengers = booking.travellers;
+    let passengers = [];
+    let slices = [];
 
     if(booking.type.toLowerCase() === "flight"){
-
+        document.getElementById("selected_booking_flights_segments_container")
+            .innerHTML="";
+        passengers = booking.travellers;
+        slices = booking.originPayloads[0].slices;
         // general information here
         general_info.ref_number = booking.originPayloads[0].booking_reference;
         general_info.data_provider = booking.apiProvider;
@@ -946,13 +1375,14 @@ export function render_selected_booking_details(booking){
         general_info.takeoff_airport_code = booking.takeoff_airport_code;
         general_info.destination_airport_code = booking.destination_airport_code;
 
-
         //document.getElementById("selected_booking_status_display_container")
         //  .innerHTML = return_selected_booking_status_display_markup("flight", "status");
         document.getElementById("selected_booking_general_information_container")
             .innerHTML = return_selected_booking_general_info("flight", general_info);
         document.getElementById("selected_booking_travelers_or_guests_list")
             .innerHTML = return_selected_flight_booking_travelers_markup(passengers);
+        document.getElementById("selected_booking_flights_segments_container")
+            .innerHTML = return_selected_flight_booking_segments_markup(slices);
     }
 }
 
