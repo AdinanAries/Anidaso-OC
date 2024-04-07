@@ -9,6 +9,7 @@ function returnEachRecentBookingMarkup(booking, index, type){
     let email_address = "";
     let airline = "";
     let booking_date = booking.createdAt.split("T")[0];
+    let total_amount = booking.originPayloads[0].total_amount;
 
     if(booking.type.toLowerCase() === "flight"){
         ref_number = booking.originPayloads[0].booking_reference;
@@ -41,7 +42,7 @@ function returnEachRecentBookingMarkup(booking, index, type){
                 ${booking_date}
             </td>
             <td class="bookings-pane-booking-list-column second edit-icon">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
+                $${total_amount}
             </td>
         </tr>
     `;
@@ -121,7 +122,7 @@ export function render_recent_bookings_markup(bookings){
     document.getElementById("bookings-pane-recent-bookings-list").innerHTML = `
         <tr className="header">
             <td class="header">
-                Type
+                Booking Type
             </td>
             <td class="header">
                 Ref. Number
@@ -135,7 +136,9 @@ export function render_recent_bookings_markup(bookings){
             <td class="header">
                 Booking Date
             </td>
-            <td class="header"></td>
+            <td class="header">
+                Total Price
+            </td>
         </tr>
     `;
 
