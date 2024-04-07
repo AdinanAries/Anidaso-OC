@@ -22,7 +22,7 @@ const SelectedTicketPage = (props) =>  {
                     <i className="fa fa-angle-right"></i>
                 </p>
                 <p style={{fontSize: 13, color: "rgba(255,255,255,0.6)"}}>
-                    Ticket Item
+                    Ticket
                 </p>
             </div>
             <div style={{display: "flex"}}>

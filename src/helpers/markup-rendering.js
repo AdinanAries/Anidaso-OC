@@ -590,35 +590,39 @@ function returnEachHotelSearchBookingMarkup(booking, index, type){
     `;
 }
 export function render_recent_bookings_markup(bookings){
-    document.getElementById("bookings-pane-recent-bookings-list").innerHTML = `
-        <tr className="header">
-            <td class="header">
-                Booking Type
-            </td>
-            <td class="header">
-                Ref. Number
-            </td>
-            <td class="header mobile-hidden">
-                Email
-            </td>
-            <td class="header mobile-hidden">
-                Airline
-            </td>
-            <td class="header">
-                Booking Date
-            </td>
-            <td class="header">
-                Total Price
-            </td>
-        </tr>
-    `;
+    if(document.getElementById("bookings-pane-recent-bookings-list"))
+        document.getElementById("bookings-pane-recent-bookings-list").innerHTML = `
+            <tr className="header">
+                <td class="header">
+                    Booking Type
+                </td>
+                <td class="header">
+                    Ref. Number
+                </td>
+                <td class="header mobile-hidden">
+                    Email
+                </td>
+                <td class="header mobile-hidden">
+                    Airline
+                </td>
+                <td class="header">
+                    Booking Date
+                </td>
+                <td class="header">
+                    Total Price
+                </td>
+            </tr>
+        `;
 
     for(let b=0; b < bookings.length; b++){
-        document.getElementById("bookings-pane-recent-bookings-list").innerHTML += returnEachRecentBookingMarkup(bookings[b], b, "recent");
+        if(document.getElementById("bookings-pane-recent-bookings-list"))
+            document.getElementById("bookings-pane-recent-bookings-list")
+                .innerHTML += returnEachRecentBookingMarkup(bookings[b], b, "recent");
         setTimeout(()=>{
-            document.getElementById(`recent_each_rendered_booking_item_${b}`).addEventListener("click", evnt => {
-                select_booking_from_list('home', bookings[b]._id);
-            });
+            if(document.getElementById(`recent_each_rendered_booking_item_${b}`))
+                document.getElementById(`recent_each_rendered_booking_item_${b}`).addEventListener("click", evnt => {
+                    select_booking_from_list('home', bookings[b]._id);
+                });
         }, 200);
     }
 }
@@ -953,27 +957,28 @@ export function render_selected_booking_details(booking){
 }
 
 export function render_component_loader_markup(elem_id){
-    document.getElementById(elem_id).innerHTML = `
-        <div style="min-height: 120px; display: flex; flex-direction: column; justify-content: center; background-color: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.3);">
-            <div style="width: 100%; text-align: center;" class="loader2 loader--style2" title="1">
-                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                    width="30px" height="30px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                    <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                        <animateTransform attributeType="xml"
-                        attributeName="transform"
-                        type="rotate"
-                        from="0 25 25"
-                        to="360 25 25"
-                        dur="0.6s"
-                        repeatCount="indefinite"/>
-                    </path>
-                </svg>
-                <p style="text-align: center; font-size: 13px; color: rgba(255,255,255,0.7);">
-                    loading...
-                </p>
+    if(document.getElementById(elem_id))
+        document.getElementById(elem_id).innerHTML = `
+            <div style="min-height: 120px; display: flex; flex-direction: column; justify-content: center; background-color: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.3);">
+                <div style="width: 100%; text-align: center;" class="loader2 loader--style2" title="1">
+                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        width="30px" height="30px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                        <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                            <animateTransform attributeType="xml"
+                            attributeName="transform"
+                            type="rotate"
+                            from="0 25 25"
+                            to="360 25 25"
+                            dur="0.6s"
+                            repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                    <p style="text-align: center; font-size: 13px; color: rgba(255,255,255,0.7);">
+                        loading...
+                    </p>
+                </div>
             </div>
-        </div>
-    `;
+        `;
 }
 
 export function render_no_booking_found_markup(elem_id){
