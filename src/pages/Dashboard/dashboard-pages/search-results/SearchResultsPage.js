@@ -6,7 +6,8 @@ import {
 const SearchResultsPage = (props) =>  {
     return <div id="booking-container-search-results-pane" style={{display: "none"}}>
                 <div className="main-seaction-containers">
-                    <div onClick={show_bookings_pane_main_page} className="standard-button">
+                    <div onClick={show_bookings_pane_main_page} className="standard-button"
+                        style={{background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.2)"}} >
                         <i style={{color: "lightgreen", marginRight: 10}} className="fa fa-arrow-left"></i>
                         Back
                     </div>
