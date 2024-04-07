@@ -6,15 +6,23 @@ import {
 const SearchResultsPage = (props) =>  {
     return <div id="booking-container-search-results-pane" style={{display: "none"}}>
                 <div className="main-seaction-containers">
+                    <div style={{display: "flex", margin: 10, marginBottom: 13}}>
+                        <p style={{fontSize: 13, color: "rgba(255,255,255,0.6)"}}>
+                            Bookings
+                        </p>
+                        <p style={{color: "rgba(255,255,255,0.5)", margin: "0 10px", fontSize: 13}} >
+                            <i className="fa fa-angle-right"></i>
+                        </p>
+                        <p style={{fontSize: 13, color: "rgba(255,255,255,0.6)"}}>
+                            Search Results
+                        </p>
+                    </div>
                     <div onClick={show_bookings_pane_main_page} className="standard-button"
                         style={{background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.2)"}} >
                         <i style={{color: "lightgreen", marginRight: 10}} className="fa fa-arrow-left"></i>
                         Back
                     </div>
                     <div id="bookings-pane-fights-search-results-list-container">
-                        <p className="title-font-color-default" style={{fontSize: 12}}>
-                            Search Results
-                        </p>
                         <div style={{padding: 10, display: "flex"}}>
                             <p className="regular-font-color-dark-bg" style={{fontSize: 14, fontWeight: "bolder", marginRight: 20}}>
                                 Filters: 

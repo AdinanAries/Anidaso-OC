@@ -8,6 +8,23 @@ import BookingHealthChecker from "../../../../components/BookingHealthChecker";
 const SelectedTicketPage = (props) =>  {
     return <div id="booking-container-selected-results-pane" style={{display: "none"}}>
         <div className="main-seaction-containers">
+            <div style={{display: "flex", margin: 10, marginBottom: 13}}>
+                <p style={{fontSize: 13, color: "rgba(255,255,255,0.6)"}}>
+                    Bookings
+                </p>
+                <p style={{color: "rgba(255,255,255,0.5)", margin: "0 10px", fontSize: 13}} >
+                    <i className="fa fa-angle-right"></i>
+                </p>
+                <p style={{fontSize: 13, color: "rgba(255,255,255,0.6)"}}>
+                    Search
+                </p>
+                <p style={{color: "rgba(255,255,255,0.5)", margin: "0 10px", fontSize: 13}} >
+                    <i className="fa fa-angle-right"></i>
+                </p>
+                <p style={{fontSize: 13, color: "rgba(255,255,255,0.6)"}}>
+                    Ticket Item
+                </p>
+            </div>
             <div style={{display: "flex"}}>
                 <div onClick={back_from_selected_result_pane} className="standard-button" 
                     style={{marginRight: 10, background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.2)"}}>
