@@ -1276,7 +1276,7 @@ function return_selected_flight_booking_segments_markup(slices){
     let markup = `<div  style="margin-bottom: 20px">`;
 
     for(let i=0; i<slices.length; i++){
-        let segments= slices[i]?.segments;
+        let segments = slices[i]?.segments;
         let stops_count = (slices[i]?.segments?.length - 1);
         let slice_title = "Departure Flight";
         let slice_color = "skyblue";
@@ -1346,18 +1346,54 @@ function return_selected_flight_booking_segments_markup(slices){
     return markup;
 }
 
+function return_selected_flight_booking_payment_markup(payment_obj){
+
+    let total_paid = parseFloat(payment_obj?.payment_intent?.amount/100).toFixed(2);
+    let actual_price = payment_obj?.actual_price;
+    let base_amount = payment_obj?.base_amount;
+    let tax_amount = payment_obj?.tax_amount;
+
+    return `
+        <div style="margin-bottom: 20px; border-left: 3px solid lightgreen; padding: 10px; padding-right: 0;">
+            <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 5px;">
+                Base Price: 
+                <span style="margin-left: 10px;">$${base_amount}</span>
+            </p>
+            <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 5px;">
+                Taxe Amount: 
+                <span style="margin-left: 10px;">$${tax_amount}</span>
+            </p>
+            <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 5px;">
+                Total: 
+                <span style="margin-left: 10px;">$${actual_price}</span>
+            </p>
+            <p style="color: red; font-size: 13px; font-weight: bolder; margin-bottom: 5px;">
+                Amount Charged: 
+                <span style="margin-left: 10px;">$${total_paid}</span>
+            </p>
+        </div>
+    `;
+}
+
 export function render_selected_booking_details(booking){
     //console.log(booking);
     
     let general_info = {};
     let passengers = [];
     let slices = [];
+    let booking_intent = {};
+    let payment_obj = {};
 
     if(booking.type.toLowerCase() === "flight"){
         document.getElementById("selected_booking_flights_segments_container")
             .innerHTML="";
-        passengers = booking.travellers;
-        slices = booking.originPayloads[0].slices;
+        passengers = booking?.travellers;
+        slices = booking?.originPayloads[0]?.slices;
+        booking_intent = booking?.booking_intent;
+        payment_obj.payment_intent = booking_intent?.payment_intent;
+        payment_obj.actual_price = booking?.originPayloads[0]?.total_amount
+        payment_obj.base_amount = booking?.originPayloads[0]?.base_amount;
+        payment_obj.tax_amount = booking?.originPayloads[0]?.tax_amount;
         // general information here
         general_info.ref_number = booking.originPayloads[0].booking_reference;
         general_info.data_provider = booking.apiProvider;
@@ -1383,6 +1419,8 @@ export function render_selected_booking_details(booking){
             .innerHTML = return_selected_flight_booking_travelers_markup(passengers);
         document.getElementById("selected_booking_flights_segments_container")
             .innerHTML = return_selected_flight_booking_segments_markup(slices);
+        document.getElementById("selected_booking_flights_prices_container")
+            .innerHTML = return_selected_flight_booking_payment_markup(payment_obj);
     }
 }
 

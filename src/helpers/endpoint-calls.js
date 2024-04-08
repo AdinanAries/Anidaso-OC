@@ -55,8 +55,12 @@ export function getBookingById(id){
     $.ajax({
         type: "GET",
         url: `${serverBaseURL}/api/bookings/get-by-id/${id}`,
-        success: res => {
+        success: async res => {
             console.log(res);
+            let order_id = res?.originPayloads[0]?.id;
+            let bi = await get_and_return_booking_intent(order_id);
+            res.booking_intent=bi;
+            console.log("bi:", res.booking_intent);
             render_selected_booking_details(res);
         },
         error: err => {
@@ -235,6 +239,21 @@ function get_recent_bookings(skip, limit){
         error: err => {
             render_no_booking_found_markup("bookings-pane-recent-bookings-list");
             console.log(err);
+        }
+    });
+}
+
+export async function get_and_return_booking_intent(order_id){
+    return await $.ajax({
+        type: "GET",
+        url: `${serverBaseURL}/api/bookings/get-booking-intent/${order_id}`,
+        success: res => {
+            console.log(res);
+            return res;
+        },
+        error: err => {
+            console.log(err);
+            return [];
         }
     });
 }

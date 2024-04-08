@@ -68,21 +68,8 @@ const SelectedTicketPage = (props) =>  {
                             style={{fontWeight: "bolder", fontSize: 12, marginBottom: 10}}>
                             Price
                         </p>
-                        <div>
-                            <div style={{marginBottom: 20, borderLeft: "3px solid lightgreen", padding: 10, paddingRight: 0}}>
-                                <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginBottom: 5}}>
-                                    Base Price: 
-                                    <span style={{marginLeft: 10}}>$500.23</span>
-                                </p>
-                                <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginBottom: 5,}}>
-                                    Taxes: 
-                                    <span style={{marginLeft: 10}}>$230.23</span>
-                                </p>
-                                <p style={{color: "red", fontSize: 13, fontWeight: "bolder", marginBottom: 5}}>
-                                    Total: 
-                                    <span style={{marginLeft: 10}}>$730.46</span>
-                                </p>
-                            </div>
+                        <div id="selected_booking_flights_prices_container" >
+                            
                         </div>
                         <div>
                             <p className="title-font-color-default"
