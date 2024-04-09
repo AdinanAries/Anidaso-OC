@@ -1,4 +1,10 @@
+import { useState } from "react";
 import wellgo_logo from "../WillgoLogo.png";
+import {
+    loginPost
+} from "../services/accountServices";
+
+import FormErrorCard from "../components/FormErrorCard";
 
 const LoginPage = (props) => {
 
@@ -6,10 +12,75 @@ const LoginPage = (props) => {
         LoginOnClick,
     } = props;
 
-    const loginOnSubmit = () => {
-        let email="";
-        let password="";
-        LoginOnClick();
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ formData, setFormData ] = useState({
+        email: "",
+        password: "",
+    });
+
+    const [ formValidation, setFormValidation ] = useState({
+        type: "warning",
+        isError: false,
+        message: "",
+    });
+
+    const emailOnInput = (e) => {
+        setFormValidation({
+            type: "warning",
+            isError: false,
+            message: "",
+        });
+        setFormData({
+            ...formData,
+            email: e.target.value
+        });
+    }
+
+    const passwordOnInput = (e) => {
+        setFormValidation({
+            type: "warning",
+            isError: false,
+            message: "",
+        });
+        setFormData({
+            ...formData,
+            password: e.target.value
+        });
+    }
+
+    const loginOnSubmit = async () => {
+        setIsLoading(true);
+        if(!formData.email) {
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "please enter email",
+            });
+            setIsLoading(false);
+            return
+        }
+        if(!formData.password) {
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "please enter password",
+            });
+            setIsLoading(false)
+            return
+        }
+        let res = await loginPost(formData);
+        if(res.token){
+            localStorage.setItem("user_token", res.token);
+            LoginOnClick();
+            window.location.reload();
+        }else{
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: res.message,
+            })
+        }
+        setIsLoading(false);
     }
 
     return <main>
@@ -47,8 +118,11 @@ const LoginPage = (props) => {
                                 className="fa fa-envelope"></i>
                             Email</p>
                         <input type="email"
+                            onInput={emailOnInput}
                             style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
-                            placeholder="enter you email here" />
+                            placeholder="enter you email here" 
+                            value={formData.email}
+                        />
                     </div>
                     <div style={{marginTop: 20}}>
                         <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
@@ -57,9 +131,20 @@ const LoginPage = (props) => {
                             Password</p>
                         <input
                             type="password"
+                            onInput={passwordOnInput}
                             style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
-                            placeholder="enter you password here" />
+                            placeholder="enter you password here" 
+                            value={FormData.password}    
+                        />
                     </div>
+                    {
+                        formValidation.isError && <div style={{marginTop: 10}}>
+                            <FormErrorCard 
+                                message={formValidation.message} 
+                                type={formValidation.type}
+                            />
+                        </div>
+                    }
                     <div onClick={loginOnSubmit} className="standard-action-button" style={{padding: 15}}>
                         login
                     </div>

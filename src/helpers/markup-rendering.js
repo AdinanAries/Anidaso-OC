@@ -1450,14 +1450,15 @@ export function render_component_loader_markup(elem_id){
 }
 
 export function render_no_booking_found_markup(elem_id){
-    document.getElementById(elem_id).innerHTML = `
-        <div style="min-height: 120px; display: flex; flex-direction: column; justify-content: center; background-color: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.3);">
-            <div style="width: 100%; text-align: center;">
-                <i style="color: orangered; font-size: 30px" class="fa fa-exclamation-triangle"></i>
-                <p style="text-align: center; font-size: 14px; margin-top: 5px; color: rgb(255,255,255,0.7);">
-                    Oops! No booking found.
-                </p>
+    if(document.getElementById(elem_id))
+        document.getElementById(elem_id).innerHTML = `
+            <div style="min-height: 120px; display: flex; flex-direction: column; justify-content: center; background-color: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.3);">
+                <div style="width: 100%; text-align: center;">
+                    <i style="color: orangered; font-size: 30px" class="fa fa-exclamation-triangle"></i>
+                    <p style="text-align: center; font-size: 14px; margin-top: 5px; color: rgb(255,255,255,0.7);">
+                        Oops! No booking found.
+                    </p>
+                </div>
             </div>
-        </div>
-    `;
+        `;
 }

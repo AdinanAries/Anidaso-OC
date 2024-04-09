@@ -1,5 +1,11 @@
 import $ from "jquery";
-import { show_bookings_pane_search_results_page, set_search_pagination_initial_pages_numbers, add_event_listeners_to_page_numbers, search_pages_arr, search_last_page_number_index } from "./helper-functions";
+import { 
+    show_bookings_pane_search_results_page, 
+    set_search_pagination_initial_pages_numbers, 
+    add_event_listeners_to_page_numbers, 
+    search_pages_arr, 
+    search_last_page_number_index 
+} from "./helper-functions";
 import { 
     render_recent_bookings_markup, 
     render_search_result_bookings_markup, 
@@ -8,7 +14,12 @@ import {
     render_no_booking_found_markup 
 } from "./markup-rendering";
 
-const serverBaseURL = "http://localhost:4000";
+import { getApiHost, getUserToken, deleteUserToken } from "../constants/Environment";
+
+const API_URL = getApiHost();
+const USER_TOKEN = getUserToken();
+
+const serverBaseURL = API_URL;
 
 let recentBookingsPaginationSkip = 1;
 let recentBookingsPaginationLimit = 20;
@@ -24,6 +35,11 @@ function getBookingByRefNumber(ref_number){
     $.ajax({
         type: "GET",
         url: `${serverBaseURL}/api/bookings/get-by-reference-number/${ref_number}`,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${USER_TOKEN}`
+        },
         success: res => {
             
             if(res.length < 1){
