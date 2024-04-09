@@ -147,3 +147,7 @@ export const registerPriceAlertsUser = async (payload, path="\\api\\users\\price
     }
 }
 
+export const logoutPost = () => {
+    deleteUserToken();
+}
+

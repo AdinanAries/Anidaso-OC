@@ -25,7 +25,7 @@ export const getUserToken = () => {
 }
 
 export const deleteUserToken = () => {
-    localStorage.setItem("user_token", null);
+    localStorage.removeItem("user_token");
 }
 
 export default ENVIRONMENT;

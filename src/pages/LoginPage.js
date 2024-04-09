@@ -8,10 +8,6 @@ import FormErrorCard from "../components/FormErrorCard";
 
 const LoginPage = (props) => {
 
-    const {
-        LoginOnClick,
-    } = props;
-
     const [ isLoading, setIsLoading ] = useState(false);
     const [ formData, setFormData ] = useState({
         email: "",
@@ -71,7 +67,6 @@ const LoginPage = (props) => {
         let res = await loginPost(formData);
         if(res.token){
             localStorage.setItem("user_token", res.token);
-            LoginOnClick();
             window.location.reload();
         }else{
             setFormValidation({

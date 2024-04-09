@@ -8,11 +8,16 @@ import {
     searchByConfirmationOninput 
 } from "../helpers/endpoint-calls";
 import wellgo_logo from "../WillgoLogo.png";
+import { 
+    logoutPost 
+} from "../services/accountServices";
 
 function Header(props){
-    const {
-        LogoutOnClick,
-    } = props;
+
+    const logoutOnclick = () => {
+        logoutPost();
+        window.location.reload();
+    }
 
     return (
         <div className="main-header">
@@ -93,7 +98,7 @@ function Header(props){
                             </p>
                             <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Settings</p>
                         </div>
-                        <div onClick={LogoutOnClick} className="header-right-side-icon" style={{cursor: "pointer", padding: "0 10px", marginLeft: 10, display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                        <div onClick={logoutOnclick} className="header-right-side-icon" style={{cursor: "pointer", padding: "0 10px", marginLeft: 10, display: "flex", flexDirection: "column", justifyContent: "center"}}>
                             <p className="header-icon bumpup" style={{marginBottom: 5, textAlign: "center"}}>
                                 <i style={{color: "rgba(255,0,0,0.6)"}} className="fa fa-sign-out" aria-hidden="true"></i>
                             </p>

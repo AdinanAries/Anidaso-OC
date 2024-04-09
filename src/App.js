@@ -2,40 +2,44 @@ import './App.css';
 
 import Dashboard from './pages/Dashboard/Dashboard';
 import LoginPage from './pages/LoginPage';
-import { useState } from 'react';
+import FullPageLoader from './components/FullPageLoader';
+import { verifyUserToken } from './services/sessionServices';
+import { useEffect, useState } from 'react';
+import { dashboardInits } from './helpers/inits';
 
 function App() {
 
+  const [loggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   // Verify Login Here
-  var loggedIn=false;
-  if(localStorage.getItem("usr_token")){
-    // Verify Token
-    let token=localStorage.getItem("usr_token");
-    // if token is still valid then set LOGGED_IN to true
-    loggedIn=true;
-  }
+  (async()=>{
+    if(localStorage.getItem("user_token")){
+      // Verify Token
+      let res = await verifyUserToken();
+      if(res.valid){
+        setIsLoggedIn(true);
+      }
+    }
+  })();
 
-  const LoginOnClick = (email, pwd) => {
-    localStorage.setItem("usr_token", "test-token-1-22-333");
-    window.location.reload();
-  }
-
-  const LogoutOnClick = () => {
-    // 1. Clear Token On Server Side
-    localStorage.removeItem("usr_token");
-    window.location.reload();
-  }
+  useEffect(()=>{
+    dashboardInits();
+    setIsLoading(false);
+  });
 
   return (
     <div className="App">
+      { 
+        (!isLoading) &&
+        (
+          loggedIn ?
+            <Dashboard /> :
+            <LoginPage />
+        )
+      }
       {
-        loggedIn ?
-          <Dashboard
-            LogoutOnClick={LogoutOnClick}
-          /> :
-          <LoginPage 
-            LoginOnClick={LoginOnClick} 
-          />
+        isLoading && <FullPageLoader />
       }
     </div>
   );

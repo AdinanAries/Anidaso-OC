@@ -71,6 +71,11 @@ export function getBookingById(id){
     $.ajax({
         type: "GET",
         url: `${serverBaseURL}/api/bookings/get-by-id/${id}`,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${USER_TOKEN}`
+        },
         success: async res => {
             console.log(res);
             let order_id = res?.originPayloads[0]?.id;
@@ -147,6 +152,11 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
     $.ajax({
         type: "POST",
         url: `${serverBaseURL}/api/bookings/search/`,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${USER_TOKEN}`
+        },
         data: JSON.stringify(postObj),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -244,6 +254,11 @@ function get_recent_bookings(skip, limit){
     $.ajax({
         type: "GET",
         url: `${serverBaseURL}/api/bookings/get-recent/${skip}/${limit}`,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${USER_TOKEN}`
+        },
         success: res => {
             console.log(res);
             if(res.length < 1){
@@ -263,6 +278,11 @@ export async function get_and_return_booking_intent(order_id){
     return await $.ajax({
         type: "GET",
         url: `${serverBaseURL}/api/bookings/get-booking-intent/${order_id}`,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${USER_TOKEN}`
+        },
         success: res => {
             console.log(res);
             return res;
