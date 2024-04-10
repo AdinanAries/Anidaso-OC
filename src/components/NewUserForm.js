@@ -109,8 +109,8 @@ function NewUserForm(props){
         }
         let res = await registerPost(formData);
         if(res.token){
-            localStorage.setItem("user_token", res.token);
-            window.location.reload();
+            //localStorage.setItem("user_token", res.token);
+            //window.location.reload();
         }else{
             setFormValidation({
                 type: "error",
