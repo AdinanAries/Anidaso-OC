@@ -12,20 +12,21 @@ function App() {
   const [loggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Verify Login Here
+  useEffect(()=>{
+    // Verify Login Here
   (async()=>{
     if(localStorage.getItem("user_token")){
       // Verify Token
       let res = await verifyUserToken();
       if(res.valid){
         setIsLoggedIn(true);
+        dashboardInits();
+      }else{
+        localStorage.removeItem("user_token");
       }
     }
-  })();
-
-  useEffect(()=>{
-    dashboardInits();
     setIsLoading(false);
+  })();
   });
 
   return (
