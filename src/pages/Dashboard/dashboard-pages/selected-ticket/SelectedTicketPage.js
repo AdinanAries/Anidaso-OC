@@ -117,7 +117,7 @@ const SelectedTicketPage = (props) =>  {
                         style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
                         Flights</p>
                     <div id="selected_booking_flights_segments_container" >
-                        <div  style={{marginBottom: 20}}>
+                        {/*<div  style={{marginBottom: 20}}>
                             <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginBottom: 10}}>
                                 <i style={{color: "lightgreen", marginRight: 5}} className="fa fa-check"></i>
                                 Departure (1 stop)
@@ -190,7 +190,7 @@ const SelectedTicketPage = (props) =>  {
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div>*/}
                     </div>
                 </div>
             </div>

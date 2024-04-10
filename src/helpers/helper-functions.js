@@ -128,7 +128,8 @@ export function show_bookings_pane_main_page(){
 export function show_bookings_pane_selected_results_page(){
     document.getElementById("bookings-container-main-pane").style.display = "none";
     document.getElementById("booking-container-search-results-pane").style.display = "none";
-    $("#booking-container-selected-results-pane").toggle("up");
+    if(document.getElementById("booking-container-selected-results-pane").style.display==="none")
+        $("#booking-container-selected-results-pane").toggle("up");
 }
 
 export function show_notifications_container(){
