@@ -380,14 +380,14 @@ export function set_search_pagination_previous_pages_numbers(which, numbers_list
     }
 }
 
-$(document).ready(()=>{
+window.__inits_from_helper_functions = () => {
     set_pagination_initial_pages_numbers("recent", 300, 20, "recent_bookings_pagination_list_markup", "pagination_page_numbers_list", "recent_bookings_pagination_nextbtn", "recent_bookings_pagination_prevbtn");
     for(let r=0; r<last_page_number_index; r++){
         add_event_listeners_to_page_numbers("recent", all_pages_arr[r]);
     }
     //console.log(document.getElementById("recent_pagination_each_number_1"));
     
-});
+};
 
 /*$(".box").animate({
     width: "toggle"

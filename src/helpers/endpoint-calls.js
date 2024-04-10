@@ -295,7 +295,7 @@ export async function get_and_return_booking_intent(order_id){
 }
 
 // Initializations
-setTimeout(()=>{
+window.__inits_from_endpoing_calls_file = () => {
     get_notifications(0,100);
     get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
-});
+};
