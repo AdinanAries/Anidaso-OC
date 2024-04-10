@@ -8,17 +8,15 @@ import staffIcon from "./icons/staff-icon.png";
 import dealsIcon from "./icons/deals-icon2.png";
 import salesIcon from "./icons/sales-icon.png";
 import marketingIcon from "./icons/marketing-icon.png";
+import MiniLoggedInUserInfoCard from "./MiniLoggedInUserInfoCard";
 
 import { toggle_show_main_sections } from "../helpers/helper-functions";
 
 let SideMenu = () => {
     return(
         <div id="main-menu-container" className="side-menu">
-            
             <div className="side-menu-items-list">
-                <p style={{fontSize: 12, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
-                    Travel Agent
-                </p>
+                <MiniLoggedInUserInfoCard />
                 <div onClick={()=> toggle_show_main_sections("bookings")} id="side-menu-bookings-item" className="side-menu-each-item active">
                     <div style={{marginRight: 10}}>
                         <p>
