@@ -198,7 +198,7 @@ function generate_pagination_page_number(which, seed, limit, total, is_initial=f
     return all_numbers_markup;
 }
 
-export function add_event_listeners_to_page_numbers(which, p){
+export function add_event_listeners_to_page_numbers(which, p, call_back, page_size){
     
     //console.log("p: ", p, ", which: ", which)
     //console.log(document.getElementById(`${which}_pagination_each_number_${p}`));
@@ -214,6 +214,7 @@ export function add_event_listeners_to_page_numbers(which, p){
                 document.getElementById(`${which}_pagination_each_number_${p}`).classList.add("active");
 
                 current_active_page_number = p;
+                call_back(p, page_size);
 
             }else if(which === "search"){
 
@@ -381,10 +382,10 @@ export function set_search_pagination_previous_pages_numbers(which, numbers_list
     }
 }
 
-window.__inits_from_helper_functions = () => {
-    set_pagination_initial_pages_numbers("recent", 300, 20, "recent_bookings_pagination_list_markup", "pagination_page_numbers_list", "recent_bookings_pagination_nextbtn", "recent_bookings_pagination_prevbtn");
+window.__init_pagination_helper_functions = (which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn, call_back) => {
+    set_pagination_initial_pages_numbers(which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn);
     for(let r=0; r<last_page_number_index; r++){
-        add_event_listeners_to_page_numbers("recent", all_pages_arr[r]);
+        add_event_listeners_to_page_numbers("recent", all_pages_arr[r], call_back, limit_p);
     }
     //console.log(document.getElementById("recent_pagination_each_number_1"));
     

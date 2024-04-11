@@ -2,7 +2,7 @@ import { return_airline_by_code } from "../data/airline_codes";
 import { select_booking_from_list } from "./helper-functions";
 
 function returnEachRecentBookingMarkup(booking, index, type){
-    console.log("rendered booking: ", booking);
+    //console.log("rendered booking: ", booking);
     
     let ref_number = "";
     let booking_type = "";

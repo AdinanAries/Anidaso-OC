@@ -36,7 +36,9 @@ function App() {
         (
           loggedIn ?
             <Dashboard /> :
-            <LoginPage />
+            <LoginPage 
+              setFullPageLoading={setIsLoading}
+            />
         )
       }
       {

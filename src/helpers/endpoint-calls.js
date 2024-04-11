@@ -259,13 +259,26 @@ function get_recent_bookings(skip, limit){
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${USER_TOKEN}`
         },
-        success: res => {
-            console.log(res);
+        success: (res, status, xhr) => {
+            
+            //console.log(res);
             if(res.length < 1){
                 render_no_booking_found_markup("bookings-pane-recent-bookings-list");
                 return null;
             }
+            // bookings rendering
             render_recent_bookings_markup(res);
+            
+            // pagination rendering
+            let total_items = parseInt(xhr.getResponseHeader('pagination-total-items'));
+            window.__init_pagination_helper_functions(
+                "recent", total_items, limit, 
+                "recent_bookings_pagination_list_markup", 
+                "pagination_page_numbers_list", 
+                "recent_bookings_pagination_nextbtn", 
+                "recent_bookings_pagination_prevbtn",
+                get_recent_bookings
+            );
         },
         error: err => {
             render_no_booking_found_markup("bookings-pane-recent-bookings-list");

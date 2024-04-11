@@ -2,7 +2,7 @@ let $ = window.$;
 export const dashboardInits = () => {
 
     window.__inits_from_endpoing_calls_file();
-    window.__inits_from_helper_functions();
+    
     // date choosers
     $(function() {
         $('#booked-flight-search-dates-input').daterangepicker({

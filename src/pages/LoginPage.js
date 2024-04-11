@@ -8,6 +8,10 @@ import FormErrorCard from "../components/FormErrorCard";
 
 const LoginPage = (props) => {
 
+    const { 
+        setFullPageLoading 
+    } = props;
+
     const [ isLoading, setIsLoading ] = useState(false);
     const [ formData, setFormData ] = useState({
         email: "",
@@ -46,6 +50,7 @@ const LoginPage = (props) => {
 
     const loginOnSubmit = async () => {
         setIsLoading(true);
+        setFullPageLoading(true);
         if(!formData.email) {
             setFormValidation({
                 type: "error",
@@ -53,6 +58,7 @@ const LoginPage = (props) => {
                 message: "please enter email",
             });
             setIsLoading(false);
+            setFullPageLoading(false);
             return
         }
         if(!formData.password) {
@@ -61,7 +67,8 @@ const LoginPage = (props) => {
                 isError: true,
                 message: "please enter password",
             });
-            setIsLoading(false)
+            setIsLoading(false);
+            setFullPageLoading(false);
             return
         }
         let res = await loginPost(formData);
@@ -73,7 +80,8 @@ const LoginPage = (props) => {
                 type: "error",
                 isError: true,
                 message: res.message,
-            })
+            });
+            setFullPageLoading(false);
         }
         setIsLoading(false);
     }
