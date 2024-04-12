@@ -17,7 +17,10 @@ let SideMenu = () => {
         <div id="main-menu-container" className="side-menu">
             <div className="side-menu-items-list">
                 <MiniLoggedInUserInfoCard />
-                <div onClick={()=> toggle_show_main_sections("bookings")} id="side-menu-bookings-item" className="side-menu-each-item active">
+                <div onClick={()=> {
+                    if(document.getElementById("bookings-container").style.display==="none") 
+                        toggle_show_main_sections("bookings")
+                }} id="side-menu-bookings-item" className="side-menu-each-item active">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={bookingsIcon} />
@@ -108,7 +111,10 @@ let SideMenu = () => {
                         <p>Channels</p>
                     </div>
                 </div>
-                <div onClick={()=> toggle_show_main_sections("staff")} id="side-menu-staff-item" className="side-menu-each-item">
+                <div onClick={()=> {
+                    if(document.getElementById("staff-container").style.display==="none")
+                        toggle_show_main_sections("staff")
+                }} id="side-menu-staff-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={staffIcon} />

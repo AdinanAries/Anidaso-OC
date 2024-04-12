@@ -49,7 +49,8 @@ function Header(props){
                                     placeholder="Enter booking reference number here"/>
                                 <button onClick={()=>{
                                     onclickGetBookingByConfirmation();
-                                    toggle_show_main_sections("bookings");
+                                    if(document.getElementById("bookings-container").style.display==="none")
+                                        toggle_show_main_sections("bookings");
                                 }} className="top-search-box-submit-btn">
                                     <i style={{color: "white"}} className="fa fa-search"></i>
                                 </button>
