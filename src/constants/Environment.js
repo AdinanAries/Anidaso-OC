@@ -3,8 +3,8 @@ import CONSTANTS from "./Constants";
 const ENVIRONMENT = {
     data_provider: "DUFFEL",
     wellgo_api_svr: "",
-    wellgo_dev_api_svr: "http://localhost:4000",
-    //wellgo_dev_api_svr: "https://welldugo-oc-backend-e0594471c7e0.herokuapp.com",
+    //wellgo_dev_api_svr: "http://localhost:4000",
+    wellgo_dev_api_svr: "https://welldugo-oc-backend-e0594471c7e0.herokuapp.com",
     runtime: {
         env: "DEVELOPMENT"
     }
