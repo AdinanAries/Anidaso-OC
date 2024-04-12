@@ -4,24 +4,26 @@ import { select_booking_from_list } from "./helper-functions";
 function returnEachRecentBookingMarkup(booking, index, type){
     //console.log("rendered booking: ", booking);
     
-    let ref_number = "";
-    let booking_type = "";
-    let email_address = "";
-    let airline = "";
-    let booking_date = booking.createdAt.split("T")[0];
-    let total_amount = booking.originPayloads[0].total_amount;
+    let trip_round = "N/A";
+    let ref_number = "N/A";
+    let booking_type = "N/A";
+    let email_address = "N/A";
+    let airline = "N/A";
+    let booking_date = booking?.createdAt?.split("T")[0] || "N/A";
+    let total_amount = booking?.originPayloads[0]?.total_amount || "N/A";
 
     if(booking.type.toLowerCase() === "flight"){
-        ref_number = booking.originPayloads[0].booking_reference;
-        if(booking.createdAt){
+        ref_number = booking?.originPayloads[0]?.booking_reference || "N/A";
+        if(booking?.createdAt){
+            trip_round = booking?.trip_type;
             booking_type = `
                 <i style="margin-right: 5px; color: rgb(255,122,122)" class="fa fa-history"></i>
                 <i style="margin-right: 5px; color: aqua" class="fa fa-plane"></i>
-                flight
+                ${trip_round?.toUpperCase()}
             `;
         }
-        email_address = booking.travellers[0].email;
-        airline = booking.airline;
+        email_address = booking?.travellers[0]?.email;
+        airline = booking?.airline;
     }
 
     return `
@@ -518,18 +520,18 @@ function returnEachFlightSearchBookingMarkup(booking, index, type){
         "__v": 0
     }*/
 
-    let ref_number = "";
-    let booking_type = "";
-    let email_address = "";
-    let departure_airport_code = "";
-    let destination_airport_code = "";
-    let departure_date = "";
-    let trip_round = "";
-    let passenger_name = "";
-    let airline = "";
+    let ref_number = "N/A";
+    let booking_type = "N/A";
+    let email_address = "N/A";
+    let departure_airport_code = "N/A";
+    let destination_airport_code = "N/A";
+    let departure_date = "N/A";
+    let trip_round = "N/A";
+    let passenger_name = "N/A";
+    let airline = "N/A";
 
-    if(booking.type.toLowerCase() === "flight"){
-        if(booking.createdAt){
+    if(booking?.type?.toLowerCase() === "flight"){
+        if(booking?.createdAt){
             trip_round = booking?.trip_type;
             booking_type = `
                 <i style="margin-right: 5px; color: rgb(255,122,122);" class="fa fa-history"></i>
@@ -792,21 +794,21 @@ function return_selected_booking_status_display_markup(type, status){
 }
 function return_selected_booking_flight_general_info(data){
 
-    let ref_number = data.ref_number;
-    let data_provider = data.data_provider;
-    let departure_date = data.departure_date;
-    let return_date = data.return_date;
-    let cabin_type = data.cabin_type;
-    let takeoff_city = data.takeoff_city;
-    let destination_city = data.destination_city;
-    let createdAt = data.createdAt;
-    let updatedAt = data.updatedAt;
-    let airline = data.airline;
-    let trip_type = data.trip_type;
-    let takeoff_airport = data.takeoff_airport;
-    let destination_airport = data.destination_airport;
-    let takeoff_airport_code = data.takeoff_airport_code;
-    let destination_airport_code = data.destination_airport_code;
+    let ref_number = data?.ref_number || "N/A";
+    let data_provider = data?.data_provider || "N/A";
+    let departure_date = data?.departure_date || "N/A";
+    let return_date = data?.return_date || "N/A";
+    let cabin_type = data?.cabin_type || "N/A";
+    let takeoff_city = data?.takeoff_city || "N/A";
+    let destination_city = data?.destination_city || "N/A";
+    let createdAt = data?.createdAt || "N/A";
+    let updatedAt = data?.updatedAt || "N/A";
+    let airline = data?.airline || "N/A";
+    let trip_type = data?.trip_type || "N/A";
+    let takeoff_airport = data?.takeoff_airport || "N/A";
+    let destination_airport = data?.destination_airport || "N/A";
+    let takeoff_airport_code = data?.takeoff_airport_code || "N/A";
+    let destination_airport_code = data?.destination_airport_code || "N/A";
 
     return `
         <div>
@@ -825,19 +827,25 @@ function return_selected_booking_flight_general_info(data){
             <p class="page-data-info-p">
                 Travel Dates: 
                 <span>
-                    ${departure_date} - ${return_date}
+                    ${departure_date?.replaceAll("T", " @ ")}
+                    <span style="color: rgba(255,255,255,0.5); margin: 0 10px;">-</span>
+                    ${return_date?.replaceAll("T", " @ ")}
                 </span>
             </p>
             <p class="page-data-info-p">
                 Travel Airports: 
                 <span>
-                    ${takeoff_airport} - ${destination_airport}
+                    ${takeoff_airport}
+                    <span style="color: rgba(255,255,255,0.5); margin: 0 10px;">-</span>
+                    ${destination_airport}
                 </span>
             </p>
             <p class="page-data-info-p">
                 Departure - Return Cities: 
                 <span>
-                    ${takeoff_city} - ${destination_city}
+                    ${takeoff_city}
+                    <span style="color: rgba(255,255,255,0.5); margin: 0 10px;">-</span>
+                    ${destination_city}
                 </span>
             </p>
             <p class="page-data-info-p">
@@ -867,13 +875,13 @@ function return_selected_booking_flight_general_info(data){
             <p class="page-data-info-p">
                 Created At: 
                 <span>
-                    ${createdAt}
+                    ${createdAt?.replaceAll("T", " @ ")}
                 </span>
             </p>
             <p class="page-data-info-p">
                 Updated At: 
                 <span>
-                    ${updatedAt}
+                    ${updatedAt?.replaceAll("T", " @ ")}
                 </span>
             </p>
         </div>
@@ -920,7 +928,7 @@ function return_selected_flight_booking_travelers_markup(travelers){
 
 function return_selected_flight_booking_segments_markup(slices){
 
-    slices = [
+    /*slices = [
         {
             "changeable": true,
             "destination_type": "airport",
@@ -1271,7 +1279,7 @@ function return_selected_flight_booking_segments_markup(slices){
             },
             "id": "sli_0000AgBArLeV06y64P3IgM"
         }
-    ]
+    ]*/
 
     let markup = `<div  style="margin-bottom: 20px">`;
 
@@ -1313,9 +1321,9 @@ function return_selected_flight_booking_segments_markup(slices){
             `;
             
             let travel_dates = `
-                ${segments[j]?.departure_datetime}
+                ${segments[j]?.departure_datetime?.replaceAll("T", " @ ")}
                 <span style="color: rgba(255,255,255,0.5); margin: 0 10px;">-</span>
-                ${segments[j]?.arrival_datetime}
+                ${segments[j]?.arrival_datetime?.replaceAll("T", " @ ")}
             `;
 
             let aircraft = segments[j]?.aircraft?.name;
@@ -1349,9 +1357,11 @@ function return_selected_flight_booking_segments_markup(slices){
 function return_selected_flight_booking_payment_markup(payment_obj){
 
     let total_paid = parseFloat(payment_obj?.payment_intent?.amount/100).toFixed(2);
-    let actual_price = payment_obj?.actual_price;
-    let base_amount = payment_obj?.base_amount;
-    let tax_amount = payment_obj?.tax_amount;
+    if(isNaN(total_paid))
+        total_paid="0.00"
+    let actual_price = payment_obj?.actual_price || "N/A";
+    let base_amount = payment_obj?.base_amount || "N/A";
+    let tax_amount = payment_obj?.tax_amount || "N/A";
 
     return `
         <div style="margin-bottom: 20px; border-left: 3px solid lightgreen; padding: 10px; padding-right: 0;">

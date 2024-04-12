@@ -242,6 +242,9 @@ export function onclickSearchBookedFlights(){
     //let returnDt = dates.split(" - ")[1];
     let departure = document.getElementById("booked-flight-search-dates-input").value;
     let returnDt = "";
+    if(document.getElementById("flight_search_unk_date_checkbox"))
+        if(document.getElementById("flight_search_unk_date_checkbox").checked)
+        departure="";
 
     searchFlghtBookings(origin, destination, email, departure, returnDt)
 }

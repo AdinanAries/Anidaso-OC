@@ -1,4 +1,5 @@
 //import { show_bookings_pane_search_results_page } from "./helper-functions";
+import { useState } from "react";
 import { onclickSearchBookedFlights } from "../helpers/endpoint-calls";
 import { 
     onInputAirportsAutocomplete, 
@@ -7,6 +8,13 @@ import {
 } from "./airports_auto_complete";
 
 function BookedFlightsSearchForm(){
+
+    const [dateUnk, setDateUnk] = useState(false);
+
+    const dateUnkOnInput = (e) => {
+        setDateUnk(e.target.checked)
+    }
+
     return (
         <div id="bookings-pane-booked-flights-search-form" style={{marginTop: 10}}>
             <div className="two-inputs-flex-container" style={{position: "relative"}}>
@@ -69,15 +77,36 @@ function BookedFlightsSearchForm(){
                     />
                 </div>
                 <div className="two-inputs-flex-child last">
-                    <p className="subtitle-font-color-default" 
-                        style={{marginBottom: 5, fontSize: 13}} >
-                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
-                            className="fa fa-calendar"></i>
-                        Depature Date</p>
+                    <div style={{display: "flex"}}>
+                        <p className="subtitle-font-color-default" 
+                            style={{marginBottom: 5, fontSize: 13}} >
+                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
+                                className="fa fa-calendar"></i>
+                            Depature Date</p>
+                            <div style={{display: "flex", marginLeft: 20, paddingLeft: 20, borderLeft: "1px solid rgba(255,255,255,0.1)"}}>
+                                
+                                <p style={{color: "red", fontSize: 13, marginLeft: 5, marginBottom: 5}}>
+                                    <input checked={dateUnk}
+                                        onChange={dateUnkOnInput} 
+                                        id="flight_search_unk_date_checkbox" type="checkbox" />
+                                </p>
+                                <p style={{color: "red", fontSize: 13, marginLeft: 5, marginBottom: 5}}>
+                                    <label htmlFor="flight_search_unk_date_checkbox">Date Unknown</label>
+                                </p>
+                            </div>
+                    </div> 
+                    <div className="standard-search-input"
+                        style={{display: dateUnk ? "block" : "none"}}
+                    >
+                        <p style={{fontSize: 13, textAlign: "center"}}>
+                            <i style={{color: "yellow", marginRight: 10}} 
+                                className="fa fa-exclamation-triangle"></i>
+                            Search without departure date</p>
+                    </div>
                     <input id="booked-flight-search-dates-input" 
                         readOnly="true" 
                         className="standard-search-input"
-                        style={{width: "calc(100%)"}}
+                        style={{width: "calc(100%)", display: dateUnk ? "none" : "block"}}
                         placeholder="select departure date"
                     />
                 </div>
