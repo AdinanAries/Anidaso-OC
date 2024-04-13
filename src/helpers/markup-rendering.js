@@ -19,7 +19,7 @@ function returnEachRecentBookingMarkup(booking, index, type){
             booking_type = `
                 <i style="margin-right: 5px; color: rgb(255,122,122)" class="fa fa-history"></i>
                 <i style="margin-right: 5px; color: aqua" class="fa fa-plane"></i>
-                ${trip_round?.toUpperCase()}
+                ${trip_round}
             `;
         }
         email_address = booking?.travellers[0]?.email;
@@ -1283,7 +1283,7 @@ function return_selected_flight_booking_segments_markup(slices){
 
     let markup = `<div  style="margin-bottom: 20px">`;
 
-    for(let i=0; i<slices.length; i++){
+    for(let i=0; i<slices?.length; i++){
         let segments = slices[i]?.segments;
         let stops_count = (slices[i]?.segments?.length - 1);
         let slice_title = "Departure Flight";
@@ -1296,7 +1296,7 @@ function return_selected_flight_booking_segments_markup(slices){
         let stops_markup = ""
         stops_markup = (stops_count > 1) ? `${stops_count} stops` : `1 stop`;
         if(stops_count < 1) stops_markup = "nonstop";
-        let duration = slices[i]?.duration;
+        let duration = slices[i]?.duration || "N/A";
 
         markup += `
             <p style="color: ${slice_color}; font-size: 13px; margin-top: 20px; margin-bottom: 10px;">
@@ -1306,28 +1306,28 @@ function return_selected_flight_booking_segments_markup(slices){
             </p>
             <div>
         `;
-        for(let j=0; j<segments.length; j++){
+        for(let j=0; j<segments?.length; j++){
             let alts=(j%2);
             let color = (alts) ? "yellowgreen" : "lightgreen";
 
             let airports = `
-                ${segments[j]?.origin?.name}, 
-                ${segments[j]?.origin?.city_name}, 
-                (${segments[j]?.origin?.iata_country_code})
+                ${segments[j]?.origin?.name || "N/A"}, 
+                ${segments[j]?.origin?.city_name || "N/A"}, 
+                (${segments[j]?.origin?.iata_country_code || "N/A"})
                 <span style="color: rgba(255,255,255,0.5); margin: 0 10px;">-</span>
-                ${segments[j]?.destination?.name}, 
-                ${segments[j]?.destination?.city_name}, 
-                (${segments[j]?.destination?.iata_country_code})
+                ${segments[j]?.destination?.name || "N/A"}, 
+                ${segments[j]?.destination?.city_name || "N/A"}, 
+                (${segments[j]?.destination?.iata_country_code || "N/A"})
             `;
             
             let travel_dates = `
-                ${segments[j]?.departure_datetime?.replaceAll("T", " @ ")}
+                ${segments[j]?.departure_datetime?.replaceAll("T", " @ ") || "N/A"}
                 <span style="color: rgba(255,255,255,0.5); margin: 0 10px;">-</span>
-                ${segments[j]?.arrival_datetime?.replaceAll("T", " @ ")}
+                ${segments[j]?.arrival_datetime?.replaceAll("T", " @ ") || "N/A"}
             `;
 
-            let aircraft = segments[j]?.aircraft?.name;
-            let operating_carrier = segments[j]?.operating_carrier?.name;
+            let aircraft = segments[j]?.aircraft?.name || "N/A";
+            let operating_carrier = segments[j]?.operating_carrier?.name || "N/A";
 
             markup += `
                 <div style="border-left: 3px solid ${color}; padding: 10px; margin-left: 10px;">

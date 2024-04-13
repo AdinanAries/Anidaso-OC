@@ -15,7 +15,7 @@ let search_current_active_page_number = 1;
 let first_page_number_index = 0;
 export let search_first_page_number_index = 0;
 let last_page_number_index = 5; // show only 9 pagination page items at a time
-export let search_last_page_number_index = 9; // show only 9 pagination page items at a time
+export let search_last_page_number_index = 3; // show only 9 pagination page items at a time
 
 // where refers to the originating page section. eg. home, search, etc.
 let where = "home";
@@ -193,16 +193,21 @@ function generate_pagination_page_number(which, seed, limit, total, is_initial=f
     let all_numbers_markup = "";
     
     for(let p = seed; (p-limit) < total; p+=limit){
+
+        let sp_each_number_css_class=""
+        if(which==="search"){
+            sp_each_number_css_class="sp-pagi-each-number";
+        }
         
         if(current_active_page === p){
             all_numbers_markup += `
-                <div id="${which}_pagination_each_number_${p}" class="each-number active">
+                <div id="${which}_pagination_each_number_${p}" class="each-number ${sp_each_number_css_class} active">
                     ${p}
                 </div>
             `;
         }else{
             all_numbers_markup += `
-                <div id="${which}_pagination_each_number_${p}" class="each-number">
+                <div id="${which}_pagination_each_number_${p}" class="each-number ${sp_each_number_css_class}">
                     ${p}
                 </div>
             `;
@@ -217,12 +222,13 @@ function generate_pagination_page_number(which, seed, limit, total, is_initial=f
 
 export function add_event_listeners_to_page_numbers(which, p, call_back, page_size){
     
+    //alert(which, p)
+
     //console.log("p: ", p, ", which: ", which)
     //console.log(document.getElementById(`${which}_pagination_each_number_${p}`));
 
     if(document.getElementById(`${which}_pagination_each_number_${p}`))
-        document.getElementById(`${which}_pagination_each_number_${p}`).addEventListener("click", evnt=>{
-            //alert(which)
+        document.getElementById(`${which}_pagination_each_number_${p}`).addEventListener("click", evnt =>{
             if(which === "recent"){
 
                 Array.from(document.getElementsByClassName("each-number")).forEach(each => {
@@ -234,13 +240,13 @@ export function add_event_listeners_to_page_numbers(which, p, call_back, page_si
                 call_back(p, page_size);
 
             }else if(which === "search"){
-
-                Array.from(document.getElementsByClassName("each-number")).forEach(each => {
+                Array.from(document.getElementsByClassName("sp-pagi-each-number")).forEach(each => {
                     each.classList.remove("active")
                 });
                 document.getElementById(`${which}_pagination_each_number_${p}`).classList.add("active");
 
                 search_current_active_page_number = p;
+                call_back(p, page_size);
                 //alert(search_current_active_page_number)
 
             }
@@ -261,7 +267,8 @@ export function set_pagination_initial_pages_numbers(
     
     limit = limit_p;
     all_pages_arr = get_all_page_numbers(total_recs, limit);
-    console.log("all pagination pages:", all_pages_arr);
+    if(all_pages_arr.length<last_page_number_index)
+        last_page_number_index=(all_pages_arr.length-1);
 
     //depending on page width
     seed = all_pages_arr[first_page_number_index];
@@ -284,28 +291,49 @@ export function set_pagination_initial_pages_numbers(
 
 }
 
-export function set_search_pagination_initial_pages_numbers(which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn){
-    
+export function set_search_pagination_initial_pages_numbers(
+    which, 
+    total_recs, 
+    limit_p, 
+    container_elem_id, 
+    numbers_list_elem_id, 
+    nextbtn, 
+    prevbtn,
+    callback
+){
+
     search_limit = limit_p;
     search_pages_arr = get_all_page_numbers(total_recs, search_limit);
+    if(search_pages_arr.length<search_last_page_number_index)
+        search_last_page_number_index=(search_pages_arr.length-1);
 
     //depending on page width
     search_seed = search_pages_arr[search_first_page_number_index];
     search_total = search_pages_arr[search_last_page_number_index];
+    
     if(!search_seed || !search_total)
         return;
     if(document.getElementById(container_elem_id))
-        document.getElementById(container_elem_id).innerHTML = generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn);
+        document.getElementById(container_elem_id)
+            .innerHTML = generate_pagination_markup_view(numbers_list_elem_id, nextbtn, prevbtn);
     if(document.getElementById(numbers_list_elem_id))
-        document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, search_seed, search_limit, search_total, true, search_current_active_page_number);
+        document.getElementById(numbers_list_elem_id)
+            .innerHTML = generate_pagination_page_number(
+                which, 
+                search_seed, 
+                search_limit, 
+                search_total, 
+                true, 
+                search_current_active_page_number
+            );
 
     if(document.getElementById(nextbtn))
         document.getElementById(nextbtn).addEventListener("click", evnt => {
-            set_search_pagination_next_pages_numbers(which, numbers_list_elem_id);
+            set_search_pagination_next_pages_numbers(which, numbers_list_elem_id, callback, limit_p);
         });
     if(document.getElementById(prevbtn))
         document.getElementById(prevbtn).addEventListener("click", evnt => {
-            set_search_pagination_previous_pages_numbers(which, numbers_list_elem_id)
+            set_search_pagination_previous_pages_numbers(which, numbers_list_elem_id, callback, limit_p)
         });
 
 }
@@ -342,7 +370,7 @@ export function set_pagination_next_pages_numbers(which, numbers_list_elem_id, c
     }
 }
 
-export function set_search_pagination_next_pages_numbers(which, numbers_list_elem_id){
+export function set_search_pagination_next_pages_numbers(which, numbers_list_elem_id, call_back, limit_p){
 
     ++search_first_page_number_index;
     ++search_last_page_number_index;
@@ -355,8 +383,8 @@ export function set_search_pagination_next_pages_numbers(which, numbers_list_ele
             return;
         document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, search_seed, search_limit, search_total,false,search_current_active_page_number);
 
-        for(let r=search_first_page_number_index; r<search_last_page_number_index; r++){
-            add_event_listeners_to_page_numbers("search", search_pages_arr[r]);
+        for(let r=search_first_page_number_index; r<=search_last_page_number_index; r++){
+            add_event_listeners_to_page_numbers("search", search_pages_arr[r], call_back, limit_p);
         }
 
     }else{
@@ -396,7 +424,7 @@ export function set_pagination_previous_pages_numbers(which, numbers_list_elem_i
     }
 }
 
-export function set_search_pagination_previous_pages_numbers(which, numbers_list_elem_id){
+export function set_search_pagination_previous_pages_numbers(which, numbers_list_elem_id, call_back, limit_p){
 
     --search_first_page_number_index;
     --search_last_page_number_index;
@@ -409,8 +437,8 @@ export function set_search_pagination_previous_pages_numbers(which, numbers_list
             return;
         document.getElementById(numbers_list_elem_id).innerHTML = generate_pagination_page_number(which, search_seed, search_limit, search_total, false, search_current_active_page_number);
 
-        for(let r=search_first_page_number_index; r<search_last_page_number_index; r++){
-            add_event_listeners_to_page_numbers("search", search_pages_arr[r]);
+        for(let r=search_first_page_number_index; r<=search_last_page_number_index; r++){
+            add_event_listeners_to_page_numbers("search", search_pages_arr[r], call_back, limit_p);
         }
 
     }else{
@@ -420,7 +448,16 @@ export function set_search_pagination_previous_pages_numbers(which, numbers_list
 }
 
 window.__init_pagination_helper_functions = (which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn, call_back) => {
-    set_pagination_initial_pages_numbers(which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn, call_back);
+    set_pagination_initial_pages_numbers(
+        which, 
+        total_recs, 
+        limit_p, 
+        container_elem_id, 
+        numbers_list_elem_id, 
+        nextbtn, 
+        prevbtn, 
+        call_back
+    );
     for(let r=0; r<=last_page_number_index; r++){
         add_event_listeners_to_page_numbers("recent", all_pages_arr[r], call_back, limit_p);
     }

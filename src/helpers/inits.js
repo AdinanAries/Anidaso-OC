@@ -75,13 +75,15 @@ export const dashboardInits = () => {
         });
       });
       
-      function changeAirportsInput(airport, iata, icao, input_id){
+      window.changeAirportsInput = (airport, iata, icao, input_id) => {
           document.getElementById(input_id).value = airport;
+          document.getElementById(input_id).iata=iata;
           //fligh_search_data.origin_iata = iata;
 
           if(iata === "\\N" || iata === "N"){
               //fligh_search_data.origin_iata = icao;
               document.getElementById(input_id).value = "(" + icao + ") " + airport.split(")")[1];
+              document.getElementById(input_id).iata=icao;
           }
 
           //window.localStorage.setItem("flights_post_data", JSON.stringify(fligh_search_data));

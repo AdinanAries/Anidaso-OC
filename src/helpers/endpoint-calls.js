@@ -23,6 +23,8 @@ const serverBaseURL = API_URL;
 
 let recentBookingsPaginationSkip = 1;
 let recentBookingsPaginationLimit = 20;
+let sp_recentBookingsPaginationSkip = 1;
+let sp_recentBookingsPaginationLimit = 20;
 
 //this makes endpoint call to get bookings by provided reference number
 function getBookingByRefNumber(ref_number){
@@ -134,7 +136,7 @@ function searchHotelBookings(name, city, email, checkin, checkout){
 
 }
 
-function searchFlghtBookings(origin, destination, email, departure, returnDt){
+function searchFlghtBookings(origin, destination, email, departure, returnDt, skip, limit){
 
     if(document.getElementById("booking-container-search-results-pane").style.display === "none"){
         show_bookings_pane_search_results_page();
@@ -151,7 +153,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
 
     $.ajax({
         type: "POST",
-        url: `${serverBaseURL}/api/bookings/search/`,
+        url: `${serverBaseURL}/api/bookings/search/${skip}/${limit}`,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -160,7 +162,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
         data: JSON.stringify(postObj),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        success: res => {
+        success: (res, status, xhr) => {
             
             if(res.length < 1){
                 render_no_booking_found_markup("bookings-pane-search-results-bookings-list");
@@ -168,9 +170,24 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt){
             }
 
             //setting pagination
-            set_search_pagination_initial_pages_numbers("search", 300, 10, "search_results_bookings_pagination_list_markup", "search_pagination_page_numbers_list", "search_bookings_pagination_nextbtn", "search_bookings_pagination_prevbtn");
-            for(let r=0; r<search_last_page_number_index; r++){
-                add_event_listeners_to_page_numbers("search", search_pages_arr[r]);
+            let total_items = parseInt(xhr.getResponseHeader('pagination-total-items'));
+            
+            set_search_pagination_initial_pages_numbers(
+                "search", total_items, limit, 
+                "search_results_bookings_pagination_list_markup", 
+                "search_pagination_page_numbers_list", 
+                "search_bookings_pagination_nextbtn", 
+                "search_bookings_pagination_prevbtn",
+                onclickSearchBookedFlights
+            );
+            
+            for(let r=0; r<=search_last_page_number_index; r++){
+                add_event_listeners_to_page_numbers(
+                    "search", 
+                    search_pages_arr[r], 
+                    onclickSearchBookedFlights,
+                    limit
+                );
             }
 
             console.log(res);
@@ -232,10 +249,10 @@ export function onclickSearchBookedHotel(){
     searchHotelBookings(name, city, email, checkin, checkout);
 }
 
-export function onclickSearchBookedFlights(){
+export function onclickSearchBookedFlights(skip=sp_recentBookingsPaginationSkip, limit=sp_recentBookingsPaginationLimit){
 
-    let origin = document.getElementById("booked-flight-search-origin-input").value;
-    let destination = document.getElementById("booked-flight-search-destination-input").value;
+    let origin = document.getElementById("booked-flight-search-origin-input")?.iata || "";
+    let destination = document.getElementById("booked-flight-search-destination-input")?.iata || "";
     let email = document.getElementById("booked-flight-search-email-input").value;
     //let dates = document.getElementById("booked-flight-search-dates-input").value;
     //let departure = dates.split(" - ")[0];
@@ -246,7 +263,15 @@ export function onclickSearchBookedFlights(){
         if(document.getElementById("flight_search_unk_date_checkbox").checked)
         departure="";
 
-    searchFlghtBookings(origin, destination, email, departure, returnDt)
+    searchFlghtBookings(
+        origin, 
+        destination, 
+        email, 
+        departure, 
+        returnDt, 
+        skip, 
+        limit
+    );
 }
 
 //onpageload functions
