@@ -14,6 +14,7 @@ import { select_booking_from_list } from "../../../../helpers/helper-functions";
 import SelectedTicketPage from "../selected-ticket/SelectedTicketPage";
 import RecentBookings from "./components/RecentBookings";
 import BookingHealthChecker from "../../../../components/BookingHealthChecker";
+import HpAnalytics from "./components/HpAnalytics";
 
 let BookingsContainer = ()=>{
     return(
@@ -57,6 +58,8 @@ let BookingsContainer = ()=>{
                         </div>
                     </div>
                 </div>
+                {/**Analytics */}
+                <HpAnalytics />
                 {/**Recent Bookings */}
                 <RecentBookings />
             </div>

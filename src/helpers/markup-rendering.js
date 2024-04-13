@@ -1472,3 +1472,29 @@ export function render_no_booking_found_markup(elem_id){
             </div>
         `;
 }
+
+export function render_stats_totals_summery_values(titles_arr, values_arr){
+    let markup = `
+        <tr class="headers">
+            <td>
+                Title
+            </td>
+            <td>
+                Total
+            </td>
+        </tr>
+    `;
+    for(let i=0; i<titles_arr.length;i++){
+        markup+=`
+            <tr>
+                <td class="title">
+                    ${titles_arr[i]}
+                </td>
+                <td>
+                    ${values_arr[i]}
+                </td>
+            </tr>
+        `;
+    }
+    return markup;
+}

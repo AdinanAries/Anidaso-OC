@@ -447,6 +447,24 @@ export function set_search_pagination_previous_pages_numbers(which, numbers_list
     }
 }
 
+export function return_headers_as_array_from_object(obj){
+    let keys = Object.keys(obj);
+    let headers=[];
+    for(let key of keys ){
+        let header = key
+            ?.toString()
+            ?.replaceAll("-", " ")
+            ?.replaceAll("_", " ");
+        headers.push(header);
+    }
+    return headers;
+}
+
+export function return_values_as_array_from_obj(obj){
+    let values = Object.values(obj);
+    return values;
+}
+
 window.__init_pagination_helper_functions = (which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn, call_back) => {
     set_pagination_initial_pages_numbers(
         which, 

@@ -76,6 +76,23 @@ body {
   color: rgba(0, 0, 0, 0.7);
   font-size: 14px;
 }
+.hp_default_analytics_value_table{
+  width: 100%;
+}
+.hp_default_analytics_value_table td{
+  border: 1px solid rgba(72, 170, 255, 0.447);
+  color: rgb(94, 161, 255);
+  font-size: 13px;
+  padding: 10px;
+  text-align: center;
+  background-color: #005f7a30;
+}
+.hp_default_analytics_value_table tr.headers td{
+  background-color: #2fa1ff7a !important;
+}
+.hp_default_analytics_value_table td.title {
+  color:rgba(255,255,255,0.4);
+}
 /*ul {
   margin: 0;
   padding: 0;
