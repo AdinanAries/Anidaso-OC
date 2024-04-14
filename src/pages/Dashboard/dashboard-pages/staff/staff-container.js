@@ -41,7 +41,7 @@ let StaffContainer = ()=>{
                 </div>
             }
         </section>
-    )
+    );
 }
 
 export default StaffContainer;
