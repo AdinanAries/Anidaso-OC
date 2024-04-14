@@ -93,6 +93,14 @@ body {
 .hp_default_analytics_value_table td.title {
   color:rgba(255,255,255,0.4);
 }
+.direct-edit-form-field {
+  border: 1px solid rgba(255,255,255,0.1);
+  background: none;
+  padding: 10px;
+  font-size: 14px;
+  color: white;
+  width: calc(100% - 100px);
+}
 /*ul {
   margin: 0;
   padding: 0;
