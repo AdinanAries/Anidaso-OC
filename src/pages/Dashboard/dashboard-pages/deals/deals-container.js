@@ -31,12 +31,12 @@ let DealsContainer = (props)=>{
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     <div style={{width: "55%"}}>
                         <OtherInfo />
+                        <NewDealPackageForm />
+                    </div>
+                    <div style={{width: "calc(45% - 7px)"}}>
                         <DealsPackagesList
                             viewDealPackageInfo={viewDealPackageInfo}
                         />
-                    </div>
-                    <div style={{width: "calc(45% - 7px)"}}>
-                        <NewDealPackageForm />
                     </div>
                 </div>
             }
