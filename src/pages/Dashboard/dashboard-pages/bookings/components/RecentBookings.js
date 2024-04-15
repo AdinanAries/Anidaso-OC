@@ -1,6 +1,14 @@
 import { select_booking_from_list } from "../../../../../helpers/helper-functions";
+import { useState } from "react";
 
 const RecentBookings = (props) => {
+
+    const [includeIntervalDates, setIncludeIntervalDates] = useState(false);
+
+    const includeIntervalDatesOnInput = (e) => {
+        setIncludeIntervalDates(e.target.checked)
+    }
+
     return <div className="main-seaction-containers">
         <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12}}>
             Recent Bookings
@@ -23,11 +31,29 @@ const RecentBookings = (props) => {
                 </select>
             </div>
             <div style={{marginRight: 10}}>
-                <p className="regular-font-color-dark-bg" 
-                    style={{fontSize: 13, marginBottom: 5}}>
+                <div style={{display: "flex"}}>
+                    <p className="regular-font-color-dark-bg" 
+                        style={{fontSize: 13, marginBottom: 5}}>
                         Interval</p>
+                        <div style={{display: "flex", marginLeft: 10, paddingLeft: 10, borderLeft: "1px solid rgba(255,255,255,0.1)"}}>
+                            <p style={{color: "red", fontSize: 13, marginLeft: 5, marginBottom: 5}}>
+                                <input checked={includeIntervalDates}
+                                    onChange={includeIntervalDatesOnInput} 
+                                    id="history_include_date_intervals_checkbox" type="checkbox" />
+                            </p>
+                            <p style={{color: "lightgreen", fontSize: 13, marginLeft: 5, marginBottom: 5}}>
+                                <label htmlFor="history_include_date_intervals_checkbox">Select Interval</label>
+                            </p>
+                        </div>
+                </div>
+                <div style={{display: includeIntervalDates ? "none" : "block", padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
+                    <p style={{fontSize: 13, textAlign: "center"}}>
+                        <i style={{color: "orangered", marginRight: 10}} 
+                            className="fa fa-exclamation-triangle"></i>
+                        Search Without Interval</p>
+                </div>
                 <input id="bookings-pane-filter-by-dates-input" readOnly="true" 
-                    style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
+                    style={{display: includeIntervalDates ? "block" : "none", padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
             </div>
         </div>
         <div id="bookings-pane-recent-bookings-list-container">
