@@ -29,6 +29,7 @@ export function onInputAirportsAutocomplete(evnt){
     
     let counter = 0;
     document.getElementById("flights_auto_complete_list").innerHTML = "";
+    delete document.getElementById(evnt.target.id).iata;
     let flights = [];
     
     /*/if backspace has been pressed, don't auto-complete on input

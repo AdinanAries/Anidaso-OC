@@ -147,7 +147,7 @@ const SearchResultsPage = (props) =>  {
                                 <i className="fa fa-caret-left"></i>
                             </div>
                             <div className="numbers">
-                                <div className="each-number">
+                                {/*<div className="each-number">
                                     1
                                 </div>
                                 <div className="each-number">
@@ -158,7 +158,7 @@ const SearchResultsPage = (props) =>  {
                                 </div>
                                 <div className="each-number">
                                     60
-                                </div>
+                                </div>*/}
                             </div>
                             <div className="previous-next-btn">
                                 <i className="fa fa-caret-right"></i>

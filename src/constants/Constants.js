@@ -67,6 +67,9 @@ const CONSTANTS = {
         deals: "deals",
         support: "support",
     },
+    pagination: {
+        length: 5,
+    },
     duffel_checkout: {
         payment: {
             types: {

@@ -6,6 +6,7 @@ import {
     showInputAirportsAutocompleteContainer, 
     hideInputAirportsAutocompleteContainer 
 } from "./airports_auto_complete";
+import { reset_pagination_params } from "../helpers/helper-functions";
 
 function BookedFlightsSearchForm(){
 
@@ -117,7 +118,11 @@ function BookedFlightsSearchForm(){
                 <input style={{padding: 10, borderRadius: 4, border: "1px solid rgba(0,0,0,0.4)", width: "calc(100%)"}}/>
             </div>*/}
             <div style={{display: "flex", justifyContent: "space-between"}}>
-                <div style={{width: "calc(100% - 150px)"}} className="standard-action-button" onClick={onclickSearchBookedFlights}>
+                <div style={{width: "calc(100% - 150px)"}} className="standard-action-button" 
+                    onClick={()=>{
+                        reset_pagination_params();
+                        onclickSearchBookedFlights()
+                    }}>
                     Search
                 </div>
                 <div className="standard-action-button"

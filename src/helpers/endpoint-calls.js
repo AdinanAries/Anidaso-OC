@@ -141,6 +141,7 @@ function searchFlghtBookings(origin, destination, email, departure, returnDt, sk
     if(document.getElementById("booking-container-search-results-pane").style.display === "none"){
         show_bookings_pane_search_results_page();
     }
+    document.getElementById("search_results_bookings_pagination_list_markup").innerHTML=""
     render_component_loader_markup("bookings-pane-search-results-bookings-list");
 
     let postObj = {

@@ -1,7 +1,10 @@
 import $ from "jquery";
 import { getBookingById } from "./endpoint-calls";
+import CONSTANTS from "../constants/Constants";
+
 export let all_pages_arr;
 export let search_pages_arr;
+
 
 // pagination globals
 let seed;
@@ -14,8 +17,17 @@ let current_active_page_number = 1;
 let search_current_active_page_number = 1;
 let first_page_number_index = 0;
 export let search_first_page_number_index = 0;
-let last_page_number_index = 5; // show only 9 pagination page items at a time
-export let search_last_page_number_index = 3; // show only 9 pagination page items at a time
+let last_page_number_index = CONSTANTS.pagination.length; // Pagination lenght, anything after will be require to use the next button
+export let search_last_page_number_index = CONSTANTS.pagination.length; // Pagination lenght, anything after will be require to use the next button
+
+export function reset_pagination_params(){
+    current_active_page_number = 1;
+    search_current_active_page_number = 1;
+    first_page_number_index = 0;
+    search_first_page_number_index = 0;
+    last_page_number_index = CONSTANTS.pagination.length; // Pagination lenght, anything after will be require to use the next button
+    search_last_page_number_index = CONSTANTS.pagination.length; // Pagination lenght, anything after will be require to use the next button
+}
 
 // where refers to the originating page section. eg. home, search, etc.
 let where = "home";

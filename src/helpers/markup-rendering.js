@@ -1286,10 +1286,12 @@ function return_selected_flight_booking_segments_markup(slices){
     for(let i=0; i<slices?.length; i++){
         let segments = slices[i]?.segments;
         let stops_count = (slices[i]?.segments?.length - 1);
-        let slice_title = "Departure Flight";
+        let slice_title = "Flight Segment";
         let slice_color = "skyblue";
-        if(i===1){
-            slice_title = "Return Flight";
+        let color = "yellowgreen";
+        if(i%2){
+            //slice_title = "Return Flight";
+            color = "lightgreen";
             slice_color = "yellow";
         }
 
@@ -1308,7 +1310,7 @@ function return_selected_flight_booking_segments_markup(slices){
         `;
         for(let j=0; j<segments?.length; j++){
             let alts=(j%2);
-            let color = (alts) ? "yellowgreen" : "lightgreen";
+            //let color = (alts) ? "yellowgreen" : "lightgreen";
 
             let airports = `
                 ${segments[j]?.origin?.name || "N/A"}, 
