@@ -72,7 +72,6 @@ const LoginPage = (props) => {
             return;
         }
         let res = await loginPost(formData);
-        console.log('login:', res);
         if(res.isError){
             setFormValidation({
                 type: "error",
@@ -82,7 +81,6 @@ const LoginPage = (props) => {
             setFullPageLoading(false);
         } else {
             if(res.token){
-                alert('here')
                 localStorage.setItem("user_token", res.token);
                 window.location.reload();
             }else{
