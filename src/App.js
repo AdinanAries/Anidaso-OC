@@ -14,19 +14,19 @@ function App() {
 
   useEffect(()=>{
     // Verify Login Here
-  (async()=>{
-    if(localStorage.getItem("user_token")){
-      // Verify Token
-      let res = await verifyUserToken();
-      if(res.valid){
-        setIsLoggedIn(true);
-        dashboardInits();
-      }else{
-        localStorage.removeItem("user_token");
+    (async()=>{
+      if(localStorage.getItem("user_token")){
+        // Verify Token
+        let res = await verifyUserToken();
+        if(res.valid){
+          setIsLoggedIn(true);
+          dashboardInits();
+        }else{
+          localStorage.removeItem("user_token");
+        }
       }
-    }
-    setIsLoading(false);
-  })();
+      setIsLoading(false);
+    })();
   });
 
   return (

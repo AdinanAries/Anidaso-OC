@@ -59,7 +59,7 @@ const LoginPage = (props) => {
             });
             setIsLoading(false);
             setFullPageLoading(false);
-            return
+            return;
         }
         if(!formData.password) {
             setFormValidation({
@@ -69,19 +69,30 @@ const LoginPage = (props) => {
             });
             setIsLoading(false);
             setFullPageLoading(false);
-            return
+            return;
         }
         let res = await loginPost(formData);
-        if(res.token){
-            localStorage.setItem("user_token", res.token);
-            window.location.reload();
-        }else{
+        console.log('login:', res);
+        if(res.isError){
             setFormValidation({
                 type: "error",
                 isError: true,
                 message: res.message,
             });
             setFullPageLoading(false);
+        } else {
+            if(res.token){
+                alert('here')
+                localStorage.setItem("user_token", res.token);
+                window.location.reload();
+            }else{
+                setFormValidation({
+                    type: "error",
+                    isError: true,
+                    message: res.message,
+                });
+                setFullPageLoading(false);
+            }
         }
         setIsLoading(false);
     }
