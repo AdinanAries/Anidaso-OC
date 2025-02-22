@@ -78,7 +78,6 @@ const LoginPage = (props) => {
                 isError: true,
                 message: res.message,
             });
-            setFullPageLoading(false);
         } else {
             if(res.token){
                 localStorage.setItem("user_token", res.token);
@@ -89,10 +88,10 @@ const LoginPage = (props) => {
                     isError: true,
                     message: res.message,
                 });
-                setFullPageLoading(false);
             }
         }
         setIsLoading(false);
+        setFullPageLoading(false);
     }
 
     return <main>
@@ -123,47 +122,56 @@ const LoginPage = (props) => {
             <div style={{width: "calc(50%)", border: "1px solid rgba(255,255,255,0.1)", padding: 25, borderRadius: 9}}>
                 <p style={{color: "rgba(255,255,255,0.8)", textAlign: "center", fontSize: 19, marginBottom: 20}}>
                     Login</p>
-                <div>
+                {
+                    !isLoading ?
                     <div>
-                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
-                            <i style={{fontSize: 18, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
-                                className="fa fa-envelope"></i>
-                            Email</p>
-                        <input type="email"
-                            onInput={emailOnInput}
-                            style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
-                            placeholder="enter you email here" 
-                            value={formData.email}
-                        />
-                    </div>
-                    <div style={{marginTop: 20}}>
-                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
-                            <i style={{fontSize: 19, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
-                                className="fa fa-lock"></i>
-                            Password</p>
-                        <input
-                            type="password"
-                            onInput={passwordOnInput}
-                            style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
-                            placeholder="enter you password here" 
-                            value={FormData.password}    
-                        />
-                    </div>
-                    {
-                        formValidation.isError && <div style={{marginTop: 10}}>
-                            <FormErrorCard 
-                                message={formValidation.message} 
-                                type={formValidation.type}
+                        <div>
+                            <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                                <i style={{fontSize: 18, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
+                                    className="fa fa-envelope"></i>
+                                Email</p>
+                            <input type="email"
+                                onInput={emailOnInput}
+                                style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
+                                placeholder="enter you email here" 
+                                value={formData.email}
                             />
                         </div>
-                    }
-                    <div onClick={loginOnSubmit} className="standard-action-button" style={{padding: 15}}>
-                        login
+                        <div style={{marginTop: 20}}>
+                            <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                                <i style={{fontSize: 19, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
+                                    className="fa fa-lock"></i>
+                                Password</p>
+                            <input
+                                type="password"
+                                onInput={passwordOnInput}
+                                style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
+                                placeholder="enter you password here" 
+                                value={FormData.password}    
+                            />
+                        </div>
+                        {
+                            formValidation.isError && <div style={{marginTop: 10}}>
+                                <FormErrorCard 
+                                    message={formValidation.message} 
+                                    type={formValidation.type}
+                                />
+                            </div>
+                        }
+                        <div onClick={loginOnSubmit} className="standard-action-button" style={{padding: 15}}>
+                            login
+                        </div>
+                        <p style={{marginTop: 20, cursor: "pointer", textAlign: "center", color: "lightgreen", fontSize: 14}}>
+                            <span onClick={()=>alert("forgot password")}>
+                                Forgot Password?</span></p>
+                    </div> :
+                    <div>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <i style={{color: "orange", marginRight: 10}} className="fa fa-spinner"></i>
+                            <p style={{color: "white", fontSize: 14,}}>Logging in... Please wait...</p>
+                        </div>
                     </div>
-                    <p style={{marginTop: 20, cursor: "pointer", textAlign: "center", color: "lightgreen", fontSize: 14}}>
-                        <span onClick={()=>alert("forgot password")}>
-                            Forgot Password?</span></p>
-                </div>
+                }
             </div>
         </div>
     </main>
