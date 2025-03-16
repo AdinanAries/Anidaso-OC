@@ -622,6 +622,19 @@ main {
   background-color: orangered;
   color: white;
 }
+
+.theme-warning {
+ border-color: rgb(146, 0, 0) !important;
+ background: rgba(244, 0, 0, 0.1) !important;
+ color: rgb(225, 0, 0) !important;
+}
+
+.theme-attention {
+  border-color: rgb(255, 231, 192) !important;
+  background: rgba(246, 255, 0, 0.1) !important;
+  color: rgba(246, 255, 0, 0.54) !important;
+ }
+
 @media screen and (max-width: 700px) {
   .pagination-numbers-list .previous-next-btn {
     font-size: 16px;

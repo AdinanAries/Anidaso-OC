@@ -1486,14 +1486,41 @@ export function render_stats_totals_summery_values(titles_arr, values_arr){
             </td>
         </tr>
     `;
+
+    let total_booking_attempts = 0;
+    let total_confirmed_bookings = 0;
+    let total_payment_attempts = 0;
+    let total_confirmed_payments = 0;
+    let total_failed_bookings = 0;
+    
     for(let i=0; i<titles_arr.length;i++){
+
+        if (titles_arr[i] === "Booking Attempts") total_booking_attempts = parseInt(values_arr[i]);
+        if (titles_arr[i] === "Confirmed Bookings") total_confirmed_bookings = parseInt(values_arr[i]);
+        if (titles_arr[i] === "Payment Attempts") total_payment_attempts = parseInt(values_arr[i]);
+        if (titles_arr[i] === "Confirmed Payments") total_confirmed_payments = parseInt(values_arr[i]);
+        if (titles_arr[i] === "Failed Bookings") total_failed_bookings = parseInt(values_arr[i]);
+
+        let additional_css = (titles_arr[i] === "Failed Bookings") ? "theme-attention" : "";
+        additional_css = (
+            (total_booking_attempts > total_confirmed_bookings && titles_arr[i] === "Confirmed Bookings") ||
+            (total_payment_attempts > total_confirmed_payments && titles_arr[i] === "Confirmed Payments") ||
+            (total_failed_bookings > 0 && titles_arr[i] === "Failed Bookings")
+        ) ? "theme-warning" : additional_css;
+
+        let additional_markup  = (additional_css === "theme-warning") ? 
+                    `<span>
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </span>` : ""
+
         markup+=`
             <tr>
-                <td class="title">
+                <td class="title ${additional_css}">
                     ${titles_arr[i]}
                 </td>
-                <td>
+                <td class=" ${additional_css}">
                     ${values_arr[i]}
+                    ${additional_markup}
                 </td>
             </tr>
         `;

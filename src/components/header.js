@@ -9,10 +9,24 @@ import {
 } from "../helpers/endpoint-calls";
 import wellgo_logo from "../WillgoLogo.png";
 import { 
-    logoutPost 
+    logoutPost,
+    fetchSvrPingInfo
 } from "../services/accountServices";
+import { useEffect, useState } from "react";
 
 function Header(props){
+
+    const [ svrStatus, setSvrStatus ] = useState({
+        isCustProDB: false,
+        isOCProDB: false
+    });
+
+    useEffect(()=>{
+        (async () => {
+            let data = await fetchSvrPingInfo();
+            setSvrStatus(data);
+        })();
+    }, []);
 
     const logoutOnclick = () => {
         logoutPost();
@@ -81,6 +95,32 @@ function Header(props){
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                     <i style={{fontSize: 14}} className="fa fa-share-alt"></i></span> 
                                 GDS, Duffel</p>
+                        </div>
+                        <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
+                            |
+                        </div>
+                        <div>
+                            <p style={{color: "orange", fontSize: 12}}>
+                               <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
+                                    <i style={{fontSize: 14, 
+                                            color: svrStatus?.isCustProDB ? "green" : "red"}} 
+                                        className="fa fa-database"></i></span> 
+                                {
+                                    svrStatus?.isCustProDB ? "Prod" : "Test"
+                                } </p>
+                        </div>
+                        <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
+                            |
+                        </div>
+                        <div>
+                            <p style={{color: "orange", fontSize: 12}}>
+                               <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
+                                    <i style={{fontSize: 14, 
+                                            color: svrStatus?.isOCProDB ? "green" : "red"}} 
+                                        className="fa fa-server"></i></span> 
+                                {
+                                    svrStatus?.isOCProDB ? "Prod" : "Test"
+                                } </p>
                         </div>
                     </div>
                     <div style={{display: "flex"}}>
