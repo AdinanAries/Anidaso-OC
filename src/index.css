@@ -35,6 +35,27 @@ body {
   padding: 0;
   background: #262626;
 }
+.tool-tip-parent {
+  cursor: pointer;
+  position: relative;
+}
+.tool-tip {
+  display: none;
+  position: absolute;
+  left: 5px;
+  top: calc((100% + 10px));
+  background-color: white;
+  padding: 10px;
+  box-shadow: 1px 2px 5px rgba(0,0,0,0.5);
+  border-radius: 4px;
+  min-width: 150px;
+}
+.tool-tip p{
+  font-size: 12px;
+}
+.tool-tip-parent:hover .tool-tip {
+  display: block;
+}
 #notification-content-container {
   max-width: 400px;
   width: 100%;
@@ -53,7 +74,7 @@ body {
   margin-bottom: 5px;
 }
 .notifications-list-item .title-section .title {
-  color: red;
+  color: rgb(0, 68, 158);
   font-weight: bolder;
   font-size: 14px;
   display: flex;
@@ -66,15 +87,15 @@ body {
   height: 100%;
 }
 .notifications-list-item .title-section .title .status {
-  width: 7px;
-  height: 7px;
+  width: 10px;
+  height: 10px;
   border-radius: 100%;
-  background: green;
-  margin-right: 5px;
+  background: rgb(17, 193, 17);
+  margin-right: 10px;
 }
 .notifications-list-item .title-section .time {
   color: rgba(0, 0, 0, 0.7);
-  font-size: 14px;
+  font-size: 12px !important;
 }
 .hp_default_analytics_value_table{
   width: 100%;
@@ -122,6 +143,20 @@ ul li {
   padding: 10px;
   color: crimson;
   font-size: 20px;
+  cursor: pointer;
+}
+.close-btn-with-bg {
+  background-color: crimson;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.477);
+  color: white;
+  margin: 10px;
+  border-radius: 100%;
+  width: 38px;
+  font-size: 14px;
+  text-align: center;
+}
+.notifications-window-close-btn {
+  top: -5px !important;
 }
 .full-screen-container-shaded-bg {
   position: fixed;
@@ -645,15 +680,6 @@ main {
   }
   .popup-close-window-btn {
     right: 0;
-  }
-  .close-btn-with-bg {
-    background-color: crimson;
-    color: white;
-    margin: 10px;
-    border-radius: 6px;
-    width: 40px;
-    font-size: 14px;
-    text-align: center;
   }
   #notification-content-container {
     height: calc(100% - 55px);

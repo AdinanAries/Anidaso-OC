@@ -84,16 +84,26 @@ function Header(props){
                         </div>
                     </div>
                     <div style={{display: "flex"}}>
-                        <div>
+                        <div className="tool-tip-parent">
+                            <div className="tool-tip">
+                                <p>
+                                    Customer app is in {svrStatus?.client_app_active_env?.toUpperCase()}
+                                </p>
+                            </div>
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
-                                    <i style={{fontSize: 14}} className="fa-solid fa-shop"></i></span> 
-                                    {svrStatus?.client_app_active_env?.toUpperCase()}</p>
+                                    <i style={{fontSize: 14,
+                                        color: svrStatus?.client_app_active_env?.toLowerCase()=="production" ? "green" : "red"
+                                    }} className="fa-solid fa-shop"></i></span> 
+                                    Customer</p>
                         </div>
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
                         </div>
-                        <div>
+                        <div className="tool-tip-parent">
+                            <div className="tool-tip">
+                                <p>Payment is currently processed with {svrStatus?.payment_processor?.toUpperCase()}</p>
+                            </div>
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                 <i style={{fontSize: 14}} className="fa-solid fa-building-columns"></i></span> 
@@ -102,7 +112,10 @@ function Header(props){
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
                         </div>
-                        <div>
+                        <div className="tool-tip-parent">
+                            <div className="tool-tip">
+                                <p>Currency is USD</p>
+                            </div>
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                 <i style={{fontSize: 14}} className="fa fa-globe"></i></span> 
@@ -111,7 +124,10 @@ function Header(props){
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
                         </div>
-                        <div>
+                        <div className="tool-tip-parent">
+                            <div className="tool-tip">
+                                <p>Current price markup is {svrStatus?.price_markup_percentage}%</p>
+                            </div>
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                 <i style={{fontSize: 14}} className="fa fa-level-up"></i></span> 
@@ -120,7 +136,10 @@ function Header(props){
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
                         </div>
-                        <div>
+                        <div className="tool-tip-parent">
+                            <div className="tool-tip">
+                                <p>Flights data is provided by {svrStatus?.flights_api_provider}</p>
+                            </div>
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                     <i style={{fontSize: 14}} className="fa fa-share-alt"></i></span> 
@@ -129,27 +148,39 @@ function Header(props){
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
                         </div>
-                        <div>
+                        <div className="tool-tip-parent">
+                            <div className="tool-tip">
+                                <p>{
+                                    svrStatus?.isCustProDB ? "Bookings data on this OC connected to production database" 
+                                    : "Bookings data on this OC connected to test database or NOT connected"
+                                }</p>
+                            </div>
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                     <i style={{fontSize: 14, 
                                             color: svrStatus?.isCustProDB ? "green" : "red"}} 
                                         className="fa fa-database"></i></span> 
                                 {
-                                    svrStatus?.isCustProDB ? "Prod" : "Test"
+                                    svrStatus?.isCustProDB ? "Data" : "Warning"
                                 } </p>
                         </div>
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
                         </div>
-                        <div>
+                        <div className="tool-tip-parent">
+                            <div className="tool-tip">
+                                <p>{
+                                    svrStatus?.isOCProDB ? "Operational center connected to production database" 
+                                    : "Operational center connected to test database or Not connected"
+                                }</p>
+                            </div>
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                     <i style={{fontSize: 14, 
                                             color: svrStatus?.isOCProDB ? "green" : "red"}} 
                                         className="fa fa-server"></i></span> 
                                 {
-                                    svrStatus?.isOCProDB ? "Prod (OC)" : "Test (OC)"
+                                    svrStatus?.isOCProDB ? "Agent" : "Warning"
                                 } </p>
                         </div>
                     </div>
