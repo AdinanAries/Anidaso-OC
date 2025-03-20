@@ -1,11 +1,38 @@
-import { getApiHost, getUserToken, deleteUserToken } from "../constants/Environment";
+import { getApiHost, getUserToken, getClientAppApiHost, deleteUserToken } from "../constants/Environment";
 
 const API_URL = getApiHost();
+const CLIENT_APP_API_URL =  getClientAppApiHost();
 const USER_TOKEN = getUserToken();
 
 export const fetchSvrPingInfo = async (path='') => {
     try{
         return await fetch(API_URL+path, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                //'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            //if(data?.status && data?.status === 401)
+                //deleteUserToken();
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const fetchClientAppSvrPingInfo = async (path='') => {
+    try{
+        return await fetch(CLIENT_APP_API_URL+path, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',

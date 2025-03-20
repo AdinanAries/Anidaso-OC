@@ -10,7 +10,8 @@ import {
 import wellgo_logo from "../WillgoLogo.png";
 import { 
     logoutPost,
-    fetchSvrPingInfo
+    fetchSvrPingInfo,
+    fetchClientAppSvrPingInfo
 } from "../services/accountServices";
 import { useEffect, useState } from "react";
 
@@ -18,12 +19,23 @@ function Header(props){
 
     const [ svrStatus, setSvrStatus ] = useState({
         isCustProDB: false,
-        isOCProDB: false
+        isOCProDB: false,
+        client_app_active_env: "...",
+        client_url: "",
+        payment_processor: "...",
+        flights_api_provider: "...",
+        price_markup_percentage: 0
     });
 
     useEffect(()=>{
         (async () => {
             let data = await fetchSvrPingInfo();
+            let c_data = await fetchClientAppSvrPingInfo();
+            data.client_app_active_env = c_data?.svr_env?.active_env;
+            data.client_url = c_data?.svr_env?.client_url;
+            data.payment_processor = c_data?.svr_env?.payment_processor;
+            data.flights_api_provider = c_data?.svr_env?.flights_api_provider;
+            data.price_markup_percentage = c_data?.price_markup_percentage;
             setSvrStatus(data);
         })();
     }, []);
@@ -75,6 +87,24 @@ function Header(props){
                         <div>
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
+                                    <i style={{fontSize: 14}} className="fa-solid fa-shop"></i></span> 
+                                    {svrStatus?.client_app_active_env?.toUpperCase()}</p>
+                        </div>
+                        <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
+                            |
+                        </div>
+                        <div>
+                            <p style={{color: "orange", fontSize: 12}}>
+                               <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
+                                <i style={{fontSize: 14}} className="fa-solid fa-building-columns"></i></span> 
+                                {svrStatus?.payment_processor?.toUpperCase()}</p>
+                        </div>
+                        <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
+                            |
+                        </div>
+                        <div>
+                            <p style={{color: "orange", fontSize: 12}}>
+                               <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                 <i style={{fontSize: 14}} className="fa fa-globe"></i></span> 
                                 USD</p>
                         </div>
@@ -85,7 +115,7 @@ function Header(props){
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                 <i style={{fontSize: 14}} className="fa fa-level-up"></i></span> 
-                                10%</p>
+                                {svrStatus?.price_markup_percentage}%</p>
                         </div>
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
@@ -94,7 +124,7 @@ function Header(props){
                             <p style={{color: "orange", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                     <i style={{fontSize: 14}} className="fa fa-share-alt"></i></span> 
-                                GDS, Duffel</p>
+                                    {svrStatus?.flights_api_provider}</p>
                         </div>
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
@@ -119,7 +149,7 @@ function Header(props){
                                             color: svrStatus?.isOCProDB ? "green" : "red"}} 
                                         className="fa fa-server"></i></span> 
                                 {
-                                    svrStatus?.isOCProDB ? "Prod" : "Test"
+                                    svrStatus?.isOCProDB ? "Prod (OC)" : "Test (OC)"
                                 } </p>
                         </div>
                     </div>
