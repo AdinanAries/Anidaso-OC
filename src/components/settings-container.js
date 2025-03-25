@@ -60,6 +60,14 @@ let SettingsContainer = ()=>{
             });
             return
         }
+        if(formData.property==="price_markup" && formData.value < 1) {
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "Price markup percentage must be at least 1%",
+            });
+            return
+        }
         let res = await createNewCustomerAppSettings(formData);
         if(res._id){
             alert(`New Settings ${res.property} has been created`);
@@ -86,7 +94,7 @@ let SettingsContainer = ()=>{
                                 value={formData.property}
                                 style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                                 <option value="price_markup" >
-                                    Price Markup
+                                    Price Markup (%)
                                 </option>
                             </select>
                         </div>
