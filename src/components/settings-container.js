@@ -80,20 +80,20 @@ let SettingsContainer = ()=>{
 
     useEffect(()=>{
         setFieldType(SETTINGS_PROPS_NAMES[0]?.value);
-        setCurrentFormData();
+        setCurrentFormData(SETTINGS_PROPS_NAMES[0]?.value);
     }, []);
 
-    const setCurrentFormData = async () => {
-        const SVR = SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0].server;
+    const setCurrentFormData = async (settings_prop) => {
+        const SVR = SETTINGS_PROPS_NAMES.filter(each => each.value===settings_prop)[0].server;
         let res = [];
         if (SVR===SETTINGS_SVR.customer_app_server){
-            res = await fetchCustomerAppSettingsByPropName(formData.property);
+            res = await fetchCustomerAppSettingsByPropName(settings_prop);
         } else {
             res = []// OC server Function Call Here;
         }
         if(res[0]?._id){
             setFormData({
-                ...formData,
+                property: settings_prop,
                 value: res[0]?.value,
             });
         }
@@ -120,7 +120,7 @@ let SettingsContainer = ()=>{
             property: val,
         });
         setFieldType(val);
-        //setCurrentFormData();
+        setCurrentFormData(val);
     }
     
     const onChangeValueFld = (e) => {
@@ -212,7 +212,8 @@ let SettingsContainer = ()=>{
                             {
                                 (valueFieldType===VALUE_FLD_TYPES.select) &&
                                 <select 
-                                    
+                                    onInput={onChangeValueFld}
+                                    value={formData.value}
                                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                                     {
                                         SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0]?.options?.map(each =>
