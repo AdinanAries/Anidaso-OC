@@ -1,13 +1,72 @@
 
 import PageNA from './page-not-available';
 import FormErrorCard from './FormErrorCard';
-import { createNewCustomerAppSettings } from '../services/settingsServices';
+import { 
+    createNewCustomerAppSettings, 
+    fetchAllCustomerAppSettings,
+    fetchCustomerAppSettingsByPropName,
+} from '../services/settingsServices';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 let SettingsContainer = ()=>{
-    const [formData, setFormData] = useState({
-        property: "price_markup",
+
+    const SETTINGS_SVR = {
+        customer_app_server: 0,
+        oc_server: 1
+    }
+
+    const VALUE_FLD_TYPES = {
+        number: "number",
+        text: "text",
+        select: "select"
+    };
+
+    const SETTINGS_PROPS_NAMES = [
+        {
+            name: "Price Markup (%)",
+            value: "price_markup",
+            server: SETTINGS_SVR.customer_app_server,
+            value_fld_type: VALUE_FLD_TYPES.number,
+        },
+        {
+            name: "Client Application Environment",
+            value: "client_app_env",
+            server: SETTINGS_SVR.customer_app_server,
+            value_fld_type: VALUE_FLD_TYPES.select,
+            options: [
+                {
+                    o_name: "Production",
+                    o_value: "production"
+                },
+                {
+                    o_name: "Test",
+                    o_value: "test"
+                }
+            ]
+        },
+        {
+            name: "Flights Data Provider",
+            value: "flights_data_provider",
+            server: SETTINGS_SVR.customer_app_server,
+            value_fld_type: VALUE_FLD_TYPES.select,
+            options: [
+                {
+                    o_name: "Duffel",
+                    o_value: "duffel"
+                },
+                {
+                    o_name: "OTA",
+                    o_value: "ota"
+                }
+            ]
+        }
+
+        /* Others here */
+    ];
+
+    const [ formData, setFormData ] = useState({
+        property: SETTINGS_PROPS_NAMES[0]?.value,
         value: ""
     });
 
@@ -16,6 +75,34 @@ let SettingsContainer = ()=>{
         isError: false,
         message: "",
     });
+
+    const [ valueFieldType, setValueFieldType ] = useState("");
+
+    useEffect(()=>{
+        setFieldType(SETTINGS_PROPS_NAMES[0]?.value);
+        setCurrentFormData();
+    }, []);
+
+    const setCurrentFormData = async () => {
+        const SVR = SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0].server;
+        let res = [];
+        if (SVR===SETTINGS_SVR.customer_app_server){
+            res = await fetchCustomerAppSettingsByPropName(formData.property);
+        } else {
+            res = []// OC server Function Call Here;
+        }
+        if(res[0]?._id){
+            setFormData({
+                ...formData,
+                value: res[0]?.value,
+            });
+        }
+    }
+
+    const setFieldType = (settings_prop) => {
+        const fld_type = SETTINGS_PROPS_NAMES.filter(each => each.value===settings_prop)[0]?.value_fld_type;
+        setValueFieldType(fld_type);
+    }
 
     const resetFormValidation = () => {
         setFormValidation({
@@ -32,6 +119,8 @@ let SettingsContainer = ()=>{
             ...formData,
             property: val,
         });
+        setFieldType(val);
+        //setCurrentFormData();
     }
     
     const onChangeValueFld = (e) => {
@@ -44,6 +133,7 @@ let SettingsContainer = ()=>{
     }
 
     const addSettingsOnSubmit = async () => {
+
         if(!formData.property) {
             setFormValidation({
                 type: "error",
@@ -60,7 +150,10 @@ let SettingsContainer = ()=>{
             });
             return
         }
-        if(formData.property==="price_markup" && formData.value < 1) {
+        if(
+            formData.property===SETTINGS_PROPS_NAMES[0].value
+            && formData.value < 1
+        ) {
             setFormValidation({
                 type: "error",
                 isError: true,
@@ -68,7 +161,15 @@ let SettingsContainer = ()=>{
             });
             return
         }
-        let res = await createNewCustomerAppSettings(formData);
+
+        const SVR = SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0].server;
+
+        let res = {};
+        if (SVR===SETTINGS_SVR.customer_app_server){
+            res = await createNewCustomerAppSettings(formData);
+        } else {
+            res = {}// OC server Function Call Here;
+        }
         if(res._id){
             alert(`New Settings ${res.property} has been created`);
         }else{
@@ -93,9 +194,13 @@ let SettingsContainer = ()=>{
                                 onChange={onChangePropertyFld}
                                 value={formData.property}
                                 style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                                <option value="price_markup" >
-                                    Price Markup (%)
-                                </option>
+                                {
+                                    SETTINGS_PROPS_NAMES.map(each =>
+                                        <option style={{color: "black"}} value={each.value} >
+                                            {each.name}
+                                        </option>
+                                    )
+                                }
                             </select>
                         </div>
                     </div>
@@ -104,11 +209,28 @@ let SettingsContainer = ()=>{
                             <i className="fa-solid fa-keyboard" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                             Value</p>
                         <div style={{border: "none"}}>
-                            <input 
-                                onInput={onChangeValueFld}
-                                value={formData.value}
-                                type="number" placeholder="enter value here..."
-                                style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                            {
+                                (valueFieldType===VALUE_FLD_TYPES.select) &&
+                                <select 
+                                    
+                                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+                                    {
+                                        SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0]?.options?.map(each =>
+                                            <option style={{color: "black"}} value={each.o_value} >
+                                                {each.o_name}
+                                            </option>
+                                        )
+                                    }
+                                </select>
+                            }
+                            {
+                                (valueFieldType!==VALUE_FLD_TYPES.select) &&
+                                <input 
+                                    onInput={onChangeValueFld}
+                                    value={formData.value}
+                                    type={valueFieldType} placeholder="enter value here..."
+                                    style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                            }
                         </div>
                     </div>
                     {
@@ -120,7 +242,7 @@ let SettingsContainer = ()=>{
                     <div>
                         <div onClick={addSettingsOnSubmit} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
                             <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
-                            Create User
+                            Save
                         </div>
                     </div>
                 </div>

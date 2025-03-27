@@ -51,3 +51,29 @@ export const fetchAllCustomerAppSettings = async (path=`\\api\\settings\\custome
         return {isError: true, message: e.message};
     }
 }
+
+export const fetchCustomerAppSettingsByPropName = async (prop_name, path=`\\api\\settings\\customer-app\\`) => {
+    try{
+        return await fetch(API_URL+path+prop_name, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
