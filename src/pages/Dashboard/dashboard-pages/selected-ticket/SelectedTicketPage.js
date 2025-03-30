@@ -76,12 +76,8 @@ const SelectedTicketPage = (props) =>  {
                                 style={{fontWeight: "bolder", fontSize: 12, marginBottom: 10}}>
                                 Payment
                             </p>
-                            <div>
-                            <p style={{color: "rgba(255,255,255,0.8)", padding: 10, margin: "10px 0", borderLeft: "3px solid red", fontSize: 13}}>
-                                <i style={{color: "red", marginRight: 10}} 
-                                    className="fa fa-exclamation-triangle"></i>
-                                Booking was successful, but payment was unsuccessfull
-                            </p>
+                            <div id="selected_booking_booking_vs_payment_status_information">
+                                
                             </div>
                             <p style={{color: "rgba(255,255,255,0.8)", padding: 10, margin: "10px 0", borderLeft: "3px solid lightgreen", fontSize: 13}}>
                                 This sections buttons can be used to view booking and payment confirmation details 

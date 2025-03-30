@@ -1356,6 +1356,66 @@ function return_selected_flight_booking_segments_markup(slices){
     return markup;
 }
 
+function render_selected_booking_vs_payment_status (booking_payment) {
+
+    let b_success=(booking_payment?.booking_status.toLowerCase()==="confirmed");
+    let p_success=(booking_payment?.payment_status.toLowerCase()==="succeeded");
+    let color_val="";
+    let body_msg="";
+    let icon="";
+    let bg_color_val="";
+    if (b_success && p_success) {
+        color_val = "lightgreen";
+        bg_color_val = "rgba(0,255,0,0.1)";
+        body_msg="Both booking and payment were successful";
+        icon="check";
+    } else {
+        color_val = "red";
+        bg_color_val = "rgba(255,0,0,0.1)";
+        icon="exclamation-triangle";
+        if (b_success && !p_success) {
+            body_msg="Booking was successful, but payment failed";
+        } else if (!b_success && p_success) {
+            body_msg="Payment was successful, but booking failed";
+        } else {
+            body_msg="Both booking and payment failed";
+        }
+    }
+
+    document.getElementById("selected_booking_booking_vs_payment_status_information").innerHTML = `
+        <div style="background-color: ${bg_color_val}; color: rgba(255,255,255,0.8); padding: 10px; margin: 10px 0; border-left: 3px solid ${color_val}; font-size: 13px;">
+            <i style="color: ${color_val}; margin-right: 10px"
+                class="fa fa-${icon}"></i>
+            ${body_msg}
+            <p style="color: red; font-size: 13px; text-align: center; cursor: pointer; margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1)"
+            id="show_more_selected_booking_booking_vs_payment_status_information_btn">Show Json Data</p>
+        </div>
+        <p>
+            <pre id="selected_booking_booking_vs_payment_status_information_json_details"
+                 style="background-color: white; border: 2px dashed red; font-size: 13px; display: none; margin-bottom: 10px"
+                >${JSON.stringify(booking_payment, null, 2)}</pre>
+        </p>
+    `;
+    setTimeout(()=>{
+        document.getElementById("show_more_selected_booking_booking_vs_payment_status_information_btn").addEventListener("click", evnt => {
+            let elem = document.getElementById('selected_booking_booking_vs_payment_status_information_json_details');
+            let btn_elem = document.getElementById('show_more_selected_booking_booking_vs_payment_status_information_btn');
+            if(elem?.style?.display === 'none'){
+                elem.style.display = 'block';
+                btn_elem.innerText = "Hide Json Data";
+            }else {
+                elem.style.display = 'none';
+                btn_elem.innerText = "Show Json Data";
+            }
+            
+        });
+    }, 200);
+}
+
+function showMoreSelected_booking_booking_vs_payment_status_information(){
+    
+}
+
 function return_selected_flight_booking_payment_markup(payment_obj){
 
     let total_paid = parseFloat(payment_obj?.payment_intent?.amount/100).toFixed(2);
@@ -1388,7 +1448,7 @@ function return_selected_flight_booking_payment_markup(payment_obj){
 }
 
 export function render_selected_booking_details(booking){
-    //console.log(booking);
+    console.log("here:::", booking);
     
     let general_info = {};
     let passengers = [];
@@ -1433,6 +1493,10 @@ export function render_selected_booking_details(booking){
             .innerHTML = return_selected_flight_booking_segments_markup(slices);
         document.getElementById("selected_booking_flights_prices_container")
             .innerHTML = return_selected_flight_booking_payment_markup(payment_obj);
+
+        // Rendering booking status against payment status.
+        let bp_status = booking?.booking_intent;
+        render_selected_booking_vs_payment_status (bp_status);
     }
 }
 
