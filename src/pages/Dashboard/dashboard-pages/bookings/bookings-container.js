@@ -15,8 +15,12 @@ import SelectedTicketPage from "../selected-ticket/SelectedTicketPage";
 import RecentBookings from "./components/RecentBookings";
 import BookingHealthChecker from "../../../../components/BookingHealthChecker";
 import HpAnalytics from "./components/HpAnalytics";
+import { useState } from "react";
 
 let BookingsContainer = ()=>{
+
+    const [ mostRecentBookingData, setMostRecentBookingData ] = useState({});
+
     return(
          <section id="bookings-container">
              <div id="bookings-container-main-pane">
@@ -54,6 +58,7 @@ let BookingsContainer = ()=>{
                             <BookingHealthChecker
                                 title="Health - Recent Booking"
                                 showButton={true}
+                                data={mostRecentBookingData}
                             />
                         </div>
                     </div>

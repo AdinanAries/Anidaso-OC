@@ -4,8 +4,10 @@ import {
 } from "../../../../helpers/helper-functions";
 
 import BookingHealthChecker from "../../../../components/BookingHealthChecker";
+import { useState } from "react";
 
 const SelectedTicketPage = (props) =>  {
+
     return <div id="booking-container-selected-results-pane" style={{display: "none"}}>
         <div className="main-seaction-containers">
             <div style={{display: "flex", margin: 10, marginBottom: 13}}>

@@ -477,6 +477,10 @@ export function return_values_as_array_from_obj(obj){
     return values;
 }
 
+export const add_commas_to_number = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 window.__init_pagination_helper_functions = (which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn, call_back) => {
     set_pagination_initial_pages_numbers(
         which, 

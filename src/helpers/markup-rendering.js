@@ -1412,10 +1412,6 @@ function render_selected_booking_vs_payment_status (booking_payment) {
     }, 200);
 }
 
-function showMoreSelected_booking_booking_vs_payment_status_information(){
-    
-}
-
 function return_selected_flight_booking_payment_markup(payment_obj){
 
     let total_paid = parseFloat(payment_obj?.payment_intent?.amount/100).toFixed(2);
@@ -1448,8 +1444,9 @@ function return_selected_flight_booking_payment_markup(payment_obj){
 }
 
 export function render_selected_booking_details(booking){
-    console.log("here:::", booking);
-    
+    // console.log("here:::", booking);
+    window.__forceSetBookingHealthCheckerData(booking);
+
     let general_info = {};
     let passengers = [];
     let slices = [];
