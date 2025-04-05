@@ -78,7 +78,7 @@ const BookingHealthChecker = (props) => {
         let b_profit_perc = ((p_diff*100)/actual_price).toFixed(0);
         booking_profit = `$${add_commas_to_number(p_diff)}`;
         booking_profit_desc = `= ${add_commas_to_number(b_profit_perc)}% or 
-        ($${total_paid} - $${add_commas_to_number(actual_price)})`;
+        ($${add_commas_to_number(total_paid)} - $${add_commas_to_number(actual_price)})`;
     }
 
     return <div style={{backgroundColor: "#2b343d",borderRadius: 6, padding: 10}}>
