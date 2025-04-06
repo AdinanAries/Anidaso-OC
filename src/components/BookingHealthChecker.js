@@ -88,7 +88,7 @@ const BookingHealthChecker = (props) => {
                     {title}
                 </div>
                 {
-                    showButton && <div onClick={()=>select_booking_from_list("home")} 
+                    showButton && <div onClick={()=>alert('here')/*()=>select_booking_from_list("home")*/} 
                         id="booking-home-page-booking-tracker-view-more-btn">
                         see details</div>
                 }

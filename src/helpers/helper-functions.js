@@ -33,6 +33,15 @@ export function reset_pagination_params(){
 let where = "home";
 export function select_booking_from_list(where_param, id="none"){
     where = where_param;
+    // Clearing current Health Status Data
+    window.__forceSetBookingHealthCheckerData({});
+    // Resets
+    document.getElementById("selected_booking_general_information_container").innerHTML = "";
+    document.getElementById("selected_booking_travelers_or_guests_list").innerHTML = "";
+    document.getElementById("selected_booking_flights_segments_container").innerHTML = "";
+    document.getElementById("selected_booking_flights_prices_container").innerHTML = "";
+    document.getElementById("selected_booking_booking_vs_payment_status_information").innerHTML = "";
+
     show_bookings_pane_selected_results_page()
     getBookingById(id);
 }

@@ -809,6 +809,32 @@ function return_selected_booking_flight_general_info(data){
     let destination_airport = data?.destination_airport || "N/A";
     let takeoff_airport_code = data?.takeoff_airport_code || "N/A";
     let destination_airport_code = data?.destination_airport_code || "N/A";
+    let services = data?.services || [];
+
+    let services_markup = `
+        <p style="font-size: 13px; color: red; margin: 10px; text-decoration: underline;">
+            <i style="margin-right: 5px;" class="fa-solid fa-exclamation-triangle"></i>
+            No Extra Services Included
+        </p>
+    `;
+    if (services.length > 0) {
+        services_markup = `
+            <p style="font-size: 13px; color: white; margin: 10px; text-decoration: underline;">
+                <i style="margin-right: 5px; color: lightgreen;" class="fa-solid fa-info-circle"></i>
+                Extra Services Included
+            </p>
+        `;
+        services.forEach(each=>{
+            services_markup += `
+                <p class="page-data-info-p" style="color: yellow;">
+                    ${each?.type} (${each?.quantity}):
+                    <span>
+                        ${each?.total_amount} (${each?.total_currency})
+                    </span>
+                </p>
+            `;
+        });
+    }
 
     return `
         <div>
@@ -884,6 +910,7 @@ function return_selected_booking_flight_general_info(data){
                     ${updatedAt?.replaceAll("T", " @ ")}
                 </span>
             </p>
+            ${services_markup}
         </div>
     `;
 }
@@ -1444,7 +1471,7 @@ function return_selected_flight_booking_payment_markup(payment_obj){
 }
 
 export function render_selected_booking_details(booking){
-    // console.log("here:::", booking);
+    console.log("here:::", booking);
     window.__forceSetBookingHealthCheckerData(booking);
 
     let general_info = {};
@@ -1479,6 +1506,7 @@ export function render_selected_booking_details(booking){
         general_info.destination_airport = booking.destination_airport;
         general_info.takeoff_airport_code = booking.takeoff_airport_code;
         general_info.destination_airport_code = booking.destination_airport_code;
+        general_info.services = booking.originPayloads[0].services;
 
         //document.getElementById("selected_booking_status_display_container")
         //  .innerHTML = return_selected_booking_status_display_markup("flight", "status");
