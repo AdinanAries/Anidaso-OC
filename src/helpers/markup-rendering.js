@@ -1383,6 +1383,101 @@ function return_selected_flight_booking_segments_markup(slices){
     return markup;
 }
 
+function return_selected_flight_booking_additional_info_markup(additional_info){
+
+    let data_provider_live_mode_markup = "";
+    let lvm_color_val="";
+    let lvm_body_msg="";
+    let lvm_icon="";
+    let lvm_bg_color_val="";
+
+    if(additional_info?.provider_live_mode){
+        lvm_color_val="lightgreen";
+        lvm_body_msg="Merchant was in Live Mode during this booking!";
+        lvm_icon="check";
+        lvm_bg_color_val="rgba(0,255,0,0.1)";
+    } else {
+        lvm_color_val="red";
+        lvm_body_msg="Warning: Merchant was in Test Mode during this booking!"
+        lvm_icon="exclamation-triangle";
+        lvm_bg_color_val="rgba(255,0,0,0.1)";
+    }
+
+    data_provider_live_mode_markup += `
+        <div style="background-color: ${lvm_bg_color_val}; color: rgba(255,255,255,0.8); padding: 10px; margin: 10px 0; border-left: 3px solid ${lvm_color_val}; font-size: 13px;">
+            <i style="color: ${lvm_color_val}; margin-right: 10px"
+                class="fa fa-${lvm_icon}"></i>
+            ${lvm_body_msg}
+        </div>
+    `;
+
+    let data_provider_payment_status_markup = "";
+    let color_val="";
+    let body_msg="";
+    let icon="";
+    let bg_color_val="";
+
+    if (additional_info?.provider_payment_status){
+        if(additional_info?.provider_payment_status?.awaiting_payment){
+            let payment_required_by = additional_info?.provider_payment_status?.payment_required_by;
+            let price_guarantee_expires_at = additional_info?.provider_payment_status?.price_guarantee_expires_at;
+            color_val="red";
+            body_msg="Warning: Merchant payment for this flight was not completed."
+                    +(payment_required_by ? ` Payment required by: ${payment_required_by}.` : "")
+                    +(price_guarantee_expires_at ? ` Price guarantee expires at: ${price_guarantee_expires_at}.` : "");
+            icon="exclamation-triangle";
+            bg_color_val="rgba(255,0,0,0.1)";
+        } else {
+            let paid_at = additional_info?.provider_payment_status?.paid_at;
+            color_val="lightgreen";
+            body_msg="Merchant payment was completed successfully"+(paid_at ? ` @ ${paid_at}` : "");
+            icon="check";
+            bg_color_val="rgba(0,255,0,0.1)";
+        }
+    }
+
+    data_provider_payment_status_markup += `
+        <div style="background-color: ${bg_color_val}; color: rgba(255,255,255,0.8); padding: 10px; margin: 10px 0; border-left: 3px solid ${color_val}; font-size: 13px;">
+            <i style="color: ${color_val}; margin-right: 10px"
+                class="fa fa-${icon}"></i>
+            ${body_msg}
+        </div>
+    `;
+
+    let data_provider_available_actions_markup = `
+        <div style="background-color: rgba(255,0,0,0.1); color: rgba(255,255,255,0.8); padding: 10px; margin: 10px 0; border-left: 3px solid red; font-size: 13px;">
+            <i style="color: red; margin-right: 10px"
+                class="fa fa-exclamation-triangle"></i>
+            Booking changes not allowed for this booking!
+        </div>
+    `;
+    let data_provider_available_actions = additional_info?.available_actions;
+
+    if(data_provider_available_actions){
+        data_provider_available_actions_markup = `
+            <p style="font-size: 13px; color: white; margin: 10px; text-decoration: underline;">
+                <i style="margin-right: 5px; color: lightgreen;" class="fa-solid fa-info-circle"></i>
+                Actions Included as follows:
+            </p>
+        `;
+        data_provider_available_actions.forEach(each=>{
+            data_provider_available_actions_markup += `
+                <p style="color: yellow; font-size: 13px; margin-bottom: 5px;">
+                    <i style="color: green; margin-right: 10px"
+                        class="fa fa-check"></i> ${each?.toUpperCase()}:
+                    <span style="margin-left: 10px; color: rgba(255,255,255,0.8);">allowed</span>
+                </p>
+            `;
+        });
+    }
+
+    return `
+        ${data_provider_live_mode_markup}
+        ${data_provider_available_actions_markup}
+        ${data_provider_payment_status_markup}
+    `;
+}
+
 function render_selected_booking_vs_payment_status (booking_payment) {
 
     let b_success=(booking_payment?.booking_status.toLowerCase()==="confirmed");
@@ -1475,6 +1570,7 @@ export function render_selected_booking_details(booking){
     window.__forceSetBookingHealthCheckerData(booking);
 
     let general_info = {};
+    let additional_info = {};
     let passengers = [];
     let slices = [];
     let booking_intent = {};
@@ -1507,6 +1603,10 @@ export function render_selected_booking_details(booking){
         general_info.takeoff_airport_code = booking.takeoff_airport_code;
         general_info.destination_airport_code = booking.destination_airport_code;
         general_info.services = booking.originPayloads[0].services;
+        // additional information
+        additional_info.provider_payment_status = booking.originPayloads[0].payment_status;
+        additional_info.available_actions = booking.originPayloads[0].available_actions;
+        additional_info.provider_live_mode = booking.originPayloads[0].live_mode;        
 
         //document.getElementById("selected_booking_status_display_container")
         //  .innerHTML = return_selected_booking_status_display_markup("flight", "status");
@@ -1516,6 +1616,8 @@ export function render_selected_booking_details(booking){
             .innerHTML = return_selected_flight_booking_travelers_markup(passengers);
         document.getElementById("selected_booking_flights_segments_container")
             .innerHTML = return_selected_flight_booking_segments_markup(slices);
+        document.getElementById("selected_booking_additional_info_container")
+            .innerHTML = return_selected_flight_booking_additional_info_markup(additional_info);
         document.getElementById("selected_booking_flights_prices_container")
             .innerHTML = return_selected_flight_booking_payment_markup(payment_obj);
 

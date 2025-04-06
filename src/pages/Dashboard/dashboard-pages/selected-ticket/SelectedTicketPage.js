@@ -113,6 +113,12 @@ const SelectedTicketPage = (props) =>  {
                 <div className="general-two-flex-child second shaded-info-center">
                     <p className="title-font-color-default"
                         style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
+                        Additional Information</p>
+                    <div id="selected_booking_additional_info_container" style={{marginBottom: 25}}>
+
+                    </div>
+                    <p className="title-font-color-default"
+                        style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
                         Flights</p>
                     <div id="selected_booking_flights_segments_container" >
                         {/*<div  style={{marginBottom: 20}}>

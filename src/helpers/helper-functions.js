@@ -41,6 +41,7 @@ export function select_booking_from_list(where_param, id="none"){
     document.getElementById("selected_booking_flights_segments_container").innerHTML = "";
     document.getElementById("selected_booking_flights_prices_container").innerHTML = "";
     document.getElementById("selected_booking_booking_vs_payment_status_information").innerHTML = "";
+    document.getElementById("selected_booking_additional_info_container").innerHTML = "";
 
     show_bookings_pane_selected_results_page()
     getBookingById(id);
