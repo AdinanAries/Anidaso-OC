@@ -256,7 +256,7 @@ let SettingsContainer = ()=>{
                     </p>
                     <textarea style={{padding: 10, borderRadius: 8, border: "1px solid red", background: "none",
                         width: "100%", color: "white"}}>
-                        http://www.welldugo.com/?product=0&type=one-way&date=2024-12-05&dpt_airport=LGA&dst_airport=LHR&cabin=ECONOMY&adults=1&children=0&infants=0
+                        http://www.welldugo.com/?product=0&type=one-way&date=2024-04-13&dpt_airport=LGA&dst_airport=LHR&cabin=ECONOMY&adults=1&children=0&infants=0
                     </textarea>
                 </div>
             </div>

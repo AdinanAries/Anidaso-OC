@@ -8,10 +8,6 @@ import FormErrorCard from "../components/FormErrorCard";
 
 const LoginPage = (props) => {
 
-    const { 
-        setFullPageLoading 
-    } = props;
-
     const [ isLoading, setIsLoading ] = useState(false);
     const [ formData, setFormData ] = useState({
         email: "",
@@ -50,7 +46,6 @@ const LoginPage = (props) => {
 
     const loginOnSubmit = async () => {
         setIsLoading(true);
-        setFullPageLoading(true);
         if(!formData.email) {
             setFormValidation({
                 type: "error",
@@ -58,7 +53,6 @@ const LoginPage = (props) => {
                 message: "please enter email",
             });
             setIsLoading(false);
-            setFullPageLoading(false);
             return;
         }
         if(!formData.password) {
@@ -68,7 +62,6 @@ const LoginPage = (props) => {
                 message: "please enter password",
             });
             setIsLoading(false);
-            setFullPageLoading(false);
             return;
         }
         let res = await loginPost(formData);
@@ -91,7 +84,6 @@ const LoginPage = (props) => {
             }
         }
         setIsLoading(false);
-        setFullPageLoading(false);
     }
 
     return <main>
@@ -168,14 +160,6 @@ const LoginPage = (props) => {
                                 <p style={{marginTop: 20, cursor: "pointer", textAlign: "center", color: "lightgreen", fontSize: 14}}>
                                     <span onClick={()=>alert("forgot password")}>
                                         Forgot Password?</span></p>
-                            </>
-                        }
-                        {
-                            isLoading && <>
-                                <p style={{textAlign: "center", color: "white", fontSize: 12}}>
-                                    <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-hourglass-half"></i>
-                                    Please wait...
-                                </p>
                             </>
                         }
                     </div> :
