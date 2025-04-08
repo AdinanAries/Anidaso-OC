@@ -131,6 +131,7 @@ const LoginPage = (props) => {
                                     className="fa fa-envelope"></i>
                                 Email</p>
                             <input type="email"
+                                className="focus-shadow-xtreme-dark-bg"
                                 onInput={emailOnInput}
                                 style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
                                 placeholder="enter you email here" 
@@ -143,6 +144,7 @@ const LoginPage = (props) => {
                                     className="fa fa-lock"></i>
                                 Password</p>
                             <input
+                                className="focus-shadow-xtreme-dark-bg"
                                 type="password"
                                 onInput={passwordOnInput}
                                 style={{borderRadius: 50, color: "white", width: "100%", padding: 14, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.07)"}}
@@ -158,12 +160,24 @@ const LoginPage = (props) => {
                                 />
                             </div>
                         }
-                        <div onClick={loginOnSubmit} className="standard-action-button" style={{padding: 15}}>
-                            login
-                        </div>
-                        <p style={{marginTop: 20, cursor: "pointer", textAlign: "center", color: "lightgreen", fontSize: 14}}>
-                            <span onClick={()=>alert("forgot password")}>
-                                Forgot Password?</span></p>
+                        {
+                            !isLoading && <>
+                                <div onClick={loginOnSubmit} className="standard-action-button" style={{padding: 15}}>
+                                    login
+                                </div>
+                                <p style={{marginTop: 20, cursor: "pointer", textAlign: "center", color: "lightgreen", fontSize: 14}}>
+                                    <span onClick={()=>alert("forgot password")}>
+                                        Forgot Password?</span></p>
+                            </>
+                        }
+                        {
+                            isLoading && <>
+                                <p style={{textAlign: "center", color: "white", fontSize: 12}}>
+                                    <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-hourglass-half"></i>
+                                    Please wait...
+                                </p>
+                            </>
+                        }
                     </div> :
                     <div>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>

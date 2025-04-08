@@ -19,9 +19,13 @@ function BookedFlightsSearchForm(){
     return (
         <div id="bookings-pane-booked-flights-search-form" style={{marginTop: 10}}>
             <div className="two-inputs-flex-container" style={{position: "relative"}}>
-                <div id="inputAirportsAutocompleteContainer" style={{display: "none", padding: 10, position: "absolute", zIndex: 2, top: "100%", width: "100%", backgroundColor: "white", boxShadow: "1px 2px 3px rgba(0,0,0,0.3)", minHeight: 20, }}>
+                <div id="inputAirportsAutocompleteContainer" style={{display: "none", padding: 10, borderRadius: 20, position: "absolute", zIndex: 2, top: "calc(100% + 10px)", width: "100%", backgroundColor: "white", boxShadow: "1px 2px 3px rgba(0, 0, 0, 0.66)", minHeight: 20, }}>
+                <p style={{backgroundColor: "darkblue", borderLeft: "10px solid orange", 
+                            color: "white", padding: 5, paddingLeft: 10,fontSize: 12, borderRadius: 8, marginBottom: 10}}>
+                            <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-info-circle"></i>
+                            Enter keywords, then select the airport below:</p>
                     <ul id="flights_auto_complete_list">
-
+                        
                     </ul>
                     <p style={{marginTop: 10, fontSize: 13, textAlign: "right"}}>
                         <span style={{color: "red", fontSize: 13, fontWeight: "bolder", marginRight: 5}}>
@@ -40,7 +44,7 @@ function BookedFlightsSearchForm(){
                         onFocus={showInputAirportsAutocompleteContainer} 
                         onBlur={hideInputAirportsAutocompleteContainer} 
                         id="booked-flight-search-origin-input" autoComplete="off" 
-                        className="standard-search-input"
+                        className="standard-search-input focus-shadow-xtreme-dark-bg"
                         style={{width: "calc(100%)"}}
                         placeholder="enter city/airport here"
                     />
@@ -57,7 +61,7 @@ function BookedFlightsSearchForm(){
                         onBlur={hideInputAirportsAutocompleteContainer} 
                         id="booked-flight-search-destination-input" 
                         autoComplete="off" 
-                        className="standard-search-input"
+                        className="standard-search-input focus-shadow-xtreme-dark-bg"
                         style={{width: "calc(100%)"}}
                         placeholder="enter city/airport here"
                     />
@@ -72,7 +76,7 @@ function BookedFlightsSearchForm(){
                         Customer Email</p>
                     <input id="booked-flight-search-email-input" 
                         autoComplete="off" 
-                        className="standard-search-input"
+                        className="standard-search-input focus-shadow-xtreme-dark-bg"
                         style={{width: "calc(100%)"}}
                         placeholder="enter customer email here"
                     />
@@ -106,7 +110,7 @@ function BookedFlightsSearchForm(){
                     </div>
                     <input id="booked-flight-search-dates-input" 
                         readOnly="true" 
-                        className="standard-search-input"
+                        className="standard-search-input focus-shadow-xtreme-dark-bg"
                         style={{width: "calc(100%)", display: dateUnk ? "none" : "block"}}
                         placeholder="select departure date"
                     />

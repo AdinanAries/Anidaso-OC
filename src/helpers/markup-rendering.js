@@ -1504,11 +1504,23 @@ function render_selected_booking_vs_payment_status (booking_payment) {
         }
     }
 
+    let bp_payment_live_mode_markup = "";
+    if(!booking_payment?.payment_intent?.livemode){
+        bp_payment_live_mode_markup = `
+            <p style="padding: 10px; margin: 10px; border: 3px dashed orange; background-color: red; color: yellow;">
+                <i style="color: orange; margin-right: 10px"
+                    class="fa fa-exclamation-triangle"></i>
+                Warning: Payment was made in Test Mode!
+            </p>
+        `;
+    }
+
     document.getElementById("selected_booking_booking_vs_payment_status_information").innerHTML = `
         <div style="background-color: ${bg_color_val}; color: rgba(255,255,255,0.8); padding: 10px; margin: 10px 0; border-left: 3px solid ${color_val}; font-size: 13px;">
             <i style="color: ${color_val}; margin-right: 10px"
                 class="fa fa-${icon}"></i>
             ${body_msg}
+            ${bp_payment_live_mode_markup}
             <p style="color: red; font-size: 13px; text-align: center; cursor: pointer; margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1)"
             id="show_more_selected_booking_booking_vs_payment_status_information_btn">Show Json Data</p>
         </div>

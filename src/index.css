@@ -136,6 +136,9 @@ ul li {
   list-style: none;
   margin: 0 15px;
 }*/
+.focus-shadow-xtreme-dark-bg:focus {
+  box-shadow: 0 0 20px #ffee10;
+}
 .popup-close-window-btn {
   position: absolute;
   right: 10px;
