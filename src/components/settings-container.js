@@ -70,6 +70,82 @@ let SettingsContainer = ()=>{
         value: ""
     });
 
+    // Search Link State
+    const [ searchLink, setSearchLink ] = useState({
+        product: 0,
+        type: "one-way",
+        date: (new Date().toISOString().split("T")[0]),
+        dpt_airport: "LGA",
+        dst_airport: "LHR",
+        cabin: "ECONOMY",
+        adults: 1,
+        children: 0,
+        infants: 0
+    });
+    
+    const slProductOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            product: e.target.value,
+        });
+    }
+
+    const slTypeOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            type: e.target.value,
+        });
+    }
+
+    const slDateOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            date: e.target.value,
+        });
+    }
+
+    const slDepartureOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            dpt_airport: e.target.value,
+        });
+    }
+
+    const slDestinationOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            dst_airport: e.target.value,
+        });
+    }
+    
+    const slCabinOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            cabin: e.target.value,
+        });
+    }
+
+    const slAdultsOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            adults: e.target.value,
+        });
+    }
+
+    const slChildrenOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            children: e.target.value,
+        });
+    }
+
+    const slInfantsOnChange = (e) => {
+        setSearchLink({
+            ...searchLink,
+            infants: e.target.value,
+        });
+    }
+
     const [ formValidation, setFormValidation ] = useState({
         type: "warning",
         isError: false,
@@ -254,10 +330,88 @@ let SettingsContainer = ()=>{
                         <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-link'></i>
                         Create Search Link:
                     </p>
-                    <textarea style={{padding: 10, borderRadius: 8, border: "1px solid red", background: "none",
-                        width: "100%", color: "white"}}>
-                        http://www.welldugo.com/?product=0&type=one-way&date=2024-04-13&dpt_airport=LGA&dst_airport=LHR&cabin=ECONOMY&adults=1&children=0&infants=0
-                    </textarea>
+                    <div style={{padding: 10, borderRadius: 8, border: "1px solid rgba(255,255,255,0.1)", marginBottom: 5}}>
+                        <p style={{fontSize: 12, color: "white"}}>
+                            Product: <select onChange={slProductOnChange}
+                                value={searchLink.product}
+                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}}>
+                                <option style={{color: "black"}} value="0">Flights (0)</option>
+                                <option style={{color: "black"}} value="1">Hotels (1)</option>
+                                <option style={{color: "black"}} value="2">Cars (2)</option>
+                            </select>
+                            Type: <select onChange={slTypeOnChange} 
+                                value={searchLink.type}
+                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}}>
+                                <option style={{color: "black"}} value="one-way">One Way</option>
+                                <option style={{color: "black"}} value="round-trip">Round Trip</option>
+                            </select>
+                            Dates: <input onChange={slDateOnChange}
+                                value={searchLink.date}
+                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                type="text"/>
+                            Departure: <input onChange={slDepartureOnChange}
+                                value={searchLink.dpt_airport}
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                type="text"/>
+                            Destination: <input onChange={slDestinationOnChange}
+                                value={searchLink.dst_airport}
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                type="text"/>
+                            Cabin: <select onChange={slCabinOnChange}
+                                value={searchLink.cabin}
+                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}}>
+                                <option style={{color: "black"}} value="ECONOMY">Economy</option>
+                                <option style={{color: "black"}} value="PREMIUM">Premium</option>
+                                <option style={{color: "black"}} value="BUSINESS">Business</option>
+                                <option style={{color: "black"}} value="FIRST">First</option>
+                            </select>
+                            Adults: <input onChange={slAdultsOnChange}
+                                value={searchLink.adults}
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                type="number"/>
+                            Children: <input onChange={slChildrenOnChange}
+                                value={searchLink.children}
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                            type="number"/>
+                            Infants: <input onChange={slInfantsOnChange}
+                                value={searchLink.infants}
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                type="number" />
+                        </p>
+                    </div>
+                    <div style={{display: "flex", borderRadius: 8, justifyContent: "space-between", width: "100%", overflow: "hidden", border: "1px solid red"}}>
+                        <p id="searchLinkAddressTextToCopy" style={{padding: 10, width: "calc(100% - 40px)", fontSize: 13, width: "100%", color: "white"}}>
+                            http://www.welldugo.com/?product=<span style={{color: "red"}}>
+                                {searchLink.product}</span>
+                            &type=<span style={{color: "red"}}>
+                                {searchLink.type}</span>
+                            &date=<span style={{color: "red"}}>
+                                {searchLink.date}</span>
+                            &dpt_airport=<span style={{color: "red"}}>
+                                {searchLink.dpt_airport}</span>
+                            &dst_airport=<span style={{color: "red"}}>
+                                {searchLink.dst_airport}</span>
+                            &cabin=<span style={{color: "red"}}>
+                                {searchLink.cabin}</span>
+                            &adults=<span style={{color: "red"}}>
+                                {searchLink.adults}</span>
+                            &children=<span style={{color: "red"}}>
+                                {searchLink.children}</span>
+                            &infants=<span style={{color: "red"}}>
+                                {searchLink.infants}</span>
+                        </p>
+                        <div onClick={()=>{
+                                let elem = document.getElementById("searchLinkAddressTextToCopy");
+                                // Copy the text inside the text field
+                                navigator.clipboard.writeText(elem.innerText);
+                                // Alert the copied text
+                                console.log("Copied the text: " + elem.innerText);
+                                alert("Link Copied");
+                            }} 
+                            style={{cursor: "pointer", display: "flex", alignItems: "center", width: 40, backgroundColor: "yellow", justifyContent: "center"}}>
+                            <i className="fa-solid fa-copy"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
              {/*<PageNA />*/}
