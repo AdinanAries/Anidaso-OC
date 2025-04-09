@@ -74,7 +74,7 @@ let SettingsContainer = ()=>{
     const [ searchLink, setSearchLink ] = useState({
         product: 0,
         type: "one-way",
-        date: (new Date().toISOString().split("T")[0]),
+        date: "",
         dpt_airport: "LGA",
         dst_airport: "LHR",
         cabin: "ECONOMY",
@@ -91,18 +91,26 @@ let SettingsContainer = ()=>{
     }
 
     const slTypeOnChange = (e) => {
+        let val = e.target.value;
         setSearchLink({
             ...searchLink,
-            type: e.target.value,
+            type: val,
+            date: "",
         });
+        let isSingleDatePicker = (val==="one-way")
+        setTimeout(()=>{
+            window.__initCreateSearchLinkDateInput(isSingleDatePicker);
+        }, 100);
+        
     }
 
-    const slDateOnChange = (e) => {
+    const slDateOnChange = (date_string) => {
         setSearchLink({
             ...searchLink,
-            date: e.target.value,
+            date: date_string,
         });
     }
+    window.__slDateOnChange = slDateOnChange;
 
     const slDepartureOnChange = (e) => {
         setSearchLink({
@@ -257,6 +265,8 @@ let SettingsContainer = ()=>{
         }
     }
 
+    {/*onChange={slDateOnChange}*/}
+
     return(
          <section id="settings-container" style={{display: "none"}}>
             <div>
@@ -334,28 +344,37 @@ let SettingsContainer = ()=>{
                         <p style={{fontSize: 12, color: "white"}}>
                             Product: <select onChange={slProductOnChange}
                                 value={searchLink.product}
-                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}}>
+                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
+                                borderBottom: "2px solid " + (searchLink.type ? "lightgreen" : "red")}}>
                                 <option style={{color: "black"}} value="0">Flights (0)</option>
                                 <option style={{color: "black"}} value="1">Hotels (1)</option>
                                 <option style={{color: "black"}} value="2">Cars (2)</option>
                             </select>
                             Type: <select onChange={slTypeOnChange} 
                                 value={searchLink.type}
-                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}}>
+                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
+                                borderBottom: "2px solid " + (searchLink.type ? "lightgreen" : "red")}}>
                                 <option style={{color: "black"}} value="one-way">One Way</option>
                                 <option style={{color: "black"}} value="round-trip">Round Trip</option>
                             </select>
-                            Dates: <input onChange={slDateOnChange}
+                            Dates: {(!searchLink.date ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                <input id="create_search_link_date_input"
                                 value={searchLink.date}
-                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                placeholder="Select Date"
+                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: "2px solid " + (searchLink.date ? "lightgreen" : "red")}} 
                                 type="text"/>
-                            Departure: <input onChange={slDepartureOnChange}
+                            Departure: {(!searchLink.dpt_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                <input onChange={slDepartureOnChange}
                                 value={searchLink.dpt_airport}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: "2px solid " + (searchLink.dpt_airport ? "lightgreen" : "red")}} 
                                 type="text"/>
-                            Destination: <input onChange={slDestinationOnChange}
+                            Destination: {(!searchLink.dst_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                <input onChange={slDestinationOnChange}
                                 value={searchLink.dst_airport}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: "2px solid " + (searchLink.dst_airport ? "lightgreen" : "red")}} 
                                 type="text"/>
                             Cabin: <select onChange={slCabinOnChange}
                                 value={searchLink.cabin}
@@ -365,39 +384,45 @@ let SettingsContainer = ()=>{
                                 <option style={{color: "black"}} value="BUSINESS">Business</option>
                                 <option style={{color: "black"}} value="FIRST">First</option>
                             </select>
-                            Adults: <input onChange={slAdultsOnChange}
+                            Adults: {(searchLink.adults==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                <input onChange={slAdultsOnChange}
                                 value={searchLink.adults}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: "2px solid " + (searchLink.adults==="" ? "red" : "lightgreen")}} 
                                 type="number"/>
-                            Children: <input onChange={slChildrenOnChange}
+                            Children: {(searchLink.children==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                <input onChange={slChildrenOnChange}
                                 value={searchLink.children}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: "2px solid " + (searchLink.children==="" ? "red" : "lightgreen")}} 
                             type="number"/>
-                            Infants: <input onChange={slInfantsOnChange}
+                            Infants: {(searchLink.infants==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                <input onChange={slInfantsOnChange}
                                 value={searchLink.infants}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}} 
+                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: "2px solid " + (searchLink.infants==="" ? "red" : "lightgreen")}} 
                                 type="number" />
                         </p>
                     </div>
                     <div style={{display: "flex", borderRadius: 8, justifyContent: "space-between", width: "100%", overflow: "hidden", border: "1px solid red"}}>
                         <p id="searchLinkAddressTextToCopy" style={{padding: 10, width: "calc(100% - 40px)", fontSize: 13, width: "100%", color: "white"}}>
-                            http://www.welldugo.com/?product=<span style={{color: "red"}}>
+                            http://www.welldugo.com/?product=<span style={{color: "lightgreen"}}>
                                 {searchLink.product}</span>
-                            &type=<span style={{color: "red"}}>
+                            &type=<span style={{color: "lightgreen"}}>
                                 {searchLink.type}</span>
-                            &date=<span style={{color: "red"}}>
+                            &date=<span style={{color: "lightgreen"}}>
                                 {searchLink.date}</span>
-                            &dpt_airport=<span style={{color: "red"}}>
+                            &dpt_airport=<span style={{color: "lightgreen"}}>
                                 {searchLink.dpt_airport}</span>
-                            &dst_airport=<span style={{color: "red"}}>
+                            &dst_airport=<span style={{color: "lightgreen"}}>
                                 {searchLink.dst_airport}</span>
-                            &cabin=<span style={{color: "red"}}>
+                            &cabin=<span style={{color: "lightgreen"}}>
                                 {searchLink.cabin}</span>
-                            &adults=<span style={{color: "red"}}>
+                            &adults=<span style={{color: "lightgreen"}}>
                                 {searchLink.adults}</span>
-                            &children=<span style={{color: "red"}}>
+                            &children=<span style={{color: "lightgreen"}}>
                                 {searchLink.children}</span>
-                            &infants=<span style={{color: "red"}}>
+                            &infants=<span style={{color: "lightgreen"}}>
                                 {searchLink.infants}</span>
                         </p>
                         <div onClick={()=>{

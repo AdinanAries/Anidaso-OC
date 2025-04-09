@@ -1,4 +1,26 @@
 let $ = window.$;
+
+window.__initCreateSearchLinkDateInput = (isSingleDatePicker=false) => {
+  $(function() {
+    $('#create_search_link_date_input').daterangepicker({
+      singleDatePicker: isSingleDatePicker,
+      opens: 'left',
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    }, function(start, end, label) {
+  
+      setTimeout(()=>{
+        let d_val = start.format('YYYY-MM-DD') +(!isSingleDatePicker ? (" - "+ end.format('YYYY-MM-DD')) : "");
+        window.__slDateOnChange(d_val);
+      }, 100);
+  
+    });
+  });
+  
+}
+
 export const dashboardInits = () => {
 
     window.__inits_from_endpoing_calls_file();
@@ -74,6 +96,10 @@ export const dashboardInits = () => {
           //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
         });
       });
+
+      setTimeout(()=>{
+        window.__initCreateSearchLinkDateInput(true);
+      }, 200);
       
       window.changeAirportsInput = (airport, iata, icao, input_id) => {
           document.getElementById(input_id).value = airport;
