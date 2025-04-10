@@ -6,6 +6,7 @@ import {
     fetchAllCustomerAppSettings,
     fetchCustomerAppSettingsByPropName,
 } from '../services/settingsServices';
+import AirportsData from '../data/Airports';
 
 import { useEffect, useState } from 'react';
 
@@ -75,16 +76,61 @@ let SettingsContainer = ()=>{
         product: 0,
         type: "one-way",
         date: "",
-        dpt_airport: "LGA",
-        dst_airport: "LHR",
+        dpt_airport: "",
+        dst_airport: "",
         cabin: "ECONOMY",
         adults: 1,
         children: 0,
         infants: 0
     });
 
-    const [ searchLinkAirportsAutoCompleteShowing, setSearchLinkAirportsAutoCompleteShowing ] = useState(false)
+    const [ searchLinkAirportsAutoCompleteShowing, setSearchLinkAirportsAutoCompleteShowing ] = useState(false);
+    const [ searchLinkAirportsAutoCompleteAirportList, setSearchLinkAirportsAutoCompleteAirportList ] = useState([]);
     
+    const slAirportsAutoCompleteOnInput = (evnt) => {
+        let counter = 0;
+        let airports = [];
+
+        if(evnt.target.value){
+            let elem_value = evnt.target.value;
+            airports = AirportsData.filter(each => {
+                return (
+                each.city.toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", "")) 
+                || each.name.toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || each.IATA.toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || each.country.toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.city + each.name).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.city + each.country).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.city + each.country + each.name + each.IATA).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.country + each.city + each.name + each.IATA).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.name + each.city + each.country + each.IATA).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.name + each.IATA + each.city + each.country).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.IATA + each.name + each.city + each.country).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.IATA + each.city + each.name + each.country).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.IATA + each.city + each.country + each.name).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                || (each.IATA + each.country + each.city + each.name).toLowerCase().replaceAll(" ", "").includes(elem_value.toLowerCase().replaceAll(" ", ""))
+                )
+            });
+
+            airports = airports.map(elem => {
+                    counter++;
+                    let iata = elem?.IATA ? elem?.IATA : elem?.ICAO
+                    return (counter < 6) && <li onClick={()=>searchLinkAirportsAutocompleteSelectAirport(iata)} style={{padding: 10, border: "1px solid rgba(0,0,0,0.1)", cursor: "pointer"}}>
+                    <div style={{display: "flex"}}>
+                        <p style={{marginRight: 10}}>
+                            <i className="fa-solid fa-plane" style={{color: "orange"}}></i>
+                        </p>
+                        <p>
+                            {iata} - {elem.name.trim()}, {elem.city}, {elem.country}
+                        </p>
+                    </div>
+                </li>
+            });
+
+            setSearchLinkAirportsAutoCompleteAirportList(airports);
+        }
+    }
+
     const toggleShowSearchLinkAirportsAutocomplete = (boolean_show, which) => {
         setSearchLinkAirportsAutoCompleteShowing(boolean_show);
         window.__searchLinkAirportsAutocompleteWhich=which || "";
@@ -389,14 +435,14 @@ let SettingsContainer = ()=>{
                                 type="text"/>
                             <span style={{position: "relative"}}>
                                 Departure: {(!searchLink.dpt_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                    <input  onClick={(e)=>toggleShowSearchLinkAirportsAutocomplete(true, "departure")} 
+                                    <input readOnly onClick={(e)=>toggleShowSearchLinkAirportsAutocomplete(true, "departure")} 
                                         onChange={slDepartureOnChange}
                                     value={searchLink.dpt_airport}
                                     style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
                                         borderBottom: "2px solid " + (searchLink.dpt_airport ? "lightgreen" : "red")}} 
                                     type="text"/>
                                 Destination: {(!searchLink.dst_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                    <input onClick={()=>toggleShowSearchLinkAirportsAutocomplete(true, "destination")}
+                                    <input readOnly onClick={()=>toggleShowSearchLinkAirportsAutocomplete(true, "destination")}
                                         onChange={slDestinationOnChange}
                                     value={searchLink.dst_airport}
                                     style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
@@ -414,18 +460,12 @@ let SettingsContainer = ()=>{
                                                 <i style={{color: "orange", marginRight: 10}}
                                                 className="fa-solid fa-map-marker"></i>
                                                 Search Airport</p>
-                                            <input style={{width: "100%", padding: 10, backgroundColor: "rgba(0,0,0,0.1)", border: "none",
-                                                            borderBottom: "2px solid orange"}} 
+                                            <input onInput={slAirportsAutoCompleteOnInput}
+                                                style={{width: "100%", padding: 10, backgroundColor: "rgba(0,0,0,0.1)", border: "none",
+                                                        borderBottom: "2px solid orange"}} 
                                                 type="text" placeholder="Enter Airport"/>
                                             <ul style={{marginTop: 10}}>
-                                                <li onClick={()=>searchLinkAirportsAutocompleteSelectAirport("TST1")} style={{padding: 10, border: "1px solid rgba(0,0,0,0.1)", cursor: "pointer"}}>
-                                                    <i className="fa-solid fa-plane" style={{marginRight: 5, color: "orange"}}></i>
-                                                    Airport name here
-                                                </li>
-                                                <li onClick={()=>searchLinkAirportsAutocompleteSelectAirport("TST2")} style={{padding: 10, border: "1px solid rgba(0,0,0,0.1)", cursor: "pointer"}}>
-                                                    <i className="fa-solid fa-plane" style={{marginRight: 5, color: "orange"}}></i>
-                                                    Airport name here
-                                                </li>
+                                                {searchLinkAirportsAutoCompleteAirportList.map(each=>each)}
                                             </ul>
                                         </div>
                                     </div>
@@ -481,12 +521,28 @@ let SettingsContainer = ()=>{
                                 {searchLink.infants}</span>
                         </p>
                         <div onClick={()=>{
+
+                                // Validation
+                                if(
+                                searchLink.product==="" ||
+                                !searchLink.type ||
+                                !searchLink.date ||
+                                !searchLink.dpt_airport ||
+                                !searchLink.dst_airport ||
+                                !searchLink.cabin ||
+                                searchLink.adults==="" ||
+                                searchLink.children==="" ||
+                                searchLink.infants===""){
+                                    alert("Error! Link Not Copied. Some values are missing.");
+                                    return;
+                                }
+
                                 let elem = document.getElementById("searchLinkAddressTextToCopy");
                                 // Copy the text inside the text field
                                 navigator.clipboard.writeText(elem.innerText);
                                 // Alert the copied text
                                 console.log("Copied the text: " + elem.innerText);
-                                alert("Link Copied");
+                                alert("Copied!");
                             }} 
                             style={{cursor: "pointer", display: "flex", alignItems: "center", width: 40, backgroundColor: "yellow", justifyContent: "center"}}>
                             <i className="fa-solid fa-copy"></i>
