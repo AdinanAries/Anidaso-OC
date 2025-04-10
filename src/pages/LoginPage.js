@@ -71,6 +71,7 @@ const LoginPage = (props) => {
                 isError: true,
                 message: res.message,
             });
+            setIsLoading(false);
         } else {
             if(res.token){
                 localStorage.setItem("user_token", res.token);
@@ -81,9 +82,14 @@ const LoginPage = (props) => {
                     isError: true,
                     message: res.message,
                 });
+                setIsLoading(false);
             }
         }
-        setIsLoading(false);
+        // Reset Password Field for Retries
+        setFormData({
+            ...formData,
+            password: "",
+        });
     }
 
     return <main>

@@ -82,7 +82,30 @@ let SettingsContainer = ()=>{
         children: 0,
         infants: 0
     });
+
+    const [ searchLinkAirportsAutoCompleteShowing, setSearchLinkAirportsAutoCompleteShowing ] = useState(false)
     
+    const toggleShowSearchLinkAirportsAutocomplete = (boolean_show, which) => {
+        setSearchLinkAirportsAutoCompleteShowing(boolean_show);
+        window.__searchLinkAirportsAutocompleteWhich=which || "";
+    }
+    window.__toggleShowSearchLinkAirportsAutocomplete = toggleShowSearchLinkAirportsAutocomplete;
+
+    const searchLinkAirportsAutocompleteSelectAirport = (value) => {
+        let sl_val_obj = {};
+        if(window.__searchLinkAirportsAutocompleteWhich==="departure"){
+            sl_val_obj.dpt_airport=value
+        }
+        if(window.__searchLinkAirportsAutocompleteWhich==="destination"){
+            sl_val_obj.dst_airport=value
+        }
+       window.__toggleShowSearchLinkAirportsAutocomplete(false);
+        setSearchLink({
+            ...searchLink,
+            ...sl_val_obj,
+        });
+    }
+
     const slProductOnChange = (e) => {
         setSearchLink({
             ...searchLink,
@@ -364,18 +387,50 @@ let SettingsContainer = ()=>{
                                 style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
                                     borderBottom: "2px solid " + (searchLink.date ? "lightgreen" : "red")}} 
                                 type="text"/>
-                            Departure: {(!searchLink.dpt_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                <input onChange={slDepartureOnChange}
-                                value={searchLink.dpt_airport}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
-                                    borderBottom: "2px solid " + (searchLink.dpt_airport ? "lightgreen" : "red")}} 
-                                type="text"/>
-                            Destination: {(!searchLink.dst_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                <input onChange={slDestinationOnChange}
-                                value={searchLink.dst_airport}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
-                                    borderBottom: "2px solid " + (searchLink.dst_airport ? "lightgreen" : "red")}} 
-                                type="text"/>
+                            <span style={{position: "relative"}}>
+                                Departure: {(!searchLink.dpt_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                    <input  onClick={(e)=>toggleShowSearchLinkAirportsAutocomplete(true, "departure")} 
+                                        onChange={slDepartureOnChange}
+                                    value={searchLink.dpt_airport}
+                                    style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                        borderBottom: "2px solid " + (searchLink.dpt_airport ? "lightgreen" : "red")}} 
+                                    type="text"/>
+                                Destination: {(!searchLink.dst_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                    <input onClick={()=>toggleShowSearchLinkAirportsAutocomplete(true, "destination")}
+                                        onChange={slDestinationOnChange}
+                                    value={searchLink.dst_airport}
+                                    style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                        borderBottom: "2px solid " + (searchLink.dst_airport ? "lightgreen" : "red")}} 
+                                    type="text"/>
+                                {
+                                    searchLinkAirportsAutoCompleteShowing && <div style={{
+                                            position: "absolute", background: "white", color: "black", width: "calc(100% + 100px)", left: -50, top: 0, borderRadius: 8, boxShadow: "0 0 20px yellow"}}>
+                                        <div style={{padding: 10,}}>
+                                            <p onClick={()=>toggleShowSearchLinkAirportsAutocomplete(false)} 
+                                                style={{cursor: "pointer", color: "red", position: "absolute", padding: 10, right: 5, top: 0, fontSize: 15}}>
+                                                <i className='fa-solid fa-times'></i> 
+                                            </p>
+                                            <p style={{marginBottom: 10, fontWeight: "bolder"}}>
+                                                <i style={{color: "orange", marginRight: 10}}
+                                                className="fa-solid fa-map-marker"></i>
+                                                Search Airport</p>
+                                            <input style={{width: "100%", padding: 10, backgroundColor: "rgba(0,0,0,0.1)", border: "none",
+                                                            borderBottom: "2px solid orange"}} 
+                                                type="text" placeholder="Enter Airport"/>
+                                            <ul style={{marginTop: 10}}>
+                                                <li onClick={()=>searchLinkAirportsAutocompleteSelectAirport("TST1")} style={{padding: 10, border: "1px solid rgba(0,0,0,0.1)", cursor: "pointer"}}>
+                                                    <i className="fa-solid fa-plane" style={{marginRight: 5, color: "orange"}}></i>
+                                                    Airport name here
+                                                </li>
+                                                <li onClick={()=>searchLinkAirportsAutocompleteSelectAirport("TST2")} style={{padding: 10, border: "1px solid rgba(0,0,0,0.1)", cursor: "pointer"}}>
+                                                    <i className="fa-solid fa-plane" style={{marginRight: 5, color: "orange"}}></i>
+                                                    Airport name here
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                            </span>
                             Cabin: <select onChange={slCabinOnChange}
                                 value={searchLink.cabin}
                                 style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}}>
