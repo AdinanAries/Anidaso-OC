@@ -35,6 +35,25 @@ const RecentBookingAttempts = (props) => {
                 <div style={{display: "flex"}}>
                     <p className="regular-font-color-dark-bg" 
                         style={{fontSize: 13, marginBottom: 5}}>
+                        Email</p>
+                </div>
+                <input placeholder="enter email here..."
+                    style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
+            </div>
+            <div style={{marginRight: 10}}>
+                <div style={{display: "flex"}}>
+                    <p className="regular-font-color-dark-bg" 
+                        style={{fontSize: 13, marginBottom: 5}}>
+                        Ref. Number</p>
+                </div>
+                <input placeholder="enter ref num. here..."
+                    type="text"
+                    style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
+            </div>
+            <div style={{marginRight: 10}}>
+                <div style={{display: "flex"}}>
+                    <p className="regular-font-color-dark-bg" 
+                        style={{fontSize: 13, marginBottom: 5}}>
                         Interval</p>
                         <div style={{display: "flex", marginLeft: 10, paddingLeft: 10, borderLeft: "1px solid rgba(255,255,255,0.1)"}}>
                             <p style={{color: "red", fontSize: 13, marginLeft: 5, marginBottom: 5}}>
