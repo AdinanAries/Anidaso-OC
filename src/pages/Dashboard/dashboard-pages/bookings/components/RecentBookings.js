@@ -15,9 +15,6 @@ const RecentBookings = (props) => {
             Confirmed Bookings
         </p>
         <div style={{padding: 10, display: "flex"}}>
-            <p className="regular-font-color-dark-bg" style={{fontSize: 14, fontWeight: "bolder", marginRight: 20}}>
-                Filters: 
-            </p>
             <div style={{marginRight: 10}}>
                 <p className="regular-font-color-dark-bg" 
                     style={{fontSize: 13, marginBottom: 5}}>
