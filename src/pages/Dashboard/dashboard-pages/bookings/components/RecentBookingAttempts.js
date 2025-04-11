@@ -22,11 +22,11 @@ const RecentBookingAttempts = (props) => {
                 <p className="regular-font-color-dark-bg" 
                     style={{fontSize: 13, marginBottom: 5}}>
                         Type</p>
-                <select style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
-                    <option>
+                <select style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                    <option style={{color: "black"}}>
                         All
                     </option>
-                    <option>
+                    <option style={{color: "black"}}>
                         Flights
                     </option>
                 </select>
@@ -38,7 +38,7 @@ const RecentBookingAttempts = (props) => {
                         Email</p>
                 </div>
                 <input placeholder="enter email here..."
-                    style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
+                    style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
             </div>
             <div style={{marginRight: 10}}>
                 <div style={{display: "flex"}}>
@@ -48,7 +48,7 @@ const RecentBookingAttempts = (props) => {
                 </div>
                 <input placeholder="enter ref num. here..."
                     type="text"
-                    style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
+                    style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
             </div>
             <div style={{marginRight: 10}}>
                 <div style={{display: "flex"}}>
@@ -66,14 +66,15 @@ const RecentBookingAttempts = (props) => {
                             </p>
                         </div>
                 </div>
-                <div style={{display: includeIntervalDates ? "none" : "block", padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
+                <div style={{display: includeIntervalDates ? "none" : "block", padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
                     <p style={{fontSize: 13, textAlign: "center"}}>
                         <i style={{color: "orangered", marginRight: 10}} 
                             className="fa fa-exclamation-triangle"></i>
                         Search Without Interval</p>
                 </div>
                 <input id="booking-attempts-pane-filter-by-dates-input" readOnly="true" 
-                    style={{display: includeIntervalDates ? "block" : "none", padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
+                    placeholder="select dates here..."
+                    style={{display: includeIntervalDates ? "block" : "none", padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
             </div>
         </div>
         <div id="bookings-pane-recent-booking-attempts-list-container">
