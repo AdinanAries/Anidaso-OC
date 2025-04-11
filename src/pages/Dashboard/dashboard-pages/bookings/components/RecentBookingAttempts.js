@@ -1,7 +1,7 @@
 import { select_booking_from_list } from "../../../../../helpers/helper-functions";
 import { useState } from "react";
 
-const RecentBookings = (props) => {
+const RecentBookingAttempts = (props) => {
 
     const [includeIntervalDates, setIncludeIntervalDates] = useState(false);
 
@@ -10,9 +10,9 @@ const RecentBookings = (props) => {
     }
 
     return <div className="main-seaction-containers">
-        <p className="title-font-color-default" style={{color: "lightgreen", fontWeight: "bolder", fontSize: 12}}>
-            <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-check"></i>
-            Confirmed Bookings
+        <p className="title-font-color-default" style={{ color: "orange", fontWeight: "bolder", fontSize: 12}}>
+            <i style={{marginRight: 10}} className="fa-solid fa-list-check"></i>
+            Booking Attempts
         </p>
         <div style={{padding: 10, display: "flex"}}>
             <p className="regular-font-color-dark-bg" style={{fontSize: 14, fontWeight: "bolder", marginRight: 20}}>
@@ -53,20 +53,20 @@ const RecentBookings = (props) => {
                             className="fa fa-exclamation-triangle"></i>
                         Search Without Interval</p>
                 </div>
-                <input id="bookings-pane-filter-by-dates-input" readOnly="true" 
+                <input id="booking-attempts-pane-filter-by-dates-input" readOnly="true" 
                     style={{display: includeIntervalDates ? "block" : "none", padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
             </div>
         </div>
-        <div id="bookings-pane-recent-bookings-list-container">
-            <table id="bookings-pane-recent-bookings-list" 
+        <div id="bookings-pane-recent-booking-attempts-list-container">
+            <table id="bookings-pane-recent-attempts-bookings-list" 
                 className="bookings-pane-booking-list">
             {/** This is supposed to start a comment */}
                 <tr className="header">
                     <td className="header">
-                        Type
+                        Booking
                     </td>
-                    <td className="header">
-                        Reference No.
+                    <td className="header" style={{backgroundColor: "lightgrey"}}>
+                        Status
                     </td>
                     <td className="header mobile-hidden">
                         Email
@@ -77,16 +77,18 @@ const RecentBookings = (props) => {
                     <td className="header">
                         Booking Date
                     </td>
-                    <td className="header"></td>
+                    <td className="header">
+                        Ref. Number
+                    </td>
                 </tr>
                 <tr onClick={()=>select_booking_from_list("home")}>
                     <td className="bookings-pane-booking-list-column first booking-type-col">
-                        <i style={{marginRight: 5, color: "rgb(255,122,122)"}} className="fa fa-history"></i>
-                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                        flight
+                        <i style={{marginRight: 5, color: "teal"}} className="fa fa-plane"></i>
+                        $200.59
                     </td>
-                    <td className="bookings-pane-booking-list-column second">
-                        0233922278
+                    <td className="bookings-pane-booking-list-column second" style={{background: "rgb(0, 101, 94)", color: "white"}}>
+                        <i style={{marginRight: 5, color: "lightgreen"}} className="fa-solid fa-check"></i>
+                        Success
                     </td>
                     <td className="bookings-pane-booking-list-column first mobile-hidden">
                         adinanaries@outlook.com
@@ -98,39 +100,61 @@ const RecentBookings = (props) => {
                         March 23 2021
                     </td>
                     <td className="bookings-pane-booking-list-column second edit-icon">
-                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                        XYYEVW
                     </td>
                 </tr>
                 <tr onClick={()=>select_booking_from_list("home")}>
                     <td className="bookings-pane-booking-list-column first booking-type-col">
-                        <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
-                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                        flight
+                        <i style={{marginRight: 5, color: "teal"}} className="fa fa-plane"></i>
+                        $250.55
                     </td>
-                    <td className="bookings-pane-booking-list-column second">
-                        0233922278
+                    <td className="bookings-pane-booking-list-column second" style={{background: "rgb(255, 157, 122)",}}>
+                        <i style={{marginRight: 5, color: "red"}} className="fa fa-exclamation-triangle"></i>
+                        Failed
                     </td>
                     <td className="bookings-pane-booking-list-column first mobile-hidden">
                         adinanaries@outlook.com
                     </td>
                     <td className="bookings-pane-booking-list-column second mobile-hidden">
-                        LGA - ACC
+                        CGD - MAD
                     </td>
                     <td className="bookings-pane-booking-list-column first">
                         March 23 2021
                     </td>
-                    <td className="bookings-pane-booking-list-column second edit-icon">
-                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                    <td className="bookings-pane-booking-list-column second edit-icon" style={{color: "grey"}}>
+                        N/A
                     </td>
                 </tr>
                 <tr onClick={()=>select_booking_from_list("home")}>
                     <td className="bookings-pane-booking-list-column first booking-type-col">
-                        <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
-                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-building"></i>
-                        hotel
+                        <i style={{marginRight: 5, color: "teal"}} className="fa fa-plane"></i>
+                        $130.23
                     </td>
-                    <td className="bookings-pane-booking-list-column second">
-                    4353543534
+                    <td className="bookings-pane-booking-list-column second" style={{background: "rgb(0, 74, 101)", color: "white"}}>
+                        <i style={{marginRight: 5, color: "yellow"}} className="fa fa-person-walking-arrow-loop-left"></i>
+                        Uncompleted
+                    </td>
+                    <td className="bookings-pane-booking-list-column first mobile-hidden">
+                        adinanaries@outlook.com
+                    </td>
+                    <td className="bookings-pane-booking-list-column second mobile-hidden">
+                        CGD - MAD
+                    </td>
+                    <td className="bookings-pane-booking-list-column first">
+                        March 23 2021
+                    </td>
+                    <td className="bookings-pane-booking-list-column second edit-icon" style={{color: "grey"}}>
+                        N/A
+                    </td>
+                </tr>
+                <tr onClick={()=>select_booking_from_list("home")}>
+                    <td className="bookings-pane-booking-list-column first booking-type-col">
+                        <i style={{marginRight: 5, color: "teal"}} className="fa fa-building"></i>
+                        $140.22
+                    </td>
+                    <td className="bookings-pane-booking-list-column second" style={{background: "rgb(0, 101, 94)", color: "white"}}>
+                        <i style={{marginRight: 5, color: "lightgreen"}} className="fa fa-check"></i>
+                        Success
                     </td>
                     <td className="bookings-pane-booking-list-column first mobile-hidden">
                         kinki@gmail.com
@@ -142,38 +166,16 @@ const RecentBookings = (props) => {
                         April 14 2021
                     </td>
                     <td className="bookings-pane-booking-list-column second edit-icon">
-                        <i className="fa fa-pencil" aria-hidden="true"></i>
-                    </td>
-                </tr>
-                <tr onClick={()=>select_booking_from_list("home")}>
-                    <td className="bookings-pane-booking-list-column first booking-type-col">
-                        <i style={{marginRight: 5, color: "skyblue"}} className="fa fa-level-up"></i>
-                        <i style={{marginRight: 5, color: "aqua"}} className="fa fa-plane"></i>
-                        flight
-                    </td>
-                    <td className="bookings-pane-booking-list-column second">
-                        0233922278
-                    </td>
-                    <td className="bookings-pane-booking-list-column first mobile-hidden">
-                        adinanaries@outlook.com
-                    </td>
-                    <td className="bookings-pane-booking-list-column second mobile-hidden">
-                        MAD - CGD
-                    </td>
-                    <td className="bookings-pane-booking-list-column first">
-                        March 23 2021
-                    </td>
-                    <td className="bookings-pane-booking-list-column second edit-icon">
-                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                        DGHGZC
                     </td>
                 </tr>
             {/*This is supposed to end a comment **/}
             </table>
         </div>
-        <div id="recent_bookings_pagination_list_markup" className="pagination-numbers-list">
+        <div id="recent_booking_attempts_pagination_list_markup" className="pagination-numbers-list">
             
         </div>
     </div>
 }
 
-export default RecentBookings;
+export default RecentBookingAttempts;

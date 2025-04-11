@@ -16,6 +16,7 @@ import RecentBookings from "./components/RecentBookings";
 import BookingHealthChecker from "../../../../components/BookingHealthChecker";
 import HpAnalytics from "./components/HpAnalytics";
 import { useState } from "react";
+import RecentBookingAttempts from "./components/RecentBookingAttempts";
 
 let BookingsContainer = ()=>{
 
@@ -67,6 +68,8 @@ let BookingsContainer = ()=>{
                 <HpAnalytics />
                 {/**Recent Bookings */}
                 <RecentBookings />
+                {/**Recent Booking Attemps */}
+                <RecentBookingAttempts />
             </div>
             {/**Search Results Page */}
             <SearchResultsPage />
