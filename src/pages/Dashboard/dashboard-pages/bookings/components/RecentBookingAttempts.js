@@ -89,10 +89,10 @@ const RecentBookingAttempts = (props) => {
                         Email
                     </td>
                     <td className="header mobile-hidden">
-                        Departure - Destination
+                        Condition
                     </td>
                     <td className="header">
-                        Booking Date
+                        Attempt Date
                     </td>
                     <td className="header">
                         Ref. Number
@@ -111,7 +111,7 @@ const RecentBookingAttempts = (props) => {
                         adinanaries@outlook.com
                     </td>
                     <td className="bookings-pane-booking-list-column second mobile-hidden">
-                        CGD - MAD
+                        Booking and Payment Completed successfully
                     </td>
                     <td className="bookings-pane-booking-list-column first">
                         March 23 2021
@@ -133,7 +133,7 @@ const RecentBookingAttempts = (props) => {
                         adinanaries@outlook.com
                     </td>
                     <td className="bookings-pane-booking-list-column second mobile-hidden">
-                        CGD - MAD
+                        In Catch() Block: Requested offer is no longer available
                     </td>
                     <td className="bookings-pane-booking-list-column first">
                         March 23 2021
@@ -155,7 +155,7 @@ const RecentBookingAttempts = (props) => {
                         adinanaries@outlook.com
                     </td>
                     <td className="bookings-pane-booking-list-column second mobile-hidden">
-                        CGD - MAD
+                        Booking and Payment were not Completed
                     </td>
                     <td className="bookings-pane-booking-list-column first">
                         March 23 2021
@@ -177,7 +177,7 @@ const RecentBookingAttempts = (props) => {
                         kinki@gmail.com
                     </td>
                     <td className="bookings-pane-booking-list-column second mobile-hidden">
-                        ACC - NGA
+                        Booking and Payment Completed successfully
                     </td>
                     <td className="bookings-pane-booking-list-column first">
                         April 14 2021

@@ -1711,10 +1711,25 @@ export function render_stats_totals_summery_values(titles_arr, values_arr){
             (total_failed_bookings > 0 && titles_arr[i] === "Failed Bookings")
         ) ? "theme-warning" : additional_css;
 
-        let additional_markup  = (additional_css === "theme-warning") ? 
-                    `<span>
-                        <i class="fa fa-exclamation-triangle"></i>
-                    </span>` : ""
+        let additional_markup = (additional_css === "theme-warning" && titles_arr[i] !== "Failed Bookings") ? 
+            `<span class="tool-tip-parent">
+                <span class="tool-tip" style="left: -100px; color: black; z-index: 1;">
+                    more ${(titles_arr[i] === "Confirmed Bookings") ? "booking" : ""} 
+                    ${(titles_arr[i] === "Confirmed Payments") ? "payment" : ""} 
+                    attempts than confirmed 
+                    ${(titles_arr[i] === "Confirmed Bookings") ? "bookings" : ""}
+                    ${(titles_arr[i] === "Confirmed Payments") ? "payments" : ""} 
+                </span>
+                <i class="fa fa-exclamation-triangle"></i>
+            </span>` : "";
+
+        additional_markup += (additional_css === "theme-warning" && titles_arr[i] === "Failed Bookings") ? 
+            `<span class="tool-tip-parent">
+                <span class="tool-tip" style="left: -100px; color: black; z-index: 1;">
+                    ${total_failed_bookings} failed bookings
+                </span>
+                <i class="fa fa-exclamation-triangle"></i>
+            </span>` : "";
 
         markup+=`
             <tr>
