@@ -56,9 +56,6 @@ const HpAnalytics = (props) => {
     }
 
     return <div className="main-seaction-containers" >
-        <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12}}>
-            Analytics
-        </p>
         <div>
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div style={{width: "calc(50% - 20px)"}}>

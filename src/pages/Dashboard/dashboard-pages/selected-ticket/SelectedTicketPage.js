@@ -29,13 +29,13 @@ const SelectedTicketPage = (props) =>  {
             </div>
             <div style={{display: "flex"}}>
                 <div onClick={back_from_selected_result_pane} className="standard-button" 
-                    style={{marginRight: 10, background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.2)"}}>
+                    style={{marginRight: 10, background: "none"}}>
                     <i style={{color: "lightgreen", marginRight: 10}} className="fa fa-arrow-left"></i>
                     Back
                 </div>
                 <div onClick={show_bookings_pane_main_page} className="standard-button" 
-                    style={{background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.2)"}}>
-                    <i style={{color: "lightgreen", marginRight: 10}} className="fa fa-home"></i>
+                    style={{background: "rgba(0,0,0,0.2)"}}>
+                    <i style={{color: "yellow", marginRight: 10}} className="fa fa-home"></i>
                     Home
                 </div>
             </div>

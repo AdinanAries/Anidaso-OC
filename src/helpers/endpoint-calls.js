@@ -226,8 +226,7 @@ export function onclickGetBookingByConfirmation(){
     let confirmation = document.getElementById("search-booking-by-confirmation-input").value;
     if(confirmation === ""){
         document.getElementById("search-booking-by-confirmation-input").focus();
-        document.getElementById("search-booking-by-confirmation-input").placeholder = "confirmation is requied";
-        document.getElementById("search-booking-by-confirmation-input").style.backgroundColor = "rgba(255,0,0,0.2)";
+        document.getElementById("search-booking-by-confirmation-input").placeholder = "*Required Field";
     }else{
         getBookingByRefNumber(confirmation);
     }
@@ -235,7 +234,7 @@ export function onclickGetBookingByConfirmation(){
 }
 
 export function searchByConfirmationOninput(){
-    document.getElementById("search-booking-by-confirmation-input").style.backgroundColor = "white";
+    document.getElementById("search-booking-by-confirmation-input").placeholder = "Enter booking reference number here";
 }
 
 export function onclickSearchBookedHotel(){

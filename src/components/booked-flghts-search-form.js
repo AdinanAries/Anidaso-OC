@@ -35,7 +35,7 @@ function BookedFlightsSearchForm(){
                 <div id="booked-flight-search-origin-input-container" 
                     className="two-inputs-flex-child first">
                     <p className="subtitle-font-color-default" 
-                        style={{marginBottom: 5, fontSize: 13}} >
+                        style={{marginBottom: 15, fontSize: 13}} >
                         <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
                             className="fa fa-map-marker"></i>
                         Departure Airport</p>
@@ -51,7 +51,7 @@ function BookedFlightsSearchForm(){
                 </div>
                 <div id="booked-flight-search-destination-input-container" className="two-inputs-flex-child last">
                     <p className="subtitle-font-color-default" 
-                        style={{marginBottom: 5, fontSize: 13}} >
+                        style={{marginBottom: 15, fontSize: 13}} >
                         <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
                             className="fa fa-map-marker"></i>
                         Destination Airport</p>
@@ -67,10 +67,10 @@ function BookedFlightsSearchForm(){
                     />
                 </div>
             </div>
-            <div className="two-inputs-flex-container" style={{marginTop: 10}}>
+            <div className="two-inputs-flex-container" style={{marginTop: 20}}>
                 <div className="two-inputs-flex-child first">
                     <p className="subtitle-font-color-default" 
-                        style={{marginBottom: 5, fontSize: 13}} >
+                        style={{marginBottom: 15, fontSize: 13}} >
                         <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
                             className="fa fa-envelope"></i>
                         Customer Email</p>
@@ -84,7 +84,7 @@ function BookedFlightsSearchForm(){
                 <div className="two-inputs-flex-child last">
                     <div style={{display: "flex"}}>
                         <p className="subtitle-font-color-default" 
-                            style={{marginBottom: 5, fontSize: 13}} >
+                            style={{marginBottom: 15, fontSize: 13}} >
                             <i style={{marginRight: 10, color: "rgba(255,255,255,0.6)"}} 
                                 className="fa fa-calendar"></i>
                             Depature Date</p>

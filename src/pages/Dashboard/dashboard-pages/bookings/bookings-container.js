@@ -46,9 +46,6 @@ let BookingsContainer = ()=>{
                     </div>
                     <div className="booking-pane-search-inputs-area">
                         <div className="booking-pane-search-inputs-area-inputs-section">
-                            <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 11, margin: 10}}>
-                                Search Booking
-                            </p>
                             <BookedFlightsSearchForm />
                             <BookedHotelsSearchForm />
                             <BookedCarsSearchForm />

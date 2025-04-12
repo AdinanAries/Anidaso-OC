@@ -81,20 +81,19 @@ const BookingHealthChecker = (props) => {
         ($${add_commas_to_number(total_paid)} - $${add_commas_to_number(actual_price)})`;
     }
 
-    return <div style={{backgroundColor: "#2b343d",borderRadius: 6, padding: 10}}>
+    return <div style={{backgroundColor: "#2b343d", borderRadius: 6, padding: 20}}>
             <div style={{fontSize: 12, letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
                 <div style={{marginTop: 5, color: "rgba(255,255,255,0.7)", marginBottom: (showButton ? 0 : 10)}}>
-                    <i style={{marginRight: 5, color: "aqua"}} className="fa fa-heart"></i>
+                    <i style={{fontSize: 18, marginRight: 10, color: "rgba(0, 140, 255, 0.33)"}} className="fa-solid fa-heart-pulse"></i>
                     {title}
                 </div>
                 {
                     showButton && <div onClick={()=>alert('here')/*()=>select_booking_from_list("home")*/} 
                         id="booking-home-page-booking-tracker-view-more-btn">
-                        see details</div>
+                        See Details</div>
                 }
             </div>
-            <p style={{color: "white", margin: 5, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
-                <i style={{color: "crimson", marginRight: 10, fontSize: 17}} className="fa fa-plane"></i>
+            <p style={{color: "white", margin: "20px 5px", fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
                 Ref: {booking_ref_number}
             </p>
             <div className="booking-status-tracker">
