@@ -55,10 +55,10 @@ const HpAnalytics = (props) => {
                     }
                 },
                 plugins: {
-                    title: {
+                    /*title: {
                       display: true,
                       text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
-                    }
+                    }*/
                   }
             }
         });
