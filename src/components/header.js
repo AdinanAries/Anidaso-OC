@@ -47,7 +47,7 @@ function Header(props){
 
     return (
         <div className="main-header">
-            <div className="wrapper">
+            <div style={{padding: "0 10px"}}>
                 <div style={{display: "flex", flexDirection: "row !important", justifyContent: "space-between", alignItems: "center"}}>
                     <div onClick={show_main_menu} className="main-menu-button" style={{marginRight: 20}}>
                         <i style={{color: "rgba(255,255,255,0.8)", fontSize: 30}} className="fa fa-bars"></i>
@@ -55,15 +55,13 @@ function Header(props){
                     <div style={{display: "flex", alignItems: "center"}}>
                         <div className="main-menu-company-title" >
                             <div className="site_logo_container">
-                                <div style={{height: "100%", display: "flex", alignItems: "center"}}>
-                                    <p style={{marginRight: 10}}>
+                                <div style={{height: "100%", display: "flex"}}>
+                                    <p style={{marginRight: 5}}>
                                         <img style={{width: 45}} src={wellgo_logo} alt="Logo"/></p>
                                     <p>Welldugo
                                         <sup style={{fontSize: 12}}>&reg;</sup></p>
                                 </div>
                             </div>
-                            <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, textAlign: "center"}}>
-                                Operational Center</p>
                         </div>
                         <div style={{marginLeft: 40}}>
                             <div className="main-search-box" 
