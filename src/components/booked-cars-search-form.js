@@ -54,8 +54,14 @@ function BookedCarsSearchForm(){
                     Origin Airport</p>
                 <input style={{padding: 10, borderRadius: 4, border: "1px solid rgba(0,0,0,0.4)", width: "calc(100%)"}}/>
             </div>*/}
-            <div className="standard-action-button">
-                Search
+            <div style={{display: "flex", alignItems: "center"}}>
+                <div style={{width: "calc(100% - 150px)"}} className="standard-action-button">
+                    Search
+                </div>
+                <div style={{fontSize: 13, marginLeft: 20, marginTop: 20, color: "pink", cursor: "pointer"}}>
+                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-plus"></i>
+                    Rent Car
+                </div>
             </div>
         </div>
     );

@@ -42,7 +42,10 @@ const HpAnalytics = (props) => {
                 datasets: [{
                     label: 'Total Summaries',
                     data: values,
-                    borderWidth: 1
+                    borderWidth: 1,
+                    pointStyle: 'circle',
+                    pointRadius: 10,
+                    pointHoverRadius: 15
                 }]
             },
             options: {
@@ -50,7 +53,13 @@ const HpAnalytics = (props) => {
                     y: {
                         beginAtZero: true
                     }
-                }
+                },
+                plugins: {
+                    title: {
+                      display: true,
+                      text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
+                    }
+                  }
             }
         });
     }
