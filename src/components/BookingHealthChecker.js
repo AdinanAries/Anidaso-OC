@@ -83,7 +83,7 @@ const BookingHealthChecker = (props) => {
 
     return <div style={{backgroundColor: "#2b343d", borderRadius: 6, padding: 20}}>
             <div style={{fontSize: 12, letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
-                <div style={{marginTop: 5, color: "rgba(255,255,255,0.7)", marginBottom: (showButton ? 0 : 10)}}>
+                <div style={{color: "rgba(255,255,255,0.7)", marginBottom: (showButton ? 0 : 10)}}>
                     <i style={{fontSize: 18, marginRight: 10, color: "rgba(0, 140, 255, 0.33)"}} className="fa-solid fa-heart-pulse"></i>
                     {title}
                 </div>
@@ -93,7 +93,7 @@ const BookingHealthChecker = (props) => {
                         See Details</div>
                 }
             </div>
-            <p style={{color: "white", margin: "20px 5px", fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
+            <p style={{color: "white", marginBottom: 20, fontSize: 13, fontWeight: "bolder", letterSpacing: 1}}>
                 Ref: {booking_ref_number}
             </p>
             <div className="booking-status-tracker">

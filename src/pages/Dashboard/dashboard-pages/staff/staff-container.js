@@ -9,6 +9,7 @@ import UserPrivileges from './components/UserPrivileges';
 let StaffContainer = ()=>{
 
     const [selectedStaff, setSelectedStaff] = useState({});
+    const [showAddNewUserForm, setshowAddNewUserForm ] = useState(false);
 
     const viewStaffInfo = (staff) => {
         setSelectedStaff(staff);
@@ -17,6 +18,10 @@ let StaffContainer = ()=>{
 
     const unSelectStaff = () => {
         setSelectedStaff({});
+    }
+
+    const showNewUserForm = (boolean_param) => {
+        setshowAddNewUserForm(boolean_param)
     }
 
     return(
@@ -30,13 +35,26 @@ let StaffContainer = ()=>{
                 </div> :
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     <div style={{width: "55%"}}>
-                        <UserPrivileges />
                         <StaffList
                             viewStaffInfo={viewStaffInfo}
                         />
                     </div>
                     <div style={{width: "calc(45% - 7px)"}}>
-                        <NewUserForm />
+                        {
+                            showAddNewUserForm ? 
+                            <>
+                                <div style={{color: "white", margin: 20, cursor: "pointer", fontSize: 13}} onClick={()=>showNewUserForm(false)}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa fa-arrow-left"></i>
+                                    Back to User Roles
+                                </div>
+                                <NewUserForm 
+                                    showNewUserForm={showNewUserForm}
+                                /> 
+                            </>: 
+                            <UserPrivileges
+                                showNewUserForm={showNewUserForm}
+                            />
+                        }
                     </div>
                 </div>
             }

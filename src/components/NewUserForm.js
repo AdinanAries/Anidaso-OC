@@ -205,6 +205,18 @@ function NewUserForm(props){
                                 style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                         </div>
                     </div>
+                    <div style={{marginBottom: 20, marginTop: 10}}>
+                        <p style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 10}}>
+                            Select User Role:
+                        </p>
+                        <select 
+                            className="direct-edit-form-field" style={{width: "100%", borderRadius: 8}}
+                        >
+                            <option style={{color: "black"}} value="1">Owner</option>
+                            <option style={{color: "black"}} value="2">Administrator</option>
+                            <option style={{color: "black"}} value="3">Agent</option>
+                        </select>
+                    </div>
                     {
                         formValidation.isError && <FormErrorCard 
                             message={formValidation.message} 

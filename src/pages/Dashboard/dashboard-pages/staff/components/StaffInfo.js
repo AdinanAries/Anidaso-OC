@@ -73,9 +73,9 @@ const StaffInfo = (props) => {
                         <select 
                             className="direct-edit-form-field"
                         >
-                            <option>Admin</option>
-                            <option>Master Admin</option>
-                            <option>Travel Agent</option>
+                            <option style={{color: "black"}} value="1">Owner</option>
+                            <option style={{color: "black"}} value="2">Administrator</option>
+                            <option style={{color: "black"}} value="3">Agent</option>
                         </select>
                     </div>
                     <div className="standard-action-button">

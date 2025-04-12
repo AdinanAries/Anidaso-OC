@@ -18,7 +18,8 @@ const MiniLoggedInUserInfoCard = (props) => {
                     <i style={{color: "orange", fontSize: 22}} className="fa fa-user"></i>
                 </div>
                 <p style={{fontSize: 12, color: "orange", marginLeft: 10}}>
-                    Mohammed
+                    Mohammed - <span style={{color: "white", fontSize: 12}}>
+                        Agent</span>
                 </p>
             </div>
         </div>

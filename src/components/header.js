@@ -194,9 +194,9 @@ function Header(props){
                         </div>
                         <div onClick={()=>toggle_show_main_sections("settings")} id="top-menu-settings-btn" className="header-right-side-icon">
                             <p className="header-icon" style={{marginBottom: 5, textAlign: "center"}}>
-                                <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-cogs" aria-hidden="true"></i>
+                                <i style={{color: "rgba(255,255,255,0.8)"}} className="fa-solid fa-briefcase" aria-hidden="true"></i>
                             </p>
-                            <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Settings</p>
+                            <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Business</p>
                         </div>
                         <div onClick={logoutOnclick} className="header-right-side-icon" style={{cursor: "pointer", padding: "0 10px", marginLeft: 10, display: "flex", flexDirection: "column", justifyContent: "center"}}>
                             <p className="header-icon bumpup" style={{marginBottom: 5, textAlign: "center"}}>

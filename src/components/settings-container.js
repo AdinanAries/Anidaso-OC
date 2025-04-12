@@ -338,69 +338,77 @@ let SettingsContainer = ()=>{
 
     return(
          <section id="settings-container" style={{display: "none"}}>
-            <div>
-                <div style={{padding: "10px",}}>
-                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                            <i className="fa fa-tools" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                            Please Select Settings Type</p>
-                        <div style={{border: "none"}}>
-                            <select 
-                                onChange={onChangePropertyFld}
-                                value={formData.property}
-                                style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                                {
-                                    SETTINGS_PROPS_NAMES.map(each =>
-                                        <option style={{color: "black"}} value={each.value} >
-                                            {each.name}
-                                        </option>
-                                    )
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                            <i className="fa-solid fa-keyboard" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                            Value</p>
-                        <div style={{border: "none"}}>
-                            {
-                                (valueFieldType===VALUE_FLD_TYPES.select) &&
+            <p style={{marginTop: 10, color: "red", fontSize: 13}}>
+                <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-cogs'></i>
+                Application Settings</p>
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                <div style={{width: "calc(50% - 4px)"}}>
+                    <div style={{padding: "10px"}}>
+                        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                <i className="fa fa-tools" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                Please Select Settings Type</p>
+                            <div style={{border: "none"}}>
                                 <select 
-                                    onInput={onChangeValueFld}
-                                    value={formData.value}
+                                    onChange={onChangePropertyFld}
+                                    value={formData.property}
                                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                                     {
-                                        SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0]?.options?.map(each =>
-                                            <option style={{color: "black"}} value={each.o_value} >
-                                                {each.o_name}
+                                        SETTINGS_PROPS_NAMES.map(each =>
+                                            <option style={{color: "black"}} value={each.value} >
+                                                {each.name}
                                             </option>
                                         )
                                     }
                                 </select>
-                            }
-                            {
-                                (valueFieldType!==VALUE_FLD_TYPES.select) &&
-                                <input 
-                                    onInput={onChangeValueFld}
-                                    value={formData.value}
-                                    type={valueFieldType} placeholder="enter value here..."
-                                    style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
-                            }
+                            </div>
+                        </div>
+                        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                <i className="fa-solid fa-keyboard" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                Value</p>
+                            <div style={{border: "none"}}>
+                                {
+                                    (valueFieldType===VALUE_FLD_TYPES.select) &&
+                                    <select 
+                                        onInput={onChangeValueFld}
+                                        value={formData.value}
+                                        style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+                                        {
+                                            SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0]?.options?.map(each =>
+                                                <option style={{color: "black"}} value={each.o_value} >
+                                                    {each.o_name}
+                                                </option>
+                                            )
+                                        }
+                                    </select>
+                                }
+                                {
+                                    (valueFieldType!==VALUE_FLD_TYPES.select) &&
+                                    <input 
+                                        onInput={onChangeValueFld}
+                                        value={formData.value}
+                                        type={valueFieldType} placeholder="enter value here..."
+                                        style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                }
+                            </div>
+                        </div>
+                        {
+                            formValidation.isError && <FormErrorCard 
+                                message={formValidation.message} 
+                                type={formValidation.type}
+                            />
+                        }
+                        <div>
+                            <div onClick={addSettingsOnSubmit} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                                <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
+                                Save
+                            </div>
                         </div>
                     </div>
-                    {
-                        formValidation.isError && <FormErrorCard 
-                            message={formValidation.message} 
-                            type={formValidation.type}
-                        />
-                    }
-                    <div>
-                        <div onClick={addSettingsOnSubmit} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
-                            <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
-                            Save
-                        </div>
-                    </div>
+                </div>
+                <div style={{width: "calc(50% - 4px)", borderRadius: 8, backgroundColor: "rgb(43, 52, 61)", marginTop: 5}}>
+                    
                 </div>
             </div>
             <div>
@@ -546,6 +554,28 @@ let SettingsContainer = ()=>{
                             }} 
                             style={{cursor: "pointer", display: "flex", alignItems: "center", width: 40, backgroundColor: "yellow", justifyContent: "center"}}>
                             <i className="fa-solid fa-copy"></i>
+                        </div>
+                    </div>
+                </div>
+                <div style={{marginTop: 20}}>
+                    <p style={{color: "white", fontSize: 13, margin: 10}}>
+                        Send Search Link</p>
+                    <div style={{display: "flex"}}>
+                        <div style={{width: "calc(50% - 4px)"}}>
+                            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                    <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                    Customer Email</p>
+                                <div style={{border: "none"}}>
+                                    <input
+                                        type="email" placeholder="type here..."
+                                        style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                </div>
+                            </div>
+                            <div style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                                <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
+                                Send
+                            </div>
                         </div>
                     </div>
                 </div>
