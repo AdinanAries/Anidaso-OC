@@ -128,7 +128,7 @@ function NewUserForm(props){
                 isLoading && <FullPageLoader />
             */}
             <div className="login_page_form_container" 
-                style={{maxWidth: "600px", padding: "20px 10px", borderRadius: 8, backgroundColor: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.1)", overflow: "hidden"}}>
+                style={{padding: "20px 10px", borderRadius: 8, backgroundColor: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.1)", overflow: "hidden"}}>
                 <p className="title-font-color-default" style={{padding: "0 20px", fontSize: 14, marginBottom: 10}}>
                     <i className="fa fa-user-plus" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                     Please complete the form below to add new staff</p>

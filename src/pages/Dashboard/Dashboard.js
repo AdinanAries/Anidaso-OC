@@ -7,6 +7,8 @@ const Dashboard = (props) =>  {
 
     const {
         LogoutOnClick,
+        userDetails,
+        setUserDetails
     } = props
 
     return <>
@@ -14,8 +16,13 @@ const Dashboard = (props) =>  {
         <Header
             LogoutOnClick={LogoutOnClick}
         />
-        <SideMenu />
-        <MainSection />
+        <SideMenu
+            userDetails={userDetails}
+        />
+        <MainSection
+            userDetails={userDetails}
+            setUserDetails={setUserDetails}
+        />
     </>;
 
 }

@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import LoginPage from './pages/LoginPage';
 import FullPageLoader from './components/FullPageLoader';
 import { verifyUserToken } from './services/sessionServices';
+import { fetchAccountInfo } from './services/accountServices';
 import { useEffect, useState } from 'react';
 import { dashboardInits } from './helpers/inits';
 
@@ -11,6 +12,7 @@ function App() {
 
   const [loggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [userDetails, setUserDetails] = useState({});
 
   useEffect(()=>{
     // Verify Login Here
@@ -21,13 +23,15 @@ function App() {
         if(res.valid){
           setIsLoggedIn(true);
           dashboardInits();
+          let usr = await fetchAccountInfo();
+          setUserDetails(usr);
         }else{
           localStorage.removeItem("user_token");
         }
       }
       setIsLoading(false);
     })();
-  });
+  }, []);
 
   return (
     <div className="App">
@@ -35,7 +39,9 @@ function App() {
         (!isLoading) &&
         (
           loggedIn ?
-            <Dashboard /> :
+            <Dashboard 
+              userDetails={userDetails}
+            /> :
             <LoginPage />
         )
       }

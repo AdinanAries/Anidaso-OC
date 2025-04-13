@@ -12,11 +12,18 @@ import MiniLoggedInUserInfoCard from "./MiniLoggedInUserInfoCard";
 
 import { toggle_show_main_sections } from "../helpers/helper-functions";
 
-let SideMenu = () => {
+let SideMenu = (props) => {
+
+    const {
+        userDetails,
+    } = props;
+
     return(
         <div id="main-menu-container" className="side-menu">
             <div className="side-menu-items-list">
-                <MiniLoggedInUserInfoCard />
+                <MiniLoggedInUserInfoCard 
+                    userDetails={userDetails}
+                />
                 <div onClick={()=> {
                     if(document.getElementById("bookings-container").style.display==="none") 
                         toggle_show_main_sections("bookings")

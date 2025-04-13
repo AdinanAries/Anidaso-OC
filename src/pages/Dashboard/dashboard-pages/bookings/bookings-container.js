@@ -18,8 +18,17 @@ import HpAnalytics from "./components/HpAnalytics";
 import { useState } from "react";
 import RecentBookingAttempts from "./components/RecentBookingAttempts";
 import AgentDetailsCard from "../../../../components/AgentDetailsCard";
+import CONSTANTS from "../../../../constants/Constants";
 
-let BookingsContainer = ()=>{
+let BookingsContainer = (props)=>{
+
+    const {
+        userDetails,
+    } = props;
+
+    let isOwner = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.owner);
+    let isAdmin = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.admin)
+    let isAgent = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.agent);
 
     const [ mostRecentBookingData, setMostRecentBookingData ] = useState({});
 
@@ -73,13 +82,19 @@ let BookingsContainer = ()=>{
                         </div>
                         <div className="booking-pane-search-inputs-area-other-section">
                             {/**Flights: Booking Health Checker */}
-                            {/*<BookingHealthChecker
-                                title="Health - Recent Booking"
-                                showButton={true}
-                                data={mostRecentBookingData}
-                            />*/}
+                            {
+                                (isOwner || isAdmin) && <BookingHealthChecker
+                                    title="Health - Recent Booking"
+                                    showButton={true}
+                                    data={mostRecentBookingData}
+                                />
+                            }
                             {/**Agent Details Card */}
-                            <AgentDetailsCard />
+                            {
+                                isAgent && <AgentDetailsCard
+                                    userDetails={userDetails}
+                                />
+                            }
                         </div>
                     </div>
                 </div>

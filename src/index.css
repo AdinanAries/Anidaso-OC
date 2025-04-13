@@ -563,7 +563,7 @@ main {
   padding: 10px;
   margin-bottom: 10px;
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.6);
-  max-width: 1600px;
+  /*max-width: 1600px;*/
 }
 .booking-attempts-list-main-container {
   border: 2px dashed yellow;
@@ -610,6 +610,7 @@ main {
 }
 .booking-pane-search-inputs-area {
   display: flex;
+  justify-content: space-between;
 }
 .booking-pane-search-inputs-area-inputs-section {
   margin-top: 10px;

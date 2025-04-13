@@ -70,6 +70,60 @@ export const fetchAccountInfo = async (path=`\\api\\users\\me\\`) => {
         .then(data => {
             if(data?.status && data?.status === 401)
                 deleteUserToken();
+            console.log(data);
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const fetchUserById = async (user_id, path=`\\api\\users\\`) => {
+    try{
+        return await fetch(API_URL+path+user_id, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            console.log(data);
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const fetchRoleByConstant = async (r_constant, path=`\\api\\roles\\`) => {
+    try{
+        return await fetch(API_URL+path+r_constant, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
             return data
         })
         .catch(err => {

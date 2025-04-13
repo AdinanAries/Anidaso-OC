@@ -10,16 +10,25 @@ import SalesContainer from "./dashboard-pages/sales/sales-container";
 import MarketingContainer from "./dashboard-pages/marketing/marketing-container";
 import SettingsContainer from "../../components/settings-container";
 
-let MainSection = ()=>{
+let MainSection = (props)=>{
+
+    const {
+        userDetails
+    } = props;
+
     return (
         <main>
-            <BookingsContainer />
+            <BookingsContainer
+                userDetails={userDetails}
+            />
             <ChannelsContainer />
             <SupportContainer />
             <AnalyticsContainer />
             <CustomersContainer />
             <ClientsContainer />
-            <StaffContainer />
+            <StaffContainer
+                userDetails={userDetails}
+            />
             <DealsContainer />
             <SalesContainer />
             <MarketingContainer />
