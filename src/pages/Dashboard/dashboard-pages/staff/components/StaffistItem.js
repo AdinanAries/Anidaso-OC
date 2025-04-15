@@ -1,13 +1,12 @@
 const StaffListItem = (props) => {
 
     const {
-        viewStaffInfo
+        viewStaffInfo,
+        info
     } = props;
 
     const viewStaffInfoOnclick = () => {
-        viewStaffInfo({
-            id: "my id"
-        })
+        viewStaffInfo(info?._id);
     }
 
     return <div onClick={viewStaffInfoOnclick} style={{background: "rgba(0,0,0,0.1)", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: 10}}>
@@ -18,10 +17,10 @@ const StaffListItem = (props) => {
                 </div>
                 <div>
                     <p style={{fontSize: 14, color: "orange", marginLeft: 10}}>
-                        Mohammed Adinan
+                        {info.first_name} {info.last_name}
                     </p>
                     <p style={{fontSize: 12, color: "rgba(255,255,255,0.8)", marginLeft: 10}}>
-                        adinanaries@outlook.com
+                        {info.email}
                     </p>
                 </div>
             </div>

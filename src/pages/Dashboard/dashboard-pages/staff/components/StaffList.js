@@ -1,10 +1,25 @@
 import StaffListItem from "./StaffistItem";
+import { getAllUsers } from "../../../../../services/accountServices";
+import { useEffect, useState } from "react";
 
 const StaffList = (props) => {
+
+    const [staffList, setStaffList] = useState([]);
 
     const {
         viewStaffInfo,
     } = props;
+
+    useEffect(()=>{
+        (async()=>{
+            setTimeout(async()=>{
+                let s_list = await getAllUsers();
+            console.log(s_list);
+            setStaffList(s_list);
+            }, 500);
+            
+        })()
+    },[])
 
     return <div style={{padding: "20px 10px", borderRadius: 8, backgroundColor: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.1)", overflow: "hidden"}}>
         <p  className="title-font-color-default" style={{padding: "0 20px", fontSize: 14, marginBottom: 10}}>
@@ -27,7 +42,14 @@ const StaffList = (props) => {
                 123 total results...</p>
         </div>
         <div style={{marginTop: 10}}>
-            <StaffListItem 
+            {
+                staffList.map(each=><StaffListItem 
+                    info={each}
+                    viewStaffInfo={viewStaffInfo}
+                />)
+            }
+            
+            {/*<StaffListItem 
                 viewStaffInfo={viewStaffInfo}
             />
             <StaffListItem 
@@ -41,10 +63,7 @@ const StaffList = (props) => {
             />
             <StaffListItem 
                 viewStaffInfo={viewStaffInfo}
-            />
-            <StaffListItem 
-                viewStaffInfo={viewStaffInfo}
-            />
+            />*/}
         </div>
 
     </div>

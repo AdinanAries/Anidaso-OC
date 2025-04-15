@@ -17,7 +17,23 @@ function NewUserForm(props){
         gender: "",
         password: "",
         confirm_password: "",
+        user_role: "",
     });
+
+    const resetFormDate = () => {
+        setFormData({
+            first_name: "",
+            middle_name: "",
+            last_name: "",
+            dob: "",
+            email: "",
+            phone: "",
+            gender: "",
+            password: "",
+            confirm_password: "",
+            user_role: "",
+        });
+    }
 
     const [ formValidation, setFormValidation ] = useState({
         type: "warning",
@@ -81,6 +97,30 @@ function NewUserForm(props){
         });
     }
 
+    const setUserRole = (e) => {
+        resetFormValidation();
+        setFormData({
+            ...formData,
+            user_role: e.target.value
+        });
+    }
+
+    const setDob = (e) => {
+        resetFormValidation();
+        setFormData({
+            ...formData,
+            dob: e.target.value
+        })
+    }
+
+    const setGender = (e) => {
+        resetFormValidation();
+        setFormData({
+            ...formData,
+            gender: e.target.value
+        })
+    }
+
     const signup_onclick = async () => {
         setIsLoading(true);
         if(
@@ -88,7 +128,10 @@ function NewUserForm(props){
             !formData.first_name ||
             !formData.last_name ||
             !formData.password ||
-            !formData.phone
+            !formData.phone ||
+            !formData.user_role ||
+            !formData.dob ||
+            !formData.gender
         ) {
             setFormValidation({
                 type: "error",
@@ -108,9 +151,9 @@ function NewUserForm(props){
             return
         }
         let res = await registerPost(formData);
-        if(res.token){
-            //localStorage.setItem("user_token", res.token);
-            //window.location.reload();
+        if(res._id){
+            alert("new user created successfully");
+            resetFormDate();
         }else{
             setFormValidation({
                 type: "error",
@@ -183,6 +226,35 @@ function NewUserForm(props){
                     </div>
                     <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                         <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                            <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                            Date of Birth</p>
+                        <div style={{border: "none"}}>
+                            <input 
+                                onInput={setDob}
+                                value={formData.dob}
+                                type="text" placeholder="type here..."
+                                style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                        </div>
+                    </div>
+                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                            <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                            Gender</p>
+                        <div style={{border: "none"}}>
+                            <select 
+                                onInput={setGender}
+                                value={formData.gender}
+                                type="text" placeholder="type here..."
+                                style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
+                                    <option style={{color: "black"}} value="">Choose Gender</option>
+                                    <option style={{color: "black"}} value="male">Male</option>
+                                    <option style={{color: "black"}} value="female">Female</option>
+                                    <option style={{color: "black"}} value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                             <i className="fa fa-key" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                             Password</p>
                         <div style={{border: "none"}}>
@@ -209,9 +281,11 @@ function NewUserForm(props){
                         <p style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 10}}>
                             Select User Role:
                         </p>
-                        <select 
+                        <select onInput={setUserRole}
+                            value={formData.user_role}
                             className="direct-edit-form-field" style={{width: "100%", borderRadius: 8}}
                         >
+                            <option style={{color: "black"}} value="">Choose Role</option>
                             <option style={{color: "black"}} value="1">Owner</option>
                             <option style={{color: "black"}} value="2">Administrator</option>
                             <option style={{color: "black"}} value="3">Agent</option>

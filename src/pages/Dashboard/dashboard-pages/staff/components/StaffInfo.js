@@ -152,6 +152,16 @@ const StaffInfo = (props) => {
             return;
         }
 
+        if(!formData.gender){
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "please select gender",
+            });
+            setIsLoading(false);
+            return;
+        }
+
         let updatedUsr = await updateAccountInfo(formData);
         window.__viewStaffInfo(updatedUsr?._id);
         setIsLoading(false);
@@ -248,9 +258,9 @@ const StaffInfo = (props) => {
                                     className="direct-edit-form-field"
                                     value={formData?.role_info?.constant}
                                 >
-                                    {/*isOwner*/true && <option style={{color: "black"}} value="1">Owner</option>}
-                                    {(isAdmin || isOwner) && <option style={{color: "black"}} value="2">Administrator</option>}
-                                    {(isAdmin || isOwner || isAgent) && <option style={{color: "black"}} value="3">Agent</option>}
+                                    {isLoggedUserOwner && <option style={{color: "black"}} value="1">Owner</option>}
+                                    {(isLoggedUserAdmin || isLoggedUserOwner) && <option style={{color: "black"}} value="2">Administrator</option>}
+                                    {(isLoggedUserAdmin || isLoggedUserOwner || isLoggedUserAgent) && <option style={{color: "black"}} value="3">Agent</option>}
                                 </select>
                             </div>
                         </>

@@ -232,6 +232,28 @@ export const registerPost = async (formData, path=`\\api\\users\\register\\`) =>
     }
 }
 
+export const getAllUsers = async (skip=1, limit=10, path=`\\api\\users\\all\\`) => {
+    try{
+        return await fetch(API_URL+path+`${skip}\\${limit}`, {
+            method: "Get",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => data)
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
 export const registerPriceAlertsUser = async (payload, path="\\api\\users\\price-alerts\\subscribe\\") => {
     try{
         return await fetch(API_URL+path, {
