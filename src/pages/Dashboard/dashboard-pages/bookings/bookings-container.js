@@ -27,7 +27,7 @@ let BookingsContainer = (props)=>{
     } = props;
 
     let isOwner = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.owner);
-    let isAdmin = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.admin)
+    let isAdmin = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.admin);
     let isAgent = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.agent);
 
     const [ mostRecentBookingData, setMostRecentBookingData ] = useState({});

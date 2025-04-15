@@ -276,7 +276,7 @@ export function onclickSearchBookedFlights(skip=sp_recentBookingsPaginationSkip,
 
 //onpageload functions
 function get_recent_bookings(skip, limit){
-
+    
     render_component_loader_markup("bookings-pane-recent-bookings-list");
 
     $.ajax({
@@ -289,7 +289,7 @@ function get_recent_bookings(skip, limit){
         },
         success: (res, status, xhr) => {
             
-            //console.log(res);
+            console.log("recent bookings:",res);
             if(res.length < 1){
                 render_no_booking_found_markup("bookings-pane-recent-bookings-list");
                 return null;

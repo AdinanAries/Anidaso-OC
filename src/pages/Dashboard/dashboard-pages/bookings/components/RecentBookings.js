@@ -57,8 +57,12 @@ const RecentBookings = (props) => {
         <div id="bookings-pane-recent-bookings-list-container">
             <table id="bookings-pane-recent-bookings-list" 
                 className="bookings-pane-booking-list">
+                <div style={{color: "white", padding: 50, backgroundColor: "rgba(255,0,0,0.1)", display: "flex", justifyContent: "center"}}>
+                    <i style={{color: "yellow", marginRight: 10}} className="fa fa-spinner"></i>
+                    <p style={{fontSize: 13}}>Please wait while initializing...</p>
+                </div>
             {/** This is supposed to start a comment */}
-                <tr className="header">
+                {/*<tr className="header">
                     <td className="header">
                         Type
                     </td>
@@ -163,7 +167,7 @@ const RecentBookings = (props) => {
                     <td className="bookings-pane-booking-list-column second edit-icon">
                         <i className="fa fa-pencil" aria-hidden="true"></i>
                     </td>
-                </tr>
+                </tr>*/}
             {/*This is supposed to end a comment **/}
             </table>
         </div>

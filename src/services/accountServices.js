@@ -162,7 +162,7 @@ export const updateAccountInfo = async (user, path=`\\api\\users\\edit\\`) => {
     }
 }
 
-export const updateAccountPassword = async (user, path=`\\api\\users\\edit\\password\\`) => {
+export const updateAccountPassword = async (user, path=`\\api\\users\\password\\edit\\`) => {
     try{
         return await fetch(API_URL+path, {
             method: "PUT",

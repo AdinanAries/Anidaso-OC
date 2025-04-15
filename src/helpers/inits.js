@@ -23,7 +23,10 @@ window.__initCreateSearchLinkDateInput = (isSingleDatePicker=false) => {
 
 export const dashboardInits = () => {
 
-    window.__inits_from_endpoing_calls_file();
+    setTimeout(()=>{
+      window.__inits_from_endpoing_calls_file();
+    }, 1000);
+    
     
     // date choosers
     $(function() {

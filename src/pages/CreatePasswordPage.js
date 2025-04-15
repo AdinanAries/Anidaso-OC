@@ -1,17 +1,24 @@
 import { useState } from "react";
 import wellgo_logo from "../WillgoLogo.png";
 import {
-    loginPost
+    updateAccountPassword
 } from "../services/accountServices";
 
 import FormErrorCard from "../components/FormErrorCard";
 
-const LoginPage = (props) => {
+const CreateNewPasswordPage = (props) => {
+
+    const {
+        userDetails,
+        setUserDetails,
+    } = props;
 
     const [ isLoading, setIsLoading ] = useState(false);
     const [ formData, setFormData ] = useState({
-        email: "",
-        password: "",
+        ...userDetails,
+        new_password: "",
+        password_again: "",
+        old_password: "",
     });
 
     const [ formValidation, setFormValidation ] = useState({
@@ -20,7 +27,7 @@ const LoginPage = (props) => {
         message: "",
     });
 
-    const emailOnInput = (e) => {
+    const oldPasswordOnInput = (e) => {
         setFormValidation({
             type: "warning",
             isError: false,
@@ -28,11 +35,11 @@ const LoginPage = (props) => {
         });
         setFormData({
             ...formData,
-            email: e.target.value
+            old_password: e.target.value
         });
     }
 
-    const passwordOnInput = (e) => {
+    const newPasswordOnInput = (e) => {
         setFormValidation({
             type: "warning",
             isError: false,
@@ -40,31 +47,61 @@ const LoginPage = (props) => {
         });
         setFormData({
             ...formData,
-            password: e.target.value
+            new_password: e.target.value
+        });
+    }
+
+    const passwordAgainOnInput = (e) => {
+        setFormValidation({
+            type: "warning",
+            isError: false,
+            message: "",
+        });
+        setFormData({
+            ...formData,
+            password_again: e.target.value
         });
     }
 
     const loginOnSubmit = async () => {
         setIsLoading(true);
-        if(!formData.email) {
+        if(!formData.old_password) {
             setFormValidation({
                 type: "error",
                 isError: true,
-                message: "please enter email",
+                message: "please enter old password",
             });
             setIsLoading(false);
             return;
         }
-        if(!formData.password) {
+        if(!formData.new_password) {
             setFormValidation({
                 type: "error",
                 isError: true,
-                message: "please enter password",
+                message: "please enter new password",
             });
             setIsLoading(false);
             return;
         }
-        let res = await loginPost(formData);
+        if(!formData.password_again) {
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "please re-enter password to confirm",
+            });
+            setIsLoading(false);
+            return;
+        }
+        if(formData.new_password !== formData?.password_again) {
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "new passwords entered did not match",
+            });
+            setIsLoading(false);
+            return;
+        }
+        let res = await updateAccountPassword(formData);
         if(res.isError){
             setFormValidation({
                 type: "error",
@@ -73,8 +110,7 @@ const LoginPage = (props) => {
             });
             setIsLoading(false);
         } else {
-            if(res.token){
-                localStorage.setItem("user_token", res.token);
+            if(res._id){
                 window.location.reload();
             }else{
                 setFormValidation({
@@ -88,7 +124,8 @@ const LoginPage = (props) => {
         // Reset Password Field for Retries
         setFormData({
             ...formData,
-            password: "",
+            new_password: "",
+            password_again: "",
         });
     }
 
@@ -117,37 +154,63 @@ const LoginPage = (props) => {
                     </p>
                 </a>
             </div>
-            <div style={{width: "calc(50%)", background: "rgba(0,0,0,0.2)", padding: 45, borderRadius: 9}}>
-                <p style={{color: "rgba(255,255,255,0.8)", textAlign: "center", fontSize: 19, marginBottom: 20}}>
-                    Login</p>
+            <div style={{width: "calc(50%)", background: "rgba(0, 102, 255, 0.2)", padding: 45, borderRadius: 9}}>
+                <p style={{color: "rgba(0, 191, 255, 0.8)", textAlign: "center", fontSize: 19, marginBottom: 20, textDecoration: "underline"}}>
+                    Create Password</p>
+                    <p style={{color: "rgb(204, 255, 0)", textAlign: "center", fontSize: 13}}>
+                        <i style={{color: "rgba(0, 191, 255, 0.8)", marginRight: 10}} 
+                                className="fa-solid fa-user"></i>
+                        Welcome, {userDetails?.first_name +" "+ userDetails?.last_name}
+                    </p>
+                    <p style={{backgroundColor: "rgba(0,255,0,0.1)", padding: 20, borderLeft: "4px solid lightgreen",
+                            margin: "20px 0", cursor: "pointer", color: "lightgreen", fontSize: 14}}>
+                        <span onClick={()=>alert("forgot password")}>
+                            <i style={{fontSize: 19, color: "lightgreen", marginRight: 10}} 
+                                className="fa-solid fa-exclamation-triangle"></i>
+                                Please create new password
+                        </span></p>
                 {
                     !isLoading ?
                     <div>
                         <div>
                             <p style={{color: "white", marginBottom: 20, fontSize: 13}}>
-                                <i style={{fontSize: 18, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
-                                    className="fa fa-envelope"></i>
-                                Email</p>
-                            <input type="email"
+                                <i style={{fontSize: 19, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
+                                    className="fa fa-lock"></i>
+                                Old Password</p>
+                            <input
                                 className="focus-shadow-xtreme-dark-bg"
-                                onInput={emailOnInput}
+                                type="password"
+                                onInput={oldPasswordOnInput}
                                 style={{borderRadius: 50, color: "white", width: "100%", padding: 20, border: "none", background: "rgba(255,255,255,0.07)"}}
-                                placeholder="enter your email here" 
-                                value={formData.email}
+                                placeholder="enter your password here" 
+                                value={formData.old_password}    
                             />
                         </div>
                         <div style={{marginTop: 30}}>
                             <p style={{color: "white", marginBottom: 20, fontSize: 13}}>
                                 <i style={{fontSize: 19, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
                                     className="fa fa-lock"></i>
-                                Password</p>
+                                New Password</p>
                             <input
                                 className="focus-shadow-xtreme-dark-bg"
                                 type="password"
-                                onInput={passwordOnInput}
+                                onInput={newPasswordOnInput}
                                 style={{borderRadius: 50, color: "white", width: "100%", padding: 20, border: "none", background: "rgba(255,255,255,0.07)"}}
                                 placeholder="enter your password here" 
-                                value={formData.password}    
+                                value={formData.new_password}    
+                            />
+                        </div>
+                        <div style={{marginTop: 30}}>
+                            <p style={{color: "white", marginBottom: 20, fontSize: 13}}>
+                                <i style={{fontSize: 18, color: "rgba(255,255,255,0.5)", marginRight: 10}} 
+                                    className="fa fa-lock"></i>
+                                Confirm New Password</p>
+                            <input type="password"
+                                className="focus-shadow-xtreme-dark-bg"
+                                onInput={passwordAgainOnInput}
+                                style={{borderRadius: 50, color: "white", width: "100%", padding: 20, border: "none", background: "rgba(255,255,255,0.07)"}}
+                                placeholder="confirm password here" 
+                                value={formData.password_again}
                             />
                         </div>
                         {
@@ -161,13 +224,8 @@ const LoginPage = (props) => {
                         {
                             !isLoading && <>
                                 <div onClick={loginOnSubmit} className="standard-action-button" style={{padding: 15, marginTop: 20, padding: 20}}>
-                                    Login
+                                    Create Password
                                 </div>
-                                <p style={{marginTop: 20, cursor: "pointer", color: "rgb(200, 99, 77)", fontSize: 14}}>
-                                    <span onClick={()=>alert("forgot password")}>
-                                    <i style={{fontSize: 19, color: "rgb(173, 0, 0)", marginRight: 10}} 
-                                        className="fa-solid fa-key"></i>
-                                        Forgot Password?</span></p>
                             </>
                         }
                     </div> :
@@ -183,4 +241,4 @@ const LoginPage = (props) => {
     </main>
 }
 
-export default LoginPage;
+export default CreateNewPasswordPage;

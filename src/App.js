@@ -3,6 +3,7 @@ import './App.css';
 import Dashboard from './pages/Dashboard/Dashboard';
 import LoginPage from './pages/LoginPage';
 import FullPageLoader from './components/FullPageLoader';
+import CreatePasswordPage from "./pages/CreatePasswordPage";
 import { verifyUserToken } from './services/sessionServices';
 import { fetchAccountInfo } from './services/accountServices';
 import { useEffect, useState } from 'react';
@@ -35,13 +36,20 @@ function App() {
 
   return (
     <div className="App">
-      { 
+      {
         (!isLoading) &&
         (
           loggedIn ?
-            <Dashboard 
-              userDetails={userDetails}
-            /> :
+            (
+              !userDetails?.make_new_password ?
+              <Dashboard 
+                userDetails={userDetails}
+              /> : 
+              <CreatePasswordPage 
+                userDetails={userDetails}
+                setUserDetails={setUserDetails}
+              />
+            ) :
             <LoginPage />
         )
       }
