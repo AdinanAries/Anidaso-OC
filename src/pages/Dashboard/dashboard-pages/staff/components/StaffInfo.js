@@ -162,8 +162,16 @@ const StaffInfo = (props) => {
             return;
         }
 
-        let updatedUsr = await updateAccountInfo(formData);
-        window.__viewStaffInfo(updatedUsr?._id);
+        let _res = await updateAccountInfo(formData);
+        if(_res?._id)
+            window.__viewStaffInfo(_res?._id);
+        else{
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: _res?.message,
+            });
+        }
         setIsLoading(false);
     } 
 

@@ -136,6 +136,58 @@ export const fetchRoleByConstant = async (r_constant, path=`\\api\\roles\\`) => 
     }
 }
 
+export const fetchAppRoles = async (path=`\\api\\roles\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const fetchAppPages = async (path=`\\api\\roles\\pages\\all\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
 export const updateAccountInfo = async (user, path=`\\api\\users\\edit\\`) => {
     try{
         return await fetch(API_URL+path, {
