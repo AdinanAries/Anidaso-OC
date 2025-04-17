@@ -183,27 +183,40 @@ function Header(props){
                         </div>
                     </div>
                     <div style={{display: "flex"}}>
-                        <div onClick={show_notifications_container} style={{position: "relative"}} id="top-menu-notifications-btn" className="header-right-side-icon">
+                        <div onClick={show_notifications_container} style={{position: "relative"}} id="top-menu-notifications-btn" 
+                            className="header-right-side-icon tool-tip-parent">
                             <div className="header-icon-status-indicator">
 
                             </div>
-                            <p className="header-icon" style={{marginBottom: 5, textAlign: "center"}}>
-                                <i style={{color: "rgba(255,255,255,0.8)"}} className="fa fa-bell" aria-hidden="true"></i>
+                            <p className="header-icon" style={{textAlign: "center"}}>
+                                <i style={{color: "skyblue", fontSize: 18}} className="fa fa-bell" aria-hidden="true"></i>
                             </p>
-                            <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Notifications</p>
+                            <p className="header-icon-titles tool-tip" 
+                                style={{minWidth: 60, left: -15}}>
+                                <span style={{color: "black", fontSize: 12}}>
+                                Notifications</span>
+                            </p>
                         </div>
-                        <div onClick={()=>toggle_show_main_sections("settings")} id="top-menu-settings-btn" className="header-right-side-icon">
-                            <p className="header-icon" style={{marginBottom: 5, textAlign: "center"}}>
-                                <i style={{color: "rgba(255,255,255,0.8)"}} className="fa-solid fa-briefcase" aria-hidden="true"></i>
+                        <div onClick={()=>toggle_show_main_sections("settings")}
+                             id="top-menu-settings-btn" className="header-right-side-icon tool-tip-parent">
+                            <p className="header-icon" style={{textAlign: "center"}}>
+                                <i style={{color: "skyblue", fontSize: 18}} className="fa-solid fa-briefcase" aria-hidden="true"></i>
                             </p>
-                            <p className="header-icon-titles" style={{color: "white", fontSize: 12}}>Business</p>
+                            <p className="header-icon-titles tool-tip" 
+                                style={{minWidth: 60, left: -15}}>
+                                <span style={{color: "black", fontSize: 12}}>
+                                    Business</span></p>
                         </div>
-                        <div onClick={logoutOnclick} className="header-right-side-icon" style={{cursor: "pointer", padding: "0 10px", marginLeft: 10, display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                            <p className="header-icon bumpup" style={{marginBottom: 5, textAlign: "center"}}>
-                                <i style={{color: "rgba(255,0,0,0.6)"}} className="fa fa-sign-out" aria-hidden="true"></i>
+                        <div onClick={logoutOnclick} className="header-right-side-icon tool-tip-parent" 
+                            style={{cursor: "pointer", padding: "0 10px"}}>
+                            <p className="header-icon bumpup" style={{textAlign: "center"}}>
+                                <i style={{color: "skyblue", fontSize: 18}} className="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
                             </p>
-                            <p className="header-icon-titles" style={{color: "rgba(255,0,0,0.6)", fontSize: 12}}>
-                                Logout</p>
+                            <p className="header-icon-titles tool-tip" 
+                                style={{minWidth: 60, left: -19}}>
+                                <span style={{color: "black", fontSize: 12}}>
+                                    Logout</span>
+                            </p>
                         </div>
                     </div>
                 </div>

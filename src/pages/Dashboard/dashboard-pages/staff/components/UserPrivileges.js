@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { fetchAppRoles, fetchAppPages } from "../../../../../services/accountServices";
+import { 
+    fetchAppRoles, 
+    fetchAppPages, 
+    fetchRolePrivilegeById,
+    fetchAppResources,
+    fetchCanActionsByResourceTypeId,
+} from "../../../../../services/accountServices";
 
 const UserPrivileges = (props) => {
 
@@ -8,6 +14,8 @@ const UserPrivileges = (props) => {
     } = props
 
     const [appRoleState, setAppRoleState] = useState([]);
+    const [appResourceState, setAppResourceState] = useState([]);
+    const [currentPrivilege, setCurrentPrivilege] = useState({});
     const [selectedRole, setSelectedRole] = useState({});
     const [appPagesState, setAppPagesState] = useState([]);
     const [isCreateNewRole, setIsCreateNewRole] = useState(false);
@@ -17,10 +25,21 @@ const UserPrivileges = (props) => {
         (async()=>{
             let _roles = await fetchAppRoles();
             let _pages = await fetchAppPages();
+            let _resources = await fetchAppResources();
+            if(_roles.length>0){
+                let _priv = await fetchRolePrivilegeById(_roles[0]._id);
+                setCurrentPrivilege(_priv);
+            }
             setAppRoleState(_roles);
             setSelectedRole(_roles[0]);
-            console.log(_roles);
             setAppPagesState(_pages);
+            if(_resources.length > 0){
+                _resources.forEach(async each=>{
+                    let actions = await fetchCanActionsByResourceTypeId(each?.resource_type_id);
+                    each.can_actions = actions;
+                    setAppResourceState(_resources);
+                });
+            }
         })()
     }, []);
 
@@ -30,6 +49,11 @@ const UserPrivileges = (props) => {
     }
 
     const appPageCheckBoxOnInput = (e) => {
+        console.log(e.target.checked);
+        console.log(e.target.value);
+    }
+
+    const appResourceActionCheckBoxOnInput = (e) => {
         console.log(e.target.checked);
         console.log(e.target.value);
     }
@@ -94,14 +118,14 @@ const UserPrivileges = (props) => {
             </div>
             <div style={{marginTop: 20}}>
                 {
-                    isCreateNewRole ?
+                    isCreateNewRole &&
                     <div>
                         <p style={{color: "#a9ddff", fontSize: 13, marginBottom: 10}}>
                             <i style={{marginRight: 10, color: "skyblue"}} className="fa-solid fa-gear"></i> 
                             {isCreateNewRolePrivilege ? "Create Role Privileges" : "Set Role Privileges"}</p>
                         {
                             isCreateNewRolePrivilege ? <>
-                                <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                <div style={{marginBottom: 20, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                                     <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                                         <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                         Privilege Title</p>
@@ -131,11 +155,14 @@ const UserPrivileges = (props) => {
                                 </p>
                             </>
                         }
-                    </div> :
+                    </div>
+                }
+                {
+                    (!isCreateNewRole || isCreateNewRolePrivilege) &&
                     <div>
                         <p style={{color: "white", fontSize: 13, marginBottom: 10}}>
                             <i style={{marginRight: 10, color: "skyblue"}} className="fa-solid fa-users-gear"></i> 
-                            {selectedRole?.title} Privileges</p>
+                            {isCreateNewRolePrivilege ? "Select" : selectedRole?.title} Privileges</p>
                             <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, marginBottom: 4}}>
                                 <p style={{color: "skyblue", fontSize: 13}}>
                                     Menu Access</p>
@@ -156,175 +183,42 @@ const UserPrivileges = (props) => {
                                         </div>
                                         })
                                     }
-                                    
-                                    {/*<div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Packages & Deals</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Support</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Sales</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Marketing</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Customers</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Analytics</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Channels</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Staff</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "32%"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Partners</label>
-                                            </span>
-                                        </p>
-                                    </div>*/}
                                 </div>
                             </div>
                         <div style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap",}}>
-                            <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, width: "calc(50% - 2px)", marginBottom: 4}}>
-                                <p style={{color: "orange", fontSize: 13}}>
-                                    Account Management</p>
-                                <div style={{display: "flex", flexWrap: "wrap", marginTop: 10}}>
-                                    <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                View Users</label>
-                                            </span>
-                                        </p>
+                            {
+                                appResourceState.map(each=>{
+                                    console.log(!each?.can_actions);
+                                    return <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, width: "calc(50% - 2px)", marginBottom: 4}}>
+                                        <p style={{color: "orange", fontSize: 13}}>
+                                            {each?.resource_title} Management</p>
+                                        <div style={{display: "flex", flexWrap: "wrap", marginTop: 10}}>
+                                            {   
+                                                each?.can_actions?.map(action=>{
+                                                    return <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
+                                                        <p style={{marginBottom: 10}}>
+                                                            <input onInput={appResourceActionCheckBoxOnInput}
+                                                                value={action?._id} 
+                                                                id={action?._id} 
+                                                                type="checkbox" />
+                                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
+                                                                <label htmlFor={action?._id}>
+                                                                {action?.action_title} {each?.resource_title}</label>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                })
+                                            }
+                                            {
+                                                !each?.can_actions && <p style={{fontSize: 12, color: "white", margin: "10px 0"}}>
+                                                    <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-exclamation-triangle"></i>
+                                                    No Available ACL Actions
+                                                </p>
+                                            }
+                                        </div>
                                     </div>
-                                    <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Add User</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Delete Account</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Edit Account</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, width: "calc(50% - 2px)", marginBottom: 4}}>
-                                <p style={{color: "orange", fontSize: 13}}>
-                                    Role Management</p>
-                                <div style={{display: "flex", flexWrap: "wrap", marginTop: 10}}>
-                                    <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                View Roles</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Add Role</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Delete Role</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                        <p style={{marginBottom: 10}}>
-                                            <input type="checkbox" />
-                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                <label>
-                                                Edit Role</label>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                                })
+                            }
                         </div>
                     </div>
                 }

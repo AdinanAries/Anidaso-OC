@@ -110,6 +110,33 @@ export const fetchUserById = async (user_id, path=`\\api\\users\\`) => {
     }
 }
 
+export const fetchRolePrivilegeById = async (priv_id, path=`\\api\\roles\\privilege\\`) => {
+    try{
+        return await fetch(API_URL+path+priv_id, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            console.log(data);
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
 export const fetchRoleByConstant = async (r_constant, path=`\\api\\roles\\`) => {
     try{
         return await fetch(API_URL+path+r_constant, {
@@ -165,6 +192,58 @@ export const fetchAppRoles = async (path=`\\api\\roles\\`) => {
 export const fetchAppPages = async (path=`\\api\\roles\\pages\\all\\`) => {
     try{
         return await fetch(API_URL+path, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const fetchAppResources = async (path=`\\api\\roles\\resources\\all\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const fetchCanActionsByResourceTypeId = async (can_action_id, path=`\\api\\roles\\can-actions\\`) => {
+    try{
+        return await fetch(API_URL+path+can_action_id, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
