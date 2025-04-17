@@ -1,3 +1,4 @@
+import FormErrorCard from "../../../../../components/FormErrorCard";
 import { useEffect, useState } from "react";
 import { 
     fetchAppRoles, 
@@ -5,6 +6,8 @@ import {
     fetchRolePrivilegeById,
     fetchAppResources,
     fetchCanActionsByResourceTypeId,
+    updatePrivilegeInfo,
+    createNewPrivilege,
 } from "../../../../../services/accountServices";
 
 const UserPrivileges = (props) => {
@@ -12,6 +15,20 @@ const UserPrivileges = (props) => {
     const {
         showNewUserForm
     } = props
+
+    const [ formValidation, setFormValidation ] = useState({
+        type: "warning",
+        isError: false,
+        message: "",
+    });
+
+    const resetFormValidation = () => {
+        setFormValidation({
+            type: "warning",
+            isError: false,
+            message: "",
+        })
+    }
 
     const [appRoleState, setAppRoleState] = useState([]);
     const [appResourceState, setAppResourceState] = useState([]);
@@ -22,35 +39,55 @@ const UserPrivileges = (props) => {
     const [isCreateNewRolePrivilege, setIsCreateNewRoleRolePrivilege] = useState(false);
 
     useEffect(()=>{
-        (async()=>{
-            let _roles = await fetchAppRoles();
-            let _pages = await fetchAppPages();
-            let _resources = await fetchAppResources();
-            if(_roles.length>0){
-                let _priv = await fetchRolePrivilegeById(_roles[0]._id);
-                setCurrentPrivilege(_priv);
-            }
-            setAppRoleState(_roles);
-            setSelectedRole(_roles[0]);
-            setAppPagesState(_pages);
-            if(_resources.length > 0){
-                _resources.forEach(async each=>{
-                    let actions = await fetchCanActionsByResourceTypeId(each?.resource_type_id);
-                    each.can_actions = actions;
-                    setAppResourceState(_resources);
-                });
-            }
-        })()
+        initPrivPageState();
     }, []);
+
+    const initPrivPageState = async () => {
+        let _roles = await fetchAppRoles();
+        let _pages = await fetchAppPages();
+        let _resources = await fetchAppResources();
+        if(_roles.length>0){
+            getAndSetCurrentPrivilegeStateById(_roles[0].privilege_id);
+        }
+        setAppRoleState(_roles);
+        setSelectedRole(_roles[0]);
+        setAppPagesState(_pages);
+        if(_resources.length > 0){
+            _resources.forEach(async each=>{
+                let actions = await fetchCanActionsByResourceTypeId(each?.resource_type_id);
+                each.can_actions = actions;
+                setAppResourceState(_resources);
+            });
+        }
+    }
 
     const appRoleOnInput = (e) => {
         let _rr=appRoleState.find(item=>item.constant===parseInt(e.target.value));
         setSelectedRole(_rr);
+        getAndSetCurrentPrivilegeStateById(_rr?.privilege_id);
     }
 
     const appPageCheckBoxOnInput = (e) => {
-        console.log(e.target.checked);
-        console.log(e.target.value);
+        resetFormValidation();
+        let _p_pagesCanAccess=currentPrivilege.pagesCanAccess;
+        if(!e.target.checked){
+            _p_pagesCanAccess.push(e.target.value);
+            _p_pagesCanAccess = [...new Set(_p_pagesCanAccess)];
+        }else{
+            _p_pagesCanAccess = _p_pagesCanAccess.filter(item => item !== e.target.value);
+        }
+        setCurrentPrivilege({
+            ...currentPrivilege,
+            pagesCanAccess: _p_pagesCanAccess
+        })
+    }
+
+    const newPrivilegeTitleOnInput = (e) => {
+        resetFormValidation();
+        setCurrentPrivilege({
+            ...currentPrivilege,
+            description: e.target.value
+        })
     }
 
     const appResourceActionCheckBoxOnInput = (e) => {
@@ -64,10 +101,64 @@ const UserPrivileges = (props) => {
 
     const openCloseCreateNewRolePrivilegeForm = (boolean_p) => {
         setIsCreateNewRoleRolePrivilege(boolean_p)
+        if(boolean_p){
+            setCurrentPrivilege({
+                description: "",
+                pagesCanAccess: [],
+                resourcesCanActions: [
+                    /*{
+                        "canActions": [
+                            "67fed8706fc14538c0b4b1ef",
+                            "67fed6521a63c095781eb815"
+                        ],
+                        "resources_id": "68004acf2f383fab21fd06c7"
+                    }*/
+                ]
+            })
+        }else{
+            resetFormValidation();
+            initPrivPageState();
+        }
+    }
+
+    const updatePrivilegeOnSubmit = async () =>{
+        let __res = await updatePrivilegeInfo(currentPrivilege);
+        console.log(__res);
+    }
+
+    const createNewPrivilegeOnSubmit = async () => {
+        let __res = await createNewPrivilege(currentPrivilege);
+        console.log(__res);
+        if(__res?._id){
+            alert("New Privilege Created")
+        }else{
+            setFormValidation({
+                type: "warning",
+                isError: true,
+                message: __res?.message,
+            })
+        }
+        
+    }
+
+    const getAndSetCurrentPrivilegeStateById = async (id) => {
+        let _priv = [];
+        if(id){
+            _priv = await fetchRolePrivilegeById(id);
+        }
+        setCurrentPrivilege(_priv);
     }
 
     return <div className="main-seaction-containers">
         <div>
+            {
+                formValidation.isError && <div style={{background: "rgba(255,0,0,0.2)", padding: 20}}>
+                    <FormErrorCard 
+                        message={formValidation.message} 
+                        type={formValidation.type}
+                    />
+                </div>
+            }
             <div>
                 {
                     isCreateNewRole ? 
@@ -130,7 +221,8 @@ const UserPrivileges = (props) => {
                                         <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                         Privilege Title</p>
                                     <div style={{border: "none"}}>
-                                        <input
+                                        <input onInput={newPrivilegeTitleOnInput}
+                                            value={currentPrivilege?.description}
                                             type="text" placeholder="type here..."
                                             style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                                     </div>
@@ -162,16 +254,39 @@ const UserPrivileges = (props) => {
                     <div>
                         <p style={{color: "white", fontSize: 13, marginBottom: 10}}>
                             <i style={{marginRight: 10, color: "skyblue"}} className="fa-solid fa-users-gear"></i> 
-                            {isCreateNewRolePrivilege ? "Select" : selectedRole?.title} Privileges</p>
+                            {
+                                isCreateNewRolePrivilege ? 
+                                "Access/Resource Management" : 
+                                (currentPrivilege?.description || "No Privilege!")
+                            }
+                            {
+                                !isCreateNewRolePrivilege && <span style={{color: "yellow", marginLeft: 10, fontSize: 13, textDecoration: "underline", cursor: "pointer"}}>
+                                    Change Privilege Type
+                                </span>
+                            }
+                        </p>
+                        {
+                        (!isCreateNewRolePrivilege && !currentPrivilege?._id) ? <div style={{padding: 20, backgroundColor: "rgba(255,0,0,0.2)"}}>
+                            <p style={{color: "white", fontSize: 13}}>
+                                <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-exclamation-triangle"></i>
+                                No privileges associated with {selectedRole?.title} role. 
+                                <span style={{color: "yellow", marginLeft: 10, fontSize: 13, textDecoration: "underline", cursor: "pointer"}}>
+                                    Click here to set privileges
+                                </span>
+                            </p>
+                        </div> :
+                        <>
                             <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, marginBottom: 4}}>
                                 <p style={{color: "skyblue", fontSize: 13}}>
                                     Menu Access</p>
                                 <div style={{display: "flex", flexWrap: "wrap", marginTop: 10}}>
                                     {
                                         appPagesState.map(each=>{
+                                            let cb_checked=(currentPrivilege?.pagesCanAccess?.includes(each?._id));
                                             return <div style={{margin: 2.5, width: "32%"}}>
                                             <p style={{marginBottom: 10}}>
-                                                <input id={each?._id} onInput={appPageCheckBoxOnInput}
+                                                <input checked={cb_checked}
+                                                    id={each?._id} onInput={appPageCheckBoxOnInput}
                                                     value={each?._id} 
                                                     type="checkbox"
                                                 />
@@ -185,42 +300,52 @@ const UserPrivileges = (props) => {
                                     }
                                 </div>
                             </div>
-                        <div style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap",}}>
-                            {
-                                appResourceState.map(each=>{
-                                    console.log(!each?.can_actions);
-                                    return <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, width: "calc(50% - 2px)", marginBottom: 4}}>
-                                        <p style={{color: "orange", fontSize: 13}}>
-                                            {each?.resource_title} Management</p>
-                                        <div style={{display: "flex", flexWrap: "wrap", marginTop: 10}}>
-                                            {   
-                                                each?.can_actions?.map(action=>{
-                                                    return <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
-                                                        <p style={{marginBottom: 10}}>
-                                                            <input onInput={appResourceActionCheckBoxOnInput}
-                                                                value={action?._id} 
-                                                                id={action?._id} 
-                                                                type="checkbox" />
-                                                            <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                                <label htmlFor={action?._id}>
-                                                                {action?.action_title} {each?.resource_title}</label>
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                })
-                                            }
-                                            {
-                                                !each?.can_actions && <p style={{fontSize: 12, color: "white", margin: "10px 0"}}>
-                                                    <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-exclamation-triangle"></i>
-                                                    No Available ACL Actions
-                                                </p>
-                                            }
+                            <div style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap",}}>
+                                {
+                                    appResourceState.map(each=>{
+                                        return <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, width: "calc(50% - 2px)", marginBottom: 4}}>
+                                            <p style={{color: "orange", fontSize: 13}}>
+                                                {each?.resource_title} Management</p>
+                                            <div style={{display: "flex", flexWrap: "wrap", marginTop: 10}}>
+                                                {   
+                                                    each?.can_actions?.map(action=>{
+                                                        return <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
+                                                            <p style={{marginBottom: 10}}>
+                                                                <input onInput={appResourceActionCheckBoxOnInput}
+                                                                    value={action?._id} 
+                                                                    id={action?._id} 
+                                                                    type="checkbox" />
+                                                                <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
+                                                                    <label htmlFor={action?._id}>
+                                                                    {action?.action_title} {each?.resource_title}</label>
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    })
+                                                }
+                                                {
+                                                    !each?.can_actions && <p style={{fontSize: 12, color: "white", margin: "10px 0"}}>
+                                                        <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-exclamation-triangle"></i>
+                                                        No Available ACL Actions
+                                                    </p>
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                })
-                            }
-                        </div>
+                                    })
+                                }
+                            </div>
+                        </>
+                        }
                     </div>
+                }
+                {
+                    (!isCreateNewRole && !isCreateNewRolePrivilege) &&
+                    <div onClick={updatePrivilegeOnSubmit}
+                        className="standard-action-button" style={{marginTop: 10}}>
+                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-check"></i>
+                        Update Role
+                    </div>
+
                 }
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     {
@@ -240,7 +365,8 @@ const UserPrivileges = (props) => {
                             </div>
                         }
                         </> :
-                        <div onClick={()=>openCloseCreateNewRoleForm(true)} className="standard-action-button">
+                        <div onClick={()=>openCloseCreateNewRoleForm(true)} 
+                            style={{margin: "20px 0", color: "yellow", cursor: "pointer", fontSize: 13, textDecoration: "underline"}}>
                             <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-plus"></i>
                             New Role
                         </div>
@@ -250,7 +376,7 @@ const UserPrivileges = (props) => {
                         <>
                             {
                                 isCreateNewRolePrivilege ?
-                                <div className="standard-action-button">
+                                <div onClick={createNewPrivilegeOnSubmit} className="standard-action-button">
                                     <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-check"></i>
                                     Save Privilege
                                 </div> :
@@ -260,7 +386,8 @@ const UserPrivileges = (props) => {
                                 </div>
                             }
                         </>:
-                        <div onClick={()=>showNewUserForm(true)} className="standard-action-button" style={{backgroundColor: "green"}}>
+                        <div onClick={()=>showNewUserForm(true)} 
+                            style={{margin: "20px 0", color: "yellow", cursor: "pointer", fontSize: 13, textDecoration: "underline"}}>
                             <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-user-plus"></i>
                             New User
                         </div>

@@ -137,6 +137,55 @@ export const fetchRolePrivilegeById = async (priv_id, path=`\\api\\roles\\privil
     }
 }
 
+export const createNewPrivilege = async (priv_obj, path=`\\api\\roles\\privilege\\create\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+            body: JSON.stringify(priv_obj)
+        })
+        .then(res => res.json())
+        .then(data => data)
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const updatePrivilegeInfo = async (priv_obj, path=`\\api\\roles\\privilege\\edit\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+            body: JSON.stringify({
+                id: priv_obj._id,
+                ...priv_obj
+            })
+        })
+        .then(res => res.json())
+        .then(data => data)
+        .catch(err => {
+            console.log(err);
+            return {isError: true};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true};
+    }
+}
+
 export const fetchRoleByConstant = async (r_constant, path=`\\api\\roles\\`) => {
     try{
         return await fetch(API_URL+path+r_constant, {
