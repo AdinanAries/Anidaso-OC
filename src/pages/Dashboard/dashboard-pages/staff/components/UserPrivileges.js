@@ -8,6 +8,8 @@ import {
     fetchCanActionsByResourceTypeId,
     updatePrivilegeInfo,
     createNewPrivilege,
+    fetchAllPrivileges,
+    updateAppRoleInfo
 } from "../../../../../services/accountServices";
 
 const UserPrivileges = (props) => {
@@ -32,11 +34,13 @@ const UserPrivileges = (props) => {
 
     const [appRoleState, setAppRoleState] = useState([]);
     const [appResourceState, setAppResourceState] = useState([]);
+    const [allRolePrivileges, setAllRolePrivileges] = useState([]);
     const [currentPrivilege, setCurrentPrivilege] = useState({});
     const [selectedRole, setSelectedRole] = useState({});
     const [appPagesState, setAppPagesState] = useState([]);
     const [isCreateNewRole, setIsCreateNewRole] = useState(false);
     const [isCreateNewRolePrivilege, setIsCreateNewRoleRolePrivilege] = useState(false);
+    const [isChangePrivTypeForExistingRole, setIsChangePrivTypeForExistingRole] = useState(false);
 
     useEffect(()=>{
         initPrivPageState();
@@ -46,12 +50,16 @@ const UserPrivileges = (props) => {
         let _roles = await fetchAppRoles();
         let _pages = await fetchAppPages();
         let _resources = await fetchAppResources();
+        let _all_privs = await fetchAllPrivileges();
         if(_roles.length>0){
             getAndSetCurrentPrivilegeStateById(_roles[0].privilege_id);
         }
         setAppRoleState(_roles);
         setSelectedRole(_roles[0]);
         setAppPagesState(_pages);
+        if(Array.isArray(_all_privs))
+            setAllRolePrivileges(_all_privs);
+        setIsChangePrivTypeForExistingRole(false);
         if(_resources.length > 0){
             _resources.forEach(async each=>{
                 let actions = await fetchCanActionsByResourceTypeId(each?.resource_type_id);
@@ -65,16 +73,17 @@ const UserPrivileges = (props) => {
         let _rr=appRoleState.find(item=>item.constant===parseInt(e.target.value));
         setSelectedRole(_rr);
         getAndSetCurrentPrivilegeStateById(_rr?.privilege_id);
+        setIsChangePrivTypeForExistingRole(false);
     }
 
     const appPageCheckBoxOnInput = (e) => {
         resetFormValidation();
         let _p_pagesCanAccess=currentPrivilege.pagesCanAccess;
         if(!e.target.checked){
-            _p_pagesCanAccess.push(e.target.value);
+            _p_pagesCanAccess?.push(e.target.value);
             _p_pagesCanAccess = [...new Set(_p_pagesCanAccess)];
         }else{
-            _p_pagesCanAccess = _p_pagesCanAccess.filter(item => item !== e.target.value);
+            _p_pagesCanAccess = _p_pagesCanAccess?.filter(item => item !== e.target.value);
         }
         setCurrentPrivilege({
             ...currentPrivilege,
@@ -93,6 +102,19 @@ const UserPrivileges = (props) => {
     const appResourceActionCheckBoxOnInput = (e) => {
         console.log(e.target.checked);
         console.log(e.target.value);
+    }
+
+    const appPrivilegeForExistingRoleOnInput = (e) => {
+        let __priv_id=e.target.value;
+        getAndSetCurrentPrivilegeStateById(__priv_id);
+        setSelectedRole({
+            ...selectedRole,
+            privilege_id: __priv_id
+        })
+    }
+
+    const openCloseChangePrivTypeForExistingRole = (bool_p) => {
+        setIsChangePrivTypeForExistingRole(bool_p);
     }
 
     const openCloseCreateNewRoleForm = (boolean_p) => {
@@ -123,20 +145,28 @@ const UserPrivileges = (props) => {
 
     const updatePrivilegeOnSubmit = async () =>{
         let __res = await updatePrivilegeInfo(currentPrivilege);
+        if(__res?._id){
+            let _role_res = await updateAppRoleInfo(selectedRole);
+            if(_role_res?._id){
+                console.log(_role_res);
+                alert("Role and Privileges Updated Successfully!")
+            }
+        }
         console.log(__res);
+        
     }
 
     const createNewPrivilegeOnSubmit = async () => {
         let __res = await createNewPrivilege(currentPrivilege);
         console.log(__res);
         if(__res?._id){
-            alert("New Privilege Created")
+            alert("New Privilege Created");
         }else{
             setFormValidation({
                 type: "warning",
                 isError: true,
                 message: __res?.message,
-            })
+            });
         }
         
     }
@@ -257,25 +287,69 @@ const UserPrivileges = (props) => {
                             {
                                 isCreateNewRolePrivilege ? 
                                 "Access/Resource Management" : 
-                                (currentPrivilege?.description || "No Privilege!")
+                                (selectedRole?.title+" Role - "+(currentPrivilege?.description || "No Privilege Type!"))
                             }
                             {
-                                !isCreateNewRolePrivilege && <span style={{color: "yellow", marginLeft: 10, fontSize: 13, textDecoration: "underline", cursor: "pointer"}}>
+                                (!isCreateNewRolePrivilege && !isChangePrivTypeForExistingRole) && 
+                                <span onClick={()=>openCloseChangePrivTypeForExistingRole(true)} style={{color: "yellow", marginLeft: 10, fontSize: 13, textDecoration: "underline", cursor: "pointer"}}>
                                     Change Privilege Type
                                 </span>
                             }
                         </p>
                         {
-                        (!isCreateNewRolePrivilege && !currentPrivilege?._id) ? <div style={{padding: 20, backgroundColor: "rgba(255,0,0,0.2)"}}>
+                        (!isCreateNewRolePrivilege && !currentPrivilege?._id && !isChangePrivTypeForExistingRole) ? <div style={{padding: 20, backgroundColor: "rgba(255,0,0,0.2)"}}>
                             <p style={{color: "white", fontSize: 13}}>
                                 <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-exclamation-triangle"></i>
                                 No privileges associated with {selectedRole?.title} role. 
-                                <span style={{color: "yellow", marginLeft: 10, fontSize: 13, textDecoration: "underline", cursor: "pointer"}}>
+                                <span onClick={()=>openCloseChangePrivTypeForExistingRole(true)} style={{color: "yellow", marginLeft: 10, fontSize: 13, textDecoration: "underline", cursor: "pointer"}}>
                                     Click here to set privileges
                                 </span>
                             </p>
                         </div> :
                         <>
+                            {
+                                (isChangePrivTypeForExistingRole && !isCreateNewRolePrivilege) &&
+                                <div style={{padding: 10, borderRadius: 8, marginBottom: 4}}>
+                                    <p style={{color: "skyblue", fontSize: 13}}>
+                                        Select Privilege Type</p>
+                                    <div style={{display: "flex", flexWrap: "wrap", marginTop: 10}}>
+                                        {
+                                            allRolePrivileges?.map(each=>{
+                                                return <div style={{margin: 2.5, width: "32%"}}>
+                                                <p style={{marginBottom: 10}}>
+                                                    <input
+                                                        checked={(each?._id===selectedRole?.privilege_id)}
+                                                        onInput={appPrivilegeForExistingRoleOnInput}
+                                                        id={each?._id} 
+                                                        value={each?._id} 
+                                                        type="radio"
+                                                        name="privileges_types"
+                                                    />
+                                                    <span style={{marginLeft: 5, color: "gold", fontSize: 13}}>
+                                                        <label htmlFor={each?._id}>
+                                                        {each?.description}</label>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            })
+                                        }
+                                        {
+                                            (allRolePrivileges.length === 0) && <div style={{padding: 20, backgroundColor: "rgba(132, 255, 0, 0.2)"}}>
+                                            <p style={{color: "white", fontSize: 13}}>
+                                                <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-info-circle"></i>
+                                                No exisiting privilege types setup. 
+                                                <span onClick={()=>{
+                                                    openCloseCreateNewRoleForm(true);
+                                                    openCloseCreateNewRolePrivilegeForm(true);
+                                                }} style={{color: "yellow", marginLeft: 10, fontSize: 13, textDecoration: "underline", cursor: "pointer"}}>
+                                                    Create New Privilege Type
+                                                </span>
+                                            </p>
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
                             <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, marginBottom: 4}}>
                                 <p style={{color: "skyblue", fontSize: 13}}>
                                     Menu Access</p>

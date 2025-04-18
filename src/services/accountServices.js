@@ -110,6 +110,33 @@ export const fetchUserById = async (user_id, path=`\\api\\users\\`) => {
     }
 }
 
+export const fetchAllPrivileges = async (path=`\\api\\roles\\privilege\\all\\privs`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            console.log(data);
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
 export const fetchRolePrivilegeById = async (priv_id, path=`\\api\\roles\\privilege\\`) => {
     try{
         return await fetch(API_URL+path+priv_id, {
@@ -172,6 +199,32 @@ export const updatePrivilegeInfo = async (priv_obj, path=`\\api\\roles\\privileg
             body: JSON.stringify({
                 id: priv_obj._id,
                 ...priv_obj
+            })
+        })
+        .then(res => res.json())
+        .then(data => data)
+        .catch(err => {
+            console.log(err);
+            return {isError: true};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true};
+    }
+}
+
+export const updateAppRoleInfo = async (role_obj, path=`\\api\\roles\\edit\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+            body: JSON.stringify({
+                id: role_obj._id,
+                ...role_obj
             })
         })
         .then(res => res.json())
