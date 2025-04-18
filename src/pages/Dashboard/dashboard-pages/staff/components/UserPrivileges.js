@@ -41,12 +41,21 @@ const UserPrivileges = (props) => {
     const [isCreateNewRole, setIsCreateNewRole] = useState(false);
     const [isCreateNewRolePrivilege, setIsCreateNewRoleRolePrivilege] = useState(false);
     const [isChangePrivTypeForExistingRole, setIsChangePrivTypeForExistingRole] = useState(false);
+    const [isLoading, setIsLoadig] = useState(false);
 
     useEffect(()=>{
         initPrivPageState();
     }, []);
 
+    const startPageOnClick = () => {
+        setIsCreateNewRole(false);
+        setIsCreateNewRoleRolePrivilege(false);
+        setIsChangePrivTypeForExistingRole(false);
+        initPrivPageState();
+    }
+
     const initPrivPageState = async () => {
+        setIsLoadig(true);
         let _roles = await fetchAppRoles();
         let _pages = await fetchAppPages();
         let _resources = await fetchAppResources();
@@ -67,6 +76,7 @@ const UserPrivileges = (props) => {
                 setAppResourceState(_resources);
             });
         }
+        setIsLoadig(false);
     }
 
     const appRoleOnInput = (e) => {
@@ -144,6 +154,7 @@ const UserPrivileges = (props) => {
     }
 
     const updatePrivilegeOnSubmit = async () =>{
+        setIsLoadig(true);
         let __res = await updatePrivilegeInfo(currentPrivilege);
         if(__res?._id){
             let _role_res = await updateAppRoleInfo(selectedRole);
@@ -152,11 +163,11 @@ const UserPrivileges = (props) => {
                 alert("Role and Privileges Updated Successfully!")
             }
         }
-        console.log(__res);
-        
+        setIsLoadig(false);
     }
 
     const createNewPrivilegeOnSubmit = async () => {
+        setIsLoadig(true);
         let __res = await createNewPrivilege(currentPrivilege);
         console.log(__res);
         if(__res?._id){
@@ -168,7 +179,7 @@ const UserPrivileges = (props) => {
                 message: __res?.message,
             });
         }
-        
+        setIsLoadig(false);
     }
 
     const getAndSetCurrentPrivilegeStateById = async (id) => {
@@ -187,6 +198,19 @@ const UserPrivileges = (props) => {
                         message={formValidation.message} 
                         type={formValidation.type}
                     />
+                </div>
+            }
+            <div onClick={()=>startPageOnClick()} 
+                style={{textDecoration: "underline", fontSize: 14, color: "lightgreen", margin: 10, marginBottom: 20, cursor: "pointer"}}>
+                <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-refresh"></i>
+                Refresh
+            </div>
+            {
+                isLoading &&
+                <div style={{backgroundColor: "green", padding: 20, textAlign: "center",
+                    fontSize: 12, color: "lightgreen", margin: 10, marginBottom: 20, cursor: "pointer"}}>
+                    <i style={{marginRight: 10, color: "yellow"}} className="fa fa-spinner"></i>
+                    Loading.. Please Wait
                 </div>
             }
             <div>
@@ -249,7 +273,7 @@ const UserPrivileges = (props) => {
                                 <div style={{marginBottom: 20, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                                     <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                                         <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                        Privilege Title</p>
+                                        Privilege Title/Description</p>
                                     <div style={{border: "none"}}>
                                         <input onInput={newPrivilegeTitleOnInput}
                                             value={currentPrivilege?.description}
@@ -268,12 +292,19 @@ const UserPrivileges = (props) => {
                                             type="text" placeholder="type here..."
                                             style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
                                                 <option style={{color: "black"}} value="">Select Privilege Type</option>
+                                                {
+                                                    allRolePrivileges?.map(each=>{
+                                                        return <option value={each?._id}
+                                                            style={{color: "black"}}>
+                                                            {each?.description}</option>
+                                                    })
+                                                }
                                         </select>
                                     </div>
                                 </div>
                                 <p onClick={()=>openCloseCreateNewRolePrivilegeForm(true)} style={{fontSize: 13, textDecoration: "underline", cursor: "pointer", color: "lightgreen", margin: "10px 0", padding: 20, background: "rgba(0,255,0,0.1)"}}>
                                     <i className="fa fa-plus" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                    I want to create new custom privilege!
+                                    I want to create new privilege first!
                                 </p>
                             </>
                         }
@@ -318,7 +349,6 @@ const UserPrivileges = (props) => {
                                                 return <div style={{margin: 2.5, width: "32%"}}>
                                                 <p style={{marginBottom: 10}}>
                                                     <input
-                                                        checked={(each?._id===selectedRole?.privilege_id)}
                                                         onInput={appPrivilegeForExistingRoleOnInput}
                                                         id={each?._id} 
                                                         value={each?._id} 
@@ -430,7 +460,7 @@ const UserPrivileges = (props) => {
                             <div onClick={()=>openCloseCreateNewRolePrivilegeForm(false)} 
                                 style={{color: "orange", textDecoration: "underline", fontSize: 14, marginTop: 40, marginLeft: 20, cursor: "pointer"}}>
                                 <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-list"></i>
-                                Select Privilege Instead
+                                Create New Role
                             </div> :
                             <div onClick={()=>openCloseCreateNewRoleForm(false)} 
                                 style={{color: "orange", marginTop: 40, marginLeft: 20, cursor: "pointer"}}>
