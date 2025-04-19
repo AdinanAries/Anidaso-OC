@@ -1,5 +1,9 @@
-import { useState } from "react";
-import { updateAccountInfo, fetchRoleByConstant } from "../../../../../services/accountServices";
+import { useEffect, useState } from "react";
+import { 
+    updateAccountInfo, 
+    fetchRoleByConstant,
+    fetchAppRoles,
+ } from "../../../../../services/accountServices";
 import FormErrorCard from "../../../../../components/FormErrorCard";
 import CONSTANTS from "../../../../../constants/Constants";
 
@@ -15,11 +19,19 @@ const StaffInfo = (props) => {
 
     const [ isLoading, setIsLoading ] = useState(false);
     const [formData, setFormData] = useState(selectedStaff);
+    const [appRoleState, setAppRoleState] = useState([]);
     const [ formValidation, setFormValidation ] = useState({
         type: "warning",
         isError: false,
         message: "",
     });
+
+    useEffect(()=>{
+        (async()=>{
+            let _roles = await fetchAppRoles();
+            setAppRoleState(_roles);
+        })()
+    }, []);
 
     let isOwner = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.owner);
     let isAdmin = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.admin);
@@ -221,19 +233,41 @@ const StaffInfo = (props) => {
                                 <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
                                     Email:
                                 </span>
-                                <input onInput={emailOnInput}
-                                    className="direct-edit-form-field" 
-                                    value={formData?.email}
-                                />
+                                {
+                                    (isLoggedUserAdmin || isLoggedUserOwner) ?
+                                    <input onInput={emailOnInput}
+                                        className="direct-edit-form-field" 
+                                        value={formData?.email}
+                                    /> :
+                                    <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
+                                        <i style={{color: "red", marginRight: 10}}
+                                            className="fa-solid fa-lock"></i>
+                                        {formData?.email}
+                                        <span className="tool-tip" style={{color: "black"}}>
+                                            Please contact support to change this field!
+                                        </span>
+                                    </span>
+                                }
                             </div>
                             <div style={{marginBottom: 5}}>
                                 <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
                                     Phone:
                                 </span>
-                                <input onInput={phoneOnInput}
-                                    className="direct-edit-form-field" 
-                                    value={formData?.phone}
-                                />
+                                {
+                                    (isLoggedUserAdmin || isLoggedUserOwner) ?
+                                    <input onInput={phoneOnInput}
+                                        className="direct-edit-form-field" 
+                                        value={formData?.phone}
+                                    /> :
+                                    <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
+                                        <i style={{color: "red", marginRight: 10}}
+                                            className="fa-solid fa-lock"></i>
+                                        {formData?.phone}
+                                        <span className="tool-tip" style={{color: "black"}}>
+                                            Please contact support to change this field!
+                                        </span>
+                                    </span>
+                                }
                             </div>
                             <div style={{marginBottom: 5}}>
                                 <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
@@ -262,14 +296,30 @@ const StaffInfo = (props) => {
                                 <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
                                     Role:
                                 </span>
-                                <select onChange={roleOnInput}
-                                    className="direct-edit-form-field"
-                                    value={formData?.role_info?.constant}
-                                >
-                                    {isLoggedUserOwner && <option style={{color: "black"}} value="1">Owner</option>}
-                                    {(isLoggedUserAdmin || isLoggedUserOwner) && <option style={{color: "black"}} value="2">Administrator</option>}
-                                    {(isLoggedUserAdmin || isLoggedUserOwner || isLoggedUserAgent) && <option style={{color: "black"}} value="3">Agent</option>}
-                                </select>
+                                {
+                                    (isLoggedUserAdmin || isLoggedUserOwner) ?
+                                    <select onChange={roleOnInput}
+                                        className="direct-edit-form-field"
+                                        value={formData?.role_info?.constant}
+                                        >
+                                        <option style={{color: "black"}} value="">Choose Role</option>
+                                        {
+                                            appRoleState?.map(each=>{
+                                                return <option style={{color: "black"}} value={each?.constant}>
+                                                    {each?.title}
+                                                </option>
+                                            })
+                                        }
+                                    </select> :
+                                    <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
+                                        <i style={{color: "red", marginRight: 10}}
+                                            className="fa-solid fa-lock"></i>
+                                        {formData?.role_info?.title}
+                                        <span className="tool-tip" style={{color: "black"}}>
+                                            Please contact support to change this field!
+                                        </span>
+                                    </span>
+                                }
                             </div>
                         </>
                     }

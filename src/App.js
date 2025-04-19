@@ -25,6 +25,9 @@ function App() {
           setIsLoggedIn(true);
           dashboardInits();
           let usr = await fetchAccountInfo();
+          if(usr?.pages_can_access_info){
+              usr.pages_can_access_constants = usr?.pages_can_access_info?.map(each=>each?.constant);
+          }
           setUserDetails(usr);
         }else{
           localStorage.removeItem("user_token");

@@ -24,7 +24,7 @@ const MiniLoggedInUserInfoCard = (props) => {
                         {((userDetails?.first_name +" "+ userDetails?.last_name) || "full name not found")}
                     </span>
                     {(((userDetails?.first_name).substring(0,5)+"...") || "N/A")} - <span style={{color: "white", fontSize: 12}}>
-                        {((userDetails?.role_info?.title).substring(0,5) || "N/A")}</span>
+                        {((userDetails?.role_info?.title)?.substring(0,5) || "N/A")}</span>
                 </p>
             </div>
         </div>

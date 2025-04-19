@@ -2,6 +2,7 @@ import BookedFlightsSearchForm from "../../../../components/booked-flghts-search
 import BookedHotelsSearchForm from "../../../../components/booked-hotels-search-form";
 import BookedCarsSearchForm from "../../../../components/booked-cars-search-form";
 import SearchResultsPage from "../search-results/SearchResultsPage";
+import PageRestricted from "../../../../components/page-restricted";
 
 import { 
     show_booking_search_type_form, 
@@ -25,6 +26,9 @@ let BookingsContainer = (props)=>{
     const {
         userDetails,
     } = props;
+    
+    const _pageConstant=CONSTANTS.app_page_constants.bookings;
+    const has_access_this_page=(userDetails?.pages_can_access_constants?.includes(_pageConstant));
 
     let isOwner = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.owner);
     let isAdmin = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.admin);
@@ -34,81 +38,87 @@ let BookingsContainer = (props)=>{
 
     return(
          <section id="bookings-container">
-             <div id="bookings-container-main-pane">
-                <div className="main-seaction-containers">
-                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                        <div className="booking-pane-search-type-options">
-                            <div onClick={()=>show_booking_search_type_form("flights")} 
-                                id="booking-pane-search-type-flights-option" 
-                                className="booking-pane-search-type-each-option active">
-                                <i className="fa fa-plane"></i>
-                                Flights
-                            </div>
-                            <div onClick={()=>show_booking_search_type_form("hotels")} 
-                                id="booking-pane-search-type-hotels-option" 
-                                    className="booking-pane-search-type-each-option">
-                                <i className="fa fa-bed"></i>
-                                Hotels
-                            </div>
-                            <div onClick={()=>show_booking_search_type_form("cars")} id="booking-pane-search-type-cars-option" className="booking-pane-search-type-each-option">
-                                <i className="fa fa-car"></i>
-                                Cars
-                            </div>
-                        </div>
-                        <div style={{padding: 10, borderRadius: 5}}>
-                            <div style={{color: "white", display: "flex", alignItems: "center"}}>
-                                <i style={{marginRight: 10, fontSize: 16, color: "lightgreen"}} className="fa fa-info-circle"></i>
-                                <div>
-                                    <p>
-                                        <span style={{fontSize: 12}}>
-                                            March:
-                                            <span style={{marginLeft: 5, color: "yellow"}}>
-                                                $2,000.00</span>
-                                        </span>
+            {
+                (!has_access_this_page) ? 
+                <PageRestricted /> :
+                <>
+                    <div id="bookings-container-main-pane">
+                        <div className="main-seaction-containers">
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <div className="booking-pane-search-type-options">
+                                    <div onClick={()=>show_booking_search_type_form("flights")} 
+                                        id="booking-pane-search-type-flights-option" 
+                                        className="booking-pane-search-type-each-option active">
+                                        <i className="fa fa-plane"></i>
+                                        Flights
+                                    </div>
+                                    <div onClick={()=>show_booking_search_type_form("hotels")} 
+                                        id="booking-pane-search-type-hotels-option" 
+                                            className="booking-pane-search-type-each-option">
+                                        <i className="fa fa-bed"></i>
+                                        Hotels
+                                    </div>
+                                    <div onClick={()=>show_booking_search_type_form("cars")} id="booking-pane-search-type-cars-option" className="booking-pane-search-type-each-option">
+                                        <i className="fa fa-car"></i>
+                                        Cars
+                                    </div>
+                                </div>
+                                <div style={{padding: 10, borderRadius: 5}}>
+                                    <div style={{color: "white", display: "flex", alignItems: "center"}}>
+                                        <i style={{marginRight: 10, fontSize: 16, color: "lightgreen"}} className="fa fa-info-circle"></i>
+                                        <div>
+                                            <p>
+                                                <span style={{fontSize: 12}}>
+                                                    March:
+                                                    <span style={{marginLeft: 5, color: "yellow"}}>
+                                                        $2,000.00</span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p style={{textAlign: "right", color: "rgba(255,255,255,0.5)", fontSize: 12}}>
+                                    44 sales
                                     </p>
                                 </div>
                             </div>
-                            <p style={{textAlign: "right", color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                               44 sales
-                            </p>
-                        </div>
-                    </div>
-                    <div className="booking-pane-search-inputs-area">
-                        <div className="booking-pane-search-inputs-area-inputs-section">
-                            <BookedFlightsSearchForm />
-                            <BookedHotelsSearchForm />
-                            <BookedCarsSearchForm />
+                            <div className="booking-pane-search-inputs-area">
+                                <div className="booking-pane-search-inputs-area-inputs-section">
+                                    <BookedFlightsSearchForm />
+                                    <BookedHotelsSearchForm />
+                                    <BookedCarsSearchForm />
 
+                                </div>
+                                <div className="booking-pane-search-inputs-area-other-section">
+                                    {/**Flights: Booking Health Checker */}
+                                    {
+                                        (isOwner || isAdmin) && <BookingHealthChecker
+                                            title="Health - Recent Booking"
+                                            showButton={true}
+                                            data={mostRecentBookingData}
+                                        />
+                                    }
+                                    {/**Agent Details Card */}
+                                    {
+                                        isAgent && <AgentDetailsCard
+                                            userDetails={userDetails}
+                                        />
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        <div className="booking-pane-search-inputs-area-other-section">
-                            {/**Flights: Booking Health Checker */}
-                            {
-                                (isOwner || isAdmin) && <BookingHealthChecker
-                                    title="Health - Recent Booking"
-                                    showButton={true}
-                                    data={mostRecentBookingData}
-                                />
-                            }
-                            {/**Agent Details Card */}
-                            {
-                                isAgent && <AgentDetailsCard
-                                    userDetails={userDetails}
-                                />
-                            }
-                        </div>
+                        {/**Analytics */}
+                        <HpAnalytics />
+                        {/**Recent Bookings */}
+                        <RecentBookings />
+                        {/**Recent Booking Attemps */}
+                        <RecentBookingAttempts />
                     </div>
-                </div>
-                {/**Analytics */}
-                <HpAnalytics />
-                {/**Recent Bookings */}
-                <RecentBookings />
-                {/**Recent Booking Attemps */}
-                <RecentBookingAttempts />
-            </div>
-            {/**Search Results Page */}
-            <SearchResultsPage />
-            {/**Selected Ticket */}
-            <SelectedTicketPage />
+                    {/**Search Results Page */}
+                    <SearchResultsPage />
+                    {/**Selected Ticket */}
+                    <SelectedTicketPage />
+                </>
+            }
         </section>
     )
 }

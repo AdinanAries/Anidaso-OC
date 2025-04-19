@@ -3,7 +3,7 @@ import ChannelsContainer from "./dashboard-pages/provider-channels/channels-cont
 import SupportContainer from "./dashboard-pages/support/support-container";
 import AnalyticsContainer from "./dashboard-pages/analytics/analytics-container";
 import CustomersContainer from "./dashboard-pages/customers/customers-container";
-import ClientsContainer from "./dashboard-pages/partners/partners-container";
+import PartnersContainer from "./dashboard-pages/partners/partners-container";
 import StaffContainer from "./dashboard-pages/staff/staff-container";
 import DealsContainer from "./dashboard-pages/deals/deals-container";
 import SalesContainer from "./dashboard-pages/sales/sales-container";
@@ -21,18 +21,36 @@ let MainSection = (props)=>{
             <BookingsContainer
                 userDetails={userDetails}
             />
-            <ChannelsContainer />
-            <SupportContainer />
-            <AnalyticsContainer />
-            <CustomersContainer />
-            <ClientsContainer />
+            <ChannelsContainer
+                userDetails={userDetails}
+            />
+            <SupportContainer 
+                userDetails={userDetails}
+            />
+            <AnalyticsContainer 
+                userDetails={userDetails}
+            />
+            <CustomersContainer 
+                userDetails={userDetails}
+            />
+            <PartnersContainer 
+                userDetails={userDetails}
+            />
             <StaffContainer
                 userDetails={userDetails}
             />
-            <DealsContainer />
-            <SalesContainer />
-            <MarketingContainer />
-            <SettingsContainer />
+            <DealsContainer 
+                userDetails={userDetails}
+            />
+            <SalesContainer 
+                userDetails={userDetails}
+            />
+            <MarketingContainer 
+                userDetails={userDetails}
+            />
+            <SettingsContainer 
+                userDetails={userDetails}
+            />
         </main>
     );
 }

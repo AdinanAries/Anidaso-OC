@@ -35,6 +35,43 @@ body {
   padding: 0;
   background: #262626;
 }
+.app-standard-table {
+  width: 100%;
+}
+.app-standard-table.two-columns tr td{
+  width: 350px;
+  padding: 10px;
+  font-size: 13px;
+  background-color: #00000032;
+  color:rgb(214, 142, 219);
+  font-size: 13px;
+}
+.app-standard-table tr:nth-child(1) td {
+  background-color: #a9ddff;
+  color: black;
+}
+.app-standard-paginator {
+ display: flex;
+}
+.app-standard-paginator div {
+  background-color: #ffa9f5;
+  margin: 2px;
+  padding: 3px 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.app-standard-paginator .prev-next-btn {
+  background-color: yellow;
+}
+.app-standard-paginator .prev-next-btn.inactive {
+  background-color: #00000027;
+  color: #494949;
+  cursor: not-allowed;
+}
+.app-standard-paginator.theme-blend-bg-dark div {
+  background-color: rgba(0, 0, 0, 0.498);
+  color: rgb(255, 255, 141);
+}
 .tool-tip-parent {
   cursor: pointer;
   position: relative;
@@ -42,6 +79,7 @@ body {
 .tool-tip {
   display: none;
   position: absolute;
+  z-index: 1;
   left: 5px;
   top: calc((100% + 10px));
   background-color: white;

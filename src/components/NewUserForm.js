@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormErrorCard from "./FormErrorCard";
 //import FullPageLoader from "../../../components/FullPageLoader";
-import { registerPost } from "../services/accountServices";
+import {
+    registerPost,
+    fetchAppRoles,
+ } from "../services/accountServices";
 
 function NewUserForm(props){
 
     const [ isLoading, setIsLoading ] = useState(false);
+    const [appRoleState, setAppRoleState] = useState([]);
 
     const [ formData, setFormData ] = useState({
         first_name: "",
@@ -48,6 +52,13 @@ function NewUserForm(props){
             message: "",
         });
     }
+
+    useEffect(()=>{
+        (async()=>{
+            let _roles = await fetchAppRoles();
+            setAppRoleState(_roles);
+        })()
+    }, []);
 
     const setFirstName = (e) => {
         resetFormValidation();
@@ -226,7 +237,7 @@ function NewUserForm(props){
                     </div>
                     <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                         <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                            <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                            <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                             Date of Birth</p>
                         <div style={{border: "none"}}>
                             <input 
@@ -238,7 +249,7 @@ function NewUserForm(props){
                     </div>
                     <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                         <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                            <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                            <i className="fa fa-person-half-dress" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                             Gender</p>
                         <div style={{border: "none"}}>
                             <select 
@@ -286,9 +297,13 @@ function NewUserForm(props){
                             className="direct-edit-form-field" style={{width: "100%", borderRadius: 8}}
                         >
                             <option style={{color: "black"}} value="">Choose Role</option>
-                            <option style={{color: "black"}} value="1">Owner</option>
-                            <option style={{color: "black"}} value="2">Administrator</option>
-                            <option style={{color: "black"}} value="3">Agent</option>
+                            {
+                                appRoleState?.map(each=>{
+                                    return <option style={{color: "black"}} value={each?.constant}>
+                                        {each?.title}
+                                    </option>
+                                })
+                            }
                         </select>
                     </div>
                     {

@@ -9,7 +9,8 @@ import {
     updatePrivilegeInfo,
     createNewPrivilege,
     fetchAllPrivileges,
-    updateAppRoleInfo
+    updateAppRoleInfo,
+    createNewAppRole,
 } from "../../../../../services/accountServices";
 
 const UserPrivileges = (props) => {
@@ -17,6 +18,8 @@ const UserPrivileges = (props) => {
     const {
         showNewUserForm
     } = props
+
+    const ID_CONCAT = "_(#$%)_"; // Unique string for combining ID's and Splitting them when needed
 
     const [ formValidation, setFormValidation ] = useState({
         type: "warning",
@@ -38,6 +41,11 @@ const UserPrivileges = (props) => {
     const [currentPrivilege, setCurrentPrivilege] = useState({});
     const [selectedRole, setSelectedRole] = useState({});
     const [appPagesState, setAppPagesState] = useState([]);
+    const [creatNewRoleFormData, setCreatNewRoleFormData] = useState({
+        title: "",
+        privilege_id: "",
+        constant: 0
+    });
     const [isCreateNewRole, setIsCreateNewRole] = useState(false);
     const [isCreateNewRolePrivilege, setIsCreateNewRoleRolePrivilege] = useState(false);
     const [isChangePrivTypeForExistingRole, setIsChangePrivTypeForExistingRole] = useState(false);
@@ -55,6 +63,7 @@ const UserPrivileges = (props) => {
     }
 
     const initPrivPageState = async () => {
+        resetFormValidation();
         setIsLoadig(true);
         let _roles = await fetchAppRoles();
         let _pages = await fetchAppPages();
@@ -70,11 +79,11 @@ const UserPrivileges = (props) => {
             setAllRolePrivileges(_all_privs);
         setIsChangePrivTypeForExistingRole(false);
         if(_resources.length > 0){
-            _resources.forEach(async each=>{
+            for(let each of _resources){
                 let actions = await fetchCanActionsByResourceTypeId(each?.resource_type_id);
                 each.can_actions = actions;
-                setAppResourceState(_resources);
-            });
+            };
+            setAppResourceState(_resources);
         }
         setIsLoadig(false);
     }
@@ -110,8 +119,37 @@ const UserPrivileges = (props) => {
     }
 
     const appResourceActionCheckBoxOnInput = (e) => {
-        console.log(e.target.checked);
-        console.log(e.target.value);
+        let _p_resourcesCanActions=currentPrivilege.resourcesCanActions; // Getting component state
+        let _id_arr = e.target.value.split(ID_CONCAT) //=> [resource_id, action_id];
+        let _r_id = _id_arr[0];
+        let _a_id = _id_arr[1];
+        // Extracting the object from the array
+        let _rca_obj=_p_resourcesCanActions?.find(item=>item?.resources_id===_r_id); //=> {resources_id: "", canActions: []}
+        _p_resourcesCanActions = _p_resourcesCanActions.filter(item =>item?.resources_id !== _r_id);
+        if(!e.target.checked){
+            if(_rca_obj){
+                _rca_obj?.canActions?.push(_a_id);
+                _rca_obj.canActions = [...new Set(_rca_obj?.canActions)];
+            }else{
+                _rca_obj = {
+                    resources_id: _r_id, 
+                    canActions: [_a_id]
+                }
+            }
+            _p_resourcesCanActions.push(_rca_obj);
+        }else{
+            if(_rca_obj){
+                _rca_obj.canActions=_rca_obj?.canActions?.filter(item => item !== _a_id);
+            }
+            if(_rca_obj?.canActions?.length>0){
+                _p_resourcesCanActions.push(_rca_obj);
+            }
+        }
+        setCurrentPrivilege({
+            ...currentPrivilege,
+            resourcesCanActions: _p_resourcesCanActions
+        });
+        console.log(_p_resourcesCanActions);
     }
 
     const appPrivilegeForExistingRoleOnInput = (e) => {
@@ -159,7 +197,7 @@ const UserPrivileges = (props) => {
         if(__res?._id){
             let _role_res = await updateAppRoleInfo(selectedRole);
             if(_role_res?._id){
-                console.log(_role_res);
+                initPrivPageState();
                 alert("Role and Privileges Updated Successfully!")
             }
         }
@@ -171,6 +209,7 @@ const UserPrivileges = (props) => {
         let __res = await createNewPrivilege(currentPrivilege);
         console.log(__res);
         if(__res?._id){
+            startPageOnClick();
             alert("New Privilege Created");
         }else{
             setFormValidation({
@@ -189,6 +228,52 @@ const UserPrivileges = (props) => {
         }
         setCurrentPrivilege(_priv);
     }
+    
+    //Create new form
+    const newRoleTitleOnInput = (e) => {
+        resetFormValidation();
+        setCreatNewRoleFormData({
+            ...creatNewRoleFormData,
+            title: e.target.value
+        });
+    }
+
+    const newRoleConstantOnInput = (e) => {
+        resetFormValidation();
+        setCreatNewRoleFormData({
+            ...creatNewRoleFormData,
+            constant: e.target.value
+        });
+    }
+
+    const newRolePrivIdOnInput = (e) => {
+        resetFormValidation();
+        setCreatNewRoleFormData({
+            ...creatNewRoleFormData,
+            privilege_id: e.target.value
+        });
+    }
+
+    const newRoleOnSubmit = async () => {
+        setIsLoadig(true);
+        let __res = await createNewAppRole(creatNewRoleFormData);
+        if(__res?._id){
+            startPageOnClick();
+            alert("New Role Created Successfully!");
+            setCreatNewRoleFormData({
+                title: "",
+                privilege_id: "",
+                constant: 0
+            });
+        }else{
+            setFormValidation({
+                type: "warning",
+                isError: true,
+                message: __res?.message,
+            });
+        }
+        setIsLoadig(false);
+    }
 
     return <div className="main-seaction-containers">
         <div>
@@ -201,7 +286,7 @@ const UserPrivileges = (props) => {
                 </div>
             }
             <div onClick={()=>startPageOnClick()} 
-                style={{textDecoration: "underline", fontSize: 14, color: "lightgreen", margin: 10, marginBottom: 20, cursor: "pointer"}}>
+                style={{textDecoration: "underline", fontSize: 14, width: 90, color: "lightgreen", margin: 10, marginBottom: 20, cursor: "pointer"}}>
                 <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-refresh"></i>
                 Refresh
             </div>
@@ -226,6 +311,8 @@ const UserPrivileges = (props) => {
                                 Role Title</p>
                             <div style={{border: "none"}}>
                                 <input
+                                    onInput={newRoleTitleOnInput}
+                                    value={creatNewRoleFormData?.title}
                                     type="text" placeholder="type here..."
                                     style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                             </div>
@@ -236,6 +323,8 @@ const UserPrivileges = (props) => {
                                 Role Constant</p>
                             <div style={{border: "none"}}>
                                 <input
+                                    onInput={newRoleConstantOnInput}
+                                    value={creatNewRoleFormData?.constant}
                                     type="numeric" placeholder="type here..."
                                     style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                             </div>
@@ -289,7 +378,8 @@ const UserPrivileges = (props) => {
                                         Privileges Type:</p>
                                     <div style={{border: "none"}}>
                                         <select
-                                            type="text" placeholder="type here..."
+                                            onInput={newRolePrivIdOnInput}
+                                            value={creatNewRoleFormData.privilege_id}
                                             style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
                                                 <option style={{color: "black"}} value="">Select Privilege Type</option>
                                                 {
@@ -406,29 +496,36 @@ const UserPrivileges = (props) => {
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap",}}>
                                 {
-                                    appResourceState.map(each=>{
+                                    appResourceState.map(resource=>{
                                         return <div style={{background: "rgba(0,0,0,0.2)", padding: 10, borderRadius: 8, width: "calc(50% - 2px)", marginBottom: 4}}>
                                             <p style={{color: "orange", fontSize: 13}}>
-                                                {each?.resource_title} Management</p>
+                                                {resource?.resource_title} Management</p>
                                             <div style={{display: "flex", flexWrap: "wrap", marginTop: 10}}>
                                                 {   
-                                                    each?.can_actions?.map(action=>{
+                                                    resource?.can_actions?.map(action=>{
+                                                        let cb_checked=false;
+                                                        let ___obj = currentPrivilege?.resourcesCanActions?.find(item=>item?.resources_id===resource?._id);
+                                                        console.log(___obj);
+                                                        if(___obj)
+                                                            cb_checked = (___obj?.canActions?.includes(action?._id));
+
                                                         return <div style={{margin: 2.5, width: "calc(50% - 5px)"}}>
                                                             <p style={{marginBottom: 10}}>
-                                                                <input onInput={appResourceActionCheckBoxOnInput}
-                                                                    value={action?._id} 
-                                                                    id={action?._id} 
+                                                                <input checked={cb_checked}
+                                                                    onInput={appResourceActionCheckBoxOnInput}
+                                                                    value={resource?._id+ID_CONCAT+action?._id} 
+                                                                    id={resource?._id+ID_CONCAT+action?._id} 
                                                                     type="checkbox" />
                                                                 <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
-                                                                    <label htmlFor={action?._id}>
-                                                                    {action?.action_title} {each?.resource_title}</label>
+                                                                    <label htmlFor={resource?._id+ID_CONCAT+action?._id}>
+                                                                    {action?.action_title} {resource?.resource_title}</label>
                                                                 </span>
                                                             </p>
                                                         </div>
                                                     })
                                                 }
                                                 {
-                                                    !each?.can_actions && <p style={{fontSize: 12, color: "white", margin: "10px 0"}}>
+                                                    !resource?.can_actions && <p style={{fontSize: 12, color: "white", margin: "10px 0"}}>
                                                         <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-exclamation-triangle"></i>
                                                         No Available ACL Actions
                                                     </p>
@@ -484,7 +581,8 @@ const UserPrivileges = (props) => {
                                     <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-check"></i>
                                     Save Privilege
                                 </div> :
-                                <div className="standard-action-button">
+                                <div onClick={newRoleOnSubmit}
+                                    className="standard-action-button">
                                     <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-check"></i>
                                     Save Role
                                 </div>

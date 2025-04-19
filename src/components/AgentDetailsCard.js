@@ -5,19 +5,24 @@ import {
 
 const AgentDetailsCard = (props) => {
 
+    const {
+        userDetails,
+    } = props
+
     return <div>
             <div style={{backgroundColor: "#2b343d", borderRadius: 6, padding: 20}}>
                 <div style={{fontSize: 12, letterSpacing: 1, display: "flex", justifyContent: "space-between"}}>
                     <div style={{color: "rgba(255,255,255,0.7)"}}>
                         <i style={{fontSize: 30, marginRight: 10, color: "rgba(0, 140, 255, 0.7)"}} className="fa fa-user-tie"></i>
-                        Mohammed Adinan
+                        {(userDetails?.first_name || "first name: N/A")} {(userDetails?.last_name || "last name: N/A")}
                     </div>
                     <div style={{color: "orange", cursor: "pointer"}} onClick={()=>alert('here')}>
                             See Information
                     </div>
                 </div>
                 <p style={{color: "rgba(0, 140, 255, 0.7)", margin: "5px 0", fontSize: 10, fontWeight: "bolder", letterSpacing: 1}}>
-                    ID: EI112344
+                    ID: {(userDetails?._id?.toUpperCase()?.substring(0,7)) || "N/A"}
+                    {userDetails?._id && "..."}
                 </p>
                 
                 <div style={{letterSpacing: 1}}>

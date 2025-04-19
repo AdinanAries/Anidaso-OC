@@ -1,5 +1,5 @@
 
-import PageNA from '../../../../components/page-not-available';
+import PageRestricted from '../../../../components/page-restricted';
 import NewUserForm from '../../../../components/NewUserForm';
 import StaffList from './components/StaffList';
 import StaffInfo from './components/StaffInfo';
@@ -13,6 +13,9 @@ let StaffContainer = (props)=>{
     const {
         userDetails
     } = props;
+
+    const _pageConstant=CONSTANTS.app_page_constants.staff;
+    const has_access_this_page=(userDetails?.pages_can_access_constants?.includes(_pageConstant));
 
     const [selectedStaff, setSelectedStaff] = useState({});
     const [showAddNewUserForm, setshowAddNewUserForm ] = useState(false);
@@ -43,41 +46,47 @@ let StaffContainer = (props)=>{
     return(
          <section id="staff-container" style={{display: "none"}}>
             {
-                (selectedStaff?._id) ? 
-                <div id="selected-staff-container">
-                    <StaffInfo 
-                        unSelectStaff={unSelectStaff}
-                        selectedStaff={selectedStaff}
-                        isLoggedUserAgent={isLoggedUserAgent}
-                        isLoggedUserOwner={isLoggedUserOwner}
-                        isLoggedUserAdmin={isLoggedUserAdmin}
-                    />
-                </div> : ((isLoggedUserAdmin || isLoggedUserOwner) &&
-                    <div style={{display: "flex", justifyContent: "space-between"}}>
-                        <div style={{width: "55%"}}>
-                            <StaffList
-                                viewStaffInfo={viewStaffInfo}
+                !has_access_this_page ?
+                <PageRestricted /> :
+                <>
+                    {
+                        (selectedStaff?._id) ? 
+                        <div id="selected-staff-container">
+                            <StaffInfo 
+                                unSelectStaff={unSelectStaff}
+                                selectedStaff={selectedStaff}
+                                isLoggedUserAgent={isLoggedUserAgent}
+                                isLoggedUserOwner={isLoggedUserOwner}
+                                isLoggedUserAdmin={isLoggedUserAdmin}
                             />
-                        </div>
-                        <div style={{width: "calc(45% - 7px)"}}>
-                            {
-                                showAddNewUserForm ? 
-                                <>
-                                    <div style={{color: "white", margin: 20, cursor: "pointer", fontSize: 13}} onClick={()=>showNewUserForm(false)}>
-                                        <i style={{marginRight: 10, color: "lightgreen"}} className="fa fa-arrow-left"></i>
-                                        Back to User Roles
-                                    </div>
-                                    <NewUserForm 
-                                        showNewUserForm={showNewUserForm}
-                                    /> 
-                                </>: 
-                                <UserPrivileges
-                                    showNewUserForm={showNewUserForm}
-                                />
-                            }
-                        </div>
-                    </div>
-                )
+                        </div> : ((isLoggedUserAdmin || isLoggedUserOwner) &&
+                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                                <div style={{width: "55%"}}>
+                                    <StaffList
+                                        viewStaffInfo={viewStaffInfo}
+                                    />
+                                </div>
+                                <div style={{width: "calc(45% - 7px)"}}>
+                                    {
+                                        showAddNewUserForm ? 
+                                        <>
+                                            <div style={{color: "white", margin: 20, cursor: "pointer", fontSize: 13}} onClick={()=>showNewUserForm(false)}>
+                                                <i style={{marginRight: 10, color: "lightgreen"}} className="fa fa-arrow-left"></i>
+                                                Back to User Roles
+                                            </div>
+                                            <NewUserForm 
+                                                showNewUserForm={showNewUserForm}
+                                            /> 
+                                        </>: 
+                                        <UserPrivileges
+                                            showNewUserForm={showNewUserForm}
+                                        />
+                                    }
+                                </div>
+                            </div>
+                        )
+                    }
+                </>
             }
         </section>
     );

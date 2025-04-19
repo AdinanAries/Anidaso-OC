@@ -86,6 +86,7 @@ let SettingsContainer = ()=>{
 
     const [ searchLinkAirportsAutoCompleteShowing, setSearchLinkAirportsAutoCompleteShowing ] = useState(false);
     const [ searchLinkAirportsAutoCompleteAirportList, setSearchLinkAirportsAutoCompleteAirportList ] = useState([]);
+    const [ allAppSettings, setAllAppSettings ] = useState([]);
     
     const slAirportsAutoCompleteOnInput = (evnt) => {
         let counter = 0;
@@ -407,8 +408,51 @@ let SettingsContainer = ()=>{
                         </div>
                     </div>
                 </div>
-                <div style={{width: "calc(50% - 4px)", borderRadius: 8, backgroundColor: "rgb(43, 52, 61)", marginTop: 5}}>
-                    
+                <div style={{width: "calc(50% - 4px)", borderRadius: 8, padding: 10, backgroundColor: "rgb(49, 30, 53)", marginTop: 5}}>
+                    <p style={{color: "skyblue", fontSize: 12}}>
+                        <i style={{color: "yellow", marginRight: 10}}
+                            className='fa-solid fa-cogs'></i>
+                        System Configurations
+                    </p>
+                    <div style={{marginTop: 10, borderTop: "1px dashed rgba(255,255,255,0.5)"}}>
+                        <table className='app-standard-table two-columns'>
+                            <tr>
+                                <td>Name/Property</td>
+                                <td>Value</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i style={{color: "red", marginRight: 10, cursor: "pointer"}}
+                                        className='fa-solid fa-lock'></i>
+                                    Client App Url:</td>
+                                <td>http:www.welldugo.com</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
+                                        className='fa-solid fa-pencil'></i>
+                                    Agent Client App Url:</td>
+                                <td>http:www.agent.welldugo.com</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
+                                        className='fa-solid fa-pencil'></i>
+                                    Agent Client App Url:</td>
+                                <td>http:www.agent.welldugo.com</td>
+                            </tr>
+                        </table>
+                        <div className='app-standard-paginator' style={{marginTop: 5}}>
+                            <div className='prev-next-btn inactive'>
+                                <i className='fa-solid fa-angle-left'></i></div>
+                            <div>1</div>
+                            <div>2</div>
+                            <div>3</div>
+                            <div>4</div>
+                            <div className='prev-next-btn inactive'>
+                                <i className='fa-solid fa-angle-right'></i></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>
@@ -560,7 +604,74 @@ let SettingsContainer = ()=>{
                 <div style={{marginTop: 20}}>
                     <p style={{color: "white", fontSize: 13, margin: 10}}>
                         Send Search Link</p>
-                    <div style={{display: "flex"}}>
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <div style={{width: "calc(50% - 4px)", borderRadius: 8, backgroundColor: "rgb(43, 52, 61)", padding: 10}}>
+                            <p style={{backgroundColor: "rgba(0,0,0,0.2)", padding: 10, fontSize: 12}}>
+                                <i style={{color: "lightgreen", marginRight: 10}}
+                                    className='fa-solid fa-search'></i>
+                                <input 
+                                    style={{background: "none", color: "white", border: "none", width: "calc(100% - 40px)"}}
+                                    placeholder="Search customer here"
+                                />
+                            </p>
+                            <div style={{marginTop: 2, borderTop: "1px dashed rgba(0,0,0,0.5)"}}>
+                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                    <p style={{color: "white", fontSize: 13}}>
+                                    <i style={{color: "yellow", marginRight: 10}}
+                                        className='fa-solid fa-user'></i>
+                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                            k.asumah@gmail.com
+                                        </span>
+                                    </p>
+                                </div>
+                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                    <p style={{color: "white", fontSize: 13}}>
+                                    <i style={{color: "yellow", marginRight: 10}}
+                                        className='fa-solid fa-user'></i>
+                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                            k.asumah@gmail.com
+                                        </span>
+                                    </p>
+                                </div>
+                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                    <p style={{color: "white", fontSize: 13}}>
+                                    <i style={{color: "yellow", marginRight: 10}}
+                                        className='fa-solid fa-user'></i>
+                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                            k.asumah@gmail.com
+                                        </span>
+                                    </p>
+                                </div>
+                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                    <p style={{color: "white", fontSize: 13}}>
+                                    <i style={{color: "yellow", marginRight: 10}}
+                                        className='fa-solid fa-user'></i>
+                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                            k.asumah@gmail.com
+                                        </span>
+                                    </p>
+                                </div>
+                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                    <p style={{color: "white", fontSize: 13}}>
+                                    <i style={{color: "yellow", marginRight: 10}}
+                                        className='fa-solid fa-user'></i>
+                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                            k.asumah@gmail.com
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
+                                <div className='prev-next-btn inactive'>
+                                    <i className='fa-solid fa-angle-left'></i></div>
+                                <div>1</div>
+                                <div>2</div>
+                                <div>3</div>
+                                <div>4</div>
+                                <div className='prev-next-btn inactive'>
+                                    <i className='fa-solid fa-angle-right'></i></div>
+                            </div>
+                        </div>
                         <div style={{width: "calc(50% - 4px)"}}>
                             <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                                 <p className="subtitle-font-color-default" style={{fontSize: 13}}>
@@ -574,7 +685,7 @@ let SettingsContainer = ()=>{
                             </div>
                             <div style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
                                 <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
-                                Send
+                                Send Link
                             </div>
                         </div>
                     </div>
