@@ -1,5 +1,4 @@
 
-import PageNA from './page-not-available';
 import FormErrorCard from './FormErrorCard';
 import { 
     createNewCustomerAppSettings, 
@@ -7,10 +6,24 @@ import {
     fetchCustomerAppSettingsByPropName,
 } from '../services/settingsServices';
 import AirportsData from '../data/Airports';
+import CONSTANTS from '../constants/Constants';
 
 import { useEffect, useState } from 'react';
 
-let SettingsContainer = ()=>{
+let SettingsContainer = (props) => {
+
+    const {
+        userDetails,
+    } = props;
+
+    const _appSettingsConstant=CONSTANTS.app_resource_constants.app_settings;
+    const _appSettingsViewAction=CONSTANTS.app_resource_can_action_constants.view_app_settings;
+    const _appSettingsUpdateAction=CONSTANTS.app_resource_can_action_constants.update_app_ettings;
+    const has_access_to_app_settings=(
+        userDetails?.resources_can_access_constants?.includes(_appSettingsConstant) &&
+        userDetails?.resources_can_access_actions_constants?.includes(_appSettingsViewAction)
+    );
+    const can_update_app_settings=(userDetails?.resources_can_access_actions_constants?.includes(_appSettingsUpdateAction));
 
     const SETTINGS_SVR = {
         customer_app_server: 0,
@@ -339,122 +352,134 @@ let SettingsContainer = ()=>{
 
     return(
          <section id="settings-container" style={{display: "none"}}>
-            <p style={{marginTop: 10, color: "red", fontSize: 13}}>
-                <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-cogs'></i>
-                Application Settings</p>
-            <div style={{display: "flex", justifyContent: "space-between"}}>
-                <div style={{width: "calc(50% - 4px)"}}>
-                    <div style={{padding: "10px"}}>
-                        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                <i className="fa fa-tools" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                Please Select Settings Type</p>
-                            <div style={{border: "none"}}>
-                                <select 
-                                    onChange={onChangePropertyFld}
-                                    value={formData.property}
-                                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                                    {
-                                        SETTINGS_PROPS_NAMES.map(each =>
-                                            <option style={{color: "black"}} value={each.value} >
-                                                {each.name}
-                                            </option>
-                                        )
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                <i className="fa-solid fa-keyboard" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                Value</p>
-                            <div style={{border: "none"}}>
-                                {
-                                    (valueFieldType===VALUE_FLD_TYPES.select) &&
-                                    <select 
-                                        onInput={onChangeValueFld}
-                                        value={formData.value}
-                                        style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+            {
+                has_access_to_app_settings && 
+                <>
+                    <p style={{marginTop: 10, color: "red", fontSize: 13}}>
+                        <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-cogs'></i>
+                        Application Settings</p>
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <div style={{width: "calc(50% - 4px)"}}>
+                            <div style={{padding: "10px"}}>
+                                <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                    <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                        <i className="fa fa-tools" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                        Please Select Settings Type</p>
+                                    <div style={{border: "none"}}>
+                                        <select 
+                                            onChange={onChangePropertyFld}
+                                            value={formData.property}
+                                            style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+                                            {
+                                                SETTINGS_PROPS_NAMES.map(each =>
+                                                    <option style={{color: "black"}} value={each.value} >
+                                                        {each.name}
+                                                    </option>
+                                                )
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                    <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                        <i className="fa-solid fa-keyboard" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                        Value</p>
+                                    <div style={{border: "none"}}>
                                         {
-                                            SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0]?.options?.map(each =>
-                                                <option style={{color: "black"}} value={each.o_value} >
-                                                    {each.o_name}
-                                                </option>
-                                            )
+                                            (valueFieldType===VALUE_FLD_TYPES.select) &&
+                                            <select 
+                                                onInput={onChangeValueFld}
+                                                value={formData.value}
+                                                style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+                                                {
+                                                    SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0]?.options?.map(each =>
+                                                        <option style={{color: "black"}} value={each.o_value} >
+                                                            {each.o_name}
+                                                        </option>
+                                                    )
+                                                }
+                                            </select>
                                         }
-                                    </select>
-                                }
+                                        {
+                                            (valueFieldType!==VALUE_FLD_TYPES.select) &&
+                                            <input 
+                                                onInput={onChangeValueFld}
+                                                value={formData.value}
+                                                type={valueFieldType} placeholder="enter value here..."
+                                                style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                        }
+                                    </div>
+                                </div>
                                 {
-                                    (valueFieldType!==VALUE_FLD_TYPES.select) &&
-                                    <input 
-                                        onInput={onChangeValueFld}
-                                        value={formData.value}
-                                        type={valueFieldType} placeholder="enter value here..."
-                                        style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                    formValidation.isError && <FormErrorCard 
+                                        message={formValidation.message} 
+                                        type={formValidation.type}
+                                    />
                                 }
+                                <div>
+                                    {
+                                        can_update_app_settings ?
+                                        <div onClick={addSettingsOnSubmit} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                                            <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
+                                            Save
+                                        </div> : <div style={{backgroundColor: "rgba(255,0,0,0.3)", padding: 20, color: "white", fontSize: 12, textAlign: "center"}}>
+                                            <i style={{marginRight: 10, color: "orange"}} 
+                                                className='fa-solid fa-exclamation-triangle'></i>
+                                            Saving app settings is disabled on your user role.
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
-                        {
-                            formValidation.isError && <FormErrorCard 
-                                message={formValidation.message} 
-                                type={formValidation.type}
-                            />
-                        }
-                        <div>
-                            <div onClick={addSettingsOnSubmit} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
-                                <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
-                                Save
+                        <div style={{width: "calc(50% - 4px)", borderRadius: 8, padding: 10, backgroundColor: "rgb(49, 30, 53)", marginTop: 5}}>
+                            <p style={{color: "skyblue", fontSize: 12}}>
+                                <i style={{color: "yellow", marginRight: 10}}
+                                    className='fa-solid fa-cogs'></i>
+                                System Configurations
+                            </p>
+                            <div style={{marginTop: 10, borderTop: "1px dashed rgba(255,255,255,0.5)"}}>
+                                <table className='app-standard-table two-columns'>
+                                    <tr>
+                                        <td>Name/Property</td>
+                                        <td>Value</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i style={{color: "red", marginRight: 10, cursor: "pointer"}}
+                                                className='fa-solid fa-lock'></i>
+                                            Client App Url:</td>
+                                        <td>http:www.welldugo.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
+                                                className='fa-solid fa-pencil'></i>
+                                            Agent Client App Url:</td>
+                                        <td>http:www.agent.welldugo.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
+                                                className='fa-solid fa-pencil'></i>
+                                            Agent Client App Url:</td>
+                                        <td>http:www.agent.welldugo.com</td>
+                                    </tr>
+                                </table>
+                                <div className='app-standard-paginator' style={{marginTop: 5}}>
+                                    <div className='prev-next-btn inactive'>
+                                        <i className='fa-solid fa-angle-left'></i></div>
+                                    <div>1</div>
+                                    <div>2</div>
+                                    <div>3</div>
+                                    <div>4</div>
+                                    <div className='prev-next-btn inactive'>
+                                        <i className='fa-solid fa-angle-right'></i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div style={{width: "calc(50% - 4px)", borderRadius: 8, padding: 10, backgroundColor: "rgb(49, 30, 53)", marginTop: 5}}>
-                    <p style={{color: "skyblue", fontSize: 12}}>
-                        <i style={{color: "yellow", marginRight: 10}}
-                            className='fa-solid fa-cogs'></i>
-                        System Configurations
-                    </p>
-                    <div style={{marginTop: 10, borderTop: "1px dashed rgba(255,255,255,0.5)"}}>
-                        <table className='app-standard-table two-columns'>
-                            <tr>
-                                <td>Name/Property</td>
-                                <td>Value</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i style={{color: "red", marginRight: 10, cursor: "pointer"}}
-                                        className='fa-solid fa-lock'></i>
-                                    Client App Url:</td>
-                                <td>http:www.welldugo.com</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
-                                        className='fa-solid fa-pencil'></i>
-                                    Agent Client App Url:</td>
-                                <td>http:www.agent.welldugo.com</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
-                                        className='fa-solid fa-pencil'></i>
-                                    Agent Client App Url:</td>
-                                <td>http:www.agent.welldugo.com</td>
-                            </tr>
-                        </table>
-                        <div className='app-standard-paginator' style={{marginTop: 5}}>
-                            <div className='prev-next-btn inactive'>
-                                <i className='fa-solid fa-angle-left'></i></div>
-                            <div>1</div>
-                            <div>2</div>
-                            <div>3</div>
-                            <div>4</div>
-                            <div className='prev-next-btn inactive'>
-                                <i className='fa-solid fa-angle-right'></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </>
+}
             <div>
                 <div style={{marginTop: 10}}>
                     <p style={{color: "red", marginBottom: 10, fontSize: 13}}>

@@ -26,7 +26,9 @@ function App() {
           dashboardInits();
           let usr = await fetchAccountInfo();
           if(usr?.pages_can_access_info){
-              usr.pages_can_access_constants = usr?.pages_can_access_info?.map(each=>each?.constant);
+            usr.pages_can_access_constants = usr?.pages_can_access_info?.map(each=>each?.constant);
+            usr.resources_can_access_constants = usr?.resources_can_access_info?.map(each=>each?.constant);
+            usr.resources_can_access_actions_constants = usr?.resources_can_access_actions_info?.map(each=>each?.constant);
           }
           setUserDetails(usr);
         }else{

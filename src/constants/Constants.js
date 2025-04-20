@@ -40,7 +40,7 @@ const CONSTANTS = {
         account: 1,
         app_settings: 2,
     },
-    app_resource_can_actions: {
+    app_resource_can_action_constants: {
         create_account: 1,
         edit_account: 2,
         delete_account: 3,
