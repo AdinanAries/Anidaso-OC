@@ -23,7 +23,6 @@ function App() {
         let res = await verifyUserToken();
         if(res.valid){
           setIsLoggedIn(true);
-          dashboardInits();
           let usr = await fetchAccountInfo();
           if(usr?.pages_can_access_info){
             usr.pages_can_access_constants = usr?.pages_can_access_info?.map(each=>each?.constant);
@@ -31,11 +30,17 @@ function App() {
             usr.resources_can_access_actions_constants = usr?.resources_can_access_actions_info?.map(each=>each?.constant);
           }
           setUserDetails(usr);
+          setIsLoading(false);
+          setTimeout(()=>{
+            dashboardInits();
+          }, 300);
         }else{
           localStorage.removeItem("user_token");
+          setIsLoading(false);
         }
+      }else{
+        setIsLoading(false);
       }
-      setIsLoading(false);
     })();
   }, []);
 
