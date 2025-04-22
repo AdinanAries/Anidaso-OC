@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { 
-    add_commas_to_number
+    add_commas_to_number,
+    toggle_show_main_sections,
  } from "../helpers/helper-functions";
 
 const AgentDetailsCard = (props) => {
@@ -16,7 +17,10 @@ const AgentDetailsCard = (props) => {
                         <i style={{fontSize: 30, marginRight: 10, color: "rgba(0, 140, 255, 0.7)"}} className="fa fa-user-tie"></i>
                         {(userDetails?.first_name || "first name: N/A")} {(userDetails?.last_name || "last name: N/A")}
                     </div>
-                    <div style={{color: "orange", cursor: "pointer"}} onClick={()=>alert('here')}>
+                    <div style={{color: "orange", cursor: "pointer"}} onClick={()=>{
+                        toggle_show_main_sections("staff");
+                        window.__viewStaffInfo(userDetails?._id);
+                    }}>
                             See Information
                     </div>
                 </div>
@@ -67,7 +71,8 @@ const AgentDetailsCard = (props) => {
                 </div>
             </div>
             <div style={{backgroundColor: "#2b343d", borderRadius: 6, padding: 20, marginTop: 5, cursor: "pointer"}}>
-                <p style={{fontSize: 13, color: "lightblue", textDecoration: "underline"}}>
+                <p onClick={()=>toggle_show_main_sections("settings")}
+                    style={{fontSize: 13, color: "lightblue", textDecoration: "underline"}}>
                     <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-plus"></i>
                     Create Booking Link
                 </p>

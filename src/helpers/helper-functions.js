@@ -149,6 +149,16 @@ export function toggle_show_main_sections(type){
     }else if(type === "settings"){
         setActiveNavOption("side-menu-each-item", "top-menu-settings-btn");
         $("#settings-container").toggle("up");
+        reload_business_settings_page_customer_app_preview_iframe();
+    }
+}
+
+export function reload_business_settings_page_customer_app_preview_iframe() {
+    try {
+        document.getElementById('business-settings-page-customer-app-preview-iframe').contentWindow.location.reload();
+    }catch(e){
+        document.getElementById('business-settings-page-customer-app-preview-iframe').src = document.getElementById('business-settings-page-customer-app-preview-iframe').src;
+        console.warn(e);
     }
 }
 

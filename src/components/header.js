@@ -8,6 +8,7 @@ import {
     searchByConfirmationOninput 
 } from "../helpers/endpoint-calls";
 import wellgo_logo from "../WillgoLogo.png";
+import CONSTANTS from "../constants/Constants";
 import { 
     logoutPost,
     fetchSvrPingInfo,
@@ -16,6 +17,15 @@ import {
 import { useEffect, useState } from "react";
 
 function Header(props){
+
+    const {
+        userDetails,
+    } = props;
+
+    const user_role_const = userDetails?.role_info?.constant;
+    let isLoggedUserOwner = (user_role_const===CONSTANTS.app_role_constants.owner);
+    let isLoggedUserAdmin = (user_role_const===CONSTANTS.app_role_constants.admin);
+    let isLoggedUserAgent = (user_role_const===CONSTANTS.app_role_constants.agent);
 
     const [ svrStatus, setSvrStatus ] = useState({
         isCustProDB: false,
@@ -36,6 +46,12 @@ function Header(props){
             data.payment_processor = c_data?.svr_env?.payment_processor;
             data.flights_api_provider = c_data?.svr_env?.flights_api_provider;
             data.price_markup_percentage = c_data?.price_markup_percentage;
+            if(isLoggedUserAgent){
+                let agent_info = userDetails?.agent_info;
+                let pm_obj = agent_info?.find(each=>each.property==="price_markup");
+                data.price_markup_percentage=pm_obj.value;
+                // To do Data Provider for Agent User
+            }
             setSvrStatus(data);
         })();
     }, []);

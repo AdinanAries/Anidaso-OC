@@ -5,6 +5,13 @@ import {
     fetchAllCustomerAppSettings,
     fetchCustomerAppSettingsByPropName,
 } from '../services/settingsServices';
+import { 
+    createNewAgentInfo,
+    fetchAgentInfoByAgentIdAndPropName
+} from '../services/agentServices';
+import {
+    reload_business_settings_page_customer_app_preview_iframe
+} from '../helpers/helper-functions';
 import AirportsData from '../data/Airports';
 import CONSTANTS from '../constants/Constants';
 
@@ -24,6 +31,7 @@ let SettingsContainer = (props) => {
         userDetails?.resources_can_access_actions_constants?.includes(_appSettingsViewAction)
     );
     const can_update_app_settings=(userDetails?.resources_can_access_actions_constants?.includes(_appSettingsUpdateAction));
+
     const user_role_const = userDetails?.role_info?.constant;
     let isLoggedUserOwner = (user_role_const===CONSTANTS.app_role_constants.owner);
     let isLoggedUserAdmin = (user_role_const===CONSTANTS.app_role_constants.admin);
@@ -106,17 +114,62 @@ let SettingsContainer = (props) => {
     const [ appConfigs, setAppConfigs ] = useState([
         {
             name: "Client App Url",
-            value: "http:www.welldugo.com"
+            value: "https://welldugo-56d8210b9fe9.herokuapp.com",//"http://www.welldugo.com"
         },
         {
             name: "Agent Client App Url",
-            value: "http:www.agent.welldugo.com"
+            value: "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com",
         },
         {
             name: "Client App Url",
             value: "http:www.welldugo.com"
         },
     ]);
+
+    const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
+        user_id: userDetails?._id,
+        property: "price_markup",
+        value: 15,
+    });
+
+    const search_link_client_app_url = isLoggedUserAgent ? 
+    appConfigs[1].value : appConfigs[0].value;
+
+    const agentPriceMarkupOnchange = (e) => {
+        setAgentPriceMarkup({
+            ...agentPriceMarkup,
+            value: e.target.value
+        })
+    }
+
+    const agentBookingParametersFormOnSubmit = async () => {
+        // 1. Price Markup
+        if(!agentPriceMarkup.value) {
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "Please add price markup percentage value",
+            });
+            return
+        }
+        let res = await createNewAgentInfo(agentPriceMarkup);
+        if(!res._id){
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: res.message,
+            });
+        }
+
+        // 2. Data Provider
+        //---Here for Data Provider--//
+
+        alert(`Booking parameters modified!`);
+        setTimeout(()=>{
+            reload_business_settings_page_customer_app_preview_iframe();
+        }, 300);
+
+    }
     
     const slAirportsAutoCompleteOnInput = (evnt) => {
         let counter = 0;
@@ -264,7 +317,10 @@ let SettingsContainer = (props) => {
 
     useEffect(()=>{
         setFieldType(SETTINGS_PROPS_NAMES[0]?.value);
-        setCurrentFormData(SETTINGS_PROPS_NAMES[0]?.value);
+        if(!isLoggedUserAgent)
+            setCurrentFormData(SETTINGS_PROPS_NAMES[0]?.value);
+        if(isLoggedUserAgent)
+            setCurrentAgentInfo();
     }, []);
 
     const setCurrentFormData = async (settings_prop) => {
@@ -281,6 +337,23 @@ let SettingsContainer = (props) => {
                 value: res[0]?.value,
             });
         }
+    }
+
+    const setCurrentAgentInfo = async () => {
+        
+        // 1. Agent's Price Markup Percentage
+        let pmp_res = await fetchAgentInfoByAgentIdAndPropName(
+            agentPriceMarkup?.user_id, 
+            agentPriceMarkup?.property
+        );
+        if(pmp_res?._id){
+            setAgentPriceMarkup({
+                ...agentPriceMarkup,
+                value: pmp_res?.value,
+            });
+        }
+
+        // 2. Agents Set Data Provder
     }
 
     const setFieldType = (settings_prop) => {
@@ -355,13 +428,20 @@ let SettingsContainer = (props) => {
             res = {}// OC server Function Call Here;
         }
         if(res._id){
-            alert(`New Settings ${res.property} has been created`);
+            alert(`Settings ${res.property} created/modified`);
+            setTimeout(()=>{
+                reload_business_settings_page_customer_app_preview_iframe();
+            }, 300);
+            
         }else{
             setFormValidation({
                 type: "error",
                 isError: true,
                 message: res.message,
-            })
+            });
+            setTimeout(()=>{
+                reload_business_settings_page_customer_app_preview_iframe();
+            }, 300);
         }
     }
 
@@ -380,7 +460,8 @@ let SettingsContainer = (props) => {
                                 <i className="fa fa-percent" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                 Price Markup (%)</p>
                             <div style={{border: "none"}}>
-                                <input 
+                                <input onInput={agentPriceMarkupOnchange}
+                                    value={agentPriceMarkup?.value}
                                     type="number" placeholder="type here..."
                                     style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                             </div>
@@ -397,7 +478,8 @@ let SettingsContainer = (props) => {
                                 </select>
                             </div>
                         </div>
-                        <div style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                        <div onClick={agentBookingParametersFormOnSubmit} 
+                            style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
                             <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
                             Save
                         </div>
@@ -615,7 +697,7 @@ let SettingsContainer = (props) => {
                     </div>
                     <div style={{display: "flex", borderRadius: 8, justifyContent: "space-between", width: "100%", overflow: "hidden", border: "1px solid red"}}>
                         <p id="searchLinkAddressTextToCopy" style={{padding: 10, width: "calc(100% - 40px)", fontSize: 13, width: "100%", color: "white"}}>
-                            http://www.welldugo.com/?product=<span style={{color: "lightgreen"}}>
+                            {search_link_client_app_url}/?product=<span style={{color: "lightgreen"}}>
                                 {searchLink.product}</span>
                             &type=<span style={{color: "lightgreen"}}>
                                 {searchLink.type}</span>
@@ -767,9 +849,9 @@ let SettingsContainer = (props) => {
                     <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-eye'></i>
                     Preview - Customer App
                 </p>
-                <iframe style={{width: "100%", height: 1000, border: "3px dashed red", borderRadius: 8}} 
+                <iframe id="business-settings-page-customer-app-preview-iframe" style={{width: "100%", height: 1000, border: "3px dashed red", borderRadius: 8}} 
                     src={
-                        `http://www.welldugo.com/?product=${searchLink.product}&type=${searchLink.type}&date=${searchLink.date}&dpt_airport=${searchLink.dpt_airport}&dst_airport=${searchLink.dst_airport}&cabin=${searchLink.cabin}&adults=${searchLink.adults}&children=${searchLink.children}&infants=${searchLink.infants}`
+                        `${search_link_client_app_url}/?product=${searchLink.product}&type=${searchLink.type}&date=${searchLink.date}&dpt_airport=${searchLink.dpt_airport}&dst_airport=${searchLink.dst_airport}&cabin=${searchLink.cabin}&adults=${searchLink.adults}&children=${searchLink.children}&infants=${searchLink.infants}`
                     } title="description"></iframe>
              </div>
         </section>

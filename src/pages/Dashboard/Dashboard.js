@@ -14,6 +14,7 @@ const Dashboard = (props) =>  {
         <NotificationsContainer />
         <Header
             LogoutOnClick={LogoutOnClick}
+            userDetails={userDetails}
         />
         <SideMenu
             userDetails={userDetails}
