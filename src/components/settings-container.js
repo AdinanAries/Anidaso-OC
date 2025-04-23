@@ -759,59 +759,77 @@ let SettingsContainer = (props) => {
                                 />
                             </p>
                             <div style={{marginTop: 2, borderTop: "1px dashed rgba(0,0,0,0.5)"}}>
-                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                    <p style={{color: "white", fontSize: 13}}>
-                                    <i style={{color: "yellow", marginRight: 10}}
-                                        className='fa-solid fa-user'></i>
-                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                            k.asumah@gmail.com
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                    <p style={{color: "white", fontSize: 13}}>
-                                    <i style={{color: "yellow", marginRight: 10}}
-                                        className='fa-solid fa-user'></i>
-                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                            k.asumah@gmail.com
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                    <p style={{color: "white", fontSize: 13}}>
-                                    <i style={{color: "yellow", marginRight: 10}}
-                                        className='fa-solid fa-user'></i>
-                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                            k.asumah@gmail.com
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                    <p style={{color: "white", fontSize: 13}}>
-                                    <i style={{color: "yellow", marginRight: 10}}
-                                        className='fa-solid fa-user'></i>
-                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                            k.asumah@gmail.com
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                    <p style={{color: "white", fontSize: 13}}>
-                                    <i style={{color: "yellow", marginRight: 10}}
-                                        className='fa-solid fa-user'></i>
-                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                            k.asumah@gmail.com
-                                        </span>
-                                    </p>
-                                </div>
+                                {
+                                    true ? <>
+                                        <div style={{display: "flex", padding: 20, margin: "10px 0", backgroundColor: "rgba(255,0,0,0.1)"}}>
+                                            <i style={{color: "yellow", marginRight: 10}}
+                                                className='fa-solid fa-exclamation-triangle'></i>
+                                            <p style={{color: "white", fontSize: 13}}>
+                                                You dont have any saved customers yet. You may add new customer or simply enter customer email on the right to send search link to customer!</p>
+                                        </div>
+                                        <p style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
+                                            <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
+                                            Create New Customer
+                                        </p>
+                                    </> :
+                                    <>
+                                        <div style={{marginTop: 10, cursor: "pointer"}}>
+                                            <p style={{color: "white", fontSize: 13}}>
+                                            <i style={{color: "yellow", marginRight: 10}}
+                                                className='fa-solid fa-user'></i>
+                                                Kwame Asumah - <span style={{color: "orange"}}>
+                                                    k.asumah@gmail.com
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div style={{marginTop: 10, cursor: "pointer"}}>
+                                            <p style={{color: "white", fontSize: 13}}>
+                                            <i style={{color: "yellow", marginRight: 10}}
+                                                className='fa-solid fa-user'></i>
+                                                Kwame Asumah - <span style={{color: "orange"}}>
+                                                    k.asumah@gmail.com
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div style={{marginTop: 10, cursor: "pointer"}}>
+                                            <p style={{color: "white", fontSize: 13}}>
+                                            <i style={{color: "yellow", marginRight: 10}}
+                                                className='fa-solid fa-user'></i>
+                                                Kwame Asumah - <span style={{color: "orange"}}>
+                                                    k.asumah@gmail.com
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div style={{marginTop: 10, cursor: "pointer"}}>
+                                            <p style={{color: "white", fontSize: 13}}>
+                                            <i style={{color: "yellow", marginRight: 10}}
+                                                className='fa-solid fa-user'></i>
+                                                Kwame Asumah - <span style={{color: "orange"}}>
+                                                    k.asumah@gmail.com
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div style={{marginTop: 10, cursor: "pointer"}}>
+                                            <p style={{color: "white", fontSize: 13}}>
+                                            <i style={{color: "yellow", marginRight: 10}}
+                                                className='fa-solid fa-user'></i>
+                                                Kwame Asumah - <span style={{color: "orange"}}>
+                                                    k.asumah@gmail.com
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </>
+                                }
                             </div>
-                            <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
-                                <div className='prev-next-btn inactive'>
-                                    <i className='fa-solid fa-angle-left'></i></div>
-                                <div>1</div>
-                                <div className='prev-next-btn inactive'>
-                                    <i className='fa-solid fa-angle-right'></i></div>
-                            </div>
+                            {   false &&
+                                <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
+                                    <div className='prev-next-btn inactive'>
+                                        <i className='fa-solid fa-angle-left'></i></div>
+                                    <div>1</div>
+                                    <div className='prev-next-btn inactive'>
+                                        <i className='fa-solid fa-angle-right'></i></div>
+                                </div>
+                            }
                         </div>
                         <div style={{width: "calc(50% - 4px)"}}>
                             <div style={{padding: 20, borderRadius: 8, backgroundColor: "rgba(0,255,0,0.1)", marginBottom: 10}}>
