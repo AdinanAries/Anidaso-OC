@@ -8,6 +8,7 @@ import {
 } from "./helper-functions";
 import { 
     render_recent_bookings_markup, 
+    render_booking_attempts_markup,
     render_search_result_bookings_markup, 
     render_selected_booking_details, 
     render_component_loader_markup, 
@@ -315,6 +316,47 @@ function get_recent_bookings(skip, limit){
     });
 }
 
+//onpageload functions
+function get_booking_intents(skip, limit){
+    
+    render_component_loader_markup("bookings-pane-booking-attempts-list");
+
+    $.ajax({
+        type: "GET",
+        url: `${serverBaseURL}/api/bookings/attempts/${skip}/${limit}`,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${USER_TOKEN}`
+        },
+        success: (res, status, xhr) => {
+            
+            console.log("booking-attempts",res);
+            if(res.length < 1){
+                render_no_booking_found_markup("bookings-pane-booking-attempts-list");
+                return null;
+            }
+            // bookings rendering
+            render_booking_attempts_markup(res);
+            
+            // pagination rendering
+            let total_items = parseInt(xhr.getResponseHeader('pagination-total-items'));
+            /*window.__init_pagination_helper_functions(
+                "recent", total_items, limit, 
+                "recent_bookings_pagination_list_markup", 
+                "pagination_page_numbers_list", 
+                "recent_bookings_pagination_nextbtn", 
+                "recent_bookings_pagination_prevbtn",
+                get_recent_bookings
+            );*/
+        },
+        error: err => {
+            render_no_booking_found_markup("bookings-pane-recent-bookings-list");
+            console.log(err);
+        }
+    });
+}
+
 export async function get_and_return_booking_intent(order_id){
     return await $.ajax({
         type: "GET",
@@ -339,4 +381,5 @@ export async function get_and_return_booking_intent(order_id){
 window.__inits_from_endpoing_calls_file = () => {
     get_notifications(0,100);
     get_recent_bookings(recentBookingsPaginationSkip, recentBookingsPaginationLimit);
+    get_booking_intents(1,10);
 };

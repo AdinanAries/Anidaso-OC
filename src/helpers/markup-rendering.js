@@ -50,6 +50,84 @@ function returnEachRecentBookingMarkup(booking, index, type){
     `;
 }
 
+function returnEachBookingAttemptMarkup(b_attempt, index, type){
+    console.log("rendered booking attempt: ", b_attempt);
+    
+    let ref_number = "N/A";
+    let email_address = "N/A";
+    let booking_date = b_attempt?.createdAt?.split("T")[0] || "N/A";
+    let total_amount = b_attempt?.booking_order?.data?.payments?.[0].amount || "N/A";
+    let isSuccess = false;
+    let isUncompletedBooking = false;
+    let message = "";
+
+    if(
+        b_attempt?.booking_status?.toLowerCase() === "confirmed" &&
+        b_attempt?.payment_status?.toLowerCase() === "succeeded"
+    ){
+        message = "Both booking and payment were successful!";
+        isSuccess = true;
+    } else if (b_attempt?.booking_status?.toLowerCase() === "confirmed") {
+        message = "Booking succeeded but payment failed";
+    } else if (b_attempt?.payment_status?.toLowerCase() === "succeeded") {
+        message = "Payment was made for unsuccessful booking";
+    } else {
+        message = "Both booking and payment were unsuccessful";
+    }
+
+    if(b_attempt?.booking_status?.toLowerCase() === "order_initiated"){
+        isUncompletedBooking = true;
+    }
+
+    if(b_attempt?.is_error){
+        message = b_attempt?.error_activity_description;
+    }
+
+    if(!b_attempt.type){ // Defaults to Flight Booking
+        ref_number = b_attempt?.booking_order?.data?.booking_reference || "N/A";
+        email_address = b_attempt?.booking_order?.data?.passengers?.[0].email;
+    }
+
+    return `
+        <tr id="${type}_each_rendered_booking_attempt_item_${index}" >
+            <td class="bookings-pane-booking-list-column first booking-type-col">
+                <i style="margin-right: 5px; color: teal;" class="fa fa-plane"></i>
+                ${total_amount}
+            </td>
+            ${
+                isUncompletedBooking ?
+                `<td class="bookings-pane-booking-list-column second" style="background: rgb(0, 74, 101); color: white;">
+                    <i style="margin-right: 5px; color: yellow;" class="fa fa-person-walking-arrow-loop-left"></i>
+                    Uncompleted
+                </td>` :
+                `<td class="bookings-pane-booking-list-column second" style="background: ${isSuccess ? "rgb(0, 101, 94)" : "rgb(255, 157, 122)"}"; color: white;">
+                    <i style="margin-right: 5px; color: ${isSuccess ? "lightgreen" : "red"};" 
+                        class="fa-solid fa-${isSuccess ? "check" : "exclamation-triangle"}"></i>
+                    ${(isSuccess ? "Success" : "Failed")}
+                </td>`
+            }
+            <td class="bookings-pane-booking-list-column first mobile-hidden">
+                ${email_address}
+            </td>
+            ${
+                isUncompletedBooking ? 
+                `<td class="bookings-pane-booking-list-column second mobile-hidden">
+                    Booking was not completed
+                </td>` :
+                `<td class="bookings-pane-booking-list-column second mobile-hidden">
+                    ${message}
+                </td>`
+            }
+            <td class="bookings-pane-booking-list-column first">
+                ${booking_date}
+            </td>
+            <td class="bookings-pane-booking-list-column second edit-icon">
+                XYYEVW
+            </td>
+        </tr>
+    `;
+}
+
 function returnEachFlightSearchBookingMarkup(booking, index, type){
     //console.log("rendered booking: ", booking);
     
@@ -593,7 +671,7 @@ function returnEachHotelSearchBookingMarkup(booking, index, type){
 export function render_recent_bookings_markup(bookings){
     if(document.getElementById("bookings-pane-recent-bookings-list"))
         document.getElementById("bookings-pane-recent-bookings-list").innerHTML = `
-            <tr className="header">
+            <tr class="header">
                 <td class="header">
                     Booking Type
                 </td>
@@ -625,6 +703,44 @@ export function render_recent_bookings_markup(bookings){
                     select_booking_from_list('home', bookings[b]._id);
                 });
         }, 200);
+    }
+}
+
+export function render_booking_attempts_markup(b_attempt){
+    if(document.getElementById("bookings-pane-booking-attempts-list"))
+        document.getElementById("bookings-pane-booking-attempts-list").innerHTML = `
+            <tr class="header">
+                <td class="header">
+                    Booking
+                </td>
+                <td class="header" style="background-color: lightgrey;">
+                    Status
+                </td>
+                <td class="header mobile-hidden">
+                    Email
+                </td>
+                <td class="header mobile-hidden">
+                    Condition
+                </td>
+                <td class="header">
+                    Attempt Date
+                </td>
+                <td class="header">
+                    Ref. Number
+                </td>
+            </tr>
+        `;
+
+    for(let b=0; b < b_attempt.length; b++){
+        if(document.getElementById("bookings-pane-booking-attempts-list"))
+            document.getElementById("bookings-pane-booking-attempts-list")
+                .innerHTML += returnEachBookingAttemptMarkup(b_attempt[b], b, "all_attempts");
+        /*setTimeout(()=>{
+            if(document.getElementById(`recent_each_rendered_booking_item_${b}`))
+                document.getElementById(`recent_each_rendered_booking_item_${b}`).addEventListener("click", evnt => {
+                    select_booking_from_list('home', bookings[b]._id);
+                });
+        }, 200);*/
     }
 }
 
