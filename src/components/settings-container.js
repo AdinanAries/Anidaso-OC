@@ -113,27 +113,37 @@ let SettingsContainer = (props) => {
     const [ searchLinkAirportsAutoCompleteAirportList, setSearchLinkAirportsAutoCompleteAirportList ] = useState([]);
     const [ appConfigs, setAppConfigs ] = useState([
         {
-            name: "Client App Url",
-            value: "https://welldugo-56d8210b9fe9.herokuapp.com",//"http://www.welldugo.com"
+            msg: "",
+            color: "skyblue",
+            icon: "globe",
+            name: "Client App",
+            value: ( isLoggedUserAgent ?
+                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" :
+                "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
+            ),
         },
         {
-            name: "Agent Client App Url",
-            value: "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com",
+            msg: "",
+            color: "skyblue",
+            icon: "wallet",
+            name: "Wallet/Credits",
+            value: "$2,000.00 - 5,042 actions",
         },
         {
-            name: "Client App Url",
-            value: "http:www.welldugo.com"
+            msg: "Your service plan",
+            color: "skyblue",
+            icon: "file-signature",
+            name: "Service Plan",
+            value: "Basic Tier"
         },
     ]);
+    const search_link_client_app_url = appConfigs[0].value;
 
     const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
         user_id: userDetails?._id,
         property: "price_markup",
         value: 15,
     });
-
-    const search_link_client_app_url = isLoggedUserAgent ? 
-    appConfigs[1].value : appConfigs[0].value;
 
     const agentPriceMarkupOnchange = (e) => {
         setAgentPriceMarkup({
@@ -577,11 +587,13 @@ let SettingsContainer = (props) => {
                                             <span className='tool-tip-parent'>
                                                 {/**<i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
                                                     className='fa-solid fa-pencil'></i> */}
-                                                <i style={{color: "red", marginRight: 10, cursor: "pointer"}}
-                                                    className='fa-solid fa-lock'></i>
-                                                <span style={{color: "black"}}
+                                                <i style={{color: each?.color, marginRight: 10, cursor: "pointer"}}
+                                                    className={'fa-solid fa-'+each?.icon}></i>
+                                                {   each?.msg &&  
+                                                    <span style={{color: "black"}}
                                                      className='tool-tip'>
-                                                        Your privileges doesn't permit to change this configuration</span>
+                                                        {each?.msg}</span>
+                                                }
                                             </span>
                                             {each?.name}:</td>
                                         <td>{each?.value}</td>

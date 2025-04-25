@@ -65,19 +65,15 @@ let BookingsContainer = (props)=>{
                                 </div>
                                 <div style={{padding: 10, borderRadius: 5}}>
                                     <div style={{color: "white", display: "flex", alignItems: "center"}}>
-                                        <i style={{marginRight: 10, fontSize: 16, color: "lightgreen"}} className="fa fa-info-circle"></i>
+                                        <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
                                         <div>
-                                            <p>
-                                                <span style={{fontSize: 12}}>
-                                                    March:
-                                                    <span style={{marginLeft: 5, color: "yellow"}}>
-                                                        $2,000.00</span>
-                                                </span>
+                                            <p style={{fontSize: 14, color: "yellow"}}>
+                                                $2,000.00
                                             </p>
                                         </div>
                                     </div>
-                                    <p style={{textAlign: "right", color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                                    44 sales
+                                    <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
+                                        5,042 actions
                                     </p>
                                 </div>
                             </div>

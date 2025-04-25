@@ -144,7 +144,7 @@ const CreateNewPasswordPage = (props) => {
                     Affordable & Reliable Travel, & Trusted by Many.
                 </p>
                 <p style={{fontSize: 14, color: "skyblue", textAlign: "center", marginTop: 5}}>
-                    Operational Center (OC)
+                    Independent Travel Agent (ITA)
                 </p>
                 <a href="http://worksofbtc.com" rel="noreferrer" target="_blank" 
                     style={{textDecoration: "none"}}>

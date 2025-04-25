@@ -107,7 +107,7 @@ const LoginPage = (props) => {
                     Affordable & Reliable Travel, & Trusted by Many.
                 </p>
                 <p style={{fontSize: 14, color: "skyblue", textAlign: "center", marginTop: 5}}>
-                    Operational Center (OC)
+                    Independent Travel Agent (ITA)
                 </p>
                 <a href="http://worksofbtc.com" rel="noreferrer" target="_blank" 
                     style={{textDecoration: "none"}}>
@@ -163,7 +163,7 @@ const LoginPage = (props) => {
                                 <div onClick={loginOnSubmit} className="standard-action-button" style={{padding: 15, marginTop: 20, padding: 20}}>
                                     Login
                                 </div>
-                                <p style={{marginTop: 20, cursor: "pointer", color: "rgb(200, 99, 77)", fontSize: 14}}>
+                                <p style={{marginTop: 20, cursor: "pointer", color: "rgb(200, 99, 77)", fontSize: 14, textDecoration: "underline"}}>
                                     <span onClick={()=>alert("forgot password")}>
                                     <i style={{fontSize: 19, color: "rgb(173, 0, 0)", marginRight: 10}} 
                                         className="fa-solid fa-key"></i>
