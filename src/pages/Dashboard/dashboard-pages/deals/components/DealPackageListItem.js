@@ -5,6 +5,7 @@ const DealPackageListItem = (props) => {
     const {
         viewDealPackageInfo,
         img,
+        completed
     } = props;
 
     const viewDealPackageInfoOnclick = () => {
@@ -13,7 +14,8 @@ const DealPackageListItem = (props) => {
         })
     }
 
-    return <div onClick={viewDealPackageInfoOnclick} style={{background: "rgba(0,0,0,0.1)", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+    return <div onClick={viewDealPackageInfoOnclick} 
+        style={{background: completed ? "rgba(0,0,0,0.1)" : "rgba(255,0,0,0.1)", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
             <div style={{display: "flex", alignItems: "center"}}>
                 {
@@ -37,13 +39,23 @@ const DealPackageListItem = (props) => {
                         </span>
                         Flight, Stay, Rental Car
                     </p>
-                    <p style={{fontSize: 13, borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 10, color: "rgba(255,255,255,0.8)", marginTop: 10}}>
-                        Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod...
-                    </p>
+                    {
+                        !completed ?
+                        <div style={{display: "flex", marginTop: 20}}>
+                            <i style={{color: "yellow", marginRight: 10}}
+                                className="fa-solid fa-exclamation-triangle"></i>
+                            <span style={{color: "red", fontSize: 13}}>
+                                Incomplete Setup
+                            </span>
+                        </div> :
+                        <p style={{fontSize: 13, borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 10, color: "rgba(255,255,255,0.8)", marginTop: 10}}>
+                            Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod...
+                        </p>
+                    }
                 </div>
             </div>
             <div style={{marginRight: 10, display: "flex", justifyContent: "center", alignItems: "center", width: 30, height: 30, borderRadius: "100%", border: "1px solid rgba(255,255,255,0.1)"}}>
-                <i style={{color: "lightgreen", fontSize: 20}} className="fa fa-angle-right"></i>
+                <i style={{color: completed ? "lightgreen" : "red", fontSize: 20}} className={"fa fa-"+ (completed ? "angle-right" : "tools")}></i>
             </div>
         </div>
     </div>

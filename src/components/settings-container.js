@@ -509,19 +509,19 @@ let SettingsContainer = (props) => {
          <section id="settings-container" style={{display: "none"}}>
             <div style={{display: "flex", margin: 10}}>
                 <div onClick={showSearchLinkForm}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: "white", cursor: "pointer", fontSize: 12, }} >
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.search_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                     <i style={{color: (currentSubPage===_PAGES?.search_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
                     Search Link
                     <div style={{border: (currentSubPage===_PAGES?.search_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
                 <div  onClick={()=>setCurrentSubPage(_PAGES?.booking_params)}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.booking_params) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                     <i style={{color:  (currentSubPage===_PAGES?.booking_params) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
                     Booking Parameters
                     <div style={{border: (currentSubPage===_PAGES?.booking_params) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
                 <div  onClick={()=>setCurrentSubPage(_PAGES?.send_link)}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.send_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                     <i style={{color:  (currentSubPage===_PAGES?.send_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>
                     Send Link
                     <div style={{border: (currentSubPage===_PAGES?.send_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>

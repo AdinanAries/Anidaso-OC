@@ -30,29 +30,44 @@ const DealsPackagesList = (props) => {
             <DealPackageListItem 
                 viewDealPackageInfo={viewDealPackageInfo}
                 img={true}
+                completed={true}
             />
             <DealPackageListItem 
                 viewDealPackageInfo={viewDealPackageInfo}
                 img={false}
+                completed={false}
             />
             <DealPackageListItem 
                 viewDealPackageInfo={viewDealPackageInfo}
                 img={false}
+                completed={true}
             />
             <DealPackageListItem 
                 viewDealPackageInfo={viewDealPackageInfo}
                 img={false}
+                completed={false}
             />
             <DealPackageListItem 
                 viewDealPackageInfo={viewDealPackageInfo}
                 img={true}
+                completed={true}
             />
             <DealPackageListItem 
                 viewDealPackageInfo={viewDealPackageInfo}
                 img={false}
+                completed={true}
             />
         </div>
-
+        <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
+            <div className='prev-next-btn inactive'>
+                <i className='fa-solid fa-angle-left'></i></div>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div className='prev-next-btn inactive'>
+                <i className='fa-solid fa-angle-right'></i></div>
+        </div>
     </div>
 }
 
