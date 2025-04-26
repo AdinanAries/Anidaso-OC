@@ -142,7 +142,7 @@ let SettingsContainer = (props) => {
     const search_link_client_app_url = appConfigs[0].value;
     const [ previewLink, setPreviewLink ] = useState(search_link_client_app_url);
 
-    const loadPreviewPage = () => {
+    const loadPreviewPage = (isReload=false) => {
         // Validation
         if(
             searchLink.product==="" ||
@@ -159,6 +159,32 @@ let SettingsContainer = (props) => {
         }
         let _lnk = `${search_link_client_app_url}/?product=${searchLink.product}&type=${searchLink.type}&date=${searchLink.date}&dpt_airport=${searchLink.dpt_airport}&dst_airport=${searchLink.dst_airport}&cabin=${searchLink.cabin}&adults=${searchLink.adults}&children=${searchLink.children}&infants=${searchLink.infants}`;
         setPreviewLink(_lnk);
+        // When reload button is clicked
+        if(isReload){
+            reload_business_settings_page_customer_app_preview_iframe();
+        }
+    }
+
+    const showSearchLinkForm = () => {
+        setCurrentSubPage(_PAGES?.search_link);
+        // Re-init Date Chooser Library
+        const __dd = searchLink?.date;
+        // Remove date to make initialization possible
+        setSearchLink({
+            ...searchLink,
+            date: "",
+        });
+        let isSingleDatePicker = (searchLink?.type==="one-way")
+        setTimeout(()=>{
+            window.__initCreateSearchLinkDateInput(isSingleDatePicker);
+        }, 100);   
+        // Reset current date
+        setTimeout(()=>{
+            setSearchLink({
+                ...searchLink,
+                date: __dd,
+            });
+        }, 100);
     }
 
     const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
@@ -482,7 +508,7 @@ let SettingsContainer = (props) => {
     return(
          <section id="settings-container" style={{display: "none"}}>
             <div style={{display: "flex", margin: 10}}>
-                <div onClick={()=>setCurrentSubPage(_PAGES?.search_link)}
+                <div onClick={showSearchLinkForm}
                     style={{padding: "20px 15px", paddingBottom: 10, color: "white", cursor: "pointer", fontSize: 12, }} >
                     <i style={{color: (currentSubPage===_PAGES?.search_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
                     Search Link
@@ -505,20 +531,20 @@ let SettingsContainer = (props) => {
                 <div style={{marginTop: 10}}>
                     {
                         (currentSubPage===_PAGES?.search_link) &&
-                        <div style={{display: "flex", justifyContent: "space-between", padding: 20, borderRadius: 8, background: "rgba(255, 255, 255, 0.1)", marginBottom: 20}}>
-                            <p style={{fontSize: 12, color: "white"}}>
-                                Product: <select onChange={slProductOnChange}
+                        <div style={{display: "flex", justifyContent: "space-between", padding: "10px 20px", borderRadius: 8, background: "rgba(255, 255, 255, 0.1)", marginBottom: 20}}>
+                            <p style={{fontSize: 12, color: "white", padding: "10px 0"}}>
+                                <select onChange={slProductOnChange}
                                     value={searchLink.product}
-                                    style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
-                                    borderBottom: "2px solid " + (searchLink.type ? "lightgreen" : "red")}}>
-                                    <option style={{color: "black"}} value="0">Flights (0)</option>
-                                    <option style={{color: "black"}} value="1">Hotels (1)</option>
-                                    <option style={{color: "black"}} value="2">Cars (2)</option>
+                                    style={{background: "none", color: "orange", border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: (searchLink.type ? "none" : "2px solid red")}}>
+                                    <option style={{color: "black"}} value="0">Flights</option>
+                                    <option style={{color: "black"}} value="1">Hotels</option>
+                                    <option style={{color: "black"}} value="2">Cars</option>
                                 </select>
-                                Type: <select onChange={slTypeOnChange} 
+                                <select onChange={slTypeOnChange} 
                                     value={searchLink.type}
-                                    style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
-                                    borderBottom: "2px solid " + (searchLink.type ? "lightgreen" : "red")}}>
+                                    style={{background: "none", color: "orange", border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: (searchLink.type ? "none" : "2px solid red")}}>
                                     <option style={{color: "black"}} value="one-way">One Way</option>
                                     <option style={{color: "black"}} value="round-trip">Round Trip</option>
                                 </select>
@@ -594,11 +620,11 @@ let SettingsContainer = (props) => {
                                         borderBottom: "2px solid " + (searchLink.infants==="" ? "red" : "lightgreen")}} 
                                     type="number" />
                             </p>
-                            <div  onClick={loadPreviewPage} className='tool-tip-parent'
-                                style={{color: "yellow", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            <div  onClick={()=>loadPreviewPage()} className='tool-tip-parent'
+                                style={{color: "yellow", cursor: "pointer", backgroundColor: "rgba(255, 255, 255, 0.1)", borderRadius: 50, padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                 <i className="fa-solid fa-turn-down"></i>
                                 <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
-                                    Load Preview
+                                    Preview Link
                                 </span>
                             </div>
                         </div>
@@ -875,7 +901,7 @@ let SettingsContainer = (props) => {
                         </div>
                     }
                     <div style={{display: "flex", borderRadius: 50, justifyContent: "space-between", padding: "0 10px", width: "100%", backgroundColor: "black", border: "1px solid pink"}}>
-                        <p id="searchLinkAddressTextToCopy" style={{padding: 10, width: "calc(100% - 40px)", fontSize: 13, width: "100%", color: "white"}}>
+                        <p id="searchLinkAddressTextToCopy" style={{whiteSpace: "nowrap", overflow: "hidden", padding: 10, width: "calc(100% - 70px)", fontSize: 13, color: "white"}}>
                             {search_link_client_app_url}/?product=<span style={{color: "lightgreen"}}>
                                 {searchLink.product}</span>
                             &type=<span style={{color: "lightgreen"}}>
@@ -896,11 +922,11 @@ let SettingsContainer = (props) => {
                                 {searchLink.infants}</span>
                         </p>
                         <>
-                            <div onClick={loadPreviewPage} className='tool-tip-parent'
-                                style={{color: "pink", cursor: "pointer", width: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            <div onClick={()=>loadPreviewPage(true)} className='tool-tip-parent'
+                                style={{color: "pink", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                 <i className="fa-solid fa-arrow-rotate-right"></i>
                                 <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
-                                    Reload Preview
+                                    Reload Page
                                 </span>
                             </div>
                             <div className='tool-tip-parent' onClick={()=>{
@@ -927,7 +953,7 @@ let SettingsContainer = (props) => {
                                     console.log("Copied the text: " + elem.innerText);
                                     alert("Copied!");
                                 }} 
-                                style={{cursor: "pointer", display: "flex", alignItems: "center", width: 40, color: "pink", justifyContent: "center"}}>
+                                style={{cursor: "pointer", display: "flex", alignItems: "center", marginRight: 10, color: "pink", justifyContent: "center"}}>
                                 <i className="fa-solid fa-copy"></i>
                                 <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
                                     Copy Link
