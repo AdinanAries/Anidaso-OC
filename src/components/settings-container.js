@@ -41,13 +41,11 @@ let SettingsContainer = (props) => {
         customer_app_server: 0,
         oc_server: 1
     }
-
     const VALUE_FLD_TYPES = {
         number: "number",
         text: "text",
         select: "select"
     };
-
     const SETTINGS_PROPS_NAMES = [
         {
             name: "Price Markup (%)",
@@ -90,13 +88,18 @@ let SettingsContainer = (props) => {
 
         /* Others here */
     ];
+    const _PAGES = {
+        search_link: 1,
+        booking_params: 2,
+        send_link: 3
+    }
 
     const [ formData, setFormData ] = useState({
         property: SETTINGS_PROPS_NAMES[0]?.value,
         value: ""
     });
-
     // Search Link State
+    const [ currentSubPage, setCurrentSubPage ] = useState(_PAGES?.search_link);
     const [ searchLink, setSearchLink ] = useState({
         product: 0,
         type: "one-way",
@@ -108,7 +111,6 @@ let SettingsContainer = (props) => {
         children: 0,
         infants: 0
     });
-
     const [ searchLinkAirportsAutoCompleteShowing, setSearchLinkAirportsAutoCompleteShowing ] = useState(false);
     const [ searchLinkAirportsAutoCompleteAirportList, setSearchLinkAirportsAutoCompleteAirportList ] = useState([]);
     const [ appConfigs, setAppConfigs ] = useState([
@@ -118,7 +120,7 @@ let SettingsContainer = (props) => {
             icon: "globe",
             name: "Client App",
             value: ( isLoggedUserAgent ?
-                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" :
+                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" : 
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
             ),
         },
@@ -138,6 +140,26 @@ let SettingsContainer = (props) => {
         },
     ]);
     const search_link_client_app_url = appConfigs[0].value;
+    const [ previewLink, setPreviewLink ] = useState(search_link_client_app_url);
+
+    const loadPreviewPage = () => {
+        // Validation
+        if(
+            searchLink.product==="" ||
+            !searchLink.type ||
+            !searchLink.date ||
+            !searchLink.dpt_airport ||
+            !searchLink.dst_airport ||
+            !searchLink.cabin ||
+            searchLink.adults==="" ||
+            searchLink.children==="" ||
+            searchLink.infants===""){
+                alert("Please enter all values!.");
+                return;
+        }
+        let _lnk = `${search_link_client_app_url}/?product=${searchLink.product}&type=${searchLink.type}&date=${searchLink.date}&dpt_airport=${searchLink.dpt_airport}&dst_airport=${searchLink.dst_airport}&cabin=${searchLink.cabin}&adults=${searchLink.adults}&children=${searchLink.children}&infants=${searchLink.infants}`;
+        setPreviewLink(_lnk);
+    }
 
     const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
         user_id: userDetails?._id,
@@ -460,278 +482,399 @@ let SettingsContainer = (props) => {
     return(
          <section id="settings-container" style={{display: "none"}}>
             <div style={{display: "flex", margin: 10}}>
-                <div 
+                <div onClick={()=>setCurrentSubPage(_PAGES?.search_link)}
                     style={{padding: "20px 15px", paddingBottom: 10, color: "white", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: "yellow", marginRight: 10}} className="fa fa-link"></i>
+                    <i style={{color: (currentSubPage===_PAGES?.search_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
                     Search Link
-                    <div style={{border: "2px solid yellow", marginTop: 10, borderRadius: 100}}></div>
+                    <div style={{border: (currentSubPage===_PAGES?.search_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
-                <div 
+                <div  onClick={()=>setCurrentSubPage(_PAGES?.booking_params)}
                     style={{padding: "20px 15px", paddingBottom: 10, color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
+                    <i style={{color:  (currentSubPage===_PAGES?.booking_params) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
                     Booking Parameters
-                    <div style={{marginTop: 10, borderRadius: 100}}></div>
+                    <div style={{border: (currentSubPage===_PAGES?.booking_params) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
-                <div 
+                <div  onClick={()=>setCurrentSubPage(_PAGES?.send_link)}
                     style={{padding: "20px 15px", paddingBottom: 10, color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>
+                    <i style={{color:  (currentSubPage===_PAGES?.send_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>
                     Send Link
-                    <div style={{marginTop: 10, borderRadius: 100}}></div>
+                    <div style={{border: (currentSubPage===_PAGES?.send_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
             </div>
-            {   false &&
-                <div>
-                    <p style={{marginTop: 10, color: "red", fontSize: 13}}>
-                        <i style={{color: "yellow", marginRight: 10}} className={'fa-solid fa-'+(isLoggedUserAgent ? "toolbox" : "cogs")}></i>
-                        {isLoggedUserAgent ? "Booking Parameters" : "Application Settings"}</p>
-                    <div style={{display: "flex", justifyContent: "space-between"}}>
-                        {
-                            isLoggedUserAgent ? <div style={{width: "calc(50% - 4px)"}}>
-                                <div style={{marginBottom: 5, marginTop: 10, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                                    <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                        <i className="fa fa-percent" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                        Price Markup (%)</p>
-                                    <div style={{border: "none"}}>
-                                        <input onInput={agentPriceMarkupOnchange}
-                                            value={agentPriceMarkup?.value}
-                                            type="number" placeholder="type here..."
-                                            style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
-                                    </div>
-                                </div>
-                                <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                                    <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                        <i className="fa fa-share-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                        Data Provider</p>
-                                    <div style={{border: "none"}}>
-                                        <select
-                                            type="text" placeholder="type here..."
-                                            style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
-                                                <option style={{color: "black"}} value="">Duffel</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div onClick={agentBookingParametersFormOnSubmit} 
-                                    style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
-                                    <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
-                                    Save
-                                </div>
-                            </div> :
-                            has_access_to_app_settings && 
-                            <div style={{width: "calc(50% - 4px)"}}>
-                                <div style={{padding: "10px"}}>
-                                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                            <i className="fa fa-tools" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                            Please Select Settings Type</p>
-                                        <div style={{border: "none"}}>
-                                            <select 
-                                                onChange={onChangePropertyFld}
-                                                value={formData.property}
-                                                style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                                                {
-                                                    SETTINGS_PROPS_NAMES.map(each =>
-                                                        <option style={{color: "black"}} value={each.value} >
-                                                            {each.name}
-                                                        </option>
-                                                    )
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                            <i className="fa-solid fa-keyboard" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                            Value</p>
-                                        <div style={{border: "none"}}>
-                                            {
-                                                (valueFieldType===VALUE_FLD_TYPES.select) &&
-                                                <select 
-                                                    onInput={onChangeValueFld}
-                                                    value={formData.value}
-                                                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                                                    {
-                                                        SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0]?.options?.map(each =>
-                                                            <option style={{color: "black"}} value={each.o_value} >
-                                                                {each.o_name}
-                                                            </option>
-                                                        )
-                                                    }
-                                                </select>
-                                            }
-                                            {
-                                                (valueFieldType!==VALUE_FLD_TYPES.select) &&
-                                                <input 
-                                                    onInput={onChangeValueFld}
-                                                    value={formData.value}
-                                                    type={valueFieldType} placeholder="enter value here..."
-                                                    style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
-                                            }
-                                        </div>
-                                    </div>
-                                    {
-                                        formValidation.isError && <FormErrorCard 
-                                            message={formValidation.message} 
-                                            type={formValidation.type}
-                                        />
-                                    }
-                                    <div>
-                                        {
-                                            can_update_app_settings ?
-                                            <div onClick={addSettingsOnSubmit} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
-                                                <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
-                                                Save
-                                            </div> : <div style={{backgroundColor: "rgba(255,0,0,0.3)", padding: 20, color: "white", fontSize: 12, textAlign: "center"}}>
-                                                <i style={{marginRight: 10, color: "orange"}} 
-                                                    className='fa-solid fa-exclamation-triangle'></i>
-                                                Saving app settings is disabled on your user role.
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        <div style={{width: "calc(50% - 4px)", borderRadius: 8, padding: 10, backgroundColor: "rgb(49, 30, 53)", marginTop: 5}}>
-                            <p style={{color: "skyblue", fontSize: 12}}>
-                                <i style={{color: "yellow", marginRight: 10}}
-                                    className='fa-solid fa-cogs'></i>
-                                System Configurations
-                            </p>
-                            <div style={{marginTop: 10, borderTop: "1px dashed rgba(255,255,255,0.5)"}}>
-                                <table className='app-standard-table two-columns'>
-                                    <tr>
-                                        <td>Name/Property</td>
-                                        <td>Value</td>
-                                    </tr>
-                                    {
-                                        appConfigs.map(each=>{
-                                            return <tr>
-                                                <td>
-                                                    <span className='tool-tip-parent'>
-                                                        {/**<i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
-                                                            className='fa-solid fa-pencil'></i> */}
-                                                        <i style={{color: each?.color, marginRight: 10, cursor: "pointer"}}
-                                                            className={'fa-solid fa-'+each?.icon}></i>
-                                                        {   each?.msg &&  
-                                                            <span style={{color: "black"}}
-                                                            className='tool-tip'>
-                                                                {each?.msg}</span>
-                                                        }
-                                                    </span>
-                                                    {each?.name}:</td>
-                                                <td>{each?.value}</td>
-                                            </tr>
-                                        })
-                                    }
-                                </table>
-                                <div className='app-standard-paginator' style={{marginTop: 5}}>
-                                    <div className='prev-next-btn inactive'>
-                                        <i className='fa-solid fa-angle-left'></i></div>
-                                    <div>1</div>
-                                    <div className='prev-next-btn inactive'>
-                                        <i className='fa-solid fa-angle-right'></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
             <div>
                 <div style={{marginTop: 10}}>
-                    {false && <p style={{color: "red", marginBottom: 10, fontSize: 13}}>
-                        <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-link'></i>
-                        Create Search Link:
-                    </p>}
-                    <div style={{padding: 20, borderRadius: 8, background: "rgba(255, 255, 255, 0.1)", marginBottom: 20}}>
-                        <p style={{fontSize: 12, color: "white"}}>
-                            Product: <select onChange={slProductOnChange}
-                                value={searchLink.product}
-                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
-                                borderBottom: "2px solid " + (searchLink.type ? "lightgreen" : "red")}}>
-                                <option style={{color: "black"}} value="0">Flights (0)</option>
-                                <option style={{color: "black"}} value="1">Hotels (1)</option>
-                                <option style={{color: "black"}} value="2">Cars (2)</option>
-                            </select>
-                            Type: <select onChange={slTypeOnChange} 
-                                value={searchLink.type}
-                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
-                                borderBottom: "2px solid " + (searchLink.type ? "lightgreen" : "red")}}>
-                                <option style={{color: "black"}} value="one-way">One Way</option>
-                                <option style={{color: "black"}} value="round-trip">Round Trip</option>
-                            </select>
-                            Dates: {(!searchLink.date ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                <input id="create_search_link_date_input"
-                                value={searchLink.date}
-                                placeholder="Select Date"
-                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
-                                    borderBottom: "2px solid " + (searchLink.date ? "lightgreen" : "red")}} 
-                                type="text"/>
-                            <span style={{position: "relative"}}>
-                                Departure: {(!searchLink.dpt_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                    <input readOnly onClick={(e)=>toggleShowSearchLinkAirportsAutocomplete(true, "departure")} 
-                                        onChange={slDepartureOnChange}
-                                    value={searchLink.dpt_airport}
-                                    style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
-                                        borderBottom: "2px solid " + (searchLink.dpt_airport ? "lightgreen" : "red")}} 
+                    {
+                        (currentSubPage===_PAGES?.search_link) &&
+                        <div style={{display: "flex", justifyContent: "space-between", padding: 20, borderRadius: 8, background: "rgba(255, 255, 255, 0.1)", marginBottom: 20}}>
+                            <p style={{fontSize: 12, color: "white"}}>
+                                Product: <select onChange={slProductOnChange}
+                                    value={searchLink.product}
+                                    style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: "2px solid " + (searchLink.type ? "lightgreen" : "red")}}>
+                                    <option style={{color: "black"}} value="0">Flights (0)</option>
+                                    <option style={{color: "black"}} value="1">Hotels (1)</option>
+                                    <option style={{color: "black"}} value="2">Cars (2)</option>
+                                </select>
+                                Type: <select onChange={slTypeOnChange} 
+                                    value={searchLink.type}
+                                    style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
+                                    borderBottom: "2px solid " + (searchLink.type ? "lightgreen" : "red")}}>
+                                    <option style={{color: "black"}} value="one-way">One Way</option>
+                                    <option style={{color: "black"}} value="round-trip">Round Trip</option>
+                                </select>
+                                Dates: {(!searchLink.date ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                    <input id="create_search_link_date_input"
+                                    value={searchLink.date}
+                                    placeholder="Select Date" readOnly
+                                    style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", 
+                                        borderBottom: "2px solid " + (searchLink.date ? "lightgreen" : "red")}} 
                                     type="text"/>
-                                Destination: {(!searchLink.dst_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                    <input readOnly onClick={()=>toggleShowSearchLinkAirportsAutocomplete(true, "destination")}
-                                        onChange={slDestinationOnChange}
-                                    value={searchLink.dst_airport}
+                                <span style={{position: "relative"}}>
+                                    Departure: {(!searchLink.dpt_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                        <input readOnly onClick={(e)=>toggleShowSearchLinkAirportsAutocomplete(true, "departure")} 
+                                            onChange={slDepartureOnChange}
+                                        value={searchLink.dpt_airport}
+                                        style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                            borderBottom: "2px solid " + (searchLink.dpt_airport ? "lightgreen" : "red")}} 
+                                        type="text"/>
+                                    Destination: {(!searchLink.dst_airport ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                        <input readOnly onClick={()=>toggleShowSearchLinkAirportsAutocomplete(true, "destination")}
+                                            onChange={slDestinationOnChange}
+                                        value={searchLink.dst_airport}
+                                        style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                            borderBottom: "2px solid " + (searchLink.dst_airport ? "lightgreen" : "red")}} 
+                                        type="text"/>
+                                    {
+                                        searchLinkAirportsAutoCompleteShowing && <div style={{
+                                                position: "absolute", background: "white", color: "black", width: "calc(100% + 100px)", left: -50, top: 0, borderRadius: 8, boxShadow: "0 0 20px yellow"}}>
+                                            <div style={{padding: 10,}}>
+                                                <p onClick={()=>toggleShowSearchLinkAirportsAutocomplete(false)} 
+                                                    style={{cursor: "pointer", color: "red", position: "absolute", padding: 10, right: 5, top: 0, fontSize: 15}}>
+                                                    <i className='fa-solid fa-times'></i> 
+                                                </p>
+                                                <p style={{marginBottom: 10, fontWeight: "bolder"}}>
+                                                    <i style={{color: "orange", marginRight: 10}}
+                                                    className="fa-solid fa-map-marker"></i>
+                                                    Search Airport</p>
+                                                <input onInput={slAirportsAutoCompleteOnInput}
+                                                    style={{width: "100%", padding: 10, backgroundColor: "rgba(0,0,0,0.1)", border: "none",
+                                                            borderBottom: "2px solid orange"}} 
+                                                    type="text" placeholder="Enter Airport"/>
+                                                <ul style={{marginTop: 10}}>
+                                                    {searchLinkAirportsAutoCompleteAirportList.map(each=>each)}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                </span>
+                                Cabin: <select onChange={slCabinOnChange}
+                                    value={searchLink.cabin}
+                                    style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}}>
+                                    <option style={{color: "black"}} value="ECONOMY">Economy</option>
+                                    <option style={{color: "black"}} value="PREMIUM">Premium</option>
+                                    <option style={{color: "black"}} value="BUSINESS">Business</option>
+                                    <option style={{color: "black"}} value="FIRST">First</option>
+                                </select>
+                                Adults: {(searchLink.adults==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                    <input onChange={slAdultsOnChange}
+                                    value={searchLink.adults}
                                     style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
-                                        borderBottom: "2px solid " + (searchLink.dst_airport ? "lightgreen" : "red")}} 
-                                    type="text"/>
+                                        borderBottom: "2px solid " + (searchLink.adults==="" ? "red" : "lightgreen")}} 
+                                    type="number"/>
+                                Children: {(searchLink.children==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                    <input onChange={slChildrenOnChange}
+                                    value={searchLink.children}
+                                    style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                        borderBottom: "2px solid " + (searchLink.children==="" ? "red" : "lightgreen")}} 
+                                type="number"/>
+                                Infants: {(searchLink.infants==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
+                                    <input onChange={slInfantsOnChange}
+                                    value={searchLink.infants}
+                                    style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
+                                        borderBottom: "2px solid " + (searchLink.infants==="" ? "red" : "lightgreen")}} 
+                                    type="number" />
+                            </p>
+                            <div  onClick={loadPreviewPage} className='tool-tip-parent'
+                                style={{color: "yellow", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <i className="fa-solid fa-turn-down"></i>
+                                <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
+                                    Load Preview
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    {
+                        (currentSubPage===_PAGES?.booking_params) &&
+                        <div style={{marginBottom: 10}}>
+                            <div style={{display: "flex", justifyContent: "space-between"}}>
                                 {
-                                    searchLinkAirportsAutoCompleteShowing && <div style={{
-                                            position: "absolute", background: "white", color: "black", width: "calc(100% + 100px)", left: -50, top: 0, borderRadius: 8, boxShadow: "0 0 20px yellow"}}>
-                                        <div style={{padding: 10,}}>
-                                            <p onClick={()=>toggleShowSearchLinkAirportsAutocomplete(false)} 
-                                                style={{cursor: "pointer", color: "red", position: "absolute", padding: 10, right: 5, top: 0, fontSize: 15}}>
-                                                <i className='fa-solid fa-times'></i> 
-                                            </p>
-                                            <p style={{marginBottom: 10, fontWeight: "bolder"}}>
-                                                <i style={{color: "orange", marginRight: 10}}
-                                                className="fa-solid fa-map-marker"></i>
-                                                Search Airport</p>
-                                            <input onInput={slAirportsAutoCompleteOnInput}
-                                                style={{width: "100%", padding: 10, backgroundColor: "rgba(0,0,0,0.1)", border: "none",
-                                                        borderBottom: "2px solid orange"}} 
-                                                type="text" placeholder="Enter Airport"/>
-                                            <ul style={{marginTop: 10}}>
-                                                {searchLinkAirportsAutoCompleteAirportList.map(each=>each)}
-                                            </ul>
+                                    isLoggedUserAgent ? <div style={{width: "calc(50% - 4px)"}}>
+                                        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                <i className="fa fa-percent" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                Price Markup (%)</p>
+                                            <div style={{border: "none"}}>
+                                                <input onInput={agentPriceMarkupOnchange}
+                                                    value={agentPriceMarkup?.value}
+                                                    type="number" placeholder="type here..."
+                                                    style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                            </div>
+                                        </div>
+                                        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                <i className="fa fa-share-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                Data Provider</p>
+                                            <div style={{border: "none"}}>
+                                                <select
+                                                    type="text" placeholder="type here..."
+                                                    style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
+                                                        <option style={{color: "black"}} value="">Duffel</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div onClick={agentBookingParametersFormOnSubmit} 
+                                            style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                                            <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
+                                            Save
+                                        </div>
+                                    </div> :
+                                    has_access_to_app_settings && 
+                                    <div style={{width: "calc(50% - 4px)"}}>
+                                        <div style={{padding: "10px"}}>
+                                            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                    <i className="fa fa-tools" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                    Please Select Settings Type</p>
+                                                <div style={{border: "none"}}>
+                                                    <select 
+                                                        onChange={onChangePropertyFld}
+                                                        value={formData.property}
+                                                        style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+                                                        {
+                                                            SETTINGS_PROPS_NAMES.map(each =>
+                                                                <option style={{color: "black"}} value={each.value} >
+                                                                    {each.name}
+                                                                </option>
+                                                            )
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                    <i className="fa-solid fa-keyboard" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                    Value</p>
+                                                <div style={{border: "none"}}>
+                                                    {
+                                                        (valueFieldType===VALUE_FLD_TYPES.select) &&
+                                                        <select 
+                                                            onInput={onChangeValueFld}
+                                                            value={formData.value}
+                                                            style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+                                                            {
+                                                                SETTINGS_PROPS_NAMES.filter(each => each.value===formData.property)[0]?.options?.map(each =>
+                                                                    <option style={{color: "black"}} value={each.o_value} >
+                                                                        {each.o_name}
+                                                                    </option>
+                                                                )
+                                                            }
+                                                        </select>
+                                                    }
+                                                    {
+                                                        (valueFieldType!==VALUE_FLD_TYPES.select) &&
+                                                        <input 
+                                                            onInput={onChangeValueFld}
+                                                            value={formData.value}
+                                                            type={valueFieldType} placeholder="enter value here..."
+                                                            style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                                    }
+                                                </div>
+                                            </div>
+                                            {
+                                                formValidation.isError && <FormErrorCard 
+                                                    message={formValidation.message} 
+                                                    type={formValidation.type}
+                                                />
+                                            }
+                                            <div>
+                                                {
+                                                    can_update_app_settings ?
+                                                    <div onClick={addSettingsOnSubmit} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                                                        <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
+                                                        Save
+                                                    </div> : <div style={{backgroundColor: "rgba(255,0,0,0.3)", padding: 20, color: "white", fontSize: 12, textAlign: "center"}}>
+                                                        <i style={{marginRight: 10, color: "orange"}} 
+                                                            className='fa-solid fa-exclamation-triangle'></i>
+                                                        Saving app settings is disabled on your user role.
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 }
-                            </span>
-                            Cabin: <select onChange={slCabinOnChange}
-                                value={searchLink.cabin}
-                                style={{background: "none", color: "lightgreen", border: "none", marginRight: 10, textAlign: "center", borderBottom: "2px solid lightgreen"}}>
-                                <option style={{color: "black"}} value="ECONOMY">Economy</option>
-                                <option style={{color: "black"}} value="PREMIUM">Premium</option>
-                                <option style={{color: "black"}} value="BUSINESS">Business</option>
-                                <option style={{color: "black"}} value="FIRST">First</option>
-                            </select>
-                            Adults: {(searchLink.adults==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                <input onChange={slAdultsOnChange}
-                                value={searchLink.adults}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
-                                    borderBottom: "2px solid " + (searchLink.adults==="" ? "red" : "lightgreen")}} 
-                                type="number"/>
-                            Children: {(searchLink.children==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                <input onChange={slChildrenOnChange}
-                                value={searchLink.children}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
-                                    borderBottom: "2px solid " + (searchLink.children==="" ? "red" : "lightgreen")}} 
-                            type="number"/>
-                            Infants: {(searchLink.infants==="" ? <i style={{color: "red", marginRight: 5}} className='fa-solid fa-exclamation-triangle'></i> : "")}
-                                <input onChange={slInfantsOnChange}
-                                value={searchLink.infants}
-                                style={{background: "none", color: "lightgreen", width: 40, border: "none", marginRight: 10, textAlign: "center", 
-                                    borderBottom: "2px solid " + (searchLink.infants==="" ? "red" : "lightgreen")}} 
-                                type="number" />
-                        </p>
-                    </div>
-                    <div style={{display: "flex", borderRadius: 8, justifyContent: "space-between", width: "100%", overflow: "hidden", border: "1px solid pink"}}>
+                                <div style={{width: "calc(50% - 4px)", borderRadius: 8, padding: 10, backgroundColor: "rgb(49, 30, 53)"}}>
+                                    <p style={{color: "skyblue", fontSize: 12}}>
+                                        <i style={{color: "yellow", marginRight: 10}}
+                                            className='fa-solid fa-cogs'></i>
+                                        System Configurations
+                                    </p>
+                                    <div style={{marginTop: 10, borderTop: "1px dashed rgba(255,255,255,0.5)"}}>
+                                        <table className='app-standard-table two-columns'>
+                                            <tr>
+                                                <td>Name/Property</td>
+                                                <td>Value</td>
+                                            </tr>
+                                            {
+                                                appConfigs.map(each=>{
+                                                    return <tr>
+                                                        <td>
+                                                            <span className='tool-tip-parent'>
+                                                                {/**<i style={{color: "lightgreen", marginRight: 10, cursor: "pointer"}}
+                                                                    className='fa-solid fa-pencil'></i> */}
+                                                                <i style={{color: each?.color, marginRight: 10, cursor: "pointer"}}
+                                                                    className={'fa-solid fa-'+each?.icon}></i>
+                                                                {   each?.msg &&  
+                                                                    <span style={{color: "black"}}
+                                                                    className='tool-tip'>
+                                                                        {each?.msg}</span>
+                                                                }
+                                                            </span>
+                                                            {each?.name}:</td>
+                                                        <td>{each?.value}</td>
+                                                    </tr>
+                                                })
+                                            }
+                                        </table>
+                                        <div className='app-standard-paginator' style={{marginTop: 5}}>
+                                            <div className='prev-next-btn inactive'>
+                                                <i className='fa-solid fa-angle-left'></i></div>
+                                            <div>1</div>
+                                            <div className='prev-next-btn inactive'>
+                                                <i className='fa-solid fa-angle-right'></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    {
+                        (currentSubPage===_PAGES?.send_link) &&
+                        <div style={{marginBottom: 10}}>
+                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                                <div style={{width: "calc(50% - 4px)", borderRadius: 8, backgroundColor: "rgb(43, 52, 61)", padding: 10}}>
+                                    <p style={{backgroundColor: "rgba(0,0,0,0.2)", padding: 10, fontSize: 12}}>
+                                        <i style={{color: "lightgreen", marginRight: 10}}
+                                            className='fa-solid fa-search'></i>
+                                        <input 
+                                            style={{background: "none", color: "white", border: "none", width: "calc(100% - 40px)"}}
+                                            placeholder="Search customer here"
+                                        />
+                                    </p>
+                                    <div style={{marginTop: 2, borderTop: "1px dashed rgba(0,0,0,0.5)"}}>
+                                        {
+                                            true ? <>
+                                                <div style={{display: "flex", padding: 20, margin: "10px 0", backgroundColor: "rgba(255,0,0,0.1)"}}>
+                                                    <i style={{color: "yellow", marginRight: 10}}
+                                                        className='fa-solid fa-exclamation-triangle'></i>
+                                                    <p style={{color: "white", fontSize: 13}}>
+                                                        You dont have any saved customers yet. You may add new customer or simply enter customer email on the right to send search link to customer!</p>
+                                                </div>
+                                                <p style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
+                                                    <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
+                                                    Create New Customer
+                                                </p>
+                                            </> :
+                                            <>
+                                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                                    <p style={{color: "white", fontSize: 13}}>
+                                                    <i style={{color: "yellow", marginRight: 10}}
+                                                        className='fa-solid fa-user'></i>
+                                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                                            k.asumah@gmail.com
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                                    <p style={{color: "white", fontSize: 13}}>
+                                                    <i style={{color: "yellow", marginRight: 10}}
+                                                        className='fa-solid fa-user'></i>
+                                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                                            k.asumah@gmail.com
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                                    <p style={{color: "white", fontSize: 13}}>
+                                                    <i style={{color: "yellow", marginRight: 10}}
+                                                        className='fa-solid fa-user'></i>
+                                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                                            k.asumah@gmail.com
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                                    <p style={{color: "white", fontSize: 13}}>
+                                                    <i style={{color: "yellow", marginRight: 10}}
+                                                        className='fa-solid fa-user'></i>
+                                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                                            k.asumah@gmail.com
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div style={{marginTop: 10, cursor: "pointer"}}>
+                                                    <p style={{color: "white", fontSize: 13}}>
+                                                    <i style={{color: "yellow", marginRight: 10}}
+                                                        className='fa-solid fa-user'></i>
+                                                        Kwame Asumah - <span style={{color: "orange"}}>
+                                                            k.asumah@gmail.com
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </>
+                                        }
+                                    </div>
+                                    {   false &&
+                                        <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
+                                            <div className='prev-next-btn inactive'>
+                                                <i className='fa-solid fa-angle-left'></i></div>
+                                            <div>1</div>
+                                            <div className='prev-next-btn inactive'>
+                                                <i className='fa-solid fa-angle-right'></i></div>
+                                        </div>
+                                    }
+                                </div>
+                                <div style={{width: "calc(50% - 4px)"}}>
+                                    <div style={{padding: 20, borderRadius: 8, backgroundColor: "rgba(0,255,0,0.1)", marginBottom: 10}}>
+                                        <p style={{color: "white", fontSize: 13, display: "flex"}}>
+                                            <i style={{color: "lightgreen", marginRight: 10}} className='fa-solid fa-info-circle'></i>
+                                            <span>
+                                                To send the search link to a customer, you must select a customer on the left side or enter customer email below or create new customer
+                                            </span>  
+                                        </p>
+                                        <p style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
+                                            <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
+                                            Create New Customer
+                                        </p>
+                                    </div>
+                                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                            <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                            Customer Email</p>
+                                        <div style={{border: "none"}}>
+                                            <input
+                                                type="email" placeholder="type here..."
+                                                style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                        </div>
+                                    </div>
+                                    <div style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                                        <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
+                                        Send Link
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div style={{display: "flex", borderRadius: 50, justifyContent: "space-between", padding: "0 10px", width: "100%", backgroundColor: "black", border: "1px solid pink"}}>
                         <p id="searchLinkAddressTextToCopy" style={{padding: 10, width: "calc(100% - 40px)", fontSize: 13, width: "100%", color: "white"}}>
                             {search_link_client_app_url}/?product=<span style={{color: "lightgreen"}}>
                                 {searchLink.product}</span>
@@ -752,154 +895,47 @@ let SettingsContainer = (props) => {
                             &infants=<span style={{color: "lightgreen"}}>
                                 {searchLink.infants}</span>
                         </p>
-                        <div onClick={()=>{
+                        <>
+                            <div onClick={loadPreviewPage} className='tool-tip-parent'
+                                style={{color: "pink", cursor: "pointer", width: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <i className="fa-solid fa-arrow-rotate-right"></i>
+                                <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
+                                    Reload Preview
+                                </span>
+                            </div>
+                            <div className='tool-tip-parent' onClick={()=>{
 
-                                // Validation
-                                if(
-                                searchLink.product==="" ||
-                                !searchLink.type ||
-                                !searchLink.date ||
-                                !searchLink.dpt_airport ||
-                                !searchLink.dst_airport ||
-                                !searchLink.cabin ||
-                                searchLink.adults==="" ||
-                                searchLink.children==="" ||
-                                searchLink.infants===""){
-                                    alert("Error! Link Not Copied. Some values are missing.");
-                                    return;
-                                }
+                                    // Validation
+                                    if(
+                                    searchLink.product==="" ||
+                                    !searchLink.type ||
+                                    !searchLink.date ||
+                                    !searchLink.dpt_airport ||
+                                    !searchLink.dst_airport ||
+                                    !searchLink.cabin ||
+                                    searchLink.adults==="" ||
+                                    searchLink.children==="" ||
+                                    searchLink.infants===""){
+                                        alert("Error! Link Not Copied. Some values are missing.");
+                                        return;
+                                    }
 
-                                let elem = document.getElementById("searchLinkAddressTextToCopy");
-                                // Copy the text inside the text field
-                                navigator.clipboard.writeText(elem.innerText);
-                                // Alert the copied text
-                                console.log("Copied the text: " + elem.innerText);
-                                alert("Copied!");
-                            }} 
-                            style={{cursor: "pointer", display: "flex", alignItems: "center", width: 40, backgroundColor: "pink", justifyContent: "center"}}>
-                            <i className="fa-solid fa-copy"></i>
-                        </div>
+                                    let elem = document.getElementById("searchLinkAddressTextToCopy");
+                                    // Copy the text inside the text field
+                                    navigator.clipboard.writeText(elem.innerText);
+                                    // Alert the copied text
+                                    console.log("Copied the text: " + elem.innerText);
+                                    alert("Copied!");
+                                }} 
+                                style={{cursor: "pointer", display: "flex", alignItems: "center", width: 40, color: "pink", justifyContent: "center"}}>
+                                <i className="fa-solid fa-copy"></i>
+                                <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
+                                    Copy Link
+                                </span>
+                            </div>
+                        </>
                     </div>
                 </div>
-                {
-                    false &&
-                    <div style={{marginTop: 20}}>
-                        <p style={{color: "white", fontSize: 13, margin: 10}}>
-                            Send Search Link</p>
-                        <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <div style={{width: "calc(50% - 4px)", borderRadius: 8, backgroundColor: "rgb(43, 52, 61)", padding: 10}}>
-                                <p style={{backgroundColor: "rgba(0,0,0,0.2)", padding: 10, fontSize: 12}}>
-                                    <i style={{color: "lightgreen", marginRight: 10}}
-                                        className='fa-solid fa-search'></i>
-                                    <input 
-                                        style={{background: "none", color: "white", border: "none", width: "calc(100% - 40px)"}}
-                                        placeholder="Search customer here"
-                                    />
-                                </p>
-                                <div style={{marginTop: 2, borderTop: "1px dashed rgba(0,0,0,0.5)"}}>
-                                    {
-                                        true ? <>
-                                            <div style={{display: "flex", padding: 20, margin: "10px 0", backgroundColor: "rgba(255,0,0,0.1)"}}>
-                                                <i style={{color: "yellow", marginRight: 10}}
-                                                    className='fa-solid fa-exclamation-triangle'></i>
-                                                <p style={{color: "white", fontSize: 13}}>
-                                                    You dont have any saved customers yet. You may add new customer or simply enter customer email on the right to send search link to customer!</p>
-                                            </div>
-                                            <p style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
-                                                <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
-                                                Create New Customer
-                                            </p>
-                                        </> :
-                                        <>
-                                            <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                <p style={{color: "white", fontSize: 13}}>
-                                                <i style={{color: "yellow", marginRight: 10}}
-                                                    className='fa-solid fa-user'></i>
-                                                    Kwame Asumah - <span style={{color: "orange"}}>
-                                                        k.asumah@gmail.com
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                <p style={{color: "white", fontSize: 13}}>
-                                                <i style={{color: "yellow", marginRight: 10}}
-                                                    className='fa-solid fa-user'></i>
-                                                    Kwame Asumah - <span style={{color: "orange"}}>
-                                                        k.asumah@gmail.com
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                <p style={{color: "white", fontSize: 13}}>
-                                                <i style={{color: "yellow", marginRight: 10}}
-                                                    className='fa-solid fa-user'></i>
-                                                    Kwame Asumah - <span style={{color: "orange"}}>
-                                                        k.asumah@gmail.com
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                <p style={{color: "white", fontSize: 13}}>
-                                                <i style={{color: "yellow", marginRight: 10}}
-                                                    className='fa-solid fa-user'></i>
-                                                    Kwame Asumah - <span style={{color: "orange"}}>
-                                                        k.asumah@gmail.com
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                <p style={{color: "white", fontSize: 13}}>
-                                                <i style={{color: "yellow", marginRight: 10}}
-                                                    className='fa-solid fa-user'></i>
-                                                    Kwame Asumah - <span style={{color: "orange"}}>
-                                                        k.asumah@gmail.com
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </>
-                                    }
-                                </div>
-                                {   false &&
-                                    <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
-                                        <div className='prev-next-btn inactive'>
-                                            <i className='fa-solid fa-angle-left'></i></div>
-                                        <div>1</div>
-                                        <div className='prev-next-btn inactive'>
-                                            <i className='fa-solid fa-angle-right'></i></div>
-                                    </div>
-                                }
-                            </div>
-                            <div style={{width: "calc(50% - 4px)"}}>
-                                <div style={{padding: 20, borderRadius: 8, backgroundColor: "rgba(0,255,0,0.1)", marginBottom: 10}}>
-                                    <p style={{color: "white", fontSize: 13, display: "flex"}}>
-                                        <i style={{color: "lightgreen", marginRight: 10}} className='fa-solid fa-info-circle'></i>
-                                        <span>
-                                            To send the search link to a customer, you must select a customer on the left side or enter customer email below or create new customer
-                                        </span>  
-                                    </p>
-                                    <p style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
-                                        <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
-                                        Create New Customer
-                                    </p>
-                                </div>
-                                <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                                    <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                        <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                        Customer Email</p>
-                                    <div style={{border: "none"}}>
-                                        <input
-                                            type="email" placeholder="type here..."
-                                            style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
-                                    </div>
-                                </div>
-                                <div style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
-                                    <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
-                                    Send Link
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
             </div>
              <div style={{marginTop: 5}}>
                 {false && <p style={{color: "red", marginBottom: 10, fontSize: 13}}>
@@ -907,9 +943,7 @@ let SettingsContainer = (props) => {
                     Preview - Customer App
                 </p>}
                 <iframe id="business-settings-page-customer-app-preview-iframe" style={{width: "100%", height: 1000, border: "none", borderRadius: 8}} 
-                    src={
-                        `${search_link_client_app_url}/?product=${searchLink.product}&type=${searchLink.type}&date=${searchLink.date}&dpt_airport=${searchLink.dpt_airport}&dst_airport=${searchLink.dst_airport}&cabin=${searchLink.cabin}&adults=${searchLink.adults}&children=${searchLink.children}&infants=${searchLink.infants}`
-                    } title="description"></iframe>
+                    src={previewLink} title="description"></iframe>
              </div>
         </section>
     )
