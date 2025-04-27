@@ -12,6 +12,7 @@ import {
     createNewAgentInfo,
     fetchAgentInfoByAgentIdAndPropName
 } from '../services/agentServices';
+import { fetchCustomersByAgentId } from '../services/customerServices';
 import {
     reload_business_settings_page_customer_app_preview_iframe
 } from '../helpers/helper-functions';
@@ -19,6 +20,7 @@ import AirportsData from '../data/Airports';
 import CONSTANTS from '../constants/Constants';
 
 import { useEffect, useState } from 'react';
+import CustomerForm from './CustomerForm';
 
 let SettingsContainer = (props) => {
 
@@ -97,11 +99,12 @@ let SettingsContainer = (props) => {
         send_link: 3
     }
 
+    const [customersList, setCustomersList ] = useState([]);
+    const [ isAddNewCustomer, setIsAddNewCustomer ] = useState(false);
     const [ formData, setFormData ] = useState({
         property: SETTINGS_PROPS_NAMES[0]?.value,
         value: ""
     });
-    
     const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
         user_id: userDetails?._id,
         property: "price_markup",
@@ -135,9 +138,12 @@ let SettingsContainer = (props) => {
         {
             msg: "",
             color: "skyblue",
-            icon: "wallet",
-            name: "Wallet/Credits",
-            value: "$2,000.00 - 5,042 actions",
+            icon: "server",
+            name: "Booking Engine",
+            value: ( isLoggedUserAgent ?
+                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?product=0&agent=agent_id_here" ://"http://localhost:3001" : 
+                "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com",
+            ),
         },
         {
             msg: "Your service plan",
@@ -201,7 +207,10 @@ let SettingsContainer = (props) => {
         }
     }
 
-    
+    const loadCustomers = async () => {
+        let __customers = await fetchCustomersByAgentId(userDetails?._id);
+        setCustomersList(__customers);
+    }
 
     const showSearchLinkForm = () => {
         setCurrentSubPage(_PAGES?.search_link);
@@ -223,6 +232,11 @@ let SettingsContainer = (props) => {
                 date: __dd,
             });
         }, 100);
+    }
+
+    const showSendLinkPage = () => {
+        loadCustomers();
+        setCurrentSubPage(_PAGES?.send_link)
     }
 
     const agentPriceMarkupOnchange = (e) => {
@@ -552,7 +566,7 @@ let SettingsContainer = (props) => {
                     Booking Parameters
                     <div style={{border: (currentSubPage===_PAGES?.booking_params) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
-                <div  onClick={()=>setCurrentSubPage(_PAGES?.send_link)}
+                <div  onClick={showSendLinkPage}
                     style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.send_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                     <i style={{color:  (currentSubPage===_PAGES?.send_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>
                     Send Link
@@ -803,7 +817,19 @@ let SettingsContainer = (props) => {
                                                                 }
                                                             </span>
                                                             {each?.name}:</td>
-                                                        <td>{each?.value}</td>
+                                                        {
+                                                            each?.name==="Booking Engine" ?
+                                                            <td className='tool-tip-parent' style={{textDecoration: "underline", color: "orange"}}>
+                                                                <p href={each?.value}>
+                                                                    Copy Booking Engine Link
+                                                                </p>
+                                                                <div className='tool-tip' style={{color: "black"}}>
+                                                                    You can share your booking engine or put it on your business website to allow your customers to search on their own.
+                                                                </div>
+                                                            </td> :
+                                                            <td>{each?.value}</td>
+                                                        }
+                                                        
                                                     </tr>
                                                 })
                                             }
@@ -835,68 +861,39 @@ let SettingsContainer = (props) => {
                                     </p>
                                     <div style={{marginTop: 2, borderTop: "1px dashed rgba(0,0,0,0.5)"}}>
                                         {
-                                            true ? <>
+                                            (customersList.length < 1) && <>
                                                 <div style={{display: "flex", padding: 20, margin: "10px 0", backgroundColor: "rgba(255,0,0,0.1)"}}>
                                                     <i style={{color: "yellow", marginRight: 10}}
                                                         className='fa-solid fa-exclamation-triangle'></i>
                                                     <p style={{color: "white", fontSize: 13}}>
                                                         You dont have any saved customers yet. You may add new customer or simply enter customer email on the right to send search link to customer!</p>
                                                 </div>
-                                                <p style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
-                                                    <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
-                                                    Create New Customer
-                                                </p>
-                                            </> :
-                                            <>
-                                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                    <p style={{color: "white", fontSize: 13}}>
-                                                    <i style={{color: "yellow", marginRight: 10}}
-                                                        className='fa-solid fa-user'></i>
-                                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                                            k.asumah@gmail.com
-                                                        </span>
+                                                {
+                                                    !isAddNewCustomer &&
+                                                    <p onClick={()=>setIsAddNewCustomer(true)}
+                                                        style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
+                                                        <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
+                                                        Create New Customer
                                                     </p>
-                                                </div>
-                                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                    <p style={{color: "white", fontSize: 13}}>
-                                                    <i style={{color: "yellow", marginRight: 10}}
-                                                        className='fa-solid fa-user'></i>
-                                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                                            k.asumah@gmail.com
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                    <p style={{color: "white", fontSize: 13}}>
-                                                    <i style={{color: "yellow", marginRight: 10}}
-                                                        className='fa-solid fa-user'></i>
-                                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                                            k.asumah@gmail.com
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                    <p style={{color: "white", fontSize: 13}}>
-                                                    <i style={{color: "yellow", marginRight: 10}}
-                                                        className='fa-solid fa-user'></i>
-                                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                                            k.asumah@gmail.com
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                    <p style={{color: "white", fontSize: 13}}>
-                                                    <i style={{color: "yellow", marginRight: 10}}
-                                                        className='fa-solid fa-user'></i>
-                                                        Kwame Asumah - <span style={{color: "orange"}}>
-                                                            k.asumah@gmail.com
-                                                        </span>
-                                                    </p>
-                                                </div>
+                                                }
                                             </>
                                         }
+                                        {
+                                            customersList?.map(each=>{
+                                                return <div style={{marginTop: 10, cursor: "pointer"}}>
+                                                    <p style={{color: "white", fontSize: 13}}>
+                                                    <i style={{color: "yellow", marginRight: 10}}
+                                                        className='fa-solid fa-user'></i>
+                                                        {each?.first_name} {each?.last_name} - <span style={{color: "orange"}}>
+                                                            {each?.email}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            })
+                                        }
                                     </div>
-                                    {   false &&
+                                    {   
+                                        (customersList.length > 0) &&
                                         <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
                                             <div className='prev-next-btn inactive'>
                                                 <i className='fa-solid fa-angle-left'></i></div>
@@ -907,32 +904,49 @@ let SettingsContainer = (props) => {
                                     }
                                 </div>
                                 <div style={{width: "calc(50% - 4px)"}}>
-                                    <div style={{padding: 20, borderRadius: 8, backgroundColor: "rgba(0,255,0,0.1)", marginBottom: 10}}>
-                                        <p style={{color: "white", fontSize: 13, display: "flex"}}>
-                                            <i style={{color: "lightgreen", marginRight: 10}} className='fa-solid fa-info-circle'></i>
-                                            <span>
-                                                To send the search link to a customer, you must select a customer on the left side or enter customer email below or create new customer
-                                            </span>  
-                                        </p>
-                                        <p style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
-                                            <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
-                                            Create New Customer
-                                        </p>
-                                    </div>
-                                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                            <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                            Customer Email</p>
-                                        <div style={{border: "none"}}>
-                                            <input
-                                                type="email" placeholder="type here..."
-                                                style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
-                                        </div>
-                                    </div>
-                                    <div style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
-                                        <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
-                                        Send Link
-                                    </div>
+                                    {
+                                        isAddNewCustomer ?
+                                        <>
+                                            <p onClick={()=>setIsAddNewCustomer(false)}
+                                                style={{color: "orange", cursor: "pointer", textDecoration: "underline", marginBottom: 20, marginLeft: 20, fontSize: 13}}>
+                                                <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-arrow-left'></i>
+                                                Back To Send Link Form
+                                            </p>
+                                            <CustomerForm 
+                                                userDetails={userDetails} 
+                                                successCallBack={loadCustomers}
+                                            />
+                                        </> :
+                                        <>
+                                            <div style={{padding: 20, borderRadius: 8, backgroundColor: "rgba(0,255,0,0.1)", marginBottom: 10}}>
+                                                <p style={{color: "white", fontSize: 13, display: "flex"}}>
+                                                    <i style={{color: "lightgreen", marginRight: 10}} className='fa-solid fa-info-circle'></i>
+                                                    <span>
+                                                        To send the search link to a customer, you must select a customer on the left side or enter customer email below or create new customer
+                                                    </span>  
+                                                </p>
+                                                <p onClick={()=>setIsAddNewCustomer(true)}
+                                                    style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
+                                                    <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
+                                                    Create New Customer
+                                                </p>
+                                            </div>
+                                            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                    <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                    Customer Email</p>
+                                                <div style={{border: "none"}}>
+                                                    <input
+                                                        type="email" placeholder="type here..."
+                                                        style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                                </div>
+                                            </div>
+                                            <div style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                                                <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
+                                                Send Link
+                                            </div>
+                                        </>
+                                    }
                                 </div>
                             </div>
                         </div>

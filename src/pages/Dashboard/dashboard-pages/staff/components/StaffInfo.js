@@ -488,7 +488,9 @@ const StaffInfo = (props) => {
         }
         {
             (currentSubPage===_PAGES?.customers) &&
-            <AgentCustomers />
+            <AgentCustomers
+                userDetails={selectedStaff}
+            />
         }
         {
             (currentSubPage===_PAGES?.configs) &&
