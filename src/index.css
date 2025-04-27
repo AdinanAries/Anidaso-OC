@@ -38,13 +38,15 @@ body {
 .app-standard-table {
   width: 100%;
 }
-.app-standard-table.two-columns tr td{
-  width: 350px;
+.app-standard-table tr td{
   padding: 10px;
   font-size: 13px;
   background-color: #00000032;
   color:rgb(214, 142, 219);
   font-size: 13px;
+}
+.app-standard-table.two-columns tr td{
+  width: 350px;
 }
 .app-standard-table tr:nth-child(1) td {
   background-color: #a9ddff;

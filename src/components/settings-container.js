@@ -5,6 +5,9 @@ import {
     fetchAllCustomerAppSettings,
     fetchCustomerAppSettingsByPropName,
 } from '../services/settingsServices';
+import {
+    createNewBookingLink
+} from "../services/bookingLinkServices";
 import { 
     createNewAgentInfo,
     fetchAgentInfoByAgentIdAndPropName
@@ -98,7 +101,12 @@ let SettingsContainer = (props) => {
         property: SETTINGS_PROPS_NAMES[0]?.value,
         value: ""
     });
-    // Search Link State
+    
+    const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
+        user_id: userDetails?._id,
+        property: "price_markup",
+        value: 15,
+    });
     const [ currentSubPage, setCurrentSubPage ] = useState(_PAGES?.search_link);
     const [ searchLink, setSearchLink ] = useState({
         product: 0,
@@ -142,7 +150,7 @@ let SettingsContainer = (props) => {
     const search_link_client_app_url = appConfigs[0].value;
     const [ previewLink, setPreviewLink ] = useState(search_link_client_app_url);
 
-    const loadPreviewPage = (isReload=false) => {
+    const loadPreviewPage = async (isReload=false) => {
         // Validation
         if(
             searchLink.product==="" ||
@@ -162,8 +170,38 @@ let SettingsContainer = (props) => {
         // When reload button is clicked
         if(isReload){
             reload_business_settings_page_customer_app_preview_iframe();
+        }else{
+            // Getting current price_percentage markup from db
+            let pmp_res = await fetchAgentInfoByAgentIdAndPropName(
+                agentPriceMarkup?.user_id, 
+                agentPriceMarkup?.property
+            );
+            let post_obj = {
+                oc_user_id: userDetails?._id,
+                client_app_url: `${search_link_client_app_url}/`,
+                product: searchLink.product,
+                trip_type: searchLink.type,
+                departure_airport: searchLink.dpt_airport,
+                destination_airport: searchLink.dst_airport,
+                travel_dates: searchLink.date,
+                cabin: searchLink.cabin,
+                num_of_adults: searchLink.adults,
+                num_of_children: searchLink.children,
+                num_of_infants: searchLink.infants,
+                data_provider: "duffel",
+                profit_type: "Percentage",
+                profit_type_value: pmp_res?.value,
+                visited: 0,
+                booked: 0
+            }
+            let __res = await createNewBookingLink(post_obj);
+            if(__res?._id){
+                alert("New link has been saved!")
+            }
         }
     }
+
+    
 
     const showSearchLinkForm = () => {
         setCurrentSubPage(_PAGES?.search_link);
@@ -186,12 +224,6 @@ let SettingsContainer = (props) => {
             });
         }, 100);
     }
-
-    const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
-        user_id: userDetails?._id,
-        property: "price_markup",
-        value: 15,
-    });
 
     const agentPriceMarkupOnchange = (e) => {
         setAgentPriceMarkup({
@@ -224,7 +256,7 @@ let SettingsContainer = (props) => {
 
         alert(`Booking parameters modified!`);
         setTimeout(()=>{
-            reload_business_settings_page_customer_app_preview_iframe();
+            loadPreviewPage();
         }, 300);
 
     }
@@ -624,7 +656,7 @@ let SettingsContainer = (props) => {
                                 style={{color: "yellow", cursor: "pointer", backgroundColor: "rgba(255, 255, 255, 0.1)", borderRadius: 50, padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                 <i className="fa-solid fa-turn-down"></i>
                                 <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
-                                    Preview Link
+                                    Add Link
                                 </span>
                             </div>
                         </div>
@@ -638,7 +670,9 @@ let SettingsContainer = (props) => {
                                         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                                             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                                                 <i className="fa fa-percent" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                                Price Markup (%)</p>
+                                                Price Markup (%)
+                                                <span style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
+                                                    Charge Flat Rate</span></p>
                                             <div style={{border: "none"}}>
                                                 <input onInput={agentPriceMarkupOnchange}
                                                     value={agentPriceMarkup?.value}
@@ -654,7 +688,10 @@ let SettingsContainer = (props) => {
                                                 <select
                                                     type="text" placeholder="type here..."
                                                     style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
-                                                        <option style={{color: "black"}} value="">Duffel</option>
+                                                        <option style={{color: "black"}} value="duffel">Duffel</option>
+                                                        <option style={{color: "black"}} value="amadeus">Amadeus</option>
+                                                        <option style={{color: "black"}} value="saber">Saber</option>
+                                                        <option style={{color: "black"}} value="travelport">Travelport</option>
                                                 </select>
                                             </div>
                                         </div>

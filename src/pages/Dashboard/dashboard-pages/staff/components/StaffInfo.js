@@ -482,7 +482,9 @@ const StaffInfo = (props) => {
         }
         {
             (currentSubPage===_PAGES?.links) &&
-            <AgentLinks />
+            <AgentLinks 
+                userDetails={selectedStaff}
+            />
         }
         {
             (currentSubPage===_PAGES?.customers) &&
