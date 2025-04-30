@@ -4,6 +4,10 @@ import {
     fetchTransactionsByWalletId,
     fetchTransactionTypes
  } from "../../../../../services/agentServices";
+ import { 
+    calculateActionPoints,
+    add_commas_to_number
+} from "../../../../../helpers/helper-functions";
 
 const AgentWallet = (props) => {
 
@@ -61,7 +65,7 @@ const AgentWallet = (props) => {
         <div>
             <div style={{marginLeft: 30}}>
                 <h1 style={{color: "skyblue"}}> 
-                    ${(userDetails?.wallet_info?.current_balance).toFixed(2)}
+                    ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
                     <span style={{color: "lightgreen", fontWeight: "initial", fontSize: 14, cursor: "pointer", marginLeft: 20, textDecoration: "underline"}}>
                     <i style={{marginRight: 5, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
                         className="fa fa-plus"></i>
@@ -76,7 +80,7 @@ const AgentWallet = (props) => {
                 <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 5}}>
                     approx. 
                     <span style={{color: "orange"}}>
-                        50,0000</span> actions remaining
+                        {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))}</span> actions remaining
                 </p>
             </div>
         </div>

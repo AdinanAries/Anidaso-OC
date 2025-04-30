@@ -2,29 +2,41 @@ import { useState } from "react";
 
 const AgentConfigs = (props) => {
 
+    const {
+        userDetails
+    } = props;
+
+    const isLoggedUserAgent = true;
+
     const [ appConfigs, setAppConfigs ] = useState([
-            {
-                msg: "",
-                color: "skyblue",
-                icon: "globe",
-                name: "Client App",
-                value: "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com"
-            },
-            {
-                msg: "",
-                color: "skyblue",
-                icon: "wallet",
-                name: "Wallet/Credits",
-                value: "$2,000.00 - 5,042 actions",
-            },
-            {
-                msg: "Your service plan",
-                color: "skyblue",
-                icon: "file-signature",
-                name: "Service Plan",
-                value: "Basic Tier"
-            },
-        ]);
+        {
+            msg: "",
+            color: "skyblue",
+            icon: "globe",
+            name: "Client App",
+            value: ( isLoggedUserAgent ?
+                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" : 
+                "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
+            ),
+        },
+        {
+            msg: "",
+            color: "skyblue",
+            icon: "server",
+            name: "Booking Engine",
+            value: ( isLoggedUserAgent ?
+                ("https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?ngn=1&ag="+userDetails?._id) ://"http://localhost:3001/?ngn=1&ag=" : 
+                "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com",
+            ),
+        },
+        {
+            msg: "Your service plan",
+            color: "skyblue",
+            icon: "file-signature",
+            name: "Service Plan",
+            value: "Basic Tier"
+        },
+    ]);
 
     return <div style={{paddingTop: 30}} className="main-seaction-containers">
         <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
@@ -98,8 +110,26 @@ const AgentConfigs = (props) => {
                                                         {each?.msg}</span>
                                                 }
                                             </span>
-                                            {each?.name}:</td>
-                                        <td>{each?.value}</td>
+                                            {each?.name}:
+                                        </td>
+                                        {
+                                            each?.name==="Booking Engine" ?
+                                            <td className='tool-tip-parent' style={{textDecoration: "underline", color: "orange"}}>
+                                                <p onClick={()=>{
+                                                        // Copy the text inside the text field
+                                                        navigator.clipboard.writeText(each?.value);
+                                                        // Alert the copied text
+                                                        console.log("Booking Engine Link Copied: " + each?.value);
+                                                        alert("Copied!");
+                                                    }}>
+                                                    Copy Booking Engine Link
+                                                </p>
+                                                <div className='tool-tip' style={{color: "black"}}>
+                                                    You can share your booking engine or put it on your business website to allow your customers to search on their own.
+                                                </div>
+                                            </td> :
+                                            <td>{each?.value}</td>
+                                        }
                                     </tr>
                                 })
                             }
@@ -111,6 +141,126 @@ const AgentConfigs = (props) => {
                             <div className='prev-next-btn inactive'>
                                 <i className='fa-solid fa-angle-right'></i></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
+            <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
+                className="fa-solid fa-file-signature"></i>
+            Service Plans
+        </p>
+        <div style={{marginBottom: 10}}>
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                <div style={{border: "2px solid lightgreen", backgroundColor: "indigo", padding: 20, borderRadius: 10, boxShadow: "1px 2px 3px rgba(0,0,0,0.6)", maxWidth: "33%"}}>
+                    <h4 style={{color: "orange"}}>
+                        <i style={{marginRight: 20, color: "lightgreen"}} className="fa-solid fa-check"></i>
+                        Free Tier - <span style={{fontWeight: "initial", fontSize: 13, color: "white"}}>
+                            No Charge</span></h4>
+                    <div style={{marginTop: 20, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.2)"}}>
+                        <ul style={{paddingLeft: 20}}>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-users"></i>
+                                    400 Customers
+                                </span>
+                                <span>
+                                    You can add up to 400 customers with this plan
+                                </span>
+                            </li>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-gauge-high"></i>
+                                    10 Actions Per $1.00
+                                </span>
+                                <span>
+                                    For each dollar amount in your wallet, you get 10 actions (link visits, customer flight/hotel/car searches, etc.)
+                                </span>
+                            </li>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-share-alt"></i>
+                                    1 Data Provider
+                                </span>
+                                <span>
+                                    You can choose only one Data Provider (Amadeus, Saber, Travelport, Duffel, etc.) for your booking engine
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div style={{backgroundColor: "indigo", padding: 20, borderRadius: 10, boxShadow: "1px 2px 3px rgba(0,0,0,0.6)", maxWidth: "33%"}}>
+                    <h4 style={{color: "orange"}}>
+                        <i style={{marginRight: 20, color: "red"}} className="fa-solid fa-circle-dot"></i>
+                        Basic Tier - <span style={{fontWeight: "initial", fontSize: 13, color: "white"}}>
+                            $25/Month</span></h4>
+                    <div style={{marginTop: 20, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.2)"}}>
+                        <ul style={{paddingLeft: 20}}>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-users"></i>
+                                    5,000 Customers
+                                </span>
+                                <span>
+                                    You can add up to 5,000 customers with this plan
+                                </span>
+                            </li>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-gauge-high"></i>
+                                    10 Actions Per $1.00
+                                </span>
+                                <span>
+                                    For each dollar amount in your wallet, you get 10 actions (link visits, customer flight/hotel/car searches, etc.)
+                                </span>
+                            </li>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-share-alt"></i>
+                                    1 Data Provider
+                                </span>
+                                <span>
+                                    You can choose only one Data Provider (Amadeus, Saber, Travelport, Duffel, etc.) for your booking engine
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div style={{backgroundColor: "indigo", padding: 20, borderRadius: 10, boxShadow: "1px 2px 3px rgba(0,0,0,0.6)", maxWidth: "33%"}}>
+                    <h4 style={{color: "orange"}}>
+                        <i style={{marginRight: 20, color: "red"}} className="fa-solid fa-circle-dot"></i>
+                        Advanced Tier - <span style={{fontWeight: "initial", fontSize: 13, color: "white"}}>
+                            $50/Month</span></h4>
+                    <div style={{marginTop: 20, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.2)"}}>
+                        <ul style={{paddingLeft: 20}}>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-users"></i>
+                                    Unlimited Customers
+                                </span>
+                                <span>
+                                    You can add up to as many customers as possible with this plan
+                                </span>
+                            </li>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-gauge-high"></i>
+                                    20 Actions Per $1.00
+                                </span>
+                                <span>
+                                    For each dollar amount in your wallet, you get 20 actions (link visits, customer flight/hotel/car searches, etc.)
+                                </span>
+                            </li>
+                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
+                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-share-alt"></i>
+                                    All Data Providers
+                                </span>
+                                <span>
+                                    You can switch in-between Data Providers (Amadeus, Saber, Travelport, Duffel, etc.) for your booking engine whenever you want and be able to compare prices from different data providers
+                                </span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

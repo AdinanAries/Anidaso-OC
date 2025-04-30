@@ -132,7 +132,7 @@ let SettingsContainer = (props) => {
             icon: "globe",
             name: "Client App",
             value: ( isLoggedUserAgent ?
-                "http://localhost:3001" ://"https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" : 
+                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" : 
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
             ),
         },
@@ -142,7 +142,7 @@ let SettingsContainer = (props) => {
             icon: "server",
             name: "Booking Engine",
             value: ( isLoggedUserAgent ?
-                ("http://localhost:3001/?ngn=1&ag="+userDetails?._id) ://"https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?ngn=1&ag=" : 
+                ("https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?ngn=1&ag="+userDetails?._id) ://"http://localhost:3001/?ngn=1&ag=" : 
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com",
             ),
         },

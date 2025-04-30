@@ -497,7 +497,12 @@ const StaffInfo = (props) => {
         }
         {
             (currentSubPage===_PAGES?.configs) &&
-            <AgentConfigs />
+            <AgentConfigs 
+                userDetails={selectedStaff}
+                loggedInUserDetails={loggedInUserDetails}
+                setUserDetails={setUserDetails}
+                setSelectedStaff={setSelectedStaff}
+            />
         }
         {
             (currentSubPage===_PAGES?.wallet) &&

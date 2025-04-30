@@ -11,7 +11,11 @@ import {
     show_bookings_pane_selected_results_page 
 } from "../../../../helpers/helper-functions";
 import { getBookingById } from "../../../../helpers/endpoint-calls";
-import { select_booking_from_list } from "../../../../helpers/helper-functions";
+import { 
+    select_booking_from_list,
+    calculateActionPoints,
+    add_commas_to_number
+} from "../../../../helpers/helper-functions";
 import SelectedTicketPage from "../selected-ticket/SelectedTicketPage";
 import RecentBookings from "./components/RecentBookings";
 import BookingHealthChecker from "../../../../components/BookingHealthChecker";
@@ -68,12 +72,12 @@ let BookingsContainer = (props)=>{
                                         <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
                                         <div>
                                             <p style={{fontSize: 14, color: "yellow"}}>
-                                                ${(userDetails?.wallet_info?.current_balance).toFixed(2)}
+                                                ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
                                             </p>
                                         </div>
                                     </div>
                                     <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                                        5,042 actions
+                                        {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
                                     </p>
                                 </div>
                             </div>

@@ -497,6 +497,12 @@ export function return_values_as_array_from_obj(obj){
     return values;
 }
 
+export function calculateActionPoints(total_money_amount){
+    let unit_amout = 0.05; // $0.05 is to 1 action
+    return (total_money_amount/unit_amout).toFixed(0);
+
+}
+
 export const add_commas_to_number = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
