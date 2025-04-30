@@ -149,7 +149,7 @@ export function toggle_show_main_sections(type){
     }else if(type === "settings"){
         setActiveNavOption("side-menu-each-item", "top-menu-settings-btn");
         $("#settings-container").toggle("up");
-        reload_business_settings_page_customer_app_preview_iframe();
+        //reload_business_settings_page_customer_app_preview_iframe();
     }
 }
 

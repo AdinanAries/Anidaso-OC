@@ -68,7 +68,7 @@ let BookingsContainer = (props)=>{
                                         <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
                                         <div>
                                             <p style={{fontSize: 14, color: "yellow"}}>
-                                                $2,000.00
+                                                ${(userDetails?.wallet_info?.current_balance).toFixed(2)}
                                             </p>
                                         </div>
                                     </div>

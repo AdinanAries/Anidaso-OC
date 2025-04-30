@@ -11,7 +11,8 @@ import CONSTANTS from '../../../../constants/Constants';
 let StaffContainer = (props)=>{
 
     const {
-        userDetails
+        userDetails,
+        setUserDetails
     } = props;
 
     const _pageConstant=CONSTANTS.app_page_constants.staff;
@@ -55,6 +56,9 @@ let StaffContainer = (props)=>{
                             <StaffInfo 
                                 unSelectStaff={unSelectStaff}
                                 selectedStaff={selectedStaff}
+                                setSelectedStaff={setSelectedStaff}
+                                loggedInUserDetails={userDetails}
+                                setUserDetails={setUserDetails}
                                 isLoggedUserAgent={isLoggedUserAgent}
                                 isLoggedUserOwner={isLoggedUserOwner}
                                 isLoggedUserAdmin={isLoggedUserAdmin}

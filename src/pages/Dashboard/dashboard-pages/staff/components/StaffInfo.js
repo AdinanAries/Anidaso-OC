@@ -16,6 +16,9 @@ const StaffInfo = (props) => {
     const {
         unSelectStaff,
         selectedStaff,
+        setSelectedStaff,
+        loggedInUserDetails,
+        setUserDetails,
         isLoggedUserAgent,
         isLoggedUserOwner,
         isLoggedUserAdmin
@@ -498,7 +501,12 @@ const StaffInfo = (props) => {
         }
         {
             (currentSubPage===_PAGES?.wallet) &&
-            <AgentWallet />
+            <AgentWallet 
+                userDetails={selectedStaff}
+                loggedInUserDetails={loggedInUserDetails}
+                setUserDetails={setUserDetails}
+                setSelectedStaff={setSelectedStaff}
+            />
         }
     </div>
 }

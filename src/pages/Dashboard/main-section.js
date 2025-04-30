@@ -13,7 +13,8 @@ import SettingsContainer from "../../components/settings-container";
 let MainSection = (props)=>{
 
     const {
-        userDetails
+        userDetails,
+        setUserDetails
     } = props;
 
     return (
@@ -38,6 +39,7 @@ let MainSection = (props)=>{
             />
             <StaffContainer
                 userDetails={userDetails}
+                setUserDetails={setUserDetails}
             />
             <DealsContainer 
                 userDetails={userDetails}

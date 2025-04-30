@@ -51,3 +51,85 @@ export const fetchAgentInfoByAgentIdAndPropName = async (user_id, prop_name, pat
         return {isError: true, message: e.message};
     }
 }
+
+export const fetchTransactionsByWalletId = async (wallet_id, offset=1, limit=10, path=`\\api\\wallets\\agent\\transaction\\all\\`) => {
+    try{
+        return await fetch(API_URL+path+wallet_id+'\\'+offset+'\\'+limit, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            console.log(data);
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const fetchTransactionTypes = async (path=`\\api\\wallets\\agent\\transaction\\type\\all\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            console.log(data);
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
+export const fetchWalletById = async (wallet_id, path=`\\api\\wallets\\agent\\transaction\\wallet\\`) => {
+    console.log(API_URL+path+wallet_id)
+    try{
+        return await fetch(API_URL+path+wallet_id, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            console.log(data);
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}

@@ -97,7 +97,7 @@ const AgentLinks = (props) => {
             <table className='app-standard-table'>
                 <tr>
                     <td>Link</td>
-                    <td style={{backgroundColor: "pink"}}>Date</td>
+                    <td style={{backgroundColor: "pink"}}>Updated At</td>
                     <td>Data Provider</td>
                     <td>Profit</td>
                     <td>Visited</td>
@@ -140,7 +140,7 @@ const AgentLinks = (props) => {
                                 </div>
                             </td>
                             <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                {each?.createdAt?.split("T")[0]}
+                                {each?.updatedAt}
                             </td>
                             <td>
                                 {each?.data_provider}

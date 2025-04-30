@@ -54,6 +54,7 @@ function App() {
               !userDetails?.make_new_password ?
               <Dashboard 
                 userDetails={userDetails}
+                setUserDetails={setUserDetails}
               /> : 
               <CreatePasswordPage 
                 userDetails={userDetails}

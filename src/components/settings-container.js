@@ -112,6 +112,7 @@ let SettingsContainer = (props) => {
     });
     const [ currentSubPage, setCurrentSubPage ] = useState(_PAGES?.search_link);
     const [ searchLink, setSearchLink ] = useState({
+        _id: "",
         product: 0,
         type: "one-way",
         date: "",
@@ -131,7 +132,7 @@ let SettingsContainer = (props) => {
             icon: "globe",
             name: "Client App",
             value: ( isLoggedUserAgent ?
-                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" : 
+                "http://localhost:3001" ://"https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" : 
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
             ),
         },
@@ -141,7 +142,7 @@ let SettingsContainer = (props) => {
             icon: "server",
             name: "Booking Engine",
             value: ( isLoggedUserAgent ?
-                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?product=0&agent=agent_id_here" ://"http://localhost:3001" : 
+                ("http://localhost:3001/?ngn=1&ag="+userDetails?._id) ://"https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?ngn=1&ag=" : 
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com",
             ),
         },
@@ -154,7 +155,9 @@ let SettingsContainer = (props) => {
         },
     ]);
     const search_link_client_app_url = appConfigs[0].value;
-    const [ previewLink, setPreviewLink ] = useState(search_link_client_app_url);
+    const [ previewLink, setPreviewLink ] = useState(
+        (search_link_client_app_url+(isLoggedUserAgent ? `/?ag=${userDetails?._id}&product=0` : ""))
+    );
 
     const loadPreviewPage = async (isReload=false) => {
         // Validation
@@ -171,12 +174,10 @@ let SettingsContainer = (props) => {
                 alert("Please enter all values!.");
                 return;
         }
-        let _lnk = `${search_link_client_app_url}/?product=${searchLink.product}&type=${searchLink.type}&date=${searchLink.date}&dpt_airport=${searchLink.dpt_airport}&dst_airport=${searchLink.dst_airport}&cabin=${searchLink.cabin}&adults=${searchLink.adults}&children=${searchLink.children}&infants=${searchLink.infants}`;
-        setPreviewLink(_lnk);
-        // When reload button is clicked
-        if(isReload){
-            reload_business_settings_page_customer_app_preview_iframe();
-        }else{
+
+        // Creating Link in DB
+        let __res;
+        if(!isReload){
             // Getting current price_percentage markup from db
             let pmp_res = await fetchAgentInfoByAgentIdAndPropName(
                 agentPriceMarkup?.user_id, 
@@ -200,10 +201,23 @@ let SettingsContainer = (props) => {
                 visited: 0,
                 booked: 0
             }
-            let __res = await createNewBookingLink(post_obj);
+            __res = await createNewBookingLink(post_obj);
+            console.log(__res);
             if(__res?._id){
-                alert("New link has been saved!")
+                setSearchLink({
+                    ...searchLink,
+                    _id: __res?._id,
+                });
             }
+        }
+        
+        const __bl_id = (isReload) ? searchLink?._id : __res?._id;
+
+        let _lnk = `${search_link_client_app_url}/?ag=${userDetails?._id}&bl=${__bl_id}&product=${searchLink.product}&type=${searchLink.type}&date=${searchLink.date}&dpt_airport=${searchLink.dpt_airport}&dst_airport=${searchLink.dst_airport}&cabin=${searchLink.cabin}&adults=${searchLink.adults}&children=${searchLink.children}&infants=${searchLink.infants}`;
+        setPreviewLink(_lnk);
+        // When reload button is clicked
+        if(isReload){
+            reload_business_settings_page_customer_app_preview_iframe();
         }
     }
 
@@ -816,11 +830,18 @@ let SettingsContainer = (props) => {
                                                                         {each?.msg}</span>
                                                                 }
                                                             </span>
-                                                            {each?.name}:</td>
+                                                            {each?.name}:
+                                                        </td>
                                                         {
                                                             each?.name==="Booking Engine" ?
                                                             <td className='tool-tip-parent' style={{textDecoration: "underline", color: "orange"}}>
-                                                                <p href={each?.value}>
+                                                                <p onClick={()=>{
+                                                                        // Copy the text inside the text field
+                                                                        navigator.clipboard.writeText(each?.value);
+                                                                        // Alert the copied text
+                                                                        console.log("Booking Engine Link Copied: " + each?.value);
+                                                                        alert("Copied!");
+                                                                    }}>
                                                                     Copy Booking Engine Link
                                                                 </p>
                                                                 <div className='tool-tip' style={{color: "black"}}>
@@ -971,6 +992,8 @@ let SettingsContainer = (props) => {
                                 {searchLink.children}</span>
                             &infants=<span style={{color: "lightgreen"}}>
                                 {searchLink.infants}</span>
+                            &ag={userDetails?._id}
+                            &bl={searchLink?._id}
                         </p>
                         <>
                             <div onClick={()=>loadPreviewPage(true)} className='tool-tip-parent'
