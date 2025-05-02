@@ -102,7 +102,7 @@ const RatesAnalytics = (props) => {
     const render_agent_stats_chart = (labels, values) => {
         const ctx = document.getElementById('agentStatsChart');
         new window.Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: labels,
                 datasets: [
