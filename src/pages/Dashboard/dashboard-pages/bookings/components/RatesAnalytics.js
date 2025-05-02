@@ -21,14 +21,12 @@ const RatesAnalytics = (props) => {
     useEffect(() => {
         (async()=>{
             //let totals_summery = await fetchStatsTotalsSummary();
-            let totals_summery_headers = ["Duffel", "Amadeus", "Saber", "Travelport"];//return_headers_as_array_from_object(totals_summery);
+            let totals_summery_headers = ["one-way, economy", "round-trip, economy", "one-way, business", "round-trip, business", "one-way, first class", "round-trip, first class"];//return_headers_as_array_from_object(totals_summery);
             let totals_summery_values = [
-                [240, 220, 210, 230],
-                [340, 420, 530, 430],
-                [740, 810, 830, 930],
-                [1240, 1320, 890, 1230],
-                [640, 610, 630, 630],
-                [1140, 1120, 930, 1130],
+                [240, 340, 740, 1240, 640, 1140], // Duffel
+                [220, 420, 810, 1320, 610, 1120], // Amadeus
+                [210, 530, 830, 930, 630, 930], // Travelport
+                [230, 430, 890, 1230, 630, 1130], // Saber
             ];//return_values_as_array_from_obj(totals_summery);
             render_price_rates_chart(
                 totals_summery_headers, 
@@ -47,12 +45,12 @@ const RatesAnalytics = (props) => {
     const render_price_rates_chart = (labels, values) => {
         const ctx = document.getElementById('ratesChart');
         new window.Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [
                 {
-                    label: 'one-way, economy',
+                    label: 'Duffel',
                     data: values[0],
                     borderWidth: 1,
                     pointStyle: 'circle',
@@ -60,7 +58,7 @@ const RatesAnalytics = (props) => {
                     pointHoverRadius: 15
                 },
                 {
-                    label: 'round-trip, economy',
+                    label: 'Amadeus',
                     data: values[1],
                     borderWidth: 1,
                     pointStyle: 'circle',
@@ -68,7 +66,7 @@ const RatesAnalytics = (props) => {
                     pointHoverRadius: 15
                 },
                 {
-                    label: 'one-way, business',
+                    label: 'Travelport',
                     data: values[2],
                     borderWidth: 1,
                     pointStyle: 'circle',
@@ -76,24 +74,8 @@ const RatesAnalytics = (props) => {
                     pointHoverRadius: 15
                 },
                 {
-                    label: 'round-trip, business',
+                    label: 'Saber',
                     data: values[3],
-                    borderWidth: 1,
-                    pointStyle: 'circle',
-                    pointRadius: 10,
-                    pointHoverRadius: 15
-                },
-                {
-                    label: 'one-way, first class',
-                    data: values[4],
-                    borderWidth: 1,
-                    pointStyle: 'circle',
-                    pointRadius: 10,
-                    pointHoverRadius: 15
-                },
-                {
-                    label: 'round-trip, first class',
-                    data: values[5],
                     borderWidth: 1,
                     pointStyle: 'circle',
                     pointRadius: 10,
