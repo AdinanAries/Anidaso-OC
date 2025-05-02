@@ -18,7 +18,10 @@ import {
 } from '../helpers/helper-functions';
 import AirportsData from '../data/Airports';
 import CONSTANTS from '../constants/Constants';
-
+import { 
+    add_commas_to_number,
+    calculateActionPoints,
+} from '../helpers/helper-functions';
 import { useEffect, useState } from 'react';
 import CustomerForm from './CustomerForm';
 
@@ -567,24 +570,39 @@ let SettingsContainer = (props) => {
 
     return(
          <section id="settings-container" style={{display: "none"}}>
-            <div style={{display: "flex", margin: 10}}>
-                <div onClick={showSearchLinkForm}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.search_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: (currentSubPage===_PAGES?.search_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
-                    Search Link
-                    <div style={{border: (currentSubPage===_PAGES?.search_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                <div style={{display: "flex", margin: 10}}>
+                    <div onClick={showSearchLinkForm}
+                        style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.search_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                        <i style={{color: (currentSubPage===_PAGES?.search_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
+                        Search Link
+                        <div style={{border: (currentSubPage===_PAGES?.search_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                    </div>
+                    <div  onClick={()=>setCurrentSubPage(_PAGES?.booking_params)}
+                        style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.booking_params) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                        <i style={{color:  (currentSubPage===_PAGES?.booking_params) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
+                        Booking Parameters
+                        <div style={{border: (currentSubPage===_PAGES?.booking_params) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                    </div>
+                    <div  onClick={showSendLinkPage}
+                        style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.send_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                        <i style={{color:  (currentSubPage===_PAGES?.send_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>
+                        Send Link
+                        <div style={{border: (currentSubPage===_PAGES?.send_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                    </div>
                 </div>
-                <div  onClick={()=>setCurrentSubPage(_PAGES?.booking_params)}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.booking_params) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color:  (currentSubPage===_PAGES?.booking_params) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
-                    Booking Parameters
-                    <div style={{border: (currentSubPage===_PAGES?.booking_params) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-                </div>
-                <div  onClick={showSendLinkPage}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.send_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color:  (currentSubPage===_PAGES?.send_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>
-                    Send Link
-                    <div style={{border: (currentSubPage===_PAGES?.send_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                <div style={{padding: 10, borderRadius: 5}}>
+                    <div style={{color: "white", display: "flex", alignItems: "center"}}>
+                        <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
+                        <div>
+                            <p style={{fontSize: 14, color: "yellow"}}>
+                                ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
+                            </p>
+                        </div>
+                    </div>
+                    <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
+                        {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
+                    </p>
                 </div>
             </div>
             <div>

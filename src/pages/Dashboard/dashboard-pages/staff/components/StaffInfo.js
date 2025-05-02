@@ -4,6 +4,10 @@ import {
     fetchRoleByConstant,
     fetchAppRoles,
  } from "../../../../../services/accountServices";
+ import { 
+    add_commas_to_number,
+    calculateActionPoints
+  } from "../../../../../helpers/helper-functions";
 import FormErrorCard from "../../../../../components/FormErrorCard";
 import AgentLinks from "./AgentLinks";
 import CONSTANTS from "../../../../../constants/Constants";
@@ -204,44 +208,59 @@ const StaffInfo = (props) => {
     } 
 
     return <div>
-        <div style={{display: "flex", margin: 10}}>
-            {
-                (isLoggedUserOwner || isLoggedUserAdmin) &&
-                <div onClick={unSelectStaff}
-                    style={{padding: 20, color: "orange", textDecoration: "underline", cursor: "pointer", fontSize: 13}} >
-                    <i style={{color: "lightgreen", marginRight: 10}} className="fa fa-angle-left"></i>
-                    Users List
+        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+            <div style={{display: "flex", margin: 10}}>
+                {
+                    (isLoggedUserOwner || isLoggedUserAdmin) &&
+                    <div onClick={unSelectStaff}
+                        style={{padding: 20, color: "orange", textDecoration: "underline", cursor: "pointer", fontSize: 13}} >
+                        <i style={{color: "lightgreen", marginRight: 10}} className="fa fa-angle-left"></i>
+                        Users List
+                    </div>
+                }
+                <div onClick={()=>setcurrentSubPage(_PAGES?.info)}
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.info) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                    <i style={{color: (currentSubPage===_PAGES?.info) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-user"></i>
+                    Info
+                    <div style={{border: (currentSubPage===_PAGES?.info) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
-            }
-            <div onClick={()=>setcurrentSubPage(_PAGES?.info)}
-                style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.info) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                <i style={{color: (currentSubPage===_PAGES?.info) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-user"></i>
-                Info
-                <div style={{border: (currentSubPage===_PAGES?.info) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                <div  onClick={()=>setcurrentSubPage(_PAGES?.links)}
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.links) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                    <i style={{color: (currentSubPage===_PAGES?.links) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
+                    Links
+                    <div style={{border: (currentSubPage===_PAGES?.links) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                </div>
+                <div  onClick={()=>setcurrentSubPage(_PAGES?.customers)}
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.customers) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                    <i style={{color: (currentSubPage===_PAGES?.customers) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-users"></i>
+                    customers
+                    <div style={{border: (currentSubPage===_PAGES?.customers) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                </div>
+                <div  onClick={()=>setcurrentSubPage(_PAGES?.configs)}
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                    <i style={{color: (currentSubPage===_PAGES?.configs) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
+                    configs
+                    <div style={{border: (currentSubPage===_PAGES?.configs) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                </div>
+                <div  onClick={()=>setcurrentSubPage(_PAGES?.wallet)}
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.wallet) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                    <i style={{color: (currentSubPage===_PAGES?.wallet) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-wallet"></i>
+                    wallet
+                    <div style={{border: (currentSubPage===_PAGES?.wallet) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                </div>
             </div>
-            <div  onClick={()=>setcurrentSubPage(_PAGES?.links)}
-                style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.links) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                <i style={{color: (currentSubPage===_PAGES?.links) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
-                Links
-                <div style={{border: (currentSubPage===_PAGES?.links) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-            </div>
-            <div  onClick={()=>setcurrentSubPage(_PAGES?.customers)}
-                style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.customers) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                <i style={{color: (currentSubPage===_PAGES?.customers) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-users"></i>
-                customers
-                <div style={{border: (currentSubPage===_PAGES?.customers) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-            </div>
-            <div  onClick={()=>setcurrentSubPage(_PAGES?.configs)}
-                style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                <i style={{color: (currentSubPage===_PAGES?.configs) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
-                configs
-                <div style={{border: (currentSubPage===_PAGES?.configs) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-            </div>
-            <div  onClick={()=>setcurrentSubPage(_PAGES?.wallet)}
-                style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.wallet) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                <i style={{color: (currentSubPage===_PAGES?.wallet) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-wallet"></i>
-                wallet
-                <div style={{border: (currentSubPage===_PAGES?.wallet) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+            <div style={{padding: 10, borderRadius: 5}}>
+                <div style={{color: "white", display: "flex", alignItems: "center"}}>
+                    <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
+                    <div>
+                        <p style={{fontSize: 14, color: "yellow"}}>
+                            ${add_commas_to_number((selectedStaff?.wallet_info?.current_balance)?.toFixed(2))}
+                        </p>
+                    </div>
+                </div>
+                <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
+                    {add_commas_to_number(calculateActionPoints((selectedStaff?.wallet_info?.current_balance)?.toFixed(2)))} actions
+                </p>
             </div>
         </div>
         {

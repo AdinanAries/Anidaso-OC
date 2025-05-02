@@ -24,6 +24,7 @@ import { useState } from "react";
 import RecentBookingAttempts from "./components/RecentBookingAttempts";
 import AgentDetailsCard from "../../../../components/AgentDetailsCard";
 import CONSTANTS from "../../../../constants/Constants";
+import RatesAnalytics from "./components/RatesAnalytics";
 
 let BookingsContainer = (props)=>{
 
@@ -106,8 +107,16 @@ let BookingsContainer = (props)=>{
                                 </div>
                             </div>
                         </div>
+                        {/**Rates */}
+                        {
+                            isAgent &&
+                            <RatesAnalytics />
+                        }
                         {/**Analytics */}
-                        <HpAnalytics />
+                        {
+                            (isOwner || isAdmin) &&
+                            <HpAnalytics />
+                        }
                         {/**Recent Bookings */}
                         <RecentBookings />
                         {/**Recent Booking Attemps */}
