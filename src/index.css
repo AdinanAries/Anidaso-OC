@@ -52,6 +52,15 @@ body {
   background-color: #a9ddff;
   color: black;
 }
+.app-standard-table.white-bg tr td{
+  background: none;
+  border: 1px solid rgba(0,0,0,0.1);
+  color: rgba(0, 0, 0, 0.809);
+}
+.app-standard-table.white-bg tr:nth-child(1) td {
+  background-color: rgb(0, 68, 158);
+  color: white;
+}
 .app-standard-paginator {
  display: flex;
 }

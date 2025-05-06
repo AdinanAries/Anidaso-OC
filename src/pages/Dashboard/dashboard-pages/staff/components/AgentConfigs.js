@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { 
+    fetchAgentInfoByAgentIdAndPropName,
+    createNewAgentInfo,
+} from "../../../../../services/agentServices";
+import FormErrorCard from "../../../../../components/FormErrorCard";
 
 const AgentConfigs = (props) => {
 
@@ -8,6 +13,11 @@ const AgentConfigs = (props) => {
 
     const isLoggedUserAgent = true;
 
+    const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
+        user_id: userDetails?._id,
+        property: "price_markup",
+        value: 15,
+    });
     const [ appConfigs, setAppConfigs ] = useState([
         {
             msg: "",
@@ -37,6 +47,65 @@ const AgentConfigs = (props) => {
             value: "Basic Tier"
         },
     ]);
+    const [ formValidation, setFormValidation ] = useState({
+        type: "warning",
+        isError: false,
+        message: "",
+    });
+
+    useEffect(()=>{
+        setCurrentAgentInfo();
+    }, []);
+
+    const setCurrentAgentInfo = async () => {
+        
+        // 1. Agent's Price Markup Percentage
+        let pmp_res = await fetchAgentInfoByAgentIdAndPropName(
+            agentPriceMarkup?.user_id, 
+            agentPriceMarkup?.property
+        );
+        if(pmp_res?._id){
+            setAgentPriceMarkup({
+                ...agentPriceMarkup,
+                value: pmp_res?.value,
+            });
+        }
+
+        // 2. Agents Set Data Provder
+    }
+
+    const agentPriceMarkupOnchange = (e) => {
+        setAgentPriceMarkup({
+            ...agentPriceMarkup,
+            value: e.target.value
+        })
+    }
+
+    const agentBookingParametersFormOnSubmit = async () => {
+        // 1. Price Markup
+        if(!agentPriceMarkup.value) {
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "Please add price markup percentage value",
+            });
+            return
+        }
+        let res = await createNewAgentInfo(agentPriceMarkup);
+        /*if(!res._id){
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: res.message,
+            });
+        }*/
+
+        // 2. Data Provider
+        //---Here for Data Provider--//
+
+        alert(`Booking parameters modified!`);
+
+    }
 
     return <div style={{paddingTop: 30}} className="main-seaction-containers">
         <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
@@ -55,8 +124,8 @@ const AgentConfigs = (props) => {
                                 <span style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
                                     Charge Flat Rate</span></p>
                             <div style={{border: "none"}}>
-                                <input
-                                    value=""
+                                <input onInput={agentPriceMarkupOnchange}
+                                        value={agentPriceMarkup?.value}
                                     type="number" placeholder="type here..."
                                     style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                             </div>
@@ -76,7 +145,13 @@ const AgentConfigs = (props) => {
                                 </select>
                             </div>
                         </div>
-                        <div
+                        {
+                            formValidation.isError && <FormErrorCard 
+                                message={formValidation.message} 
+                                type={formValidation.type}
+                            />
+                        }
+                        <div onClick={agentBookingParametersFormOnSubmit}
                             style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
                             <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
                             Save

@@ -8,6 +8,7 @@ const AgentDetailsCard = (props) => {
 
     const {
         userDetails,
+        hideSeeDetailsLink
     } = props
 
     return <div>
@@ -17,12 +18,15 @@ const AgentDetailsCard = (props) => {
                         <i style={{fontSize: 30, marginRight: 10, color: "rgba(0, 140, 255, 0.7)"}} className="fa fa-user-tie"></i>
                         {(userDetails?.first_name || "first name: N/A")} {(userDetails?.last_name || "last name: N/A")}
                     </div>
-                    <div style={{color: "orange", cursor: "pointer"}} onClick={()=>{
-                        toggle_show_main_sections("staff");
-                        window.__viewStaffInfo(userDetails?._id);
-                    }}>
-                            See Information
-                    </div>
+                    {
+                        !hideSeeDetailsLink &&
+                        <div style={{color: "orange", cursor: "pointer"}} onClick={()=>{
+                            toggle_show_main_sections("staff");
+                            window.__viewStaffInfo(userDetails?._id);
+                        }}>
+                                See Information
+                        </div>
+                    }
                 </div>
                 <p style={{color: "rgba(0, 140, 255, 0.7)", margin: "5px 0", fontSize: 10, fontWeight: "bolder", letterSpacing: 1}}>
                     ID: {(userDetails?._id?.toUpperCase()?.substring(0,7)) || "N/A"}

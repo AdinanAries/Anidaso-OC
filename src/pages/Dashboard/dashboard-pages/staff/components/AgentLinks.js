@@ -106,7 +106,7 @@ const AgentLinks = (props) => {
                 </tr>
                 {
                     bookingLinks?.map(each=>{
-                        let _full_link = `${each?.client_app_url}?product=${each?.product}&type=${each?.trip_type}&date=${each?.travel_dates}&dpt_airport=${each?.departure_airport}&dst_airport=${each?.destination_airport}&cabin=${each?.cabin}&adults=${each?.num_of_adults}&children=${each?.num_of_children}&infants=${each?.num_of_infants}`;
+                        let _full_link = `${each?.client_app_url}?product=${each?.product}&type=${each?.trip_type}&date=${each?.travel_dates}&dpt_airport=${each?.departure_airport}&dst_airport=${each?.destination_airport}&cabin=${each?.cabin}&adults=${each?.num_of_adults}&children=${each?.num_of_children}&infants=${each?.num_of_infants}&ag=${userDetails?._id}&bl=${each?._id}`;
                         return <tr>
                             <td className="tool-tip-parent" style={{color: "orange"}}>
                                 <span style={{color: "skyblue"}}>

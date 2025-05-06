@@ -9,17 +9,18 @@ function returnEachRecentBookingMarkup(booking, index, type){
     let booking_type = "N/A";
     let email_address = "N/A";
     let airline = "N/A";
-    let booking_date = booking?.createdAt?.split("T")[0] || "N/A";
+    let booking_date = booking?.createdAt;
     let total_amount = booking?.originPayloads[0]?.total_amount || "N/A";
+    let departure_airport_code = booking?.takeoff_airport_code || "N/A";
+    let destination_airport_code = booking?.destination_airport_code || "N/A";
 
     if(booking.type.toLowerCase() === "flight"){
         ref_number = booking?.originPayloads[0]?.booking_reference || "N/A";
         if(booking?.createdAt){
             trip_round = booking?.trip_type;
             booking_type = `
-                <i style="margin-right: 5px; color: rgb(255,122,122)" class="fa fa-history"></i>
-                <i style="margin-right: 5px; color: aqua" class="fa fa-plane"></i>
-                ${trip_round}
+                <i style="margin-right: 5px; color: rgba(255,255,255,0.5); font-size: 10px;" class="fa fa-plane-departure"></i>
+                ${departure_airport_code} - ${destination_airport_code} (${trip_round})
             `;
         }
         email_address = booking?.travellers[0]?.email;
@@ -55,7 +56,7 @@ function returnEachBookingAttemptMarkup(b_attempt, index, type){
     
     let ref_number = "N/A";
     let email_address = "N/A";
-    let booking_date = b_attempt?.createdAt?.split("T")[0] || "N/A";
+    let booking_date = b_attempt?.createdAt;
     let total_amount = b_attempt?.booking_order?.data?.payments?.[0].amount || "N/A";
     let isSuccess = false;
     let isUncompletedBooking = false;
@@ -91,7 +92,7 @@ function returnEachBookingAttemptMarkup(b_attempt, index, type){
     return `
         <tr id="${type}_each_rendered_booking_attempt_item_${index}" >
             <td class="bookings-pane-booking-list-column first booking-type-col">
-                <i style="margin-right: 5px; color: teal;" class="fa fa-plane"></i>
+                <i style="margin-right: 5px; color: rgba(255,255,255,0.5); font-size: 10px;" class="fa fa-plane-departure"></i>
                 ${total_amount}
             </td>
             ${
@@ -673,7 +674,7 @@ export function render_recent_bookings_markup(bookings){
         document.getElementById("bookings-pane-recent-bookings-list").innerHTML = `
             <tr class="header">
                 <td class="header">
-                    Booking Type
+                    Booking
                 </td>
                 <td class="header">
                     Ref. Number
@@ -685,7 +686,7 @@ export function render_recent_bookings_markup(bookings){
                     Airline
                 </td>
                 <td class="header">
-                    Booking Date
+                    Timestamp
                 </td>
                 <td class="header">
                     Total Price
@@ -723,7 +724,7 @@ export function render_booking_attempts_markup(b_attempt){
                     Condition
                 </td>
                 <td class="header">
-                    Attempt Date
+                    Timestamp
                 </td>
                 <td class="header">
                     Ref. Number

@@ -14,7 +14,8 @@ import {
 } from '../services/agentServices';
 import { fetchCustomersByAgentId } from '../services/customerServices';
 import {
-    reload_business_settings_page_customer_app_preview_iframe
+    reload_business_settings_page_customer_app_preview_iframe,
+    toggle_show_main_sections
 } from '../helpers/helper-functions';
 import AirportsData from '../data/Airports';
 import CONSTANTS from '../constants/Constants';
@@ -135,7 +136,7 @@ let SettingsContainer = (props) => {
             icon: "globe",
             name: "Client App",
             value: ( isLoggedUserAgent ?
-                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" : 
+                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" :
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
             ),
         },
@@ -591,19 +592,27 @@ let SettingsContainer = (props) => {
                         <div style={{border: (currentSubPage===_PAGES?.send_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                     </div>
                 </div>
-                <div style={{padding: 10, borderRadius: 5}}>
-                    <div style={{color: "white", display: "flex", alignItems: "center"}}>
-                        <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
-                        <div>
-                            <p style={{fontSize: 14, color: "yellow"}}>
-                                ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
-                            </p>
+                {
+                    isLoggedUserAgent &&   
+                    <div onClick={()=>{
+                            toggle_show_main_sections("staff");
+                            window.__viewStaffInfo(userDetails?._id);
+                            window.__showWalletPage();
+                        }} 
+                        style={{padding: 10, borderRadius: 5, cursor: "pointer"}}>
+                        <div style={{color: "white", display: "flex", alignItems: "center"}}>
+                            <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
+                            <div>
+                                <p style={{fontSize: 14, color: "yellow", textDecoration: "underline"}}>
+                                    ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
+                                </p>
+                            </div>
                         </div>
+                        <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
+                            {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
+                        </p>
                     </div>
-                    <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                        {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
-                    </p>
-                </div>
+                }
             </div>
             <div>
                 <div style={{marginTop: 10}}>

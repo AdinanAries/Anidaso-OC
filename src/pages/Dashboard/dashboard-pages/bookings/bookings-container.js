@@ -8,7 +8,8 @@ import {
     show_booking_search_type_form, 
     show_bookings_pane_main_page, 
     show_bookings_pane_search_results_page, 
-    show_bookings_pane_selected_results_page 
+    show_bookings_pane_selected_results_page,
+    toggle_show_main_sections,
 } from "../../../../helpers/helper-functions";
 import { getBookingById } from "../../../../helpers/endpoint-calls";
 import { 
@@ -68,19 +69,26 @@ let BookingsContainer = (props)=>{
                                         Cars
                                     </div>
                                 </div>
-                                <div style={{padding: 10, borderRadius: 5}}>
-                                    <div style={{color: "white", display: "flex", alignItems: "center"}}>
-                                        <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
-                                        <div>
-                                            <p style={{fontSize: 14, color: "yellow"}}>
-                                                ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
-                                            </p>
+                                {
+                                    isAgent &&
+                                    <div onClick={()=>{
+                                        toggle_show_main_sections("staff");
+                                        window.__viewStaffInfo(userDetails?._id);
+                                        window.__showWalletPage();
+                                    }} style={{padding: 10, borderRadius: 5, cursor: "pointer"}}>
+                                        <div style={{color: "white", display: "flex", alignItems: "center"}}>
+                                            <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
+                                            <div>
+                                                <p style={{fontSize: 14, color: "yellow", textDecoration: "underline"}}>
+                                                    ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
+                                                </p>
+                                            </div>
                                         </div>
+                                        <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
+                                            {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
+                                        </p>
                                     </div>
-                                    <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                                        {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
-                                    </p>
-                                </div>
+                                }
                             </div>
                             <div className="booking-pane-search-inputs-area">
                                 <div className="booking-pane-search-inputs-area-inputs-section">

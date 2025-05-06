@@ -6,7 +6,8 @@ import {
  } from "../../../../../services/accountServices";
  import { 
     add_commas_to_number,
-    calculateActionPoints
+    calculateActionPoints,
+    toggle_show_main_sections
   } from "../../../../../helpers/helper-functions";
 import FormErrorCard from "../../../../../components/FormErrorCard";
 import AgentLinks from "./AgentLinks";
@@ -14,6 +15,7 @@ import CONSTANTS from "../../../../../constants/Constants";
 import AgentCustomers from "./AgentCustomers";
 import AgentConfigs from "./AgentConfigs";
 import AgentWallet from "./AgentWallet";
+import AgentDetailsCard from "../../../../../components/AgentDetailsCard";
 
 const StaffInfo = (props) => {
 
@@ -47,6 +49,10 @@ const StaffInfo = (props) => {
     });
 
     useEffect(()=>{
+        let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
+        render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+
         (async()=>{
             let _roles = await fetchAppRoles();
             setAppRoleState(_roles);
@@ -56,6 +62,39 @@ const StaffInfo = (props) => {
     let isOwner = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.owner);
     let isAdmin = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.admin);
     let isAgent = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.agent);
+
+    const render_agent_sales_stats_chart = (labels, values) => {
+        const ctx = document.getElementById('salesStatsChart');
+        new window.Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                {
+                    label: 'Sales ($)',
+                    data: values,
+                    borderWidth: 1,
+                    pointStyle: 'circle',
+                    pointRadius: 10,
+                    pointHoverRadius: 15
+                },
+            ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    /*title: {
+                      display: true,
+                      text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
+                    }*/
+                  }
+            }
+        });
+    }
 
     const firstNameOnInput = (e) => {
         setFormValidation({
@@ -207,6 +246,20 @@ const StaffInfo = (props) => {
         setIsLoading(false);
     } 
 
+    const showInfoPage = () => {
+        setcurrentSubPage(_PAGES?.info);
+        setTimeout(()=>{
+            let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
+            render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+        }, 200);
+    }
+
+    const showWalletPage = () => {
+        setcurrentSubPage(_PAGES?.wallet);
+    }
+    window.__showWalletPage = showWalletPage;
+
     return <div>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
             <div style={{display: "flex", margin: 10}}>
@@ -218,7 +271,7 @@ const StaffInfo = (props) => {
                         Users List
                     </div>
                 }
-                <div onClick={()=>setcurrentSubPage(_PAGES?.info)}
+                <div onClick={showInfoPage}
                     style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.info) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                     <i style={{color: (currentSubPage===_PAGES?.info) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-user"></i>
                     Info
@@ -242,265 +295,310 @@ const StaffInfo = (props) => {
                     configs
                     <div style={{border: (currentSubPage===_PAGES?.configs) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
-                <div  onClick={()=>setcurrentSubPage(_PAGES?.wallet)}
+                <div onClick={showWalletPage}
                     style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.wallet) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                     <i style={{color: (currentSubPage===_PAGES?.wallet) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-wallet"></i>
                     wallet
                     <div style={{border: (currentSubPage===_PAGES?.wallet) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
             </div>
-            <div style={{padding: 10, borderRadius: 5}}>
-                <div style={{color: "white", display: "flex", alignItems: "center"}}>
-                    <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
-                    <div>
-                        <p style={{fontSize: 14, color: "yellow"}}>
-                            ${add_commas_to_number((selectedStaff?.wallet_info?.current_balance)?.toFixed(2))}
-                        </p>
+            {
+                isAgent &&
+                <div onClick={showWalletPage} 
+                    style={{padding: 10, borderRadius: 5, cursor: "pointer"}}>
+                    <div style={{color: "white", display: "flex", alignItems: "center"}}>
+                        <i style={{marginRight: 10, fontSize: 14, color: "lightgreen"}} className="fa fa-wallet"></i>
+                        <div>
+                            <p style={{fontSize: 14, color: "yellow", textDecoration: "underline"}}>
+                                ${add_commas_to_number((selectedStaff?.wallet_info?.current_balance)?.toFixed(2))}
+                            </p>
+                        </div>
                     </div>
+                    <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
+                        {add_commas_to_number(calculateActionPoints((selectedStaff?.wallet_info?.current_balance)?.toFixed(2)))} actions
+                    </p>
                 </div>
-                <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                    {add_commas_to_number(calculateActionPoints((selectedStaff?.wallet_info?.current_balance)?.toFixed(2)))} actions
-                </p>
-            </div>
+            }
         </div>
         {
             (currentSubPage===_PAGES?.info) &&
-            <div className="main-seaction-containers">
-                <div>
-                    <div style={{display: "flex", justifyContent: "space-between", marginTop: 20}}>
-                        <div style={{width: "50%"}}>
-                            <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
-                                <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
-                                    className="fa fa-user"></i>
-                                Staff Information
-                            </p>
-                            {
-                                isLoading ? <div>
-                                    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                                        <i style={{color: "orange", marginRight: 10}} className="fa fa-spinner"></i>
-                                        <p style={{color: "white", fontSize: 14,}}>Updating user details... Please wait...</p>
-                                    </div>
-                                </div> :
-                                <>
-                                    <div style={{marginBottom: 5}}>
-                                        <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
-                                            First Name:
-                                        </span>
-                                        <input onInput={firstNameOnInput}
-                                            className="direct-edit-form-field" 
-                                            value={formData?.first_name}
-                                        />
-                                    </div>
-                                    <div style={{marginBottom: 5}}>
-                                        <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
-                                            Last Name:
-                                        </span>
-                                        <input onInput={lastNameOnInput}
-                                            className="direct-edit-form-field" 
-                                            value={formData?.last_name}
-                                        />
-                                    </div>
-                                    <div style={{marginBottom: 5}}>
-                                        <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
-                                            Email:
-                                        </span>
-                                        {
-                                            (isLoggedUserAdmin || isLoggedUserOwner) ?
-                                            <input onInput={emailOnInput}
-                                                className="direct-edit-form-field" 
-                                                value={formData?.email}
-                                            /> :
-                                            <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
-                                                <i style={{color: "red", marginRight: 10}}
-                                                    className="fa-solid fa-lock"></i>
-                                                {formData?.email}
-                                                <span className="tool-tip" style={{color: "black"}}>
-                                                    Please contact support to change this field!
-                                                </span>
-                                            </span>
-                                        }
-                                    </div>
-                                    <div style={{marginBottom: 5}}>
-                                        <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
-                                            Phone:
-                                        </span>
-                                        {
-                                            (isLoggedUserAdmin || isLoggedUserOwner) ?
-                                            <input onInput={phoneOnInput}
-                                                className="direct-edit-form-field" 
-                                                value={formData?.phone}
-                                            /> :
-                                            <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
-                                                <i style={{color: "red", marginRight: 10}}
-                                                    className="fa-solid fa-lock"></i>
-                                                {formData?.phone}
-                                                <span className="tool-tip" style={{color: "black"}}>
-                                                    Please contact support to change this field!
-                                                </span>
-                                            </span>
-                                        }
-                                    </div>
-                                    <div style={{marginBottom: 5}}>
-                                        <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
-                                            Date of Birth:
-                                        </span>
-                                        <input onInput={dobOnInput}
-                                            className="direct-edit-form-field" 
-                                            value={formData?.dob}
-                                        />
-                                    </div>
-                                    <div style={{marginBottom: 5}}>
-                                        <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
-                                            Gender:
-                                        </span>
-                                        <select onChange={genderOnInput}
-                                            className="direct-edit-form-field"
-                                            value={formData?.gender}
-                                        >
-                                            <option style={{color: "black"}} value="">Choose Gender</option>
-                                            <option style={{color: "black"}} value="male">Male</option>
-                                            <option style={{color: "black"}} value="female">Female</option>
-                                            <option style={{color: "black"}} value="other">Other</option>
-                                        </select>
-                                    </div>
-                                    <div style={{marginBottom: 5}}>
-                                        <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
-                                            Role:
-                                        </span>
-                                        {
-                                            (isLoggedUserAdmin || isLoggedUserOwner) ?
-                                            <select onChange={roleOnInput}
-                                                className="direct-edit-form-field"
-                                                value={formData?.role_info?.constant}
-                                                >
-                                                <option style={{color: "black"}} value="">Choose Role</option>
-                                                {
-                                                    appRoleState?.map(each=>{
-                                                        return <option style={{color: "black"}} value={each?.constant}>
-                                                            {each?.title}
-                                                        </option>
-                                                    })
-                                                }
-                                            </select> :
-                                            <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
-                                                <i style={{color: "red", marginRight: 10}}
-                                                    className="fa-solid fa-lock"></i>
-                                                {formData?.role_info?.title}
-                                                <span className="tool-tip" style={{color: "black"}}>
-                                                    Please contact support to change this field!
-                                                </span>
-                                            </span>
-                                        }
-                                    </div>
-                                </>
-                            }
-                            {
-                                formValidation.isError && <div style={{marginTop: 20}}>
-                                    <FormErrorCard 
-                                        message={formValidation.message} 
-                                        type={formValidation.type}
-                                    />
-                                </div>
-                            }
-                            {
-                                !isLoading &&
-                                <div onClick={onSubmit} className="standard-action-button">
-                                    Save
-                                </div>
-                            }
-                        </div>
-                        <div style={{width: "calc(50% - 10px)"}}>
-                            <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
-                                <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
-                                    className="fa fa-user"></i>
-                                Activity Log
-                            </p>
+            <>
+                <div style={{display: "flex", justifyContent: "space-between", marginBottom: 5}}>
+                    <div style={{width: "calc(50% - 2px)"}}>
+                        <AgentDetailsCard
+                            hideSeeDetailsLink={true}
+                            userDetails={selectedStaff}
+                        />
+                    </div>
+                    <div style={{width: "calc(50% - 2px)"}}>
+                        <div style={{padding: 10}}>
                             <div>
-                                <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                            className="fa fa-history"></i>
-                                        New Flight Booking Booking
-                                        <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                            03-04-2024 @ 14:12:34
-                                        </span>
+                                <p style={{fontSize: 13, marginBottom: 10, color: "orange"}}>
+                                    Current Total Sales:</p>
+                                <h1 style={{color: "skyblue"}}>
+                                    $3,000.23
+                                    <span style={{fontWeight: "initial", color: "lightgreen", fontSize: 13, marginLeft: 25, textDecoration: "underline", cursor: "pointer"}}>
+                                        <i style={{marginRight: 10, color: "rgba(255, 255, 255, 0.5)"}}
+                                            className="fa-solid fa-money-check-dollar"></i>
+                                        Request Payout
+                                    </span>
+                                </h1>
+                            </div>
+                            <div style={{background: "white", height: 180, marginTop: 10, padding: 10, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <canvas id="salesStatsChart" ></canvas>
+                                <div style={{padding: 10}}>
+                                    <p style={{fontSize: 12}}>
+                                        <i style={{marginRight: 10, color: "green"}}
+                                            className="fa-solid fa-info-circle"></i>
+                                        Your recent payout of $4,500 was on March 3, 2025. That payout was based on 45 days of sales.
                                     </p>
-                                </div>
-                                <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                            className="fa fa-history"></i>
-                                        New Flight Booking Booking
-                                        <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                            03-04-2024 @ 14:12:34
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                            className="fa fa-history"></i>
-                                        New Flight Booking Booking
-                                        <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                            03-04-2024 @ 14:12:34
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                            className="fa fa-history"></i>
-                                        New Flight Booking Booking
-                                        <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                            03-04-2024 @ 14:12:34
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                            className="fa fa-history"></i>
-                                        New Flight Booking Booking
-                                        <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                            03-04-2024 @ 14:12:34
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                            className="fa fa-history"></i>
-                                        New Flight Booking Booking
-                                        <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                            03-04-2024 @ 14:12:34
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                            className="fa fa-history"></i>
-                                        New Flight Booking Booking
-                                        <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                            03-04-2024 @ 14:12:34
-                                        </span>
-                                    </p>
-                                </div>
-                                <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                            className="fa fa-history"></i>
-                                        New Flight Booking Booking
-                                        <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                            03-04-2024 @ 14:12:34
-                                        </span>
+
+                                    <p onClick={()=>toggle_show_main_sections("sales")}
+                                        style={{marginTop: 10, textDecoration: "underline", cursor: "pointer", textAlign: "center"}}>
+                                        See All Sales
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div className="main-seaction-containers">
+                    <div>
+                        <div style={{display: "flex", justifyContent: "space-between", marginTop: 20}}>
+                            <div style={{width: "50%"}}>
+                                <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
+                                    <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
+                                        className="fa fa-pencil"></i>
+                                    Edit Information
+                                </p>
+                                {
+                                    isLoading ? <div>
+                                        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                            <i style={{color: "orange", marginRight: 10}} className="fa fa-spinner"></i>
+                                            <p style={{color: "white", fontSize: 14,}}>Updating user details... Please wait...</p>
+                                        </div>
+                                    </div> :
+                                    <>
+                                        <div style={{marginBottom: 5}}>
+                                            <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
+                                                First Name:
+                                            </span>
+                                            <input onInput={firstNameOnInput}
+                                                className="direct-edit-form-field" 
+                                                value={formData?.first_name}
+                                            />
+                                        </div>
+                                        <div style={{marginBottom: 5}}>
+                                            <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
+                                                Last Name:
+                                            </span>
+                                            <input onInput={lastNameOnInput}
+                                                className="direct-edit-form-field" 
+                                                value={formData?.last_name}
+                                            />
+                                        </div>
+                                        <div style={{marginBottom: 5}}>
+                                            <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
+                                                Email:
+                                            </span>
+                                            {
+                                                (isLoggedUserAdmin || isLoggedUserOwner) ?
+                                                <input onInput={emailOnInput}
+                                                    className="direct-edit-form-field" 
+                                                    value={formData?.email}
+                                                /> :
+                                                <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
+                                                    <i style={{color: "red", marginRight: 10}}
+                                                        className="fa-solid fa-lock"></i>
+                                                    {formData?.email}
+                                                    <span className="tool-tip" style={{color: "black"}}>
+                                                        Please contact support to change this field!
+                                                    </span>
+                                                </span>
+                                            }
+                                        </div>
+                                        <div style={{marginBottom: 5}}>
+                                            <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
+                                                Phone:
+                                            </span>
+                                            {
+                                                (isLoggedUserAdmin || isLoggedUserOwner) ?
+                                                <input onInput={phoneOnInput}
+                                                    className="direct-edit-form-field" 
+                                                    value={formData?.phone}
+                                                /> :
+                                                <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
+                                                    <i style={{color: "red", marginRight: 10}}
+                                                        className="fa-solid fa-lock"></i>
+                                                    {formData?.phone}
+                                                    <span className="tool-tip" style={{color: "black"}}>
+                                                        Please contact support to change this field!
+                                                    </span>
+                                                </span>
+                                            }
+                                        </div>
+                                        <div style={{marginBottom: 5}}>
+                                            <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
+                                                Date of Birth:
+                                            </span>
+                                            <input onInput={dobOnInput}
+                                                className="direct-edit-form-field" 
+                                                value={formData?.dob}
+                                            />
+                                        </div>
+                                        <div style={{marginBottom: 5}}>
+                                            <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
+                                                Gender:
+                                            </span>
+                                            <select onChange={genderOnInput}
+                                                className="direct-edit-form-field"
+                                                value={formData?.gender}
+                                            >
+                                                <option style={{color: "black"}} value="">Choose Gender</option>
+                                                <option style={{color: "black"}} value="male">Male</option>
+                                                <option style={{color: "black"}} value="female">Female</option>
+                                                <option style={{color: "black"}} value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div style={{marginBottom: 5}}>
+                                            <span style={{display: "inline-block", color: "rgba(255,255,255,0.5)", fontSize: 13, marginRight: 10, width: 70}}>
+                                                Role:
+                                            </span>
+                                            {
+                                                (isLoggedUserAdmin || isLoggedUserOwner) ?
+                                                <select onChange={roleOnInput}
+                                                    className="direct-edit-form-field"
+                                                    value={formData?.role_info?.constant}
+                                                    >
+                                                    <option style={{color: "black"}} value="">Choose Role</option>
+                                                    {
+                                                        appRoleState?.map(each=>{
+                                                            return <option style={{color: "black"}} value={each?.constant}>
+                                                                {each?.title}
+                                                            </option>
+                                                        })
+                                                    }
+                                                </select> :
+                                                <span className="tool-tip-parent" style={{color: "grey", fontSize: 13, cursor: "not-allowed"}}>
+                                                    <i style={{color: "red", marginRight: 10}}
+                                                        className="fa-solid fa-lock"></i>
+                                                    {formData?.role_info?.title}
+                                                    <span className="tool-tip" style={{color: "black"}}>
+                                                        Please contact support to change this field!
+                                                    </span>
+                                                </span>
+                                            }
+                                        </div>
+                                    </>
+                                }
+                                {
+                                    formValidation.isError && <div style={{marginTop: 20}}>
+                                        <FormErrorCard 
+                                            message={formValidation.message} 
+                                            type={formValidation.type}
+                                        />
+                                    </div>
+                                }
+                                {
+                                    !isLoading &&
+                                    <div onClick={onSubmit} className="standard-action-button">
+                                        Save
+                                    </div>
+                                }
+                            </div>
+                            <div style={{width: "calc(50% - 10px)"}}>
+                                <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
+                                    <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
+                                        className="fa fa-rectangle-list"></i>
+                                    Activity Log
+                                </p>
+                                <div>
+                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
+                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                                                className="fa fa-history"></i>
+                                            New Flight Booking Booking
+                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
+                                                03-04-2024 @ 14:12:34
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
+                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                                                className="fa fa-history"></i>
+                                            New Flight Booking Booking
+                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
+                                                03-04-2024 @ 14:12:34
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
+                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                                                className="fa fa-history"></i>
+                                            New Flight Booking Booking
+                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
+                                                03-04-2024 @ 14:12:34
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
+                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                                                className="fa fa-history"></i>
+                                            New Flight Booking Booking
+                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
+                                                03-04-2024 @ 14:12:34
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
+                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                                                className="fa fa-history"></i>
+                                            New Flight Booking Booking
+                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
+                                                03-04-2024 @ 14:12:34
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
+                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                                                className="fa fa-history"></i>
+                                            New Flight Booking Booking
+                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
+                                                03-04-2024 @ 14:12:34
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
+                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                                                className="fa fa-history"></i>
+                                            New Flight Booking Booking
+                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
+                                                03-04-2024 @ 14:12:34
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
+                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                                                className="fa fa-history"></i>
+                                            New Flight Booking Booking
+                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
+                                                03-04-2024 @ 14:12:34
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
         }
         {
             (currentSubPage===_PAGES?.links) &&

@@ -37,7 +37,7 @@ const AgentWallet = (props) => {
                 }
             }
             setSelectedStaff(updated_user_info)
-            setUserDetails(updated_user_info);
+            /*setUserDetails(updated_user_info);*/
         }
 
         let __trans = await fetchTransactionsByWalletId(userDetails?.wallet_info?._id);
