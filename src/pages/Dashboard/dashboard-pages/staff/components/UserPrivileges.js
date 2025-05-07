@@ -483,6 +483,7 @@ const UserPrivileges = (props) => {
                                                     id={each?._id} onInput={appPageCheckBoxOnInput}
                                                     value={each?._id} 
                                                     type="checkbox"
+                                                    className="cm-toggle"
                                                 />
                                                 <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
                                                     <label htmlFor={each?._id}>
@@ -515,7 +516,9 @@ const UserPrivileges = (props) => {
                                                                     onInput={appResourceActionCheckBoxOnInput}
                                                                     value={resource?._id+ID_CONCAT+action?._id} 
                                                                     id={resource?._id+ID_CONCAT+action?._id} 
-                                                                    type="checkbox" />
+                                                                    type="checkbox" 
+                                                                    className="cm-toggle"
+                                                                />
                                                                 <span style={{marginLeft: 5, color: "white", fontSize: 12}}>
                                                                     <label htmlFor={resource?._id+ID_CONCAT+action?._id}>
                                                                     {action?.action_title} {resource?.resource_title}</label>

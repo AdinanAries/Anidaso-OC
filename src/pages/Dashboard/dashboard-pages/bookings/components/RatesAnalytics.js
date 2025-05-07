@@ -136,13 +136,18 @@ const RatesAnalytics = (props) => {
         <div>
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div style={{width: "calc(50% - 20px)"}}>
-                    <p style={{marginBottom: 10, color: "rgba(255,255,255,0.6)", fontSize: 13, textAlign: "center"}}>
+                    <p className="tool-tip-parent" style={{marginBottom: 10, color: "rgba(255,255,255,0.6)", fontSize: 13, textAlign: "center"}}>
+                        <span style={{color: "slateblue", marginRight: 5}}>
+                            1h ago.</span>
                         Current Rates (USD)
                         <span style={{fontSize: 12, marginLeft: 10, color: "orange"}}>
                             <i className="fa-solid fa-location-dot" style={{marginRight: 5}}></i>
                             JFK - LHR, 
                             <i className="fa-solid fa-person" style={{marginRight: 5, marginLeft: 5}}></i>
                             1 passenger.</span>
+                        <span style={{color: "black"}} className="tool-tip">
+                            New prices for flights from JFK to LHR for 1 adult passenger were last recieved 1 hour ago from the data providers. Prices may have changed or are still the same. However, this graph is to help you understand prices between the different distributors. 
+                        </span>
                     </p>
                     <canvas id="ratesChart"></canvas>
                 </div>

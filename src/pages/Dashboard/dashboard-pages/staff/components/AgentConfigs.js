@@ -355,8 +355,89 @@ const AgentConfigs = (props) => {
                     You can create, activate, or deactivate your sevice fees using this section.
                 </span>
             </p> 
-            <div>
-                {/**Service Fees List Here */}
+            <div style={{marginTop: 20, display: "flex"}}>
+                <div style={{width: "calc(50% - 5px)"}}>
+                    <div style={{marginBottom: 10}}>
+                        <p style={{color: "orange", fontSize: 13}}>
+                            Add New Service</p>
+                        <div style={{padding: 10, display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+                            <div style={{width: "33%"}}>
+                                <p className="regular-font-color-dark-bg" 
+                                    style={{fontSize: 13, marginBottom: 5}}>
+                                        Product</p>
+                                <select style={{padding: "10px 20px", width: "100%", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                    <option style={{color: "black"}}>
+                                        All
+                                    </option>
+                                    <option style={{color: "black"}}>
+                                        Flights
+                                    </option>
+                                </select>
+                            </div>
+                            <div style={{width: "33%"}}>
+                                <div style={{display: "flex"}}>
+                                    <p className="regular-font-color-dark-bg" 
+                                        style={{fontSize: 13, marginBottom: 5}}>
+                                        Service Name</p>
+                                </div>
+                                <input placeholder="enter airport here..."
+                                    style={{padding: "10px 20px", width: "100%", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
+                            </div>
+                            <div style={{width: "33%"}}>
+                                <div style={{display: "flex"}}>
+                                    <p className="regular-font-color-dark-bg" 
+                                        style={{fontSize: 13, marginBottom: 5}}>
+                                        Price</p>
+                                </div>
+                                <input readOnly="true" 
+                                    placeholder="select dates here..."
+                                    style={{padding: "10px 20px", width: "100%", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
+                            </div>
+                        </div>
+                        <div className="standard-action-button"
+                            style={{fontSize: 14, width: "100%", marginTop: 0, cursor: "pointer"}}>
+                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-refresh"></i>
+                            Save
+                        </div>
+                    </div>
+                    <div style={{paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.1)"}}>
+                        {/**Service Fees List Here */}
+                        <div>
+                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                                <div style={{margin: 2.5, width: "calc(50% - 5px)", display: "flex", justifyContent: "space-between", backgroundColor: "rgba(0,0,0,0.2)", padding: 20, marginBottom: 10}}>
+                                    <p>
+                                        <input type="checkbox" 
+                                            className="cm-toggle"
+                                        />
+                                        <span style={{marginLeft: 10, color: "white", fontSize: 13}}>
+                                            <label htmlFor="">
+                                                Service fee name here
+                                            </label>
+                                        </span>
+                                    </p>
+                                    <p style={{color: "yellow", fontSize: 13}}>
+                                        $20.00
+                                    </p>
+                                </div>
+                                <div style={{margin: 2.5, width: "calc(50% - 5px)", display: "flex", justifyContent: "space-between", backgroundColor: "rgba(0,0,0,0.2)", padding: 20, marginBottom: 10}}>
+                                    <p>
+                                        <input type="checkbox" 
+                                            className="cm-toggle"
+                                        />
+                                        <span style={{marginLeft: 10, color: "white", fontSize: 13}}>
+                                            <label htmlFor="">
+                                                Service fee name here
+                                            </label>
+                                        </span>
+                                    </p>
+                                    <p style={{color: "yellow", fontSize: 13}}>
+                                        $20.00
+                                    </p>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
             </div>    
         </div>
     </div>
