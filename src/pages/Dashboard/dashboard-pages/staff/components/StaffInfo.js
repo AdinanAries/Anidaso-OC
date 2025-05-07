@@ -16,6 +16,7 @@ import AgentCustomers from "./AgentCustomers";
 import AgentConfigs from "./AgentConfigs";
 import AgentWallet from "./AgentWallet";
 import AgentDetailsCard from "../../../../../components/AgentDetailsCard";
+import AgentCompanyDetails from "./AgentCompanyDetails";
 
 const StaffInfo = (props) => {
 
@@ -362,14 +363,15 @@ const StaffInfo = (props) => {
                         </div>
                     </div>
                 </div>
+                <AgentCompanyDetails />
                 <div className="main-seaction-containers">
                     <div>
-                        <div style={{display: "flex", justifyContent: "space-between", marginTop: 20}}>
+                        <div style={{display: "flex", justifyContent: "space-between", marginTop: 10}}>
                             <div style={{width: "50%"}}>
                                 <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
                                     <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
                                         className="fa fa-pencil"></i>
-                                    Edit Information
+                                    Personal Details
                                 </p>
                                 {
                                     isLoading ? <div>

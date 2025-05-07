@@ -128,7 +128,7 @@ let SideMenu = (props) => {
                         </p>
                     </div>
                     <div className="side-menu-each-item-name">
-                        <p>Staff</p>
+                        <p>Profile</p>
                     </div>
                 </div>
                 <div onClick={()=> toggle_show_main_sections("clients")} id="side-menu-clients-item" className="side-menu-each-item">

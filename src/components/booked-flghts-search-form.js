@@ -129,9 +129,19 @@ function BookedFlightsSearchForm(){
                     }}>
                     Search
                 </div>
-                <div style={{fontSize: 13, marginLeft: 20, marginTop: 20, color: "pink", cursor: "pointer"}}>
-                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-plus"></i>
-                    Book Flight
+                <div onClick={()=>{
+                            // Copy the text inside the text field
+                            navigator.clipboard.writeText("");
+                            // Alert the copied text
+                            alert("Copied!");
+                    }}
+                    className='tool-tip-parent'
+                    style={{fontSize: 13, whiteSpace: "nowrap", margin: 20, marginBottom: 0, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
+                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-server"></i>
+                        Copy Booking Engine
+                    <div className='tool-tip' style={{color: "black", left: -100}}>
+                        You can share your booking engine link or put it on your business website to allow your customers to search on their own.
+                    </div>
                 </div>
             </div>
         </div>

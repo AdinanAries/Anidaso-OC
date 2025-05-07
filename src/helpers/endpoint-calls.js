@@ -23,7 +23,7 @@ const USER_TOKEN = getUserToken();
 const serverBaseURL = API_URL;
 
 let recentBookingsPaginationSkip = 1;
-let recentBookingsPaginationLimit = 20;
+let recentBookingsPaginationLimit = 10;
 let sp_recentBookingsPaginationSkip = 1;
 let sp_recentBookingsPaginationLimit = 20;
 

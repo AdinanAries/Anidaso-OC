@@ -223,7 +223,7 @@ const AgentConfigs = (props) => {
         <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
             <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
                 className="fa-solid fa-file-signature"></i>
-            Service Plans
+            Change Welldugo Contract
         </p>
         <div style={{marginBottom: 10}}>
             <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -339,6 +339,25 @@ const AgentConfigs = (props) => {
                     </div>
                 </div>
             </div>
+        </div>
+        <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20, marginTop: 30}}>
+            <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
+                className="fa-solid fa-sliders"></i>
+            Service Fees
+        </p>
+        <div style={{marginBottom: 10}}>
+            <p style={{padding: 20, display: "flex", background: "rgba(0,255,0, 0.2)", color: "white", border: "1px dashed lightgreen", fontSize: 13}}>
+                <i style={{marginRight: 10, color: "lightgreen"}}
+                    className="fa-solid fa-info-circle"></i>
+                <span>
+                    Services fees allow you to charge customers extra charges at checkout.
+                    Please note that extra charges added here should be related to your business operations in order to gain your customer's trust. 
+                    You can create, activate, or deactivate your sevice fees using this section.
+                </span>
+            </p> 
+            <div>
+                {/**Service Fees List Here */}
+            </div>    
         </div>
     </div>
 }

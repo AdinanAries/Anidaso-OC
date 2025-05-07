@@ -727,7 +727,11 @@ let SettingsContainer = (props) => {
                                                 <i className="fa fa-percent" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                                 Price Markup (%)
                                                 <span style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
-                                                    Charge Flat Rate</span></p>
+                                                    Charge Flat Rate</span>
+                                                <span style={{cursor: "pointer", color: "orange", fontSize: 12, marginLeft: 20, textDecoration: "underline"}}>
+                                                    Add Services Fees
+                                                </span>
+                                            </p>
                                             <div style={{border: "none"}}>
                                                 <input onInput={agentPriceMarkupOnchange}
                                                     value={agentPriceMarkup?.value}
