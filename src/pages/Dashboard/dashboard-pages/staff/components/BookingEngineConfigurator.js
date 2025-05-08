@@ -7,8 +7,8 @@ const BookingEngineConfigurator = (props) => {
     } = props;
 
     return <div>
-        <div style={{marginBottom: 20,}}>
-            <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
+        <div style={{marginBottom: 10}} className="main-seaction-containers">
+            <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20, marginTop: 10}}>
                 <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
                 className="fa fa-server"></i>
                 Customize Your Engine
@@ -97,8 +97,8 @@ const BookingEngineConfigurator = (props) => {
                     </div>
                 </div>
                 <div>
-                    <div style={{display: "flex", justifyContent: "center", marginBottom: 10, paddingBottom: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                        <div style={{backgroundColor: "#941777", width: 55, height: 55, marginTop: -5, borderRadius: "100%", boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
+                    <div style={{display: "flex", justifyContent: "center", marginBottom: 10, padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                        <div style={{backgroundColor: "#941777", width: 45, height: 45, marginTop: -5, borderRadius: "100%", boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
                                 display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
                             <i className="fa-solid fa-search" ariaHidden="true" style={{fontSize: 20, color: "rgba(255, 255, 255, 0.4)"}}></i>
                         </div>
@@ -125,8 +125,8 @@ const BookingEngineConfigurator = (props) => {
                     </div>
                 </div>
                 <div>
-                    <div style={{display: "flex", justifyContent: "center", marginBottom: 10, paddingBottom: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                        <div style={{backgroundColor: "crimson", width: 55, height: 55, marginTop: -5, borderRadius: "100%", boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
+                    <div style={{display: "flex", justifyContent: "center", marginBottom: 10, padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                        <div style={{backgroundColor: "crimson", width: 45, height: 45, marginTop: -5, borderRadius: "100%", boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
                                 display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
                             <i className="fa-solid fa-times" ariaHidden="true" style={{fontSize: 20, color: "white"}}></i>
                         </div>
@@ -153,9 +153,7 @@ const BookingEngineConfigurator = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <div style={{display: "flex"}}>
+            <div style={{display: "flex", marginTop: 20}}>
                 <p style={{fontSize: 14, backgroundColor: "#175794", width: 170, textAlign: "center", padding: 10, borderRadius: 50, marginBottom: 10, cursor: "pointer", color: "white"}}>
                     <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
                     className="fa fa-eye"></i>
@@ -167,6 +165,8 @@ const BookingEngineConfigurator = (props) => {
                     Reset to Detault
                 </p>
             </div>
+        </div>
+        <div>
             <iframe 
                 src={("https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?ngn=1&ag="+userDetails?._id)}
                 style={{width: "100%", border: "none", height: 1000}}
