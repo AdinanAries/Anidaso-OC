@@ -1073,7 +1073,8 @@ let SettingsContainer = (props) => {
                     <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-eye'></i>
                     Preview - Customer App
                 </p>}
-                <iframe id="business-settings-page-customer-app-preview-iframe" style={{width: "100%", height: 1000, border: "none", borderRadius: 8}} 
+                <iframe id="business-settings-page-customer-app-preview-iframe" 
+                    style={{width: "100%", height: "calc(100vh - 130px)", border: "none", borderRadius: 8}} 
                     src={previewLink} title="description"></iframe>
              </div>
         </section>
