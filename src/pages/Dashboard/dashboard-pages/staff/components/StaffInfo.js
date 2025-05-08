@@ -17,6 +17,7 @@ import AgentConfigs from "./AgentConfigs";
 import AgentWallet from "./AgentWallet";
 import AgentDetailsCard from "../../../../../components/AgentDetailsCard";
 import AgentCompanyDetails from "./AgentCompanyDetails";
+import BookingEngineConfigurator from "./BookingEngineConfigurator";
 
 const StaffInfo = (props) => {
 
@@ -36,7 +37,8 @@ const StaffInfo = (props) => {
         links: 2,
         customers: 3,
         configs: 4,
-        wallet: 5
+        wallet: 5,
+        booking_engine_configurator: 6,
     }
 
     const [ currentSubPage, setcurrentSubPage ] = useState(_PAGES.info);
@@ -301,6 +303,12 @@ const StaffInfo = (props) => {
                     <i style={{color: (currentSubPage===_PAGES?.wallet) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-wallet"></i>
                     wallet
                     <div style={{border: (currentSubPage===_PAGES?.wallet) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                </div>
+                <div  onClick={()=>setcurrentSubPage(_PAGES?.booking_engine_configurator)}
+                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                    <i style={{color: (currentSubPage===_PAGES?.configs) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-server"></i>
+                    Booking Engine
+                    <div style={{border: (currentSubPage===_PAGES?.configs) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
             </div>
             {
@@ -630,6 +638,12 @@ const StaffInfo = (props) => {
                 loggedInUserDetails={loggedInUserDetails}
                 setUserDetails={setUserDetails}
                 setSelectedStaff={setSelectedStaff}
+            />
+        }
+        {
+            (currentSubPage===_PAGES?.booking_engine_configurator) &&
+            <BookingEngineConfigurator
+                userDetails={selectedStaff}
             />
         }
     </div>
