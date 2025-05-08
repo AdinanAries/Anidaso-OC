@@ -39,6 +39,12 @@ const BookingEngineConfigurator = (props) => {
                             </span>
                             <input type="color" id="favcolor" name="favcolor" value="#a9ddff" />
                         </div>
+                        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10}}>
+                            <span style={{color: "white", marginRight: 10, fontSize: 13}}>
+                                <label for="favcolor">Logo Radius:</label>
+                            </span>
+                            <input style={{width: 50, background: "none", color: "white", border: "none", borderBottom: "1px solid lightgreen"}} type="number" id="favcolor" value="50" />
+                        </div>
                     </div>
                 </div>
                 <div>
