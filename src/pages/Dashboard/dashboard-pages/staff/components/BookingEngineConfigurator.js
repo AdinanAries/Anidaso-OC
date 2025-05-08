@@ -97,10 +97,12 @@ const BookingEngineConfigurator = (props) => {
                     </div>
                 </div>
                 <div>
-                    <div style={{display: "flex", justifyContent: "center", marginBottom: 10, padding: 12.5, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                        <div style={{backgroundColor: "#941777", width: 40, height: 40, marginTop: -5, borderRadius: "100%", boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
-                                display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-                            <i className="fa-solid fa-search" ariaHidden="true" style={{fontSize: 20, color: "rgba(255, 255, 255, 0.4)"}}></i>
+                    <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", marginBottom: 10}}>
+                        <div style={{display: "flex", backgroundColor: "white", justifyContent: "center", marginBottom: 5, padding: 9.5, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                            <div style={{backgroundColor: "#941777", width: 40, height: 40, marginTop: -5, borderRadius: "100%", boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
+                                    display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                                <i className="fa-solid fa-search" ariaHidden="true" style={{fontSize: 20, color: "rgba(255, 255, 255, 0.4)"}}></i>
+                            </div>
                         </div>
                     </div>
                     <div style={{padding: "0 10px"}}>
@@ -125,10 +127,12 @@ const BookingEngineConfigurator = (props) => {
                     </div>
                 </div>
                 <div>
-                    <div style={{display: "flex", justifyContent: "center", marginBottom: 10, padding: 12.5, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                        <div style={{backgroundColor: "crimson", width: 40, height: 40, marginTop: -5, borderRadius: "100%", boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
-                                display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-                            <i className="fa-solid fa-times" ariaHidden="true" style={{fontSize: 20, color: "white"}}></i>
+                    <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", marginBottom: 10}}>
+                        <div style={{display: "flex", justifyContent: "center", backgroundColor: "white", marginBottom: 5, padding: 9.5, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                            <div style={{backgroundColor: "crimson", width: 40, height: 40, marginTop: -5, borderRadius: "100%", boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
+                                    display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                                <i className="fa-solid fa-times" ariaHidden="true" style={{fontSize: 20, color: "white"}}></i>
+                            </div>
                         </div>
                     </div>
                     <div style={{padding: "0 10px"}}>
