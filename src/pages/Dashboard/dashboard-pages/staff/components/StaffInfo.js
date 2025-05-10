@@ -52,9 +52,11 @@ const StaffInfo = (props) => {
     });
 
     useEffect(()=>{
-        let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
-        render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+        if(!isAdmin && !isOwner){
+            let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
+            render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+        }
 
         (async()=>{
             let _roles = await fetchAppRoles();
@@ -62,6 +64,7 @@ const StaffInfo = (props) => {
         })()
     }, []);
 
+    let isYou = (selectedStaff?._id === loggedInUserDetails?._id);
     let isOwner = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.owner);
     let isAdmin = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.admin);
     let isAgent = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.agent);
@@ -280,39 +283,44 @@ const StaffInfo = (props) => {
                     Info
                     <div style={{border: (currentSubPage===_PAGES?.info) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                 </div>
-                <div  onClick={()=>setcurrentSubPage(_PAGES?.links)}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.links) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: (currentSubPage===_PAGES?.links) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
-                    Links
-                    <div style={{border: (currentSubPage===_PAGES?.links) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-                </div>
-                <div  onClick={()=>setcurrentSubPage(_PAGES?.customers)}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.customers) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: (currentSubPage===_PAGES?.customers) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-users"></i>
-                    customers
-                    <div style={{border: (currentSubPage===_PAGES?.customers) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-                </div>
-                <div  onClick={()=>setcurrentSubPage(_PAGES?.configs)}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: (currentSubPage===_PAGES?.configs) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
-                    configs
-                    <div style={{border: (currentSubPage===_PAGES?.configs) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-                </div>
-                <div onClick={showWalletPage}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.wallet) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: (currentSubPage===_PAGES?.wallet) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-wallet"></i>
-                    wallet
-                    <div style={{border: (currentSubPage===_PAGES?.wallet) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-                </div>
-                <div  onClick={()=>setcurrentSubPage(_PAGES?.booking_engine_configurator)}
-                    style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                    <i style={{color: (currentSubPage===_PAGES?.booking_engine_configurator) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-server"></i>
-                    Engine
-                    <div style={{border: (currentSubPage===_PAGES?.booking_engine_configurator) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-                </div>
+                {
+                    (!isAdmin && !isOwner) &&
+                    <>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.links)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.links) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.links) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
+                            Links
+                            <div style={{border: (currentSubPage===_PAGES?.links) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        </div>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.customers)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.customers) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.customers) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-users"></i>
+                            customers
+                            <div style={{border: (currentSubPage===_PAGES?.customers) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        </div>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.configs)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.configs) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
+                            configs
+                            <div style={{border: (currentSubPage===_PAGES?.configs) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        </div>
+                        <div onClick={showWalletPage}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.wallet) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.wallet) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-wallet"></i>
+                            wallet
+                            <div style={{border: (currentSubPage===_PAGES?.wallet) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        </div>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.booking_engine_configurator)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.booking_engine_configurator) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-server"></i>
+                            Engine
+                            <div style={{border: (currentSubPage===_PAGES?.booking_engine_configurator) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        </div>
+                    </>
+                }
             </div>
             {
-                isAgent &&
+                (isAgent && selectedStaff?.wallet_info) ?
                 <div onClick={showWalletPage} 
                     style={{padding: 10, borderRadius: 5, cursor: "pointer"}}>
                     <div style={{color: "white", display: "flex", alignItems: "center"}}>
@@ -326,53 +334,88 @@ const StaffInfo = (props) => {
                     <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
                         {add_commas_to_number(calculateActionPoints((selectedStaff?.wallet_info?.current_balance)?.toFixed(2)))} actions
                     </p>
-                </div>
+                </div> :
+                (!isAdmin && !isOwner) &&
+                    <div style={{color: "white", fontSize: 12, background: "rgba(255,0,0,0.2)", padding: 10, border: "1px solid rgba(255,255,255,0.1)"}}>
+                        <i style={{marginRight: 5, color: "yellow"}}
+                            className="fa-solid fa-exclamation-triangle"></i>
+                            Wallet Not Found
+                    </div>
+                
             }
         </div>
         {
             (currentSubPage===_PAGES?.info) &&
             <>
-                <div style={{display: "flex", justifyContent: "space-between", marginBottom: 5}}>
-                    <div style={{width: "calc(50% - 2px)"}}>
-                        <AgentDetailsCard
-                            hideSeeDetailsLink={true}
-                            userDetails={selectedStaff}
-                        />
-                    </div>
-                    <div style={{width: "calc(50% - 2px)"}}>
-                        <div style={{padding: 10}}>
-                            <div>
-                                <p style={{fontSize: 13, marginBottom: 10, color: "orange"}}>
-                                    Current Total Sales:</p>
-                                <h1 style={{color: "skyblue"}}>
-                                    $3,000.23
-                                    <span style={{fontWeight: "initial", color: "lightgreen", fontSize: 13, marginLeft: 25, textDecoration: "underline", cursor: "pointer"}}>
-                                        <i style={{marginRight: 10, color: "rgba(255, 255, 255, 0.5)"}}
-                                            className="fa-solid fa-money-check-dollar"></i>
-                                        Request Payout
-                                    </span>
-                                </h1>
+                {
+                    (!isAdmin && !isOwner) &&
+                    <>
+                        <div style={{display: "flex", justifyContent: "space-between", marginBottom: 5}}>
+                            <div style={{width: "calc(50% - 2px)"}}>
+                                <AgentDetailsCard
+                                    hideSeeDetailsLink={true}
+                                    userDetails={selectedStaff}
+                                />
                             </div>
-                            <div style={{background: "white", height: 180, marginTop: 10, padding: 10, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                                <canvas id="salesStatsChart" ></canvas>
+                            <div style={{width: "calc(50% - 2px)"}}>
                                 <div style={{padding: 10}}>
-                                    <p style={{fontSize: 12}}>
-                                        <i style={{marginRight: 10, color: "green"}}
-                                            className="fa-solid fa-info-circle"></i>
-                                        Your recent payout of $4,500 was on March 3, 2025. That payout was based on 45 days of sales.
-                                    </p>
+                                    <div>
+                                        <p style={{fontSize: 13, marginBottom: 10, color: "orange"}}>
+                                            Current Total Sales:</p>
+                                        <h1 style={{color: "skyblue"}}>
+                                            $3,000.23
+                                            <span style={{fontWeight: "initial", color: "lightgreen", fontSize: 13, marginLeft: 25, textDecoration: "underline", cursor: "pointer"}}>
+                                                <i style={{marginRight: 10, color: "rgba(255, 255, 255, 0.5)"}}
+                                                    className="fa-solid fa-money-check-dollar"></i>
+                                                Request Payout
+                                            </span>
+                                        </h1>
+                                    </div>
+                                    <div style={{background: "white", height: 180, marginTop: 10, padding: 10, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                        <canvas id="salesStatsChart" ></canvas>
+                                        <div style={{padding: 10}}>
+                                            <p style={{fontSize: 12}}>
+                                                <i style={{marginRight: 10, color: "green"}}
+                                                    className="fa-solid fa-info-circle"></i>
+                                                Your recent payout of $4,500 was on March 3, 2025. That payout was based on 45 days of sales.
+                                            </p>
 
-                                    <p onClick={()=>toggle_show_main_sections("sales")}
-                                        style={{marginTop: 10, textDecoration: "underline", cursor: "pointer", textAlign: "center"}}>
-                                        See All Sales
-                                    </p>
+                                            <p onClick={()=>toggle_show_main_sections("sales")}
+                                                style={{marginTop: 10, textDecoration: "underline", cursor: "pointer", textAlign: "center"}}>
+                                                See All Sales
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <AgentCompanyDetails />
+                        <AgentCompanyDetails />
+                    </>
+                }
                 <div className="main-seaction-containers">
+                    {
+                        (isOwner) && <div style={{backgroundColor: "rgba(0,0,0,0.5)", padding: 20, fontSize: 14}}>
+                            <p style={{color: "yellow"}}>
+                                <i style={{marginRight: 10, color: "lightgreen"}}
+                                    className="fa-solid fa-building-user"></i>
+                                Owner User
+                                {
+                                    isYou &&
+                                    <span style={{color: "rgba(255,255,255,0.7)", marginLeft: 10, fontSize: 11}}>
+                                        - Your Account</span>
+                                }
+                            </p>
+                        </div>
+                    }
+                    {
+                        (isAdmin) && <div style={{backgroundColor: "rgba(0,0,0,0.5)", padding: 20, fontSize: 14}}>
+                        <p style={{color: "yellow"}}>
+                            <i style={{marginRight: 10, color: "lightgreen"}}
+                                className="fa-solid fa-hammer"></i>
+                            Admin User
+                        </p>
+                    </div>
+                    }
                     <div>
                         <div style={{display: "flex", justifyContent: "space-between", marginTop: 10}}>
                             <div style={{width: "50%"}}>
