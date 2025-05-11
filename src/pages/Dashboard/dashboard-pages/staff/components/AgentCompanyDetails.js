@@ -12,6 +12,10 @@ const AgentCompanyDetails = (props) => {
         userDetails
     } = props;
 
+    const [formData, setFormData] = useState({
+
+    });
+
     const [ formValidation, setFormValidation ] = useState({
         type: "warning",
         isError: false,
@@ -27,12 +31,6 @@ const AgentCompanyDetails = (props) => {
                             className="fa fa-building"></i>
                         Business Details
                     </p>
-                    <h3 style={{color: "skyblue", marginBottom: 10}}>
-                        Business Name
-                        <span style={{marginLeft: 20, fontSize: 14, cursor: "pointer", color: "lightgreen"}}>
-                            <i className="fa-solid fa-pencil"></i>
-                        </span>
-                    </h3>
                     <div style={{display: "flex", alignItems: "flex-end"}}>
                         <div>
                             <img style={{width: 140}}
@@ -48,14 +46,21 @@ const AgentCompanyDetails = (props) => {
                             </div>
                         </div>
                     </div>
-                    <p style={{padding: 20, marginTop: 10, display: "flex", background: "rgba(0,255,0, 0.2)", color: "white", border: "1px dashed lightgreen", fontSize: 13}}>
-                        <i style={{marginRight: 10, color: "lightgreen"}}
-                            className="fa-solid fa-info-circle"></i>
-                        <span>
-                            Business details added will be shown on your booking engine site for your customer to view.
-                            It is important to add enough business details to allow your cutomers to trust your brand and book their travel products/services with you.
-                        </span>
-                    </p> 
+                    <div style={{marginTop: 15}}>
+                        <div style={{marginBottom: 5}}>
+                            <span style={{display: "inline-block", color: "orange", fontSize: 15, marginRight: 10, width: 140}}>
+                                <i style={{marginRight: 10, opacity: 0.4, marginBottom: 8}} className="fa fa-briefcase"></i>
+                                Business Name:
+                            </span>
+                            <input className="direct-edit-form-field" placeholder="Add Business Name"/>
+                        </div>
+                    </div>
+                    <div>
+                        <p style={{fontSize: 13, color: "white", marginTop: 20, marginLeft: 20}}>
+                            <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-exclamation-triangle"></i>
+                            Please remember to hit save button after making any changes.
+                        </p>
+                    </div>
                 </div>
                 <div style={{width: "calc(50% - 5px)"}}>
                     <div>
@@ -106,6 +111,14 @@ const AgentCompanyDetails = (props) => {
                     </div>
                 </div>
             </div>
+            <p style={{padding: 20, marginTop: 10, display: "flex", background: "rgba(0,255,0, 0.2)", color: "white", border: "1px dashed lightgreen", fontSize: 13}}>
+                <i style={{marginRight: 10, color: "lightgreen"}}
+                    className="fa-solid fa-info-circle"></i>
+                <span>
+                    Business details added will be shown on your booking engine site for your customer to view.
+                    It is important to add enough business details to allow your cutomers to trust your brand and book their travel products/services with you.
+                </span>
+            </p> 
         </div>
     </div>
 }

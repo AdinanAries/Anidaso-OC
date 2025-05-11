@@ -1,0 +1,78 @@
+.wdg-wrapper {
+    max-width: 1000px;
+    margin: auto;
+    padding: 10px;
+}
+.wdg-search-form-header {
+    font-size: 25px;
+}
+
+.wdg-airport-input-fld-container, 
+.wdg-date-input-fld-container,
+.wdg-cb-psng-tr-input-fld-container {
+    width: calc(50% - 3px);
+}
+
+.wdg-airport-input-fld-container input,
+.wdg-date-input-fld-container input,
+.wdg-cb-psng-tr-input-fld-container input {
+    border: none;
+    background: none;
+    width: calc(100% - 100px);
+    padding: 20px;
+}
+
+.wdg-airport-input-fld-container i,
+.wdg-date-input-fld-container i,
+.wdg-cb-psng-tr-input-fld-container i {
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.wdg-cb-psng-tr-input-fld-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.wdg-cb-psng-tr-inner-container {
+    padding: 20px;
+    padding-left: 0;
+    min-width: calc(50% - 3px);
+}
+.wdg-cb-psng-tr-inner-container select {
+    border: none;
+    background: none;
+    text-decoration: underline;
+}
+
+.wdg-flex-to-block-on-mobile {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.wdg-search-buttons-container {
+    display: flex;
+}
+
+.wdg-search-form-btn {
+    padding: 20px;
+    cursor: pointer;
+}
+
+.wdg-search-form-btn i {
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 450px) {
+    .wdg-flex-to-block-on-mobile {
+        display: block;
+    }
+    .wdg-airport-input-fld-container,
+    .wdg-date-input-fld-container,
+    .wdg-cb-psng-tr-input-fld-container {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+}

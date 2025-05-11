@@ -332,17 +332,17 @@ const BookingEngineConfigurator = (props) => {
                             {
                                 BESettings?.showHeaderMenu ?
                                 <div style={{display: "flex"}}>
-                                    <p style={{color: BESettings?.headerMenuActiveTxtColor, marginRight: 20, fontSize: 13, textDecoration: "underline", cursor: "pointer"}}>
+                                    <p style={{color: BESettings?.headerMenuActiveTxtColor, marginRight: 20, fontSize: 13, fontWeight: "bolder", textDecoration: "underline", cursor: "pointer"}}>
                                         <i style={{marginRight: 5, color: BESettings?.headerMenuActiveIconColor}}
                                             className="fa-solid fa-plane"></i>
                                         Flight
                                     </p>
-                                    <p style={{color: BESettings?.headerMenuTxtColor, marginRight: 20, fontSize: 13, textDecoration: "underline", cursor: "not-allowed"}}>
+                                    <p style={{color: BESettings?.headerMenuTxtColor, marginRight: 20, fontSize: 13, fontWeight: "bolder", textDecoration: "underline", cursor: "not-allowed"}}>
                                         <i style={{marginRight: 5, color: BESettings?.headerMenuIconColor}}
                                             className="fa-solid fa-hotel"></i>
                                         Stays
                                     </p>
-                                    <p style={{color: BESettings?.headerMenuTxtColor, fontSize: 13, textDecoration: "underline", cursor: "not-allowed"}}>
+                                    <p style={{color: BESettings?.headerMenuTxtColor, fontSize: 13, fontWeight: "bolder", textDecoration: "underline", cursor: "not-allowed"}}>
                                         <i style={{marginRight: 5, color: BESettings?.headerMenuIconColor}}
                                             className="fa-solid fa-car"></i>
                                         Cars

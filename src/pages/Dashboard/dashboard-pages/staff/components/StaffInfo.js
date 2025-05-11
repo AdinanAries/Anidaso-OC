@@ -17,7 +17,7 @@ import AgentConfigs from "./AgentConfigs";
 import AgentWallet from "./AgentWallet";
 import AgentDetailsCard from "../../../../../components/AgentDetailsCard";
 import AgentCompanyDetails from "./AgentCompanyDetails";
-import BookingEngineConfigurator from "./BookingEngineConfigurator";
+import EngineConfiguratorPage from "./EngineConfiguratorPage";
 
 const StaffInfo = (props) => {
 
@@ -685,7 +685,7 @@ const StaffInfo = (props) => {
         }
         {
             (currentSubPage===_PAGES?.booking_engine_configurator) &&
-            <BookingEngineConfigurator
+            <EngineConfiguratorPage
                 userDetails={selectedStaff}
             />
         }

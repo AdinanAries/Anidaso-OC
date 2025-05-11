@@ -438,6 +438,88 @@ const AgentConfigs = (props) => {
                         </div>  
                     </div>
                 </div>
+                <div style={{width: "calc(50% - 5px)"}}>
+                    <div>
+                        <p style={{color: "yellow", fontSize: 13, marginLeft: 20}}>
+                            Checkout Overview</p>
+                        <div style={{backgroundColor: "white", border: "4px solid yellow", borderRadius: 9, padding: 20, margin: 10}}>
+                            <p style={{fontSize: 16, letterSpacing: 1, fontWeight: "bolder", fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.8)"}}>
+                                Price Summary
+                            </p>
+                            <div style={{marginTop: 20, borderBottom: "1px solid rgba(0, 0, 0, 0.1)", paddingBottom: 10}}>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                    <p style={{fontSize: 14, letterSpacing: 1, color: "rgba(0, 0, 0, 0.4)"}}>
+                                        Total Purchases:</p>
+                                    <p style={{fontSize: 14, letterSpacing: 1, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.4)"}}>
+                                        <span style={{fontSize: 14, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.4)", fontWeight: "bolder"}}>
+                                        $</span>xxx.xx</p>
+                                </div>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 10}}>
+                                    <p style={{fontSize: 14, letterSpacing: 1, color: "rgba(0, 0, 0, 0.4)"}}>
+                                        Purchase Item</p>
+                                    <p style={{fontSize: 14, letterSpacing: 1, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.4)"}}>
+                                        <span style={{fontSize: 14, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.4)"}}>
+                                            $</span>xxx.xx</p>
+                                </div>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 10}}>
+                                    <p style={{fontSize: 14, letterSpacing: 1, color: "rgba(0, 0, 0, 0.4)"}}>
+                                        Welldugo Fee (1)
+                                    </p>
+                                    <p style={{fontSize: 14, letterSpacing: 1, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.4)"}}>
+                                        <span style={{fontSize: 14, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.4)"}}>
+                                            $</span>x.xx
+                                    </p>
+                                </div>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 10}}>
+                                    <p style={{fontSize: 14, letterSpacing: 1, color: "rgba(0, 0, 0, 0.8)"}}>
+                                        Agents Fee
+                                    </p>
+                                    <p style={{fontSize: 14, letterSpacing: 1, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.8)"}}>
+                                        <span style={{fontSize: 14, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.8)"}}>
+                                            $</span>25.12
+                                    </p>
+                                </div>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 10}}>
+                                    <p style={{fontSize: 14, letterSpacing: 1, color: "rgba(0, 0, 0, 0.4)"}}>
+                                        Taxes
+                                    </p>
+                                    <p style={{fontSize: 14, letterSpacing: 1, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.4)"}}>
+                                        <span style={{fontSize: 14, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.4)"}}>
+                                            $</span>xx.xx
+                                    </p>
+                                </div>
+                            </div>
+                            <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 20}}>
+                                <div>
+                                    <p style={{fontSize: 16, letterSpacing: 1, color: "rgba(0, 0, 0, 0.8)", fontWeight: "bolder"}}>
+                                        Total
+                                    </p>
+                                    <p style={{fontSize: 12, marginTop: 5, color: "rgba(0, 0, 0, 0.7)", fontFamily: "Prompt, sans-serif;"}}>
+                                        <i className="fa fa-info" ariaHidden="true" style={{marginRight: 10, color: "green"}}>
+                                            </i>prices are quoted in USD
+                                    </p>
+                                </div>
+                                <p style={{fontSize: 17, fontWeight: "bolder", letterSpacing: 1, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.8)"}}>
+                                    <span style={{fontSize: 14, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.7)", fontWeight: "bolder"}}>
+                                        $</span>25.12
+                                </p>
+                            </div>
+                            <div>
+                                <div style={{display: "flex", marginTop: 20, justifyContent: "space-between"}}>
+                                    <div style={{cursor: "pointer", boxShadow: "rgba(0, 0, 0, 0.3) 1px 2px 3px", backgroundColor: "crimson", color: "white", borderRadius: "100%", width: 40, height: 40, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                        <i className="fa-solid fa-arrow-left" ariaHidden="true"></i>
+                                    </div>
+                                    <div style={{cursor: "pointer", marginTop: 0, display: "flex", justifyContent: "center", alignItems: "center", width: "calc(100% - 50px)", backgroundColor: "rgb(23, 87, 148)", color: "white", borderRadius: 50}}>
+                                        Continue
+                                        <span style={{fontSize: 13, color: "rgba(255, 255, 255, 0.4)", marginLeft: 10}}>
+                                            (Passengers)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>    
         </div>
     </div>
