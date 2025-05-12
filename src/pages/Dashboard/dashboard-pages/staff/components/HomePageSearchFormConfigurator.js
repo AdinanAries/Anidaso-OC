@@ -2,7 +2,19 @@ import { useState } from "react";
 
 const HomePageSearchFormConfigurator = (props) => {
 
-    const [ siteLink, setSiteLink ] = useState("/test-travel-agency-site/templatemo_591_villa_agency/index.html")
+    const __URL="/test-travel-agency-site/templatemo_591_villa_agency/index.html";
+    const [ siteLink, setSiteLink ] = useState(__URL);
+    const [ previewWebAddressOnInputValue, setPreviewWebAddressOnInputValue] = useState(__URL);
+
+    const previewAddressBarOnInput = (e) => {
+        setPreviewWebAddressOnInputValue(e?.target?.value);
+    }
+
+    const addressBarHandleEnterKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            setSiteLink(previewWebAddressOnInputValue);
+        }
+    };
 
     return <div style={{marginBottom: 10}} className="main-seaction-containers">
         <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -12,7 +24,7 @@ const HomePageSearchFormConfigurator = (props) => {
                     className="fa fa-server"></i>
                     Customize Search Form
                 </p>
-                <div style={{display: "flex", marginBottom: 20}}>
+                <div style={{display: "flex", marginBottom: 10}}>
                     <div>
                         <p style={{color: "orange", fontSize: 12, marginBottom: 10, textAlign: "center"}}>
                             Input Fields</p>
@@ -46,6 +58,16 @@ const HomePageSearchFormConfigurator = (props) => {
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
                                     <label for="">
                                         Text:</label>
+                                </span>
+                                <input 
+                                    id="" type="color" name="favcolor" 
+                                    value=""
+                                />
+                            </div>
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <span style={{color: "white", marginRight: 10, fontSize: 13}}>
+                                    <label for="">
+                                        Border:</label>
                                 </span>
                                 <input 
                                     id="" type="color" name="favcolor" 
@@ -114,6 +136,16 @@ const HomePageSearchFormConfigurator = (props) => {
                         </div>
                     </div>
                 </div>
+                <div style={{display: "flex"}}>
+                    <div style={{backgroundColor: "green", marginTop: 0, padding: 15, marginBottom: 10}} className="standard-action-button">
+                        <i style={{marginRight: 10}} className="fa-solid fa-eye"></i>
+                        Save and preview
+                    </div>
+                    <div style={{marginLeft: 10, backgroundColor: "crimson", marginTop: 0, padding: 15, marginBottom: 10}} className="standard-action-button">
+                        <i style={{marginRight: 10}} className="fa-solid fa-rotate"></i>
+                        Restore to defaults
+                    </div>
+                </div>
             </div>
             <div style={{width: "calc(50% - 5px", marginBottom: 10}}>
                 <p style={{color: "white", fontSize: 13, marginTop: 10}}>
@@ -175,8 +207,10 @@ const HomePageSearchFormConfigurator = (props) => {
                     <i style={{color: "orange"}} className="fa-solid fa-rotate"></i>
                 </div>
                 <div style={{borderRadius: 50, backgroundColor: "rgba(0,0,0,0.3)", width: "calc(100% - 50px)"}}>
-                    <input style={{width: "calc(100% - 20px)", color: "white", padding: 10, background: "none", border: "none"}} 
-                        type="text" value={siteLink} />
+                    <input onInput={previewAddressBarOnInput} 
+                        onKeyDown={addressBarHandleEnterKeyPress}
+                        style={{width: "calc(100% - 20px)", color: "white", padding: 10, background: "none", border: "none"}} 
+                        type="text" value={previewWebAddressOnInputValue} />
                 </div>
                 
             </div>
