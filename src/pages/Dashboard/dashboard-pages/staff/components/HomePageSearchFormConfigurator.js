@@ -25,10 +25,10 @@ const HomePageSearchFormConfigurator = (props) => {
                     Customize Search Form
                 </p>
                 <div style={{display: "flex", marginBottom: 10}}>
-                    <div>
-                        <p style={{color: "orange", fontSize: 12, marginBottom: 10, textAlign: "center"}}>
+                    <div style={{border: "1px solid rgba(255,255,255,0.1)", borderRight: "none", width: "50%"}}>
+                        <p style={{color: "orange", fontSize: 12, marginBottom: 10, marginTop: 10, textAlign: "center"}}>
                             Input Fields</p>
-                        <div style={{display: "flex", padding: 20, borderRadius: 9, backgroundColor: "white", width: 300, margin: 10}}>
+                        <div style={{display: "flex", padding: 20, borderRadius: 9, backgroundColor: "white", margin: 10}}>
                             <i style={{marginRight: 20}} className="fa-solid fa-plane-departure"></i>
                             <p style={{color: "rgba(0,0,0,0.8)", fontSize: 13}}>
                                 New York - John F Kennedy Intl  (JFK)</p>
@@ -85,8 +85,8 @@ const HomePageSearchFormConfigurator = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div style={{borderLeft: "1px solid rgba(255,255,255,0.1)"}}>
-                        <p style={{color: "orange", fontSize: 12, marginBottom: 10, textAlign: "center"}}>
+                    <div style={{border: "1px solid rgba(255,255,255,0.1)", width: "50%"}}>
+                        <p style={{color: "orange", fontSize: 12, marginBottom: 10, marginTop: 10, textAlign: "center"}}>
                             Search Button</p>
                         <div style={{display: "flex", padding: 20, borderRadius: 50, backgroundColor: "rgb(23, 87, 148)", margin: 10, justifyContent: "center"}}>
                             <i style={{marginRight: 20, color: "rgba(255,255,255,0.6)"}} className="fa-solid fa-search"></i>

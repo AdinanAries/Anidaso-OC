@@ -18,7 +18,7 @@ const EngineConfiguratorPage = (props) => {
         <div style={{padding: 20, background: "rgba(0,0,0,0.2)"}}>
             <div style={{display: "flex"}}>
                 <div onClick={()=>setCurrentPage(_PAGES?.home_page_config)}
-                    style={{textDecoration: "underline", cursor: "pointer", 
+                    style={{textDecoration: currentPage===_PAGES?.home_page_config ? "underline" : "none", cursor: "pointer", 
                     color: currentPage===_PAGES?.home_page_config ? "rgba(255, 255, 84, 0.8)" : "rgba(255,255,255,0.8)", fontSize: 13, marginRight: 30}}>
                     <i style={{marginRight: 10, 
                         color: currentPage===_PAGES?.home_page_config ? "yellow" : "rgba(255,255,255,0.8)"}}
@@ -26,7 +26,7 @@ const EngineConfiguratorPage = (props) => {
                     Website Home Page
                 </div>
                 <div onClick={()=>setCurrentPage(_PAGES?.search_page_config)}
-                    style={{cursor: "pointer", 
+                    style={{textDecoration:  currentPage===_PAGES?.search_page_config ? "underline" : "none", cursor: "pointer", 
                     color: currentPage===_PAGES?.search_page_config ? "rgba(255, 255, 84, 0.8)" : "rgba(255,255,255,0.8)", fontSize: 13}}>
                     <i style={{marginRight: 10, 
                         color: currentPage===_PAGES?.search_page_config ? "yellow" : "rgba(255,255,255,0.8)"}}
