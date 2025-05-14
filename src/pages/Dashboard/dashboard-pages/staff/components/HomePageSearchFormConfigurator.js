@@ -2,6 +2,21 @@ import { useState } from "react";
 
 const HomePageSearchFormConfigurator = (props) => {
 
+    const {
+        BESettings,
+        setHomePageSearchButtonTextColor,
+        setHomePageSearchButtonBgColor,
+        setHomePageSearchButtonIconColor,
+        setHomePageSearchInputBackground,
+        setHomePageSearchInputIconColor,
+        setHomePageSearchInputBorderColor,
+        setHomePageSearchInputTextColor,
+        setHomePageSearchButtonBorderRadius,
+        setHomePageSearchInputborderRadius,
+        saveNewBookingEngineSettings,
+        resetBookingEngineSettings,
+    } = props;
+
     const __URL="/test-travel-agency-site/templatemo_591_villa_agency/index.html";
     const [ siteLink, setSiteLink ] = useState(__URL);
     const [ previewWebAddressOnInputValue, setPreviewWebAddressOnInputValue] = useState(__URL);
@@ -28,50 +43,53 @@ const HomePageSearchFormConfigurator = (props) => {
                     <div style={{border: "1px solid rgba(255,255,255,0.1)", borderRight: "none", width: "50%"}}>
                         <p style={{color: "orange", fontSize: 12, marginBottom: 10, marginTop: 10, textAlign: "center"}}>
                             Input Fields</p>
-                        <div style={{display: "flex", padding: 20, borderRadius: 9, backgroundColor: "white", margin: 10}}>
-                            <i style={{marginRight: 20}} className="fa-solid fa-plane-departure"></i>
-                            <p style={{color: "rgba(0,0,0,0.8)", fontSize: 13}}>
+                        <div style={{display: "flex", padding: 20, 
+                                border: `1px solid ${BESettings?.homePageSearchInputBorderColor}`,
+                                borderRadius: BESettings?.homePageSearchInputborderRadius, 
+                                backgroundColor: BESettings?.homePageSearchInputBackground, margin: 10}}>
+                            <i style={{marginRight: 20, color: BESettings?.homePageSearchInputIconColor}} className="fa-solid fa-plane-departure"></i>
+                            <p style={{color: BESettings?.homePageSearchInputTextColor, fontSize: 13}}>
                                 New York - John F Kennedy Intl  (JFK)</p>
                         </div>
                         <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", padding: 10}}>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
-                                    <label for="">
+                                    <label for="be_settings_home_page_search_input_background_input">
                                         Background:</label>
                                 </span>
-                                <input 
-                                    id="" type="color" name="favcolor" 
-                                    value=""
+                                <input onInput={setHomePageSearchInputBackground}
+                                    id="be_settings_home_page_search_input_background_input" type="color" name="favcolor" 
+                                    value={BESettings?.homePageSearchInputBackground}
                                 />
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
-                                    <label for="">
+                                    <label for="be_settings_home_page_search_input_icon_text_color_input">
                                         Icon:</label>
                                 </span>
-                                <input 
-                                    id="" type="color" name="favcolor" 
-                                    value=""
+                                <input onInput={setHomePageSearchInputIconColor}
+                                    id="be_settings_home_page_search_input_icon_text_color_input" type="color" name="favcolor" 
+                                    value={BESettings?.homePageSearchInputIconColor}
                                 />
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
-                                    <label for="">
+                                    <label for="be_settings_home_page_search_input_text_color_input">
                                         Text:</label>
                                 </span>
-                                <input 
-                                    id="" type="color" name="favcolor" 
-                                    value=""
+                                <input onInput={setHomePageSearchInputTextColor}
+                                    id="be_settings_home_page_search_input_text_color_input" type="color" name="favcolor" 
+                                    value={BESettings?.homePageSearchInputTextColor}
                                 />
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
-                                    <label for="">
+                                    <label for="be_settings_home_page_search_input_border_color_input">
                                         Border:</label>
                                 </span>
-                                <input 
-                                    id="" type="color" name="favcolor" 
-                                    value=""
+                                <input onInput={setHomePageSearchInputBorderColor}
+                                    id="be_settings_home_page_search_input_border_color_input" type="color" name="favcolor" 
+                                    value={BESettings?.homePageSearchInputBorderColor}
                                 />
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10}}>
@@ -79,8 +97,8 @@ const HomePageSearchFormConfigurator = (props) => {
                                     <label>
                                         Border Radius(px):</label>
                                 </span>
-                                <input
-                                    value="9"
+                                <input onInput={setHomePageSearchInputborderRadius}
+                                    value={BESettings?.homePageSearchInputborderRadius}
                                     style={{width: 50, background: "none", color: "white", border: "none", borderBottom: "1px solid lightgreen"}} type="number" />
                             </div>
                         </div>
@@ -88,40 +106,42 @@ const HomePageSearchFormConfigurator = (props) => {
                     <div style={{border: "1px solid rgba(255,255,255,0.1)", width: "50%"}}>
                         <p style={{color: "orange", fontSize: 12, marginBottom: 10, marginTop: 10, textAlign: "center"}}>
                             Search Button</p>
-                        <div style={{display: "flex", padding: 20, borderRadius: 50, backgroundColor: "rgb(23, 87, 148)", margin: 10, justifyContent: "center"}}>
-                            <i style={{marginRight: 20, color: "rgba(255,255,255,0.6)"}} className="fa-solid fa-search"></i>
-                            <p style={{color: "rgba(0,0,0,0.8)", fontSize: 13, color: "white"}}>
+                        <div style={{display: "flex", padding: 20,
+                            borderRadius: BESettings?.homePageSearchButtonBorderRadius, 
+                            backgroundColor: BESettings?.homePageSearchButtonBgColor, margin: 10, justifyContent: "center"}}>
+                            <i style={{marginRight: 20, color: BESettings?.homePageSearchButtonIconColor}} className="fa-solid fa-search"></i>
+                            <p style={{fontSize: 13, color: BESettings?.homePageSearchButtonTextColor}}>
                                 Search</p>
                         </div>
                         <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", padding: 10}}>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
-                                    <label for="">
+                                    <label for="be_settings_home_page_search_button_background_color_input">
                                         Background:</label>
                                 </span>
-                                <input 
-                                    id="" type="color" name="favcolor" 
-                                    value=""
+                                <input onInput={setHomePageSearchButtonBgColor}
+                                    id="be_settings_home_page_search_button_background_color_input" type="color" name="favcolor" 
+                                    value={BESettings?.homePageSearchButtonBgColor}
                                 />
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
-                                    <label for="">
+                                    <label for="be_settings_home_page_button_icon_color_input">
                                         Icon:</label>
                                 </span>
-                                <input 
-                                    id="" type="color" name="favcolor" 
-                                    value=""
+                                <input onInput={setHomePageSearchButtonIconColor}
+                                    id="be_settings_home_page_button_icon_color_input" type="color" name="favcolor" 
+                                    value={BESettings?.homePageSearchButtonIconColor}
                                 />
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
-                                    <label for="">
+                                    <label for="be_settings_home_page_button_text_color_input">
                                         Text:</label>
                                 </span>
-                                <input 
-                                    id="" type="color" name="favcolor" 
-                                    value=""
+                                <input onInput={setHomePageSearchButtonTextColor}
+                                    id="be_settings_home_page_button_text_color_input" type="color" name="favcolor" 
+                                    value={BESettings?.homePageSearchButtonTextColor}
                                 />
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10}}>
@@ -129,15 +149,15 @@ const HomePageSearchFormConfigurator = (props) => {
                                     <label>
                                         Border Radius(px):</label>
                                 </span>
-                                <input
-                                    value="50"
+                                <input onInput={setHomePageSearchButtonBorderRadius}
+                                    value={BESettings?.homePageSearchButtonBorderRadius}
                                     style={{width: 50, background: "none", color: "white", border: "none", borderBottom: "1px solid lightgreen"}} type="number" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div style={{display: "flex"}}>
-                    <div style={{backgroundColor: "green", marginTop: 0, padding: 15, marginBottom: 10}} className="standard-action-button">
+                    <div onClick={saveNewBookingEngineSettings} style={{backgroundColor: "green", marginTop: 0, padding: 15, marginBottom: 10}} className="standard-action-button">
                         <i style={{marginRight: 10}} className="fa-solid fa-eye"></i>
                         Save and preview
                     </div>

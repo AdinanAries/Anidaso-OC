@@ -1,225 +1,45 @@
 import { useEffect, useState } from "react";
 import LOGO_PLACEHOLDER from "../../../../../LOGO_PLACEHOLDER.jpg";
-import { 
-    createNewBookingEngine,
-    fetchBookingEngineByAgentId,
-} from "../../../../../services/bookingEngineServices";
 
 const BookingEngineConfigurator = (props) => {
 
     const {
         userDetails,
+        BESettings,
+        setHeaderMenuTxtColor, 
+        setShowHeader, 
+        setShowHeaderCompany, 
+        setShowHeaderMenu, 
+        setHeaderBg, 
+        setHeaderCompanyTxtColor,
+        setHeaderMenuIconColor, 
+        setHeaderMenuActiveTxtColor,
+        setHeaderMenuActiveIconColor,
+        setActionButtonsBg,
+        setActionButtonsTxtColor, 
+        setActionButtonsIconColor,
+        setCloseButtonBgColor, 
+        setCloseButtonIconColor,
+        setShowSearchFilters, 
+        setSearchFiltersTxtColor,
+        setSearchFiltersIconColor, 
+        setSearchFiltersIndicatorColor,
+        setHeaderLogoBorderRadius, 
+        setCloseBtnBorderRadius,
+        setActionBtnBorderRadius, 
+        setSearchBtnBorderRadius,
+        setGreetingsCardBg, 
+        setGreetingsCardTextColor,
+        setGreetingsCardSecTextColor, 
+        setGreetingsCardIconColor,
+        setGreetingsCardTitleColor, 
+        setGreetingsCardBorderRadius,
+        setHideGreetingsCard, 
+        setHideCompanyName,
+        setHideCompanyLogo,
+        saveNewBookingEngineSettings,
+        resetBookingEngineSettings,
     } = props;
-
-    const getBookingEngineDefaultSettings = () => {
-        return {
-            oc_user_id: userDetails?._id,
-            enableBookingEngine: true,
-            showHeader: true,
-            headerBg: "#000",
-            headerCompanyTxtColor: "#a9ddff",
-            showHeaderCompany: true,
-            showHeaderMenu: true,
-            headerMenuTxtColor: "#808080",
-            headerMenuIconColor: "#FFFFFF80",
-            headerMenuActiveTxtColor: "#FFA500",
-            headerMenuActiveIconColor: "#FFFF00",
-            actionButtonsBg: "#941777",
-            actionButtonsTxtColor: "#FFFFFF",
-            actionButtonsIconColor: "#ffffff80",
-            closeButtonBgColor: "#DC143C",
-            closeButtonIconColor: "#FFFFFF",
-            showSearchFilters: true,
-            searchFiltersTxtColor: "#175794",
-            searchFiltersIconColor: "#c751b9",
-            searchFiltersIndicatorColor: "#0000007f",
-            headerLogoBorderRadius: 100,
-            searchButtonBorderRadius: 100,
-            actionButtonBorderRadius: 50,
-            closeButtonBorderRadius: 100,
-        }
-    }
-
-    const [BESettings, setBESettings] = useState(getBookingEngineDefaultSettings());
-
-    useEffect(()=>{
-        (async()=>{
-            let __be_res = await fetchBookingEngineByAgentId(userDetails?._id);
-            if(__be_res?._id){
-                setBESettings(__be_res);
-            }
-        })()
-    }, []);
-
-    const setShowHeader = (e) => {
-        setBESettings({
-            ...BESettings,
-            showHeader: !e.target.checked
-        });
-    }
-
-    const setShowHeaderCompany = (e) => {
-        setBESettings({
-            ...BESettings,
-            showHeaderCompany: !e.target.checked
-        });
-    }
-
-    const setShowHeaderMenu = (e) => {
-        setBESettings({
-            ...BESettings,
-            showHeaderMenu: !e.target.checked
-        });
-    }
-
-    const setHeaderBg = (e) => {
-        setBESettings({
-            ...BESettings,
-            headerBg: e.target.value
-        });
-    }
-
-    const setHeaderCompanyTxtColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            headerCompanyTxtColor: e.target.value
-        });
-    }
-
-    const setHeaderMenuTxtColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            headerMenuTxtColor: e.target.value
-        });
-    }
-
-    const setHeaderMenuIconColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            headerMenuIconColor: e.target.value
-        });
-    }
-
-    const setHeaderMenuActiveTxtColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            headerMenuActiveTxtColor: e.target.value
-        });
-    }
-
-    const setHeaderMenuActiveIconColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            headerMenuActiveIconColor: e.target.value
-        });
-    }
-
-    const setActionButtonsBg = (e) => {
-        setBESettings({
-            ...BESettings,
-            actionButtonsBg: e.target.value
-        });
-    }
-
-    const setActionButtonsTxtColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            actionButtonsTxtColor: e.target.value
-        });
-    }
-
-    const setActionButtonsIconColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            actionButtonsIconColor: e.target.value
-        });
-    }
-
-    const setCloseButtonBgColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            closeButtonBgColor: e.target.value
-        });
-    }
-
-    const setCloseButtonIconColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            closeButtonIconColor: e.target.value
-        });
-    }
-
-    const setShowSearchFilters = (e) => {
-        setBESettings({
-            ...BESettings,
-            showSearchFilters: !e.target.checked
-        });
-    }
-
-    const setSearchFiltersTxtColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            searchFiltersTxtColor: e.target.value
-        });
-    }
-
-    const setSearchFiltersIconColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            searchFiltersIconColor: e.target.value
-        });
-    }
-
-    const setSearchFiltersIndicatorColor = (e) => {
-        setBESettings({
-            ...BESettings,
-            searchFiltersIndicatorColor: e.target.value
-        });
-    }
-
-    const setHeaderLogoBorderRadius = (e) => {
-        setBESettings({
-            ...BESettings,
-            headerLogoBorderRadius: parseInt(e.target.value)
-        });
-    }
-
-    const setCloseBtnBorderRadius = (e) => {
-        setBESettings({
-            ...BESettings,
-            closeButtonBorderRadius: parseInt(e.target.value)
-        });
-    }
-
-    const setActionBtnBorderRadius = (e) => {
-        setBESettings({
-            ...BESettings,
-            actionButtonBorderRadius: parseInt(e.target.value)
-        });
-    }
-
-    const setSearchBtnBorderRadius = (e) => {
-        setBESettings({
-            ...BESettings,
-            searchButtonBorderRadius: parseInt(e.target.value)
-        });
-    }
-
-    const saveNewBookingEngineSettings = async () => {
-        let __be_res = await createNewBookingEngine(BESettings);
-        if(__be_res?._id){
-            alert("Changes Saved!");
-            let be_preview_window = document.getElementById("be_configurator_preview_url")
-            be_preview_window.src = be_preview_window?.src;
-
-        }else{
-            alert("Error: changes not saved!");
-        }
-    }
-
-    const resetBookingEngineSettings = () => {
-        setBESettings(getBookingEngineDefaultSettings());
-    }
 
     return <div>
         <div style={{marginBottom: 10}} className="main-seaction-containers">
@@ -235,17 +55,24 @@ const BookingEngineConfigurator = (props) => {
                             <p style={{color: "orange", marginBottom: 10, marginLeft: 10, marginTop: 10, fontSize: 11}}>
                                 Header & Company</p>
                             <div style={{border: "1px dashed lightgreen", borderRight: "none", position: "relative",
-                                    backgroundColor: BESettings?.headerBg, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 5, padding: "9.7px 30px"}}>
+                                    backgroundColor: BESettings?.headerBg, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 5, 
+                                    padding: BESettings?.hideCompanyLogo ? "19.7px 30px" : "9.7px 30px"}}>
                                 {
                                     BESettings?.showHeaderCompany ?
                                     <>
-                                        <div>
-                                            <img style={{width: 30, borderRadius: `${BESettings?.headerLogoBorderRadius}%`}}
-                                                src={LOGO_PLACEHOLDER}/>
-                                        </div>
-                                        <p style={{whiteSpace: "nowrap", color: BESettings?.headerCompanyTxtColor, fontSize: 12, fontWeight: "bolder", marginLeft: 10}}>
-                                            Business Name
-                                        </p>
+                                        {
+                                            BESettings?.hideCompanyLogo ? <></> :
+                                            <div>
+                                                <img style={{width: 30, borderRadius: `${BESettings?.headerLogoBorderRadius}%`}}
+                                                    src={LOGO_PLACEHOLDER}/>
+                                            </div>
+                                        }
+                                        {
+                                            BESettings?.hideCompanyName ? <></> :
+                                            <p style={{whiteSpace: "nowrap", color: BESettings?.headerCompanyTxtColor, fontSize: 12, fontWeight: "bolder", marginLeft: 10}}>
+                                                Business Name
+                                            </p>
+                                        }
                                     </> :
                                     <div style={{height: 33.5, display: "flex", alignItems: "center"}}>
                                         <p style={{color: "red", fontSize: 11, background: "black"}}>
@@ -324,7 +151,7 @@ const BookingEngineConfigurator = (props) => {
                             }
                         </div>
                     </div>
-                    <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: 20, paddingTop: 10}}>
+                    <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: 20, paddingTop: 10, paddingBottom: 20}}>
                         <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", marginBottom: 10}}>
                             <p style={{color: "orange", marginBottom: 10, marginLeft: 10, fontSize: 11, textAlign: "center"}}>
                                 Close Button</p>
@@ -470,13 +297,13 @@ const BookingEngineConfigurator = (props) => {
                             </div>
                         }
                     </div>
-                    <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: 20, paddingTop: 10}}>
+                    <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: 20, paddingTop: 10, paddingBottom: 20}}>
                         <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", marginBottom: 10}}>
                             <p style={{color: "orange", marginBottom: 10, marginLeft: 10, fontSize: 11, textAlign: "center"}}>
                                 Filters</p>
                             {
                                 BESettings?.showSearchFilters ?
-                                <div style={{display: "flex", justifyContent: "center", backgroundColor: "white", marginBottom: 5, padding: 11, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                                <div style={{display: "flex", justifyContent: "center", backgroundColor: "white", marginBottom: 5, padding: 11.5, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
                                     <div style={{cursor: "pointer", padding: "7px 13px", borderRadius: 8, display: "flex", alignItems: "center"}}>
                                         <i className="fa-solid fa-business-time" style={{marginRight: 10, 
                                             color: BESettings?.searchFiltersIconColor, fontSize: 13.5}}></i>
@@ -550,12 +377,18 @@ const BookingEngineConfigurator = (props) => {
                         <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", marginBottom: 10}}>
                             <p style={{color: "orange", marginBottom: 10, marginLeft: 10, marginTop: 10, fontSize: 11, textAlign: "center"}}>
                                 Action Buttons</p>
-                            <div style={{display: "flex", backgroundColor: "white", justifyContent: "center", marginBottom: 5, padding: 6.5}}>
+                            <div style={{display: "flex", backgroundColor: "white", justifyContent: "center", marginBottom: 5, padding: 7.5}}>
                                 <div style={{backgroundColor: BESettings?.actionButtonsBg, width: 40, height: 40, 
                                     borderRadius: `${BESettings?.searchButtonBorderRadius}%`, boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
                                         display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
                                     <i className="fa-solid fa-search" ariaHidden="true" style={{fontSize: 20, 
                                         color: BESettings?.actionButtonsIconColor}}></i>
+                                </div>
+                                <div style={{backgroundColor: BESettings?.actionButtonsBg, padding: "10px 20px", 
+                                        color: BESettings?.actionButtonsTxtColor, fontSize: 12, marginLeft: 20,
+                                        borderRadius: BESettings?.actionButtonBorderRadius, boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
+                                        display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                                    select
                                 </div>
                             </div>
                         </div>
@@ -577,35 +410,11 @@ const BookingEngineConfigurator = (props) => {
                                     type="color" id="be_settings_action_buttons_icon_color_input" name="favcolor" 
                                     value={BESettings?.actionButtonsIconColor} />
                             </div>
-                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10}}>
-                                <span style={{color: "white", marginRight: 10, fontSize: 13}}>
-                                    <label>
-                                        Border Radius(%):</label>
-                                </span>
-                                <input onInput={setSearchBtnBorderRadius}
-                                    value={BESettings?.searchButtonBorderRadius}
-                                    style={{width: 50, background: "none", color: "white", border: "none", borderBottom: "1px solid lightgreen"}} type="number" id="favcolor" />
-                            </div>
-                        </div>
-                    </div>
-                    <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: 20, paddingTop: 10}}>
-                        <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", marginBottom: 10}}>
-                            <p style={{color: "orange", marginBottom: 10, marginLeft: 10, fontSize: 11, textAlign: "center"}}>
-                                Buttons Text</p>
-                            <div style={{display: "flex", backgroundColor: "white", justifyContent: "center", marginBottom: 5, padding: 9.5}}>
-                                <div style={{backgroundColor: BESettings?.actionButtonsBg, padding: "10px 20px", 
-                                        color: BESettings?.actionButtonsTxtColor, fontSize: 12, 
-                                        borderRadius: BESettings?.actionButtonBorderRadius, boxShadow: "0 0 5px rgba(0, 0, 0, 0.9)",
-                                        display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-                                    select
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{padding: "0 10px"}}>
+                            
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
                                     <label for="be_settings_action_buttons_text_color_input">
-                                        color:</label>
+                                        Text:</label>
                                 </span>
                                 <input onInput={setActionButtonsTxtColor}
                                     type="color" id="be_settings_action_buttons_text_color_input" name="favcolor" 
@@ -614,7 +423,16 @@ const BookingEngineConfigurator = (props) => {
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10}}>
                                 <span style={{color: "white", marginRight: 10, fontSize: 13}}>
                                     <label>
-                                        Border Radius(px):</label>
+                                        Search Radius(%):</label>
+                                </span>
+                                <input onInput={setSearchBtnBorderRadius}
+                                    value={BESettings?.searchButtonBorderRadius}
+                                    style={{width: 50, background: "none", color: "white", border: "none", borderBottom: "1px solid lightgreen"}} type="number" id="favcolor" />
+                            </div>
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10}}>
+                                <span style={{color: "white", marginRight: 10, fontSize: 13}}>
+                                    <label>
+                                        Select Radius(px):</label>
                                 </span>
                                 <input onInput={setActionBtnBorderRadius}
                                     value={BESettings?.actionButtonBorderRadius}
@@ -622,115 +440,217 @@ const BookingEngineConfigurator = (props) => {
                             </div>
                         </div>
                     </div>
+                    <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", backgroundColor: "rgba(255,0,0,0.1)", height: "calc(100% - 260px)", marginTop: 20, paddingTop: 10}}>
+                        <div style={{marginBottom: 10}}>
+                            <p style={{color: "orange", marginBottom: 20, marginLeft: 10, fontSize: 11, textAlign: "center"}}>
+                                Other Settings</p>
+                        </div>
+                        <div style={{padding: "0 10px"}}>
+                            <div style={{display: "flex", justifyContent: "space-between", marginTop: 10}}>
+                                <p>
+                                    <span style={{color: "white", fontSize: 13}}>
+                                        <label htmlFor="be_settings_hide_company_name_check">
+                                            Hide Company Name
+                                        </label>
+                                    </span>
+                                </p>
+                                <p>
+                                    <input onInput={setHideCompanyName} type="checkbox" 
+                                        checked={BESettings?.hideCompanyName}
+                                        id="be_settings_hide_company_name_check"
+                                        className="cm-toggle"
+                                    />
+                                </p>
+                            </div>
+                            <div style={{display: "flex", justifyContent: "space-between", marginTop: 10}}>
+                                <p>
+                                    <span style={{color: "white", fontSize: 13}}>
+                                        <label htmlFor="be_settings_hide_company_logo_check">
+                                            Hide Company Logo
+                                        </label>
+                                    </span>
+                                </p>
+                                <p>
+                                    <input onInput={setHideCompanyLogo} type="checkbox" 
+                                        id="be_settings_hide_company_logo_check"
+                                        checked={BESettings?.hideCompanyLogo}
+                                        className="cm-toggle"
+                                    />
+                                </p>
+                            </div>
+                            <div style={{display: "flex", justifyContent: "space-between", marginTop: 10}}>
+                                <p>
+                                    <span style={{color: "white", fontSize: 13}}>
+                                        <label htmlFor="be_settings_hide_greetings_card_checkbox">
+                                            Hide Greeting Card
+                                        </label>
+                                    </span>
+                                </p>
+                                <p>
+                                    <input onInput={setHideGreetingsCard} type="checkbox" 
+                                        checked={BESettings?.hideGreetingsCard}
+                                        id="be_settings_hide_greetings_card_checkbox"
+                                        className="cm-toggle"
+                                    />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div style={{width: "46%", border: "1px solid rgba(255,255,255,0.1)", borderTop: "none"}}>
                     <p style={{color: "orange", marginBottom: 10, marginLeft: 10, marginTop: 10, fontSize: 11, textAlign: "center"}}>
                         Greeting Card</p>
-                    <div style={{padding: 10, paddingTop: 0, borderTop: "none"}}>
-                        <div style={{display: 'flex'}}>
-                            <div style={{width: "calc(100% - 80px)"}}>
-                                <div style={{padding: "30px 20px", 
-                                        backgroundColor: "black", borderRadius: 10}}>
-                                    <p style={{border: "1px solid rgba(255,255,255,0.2)", backgroundColor: "rgba(255,255,255,0.1)", marginBottom: 30, padding: 20, display: "flex", justifyContent: "center", color: "white"}}>
-                                        <i style={{marginRight: 10, color: "red"}}
-                                            className="fa-solid fa-exclamation-triangle"></i>
-                                        Please complete the search form to begin search...
+                    {
+                        (BESettings?.hideGreetingsCard) ? 
+                        <div style={{width: "100%", height: "calc(100% - 33px)", background: "white", marginTop: 10, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <div>
+                                <p style={{}}>
+                                    <i style={{marginRight: 10, color: "red"}}
+                                        className="fa-solid fa-exclamation-triangle"></i>
+                                    Your greetings card will not be shown on site
+                                </p>
+                                <div style={{display: "flex", justifyContent: "space-between", marginTop: 10}}>
+                                    <p>
+                                        <span style={{color: "green", fontSize: 13}}>
+                                            <label htmlFor="be_settings_hide_greetings_card_checkbox_2">
+                                                Click here to enable greetings card on your site
+                                            </label>
+                                        </span>
                                     </p>
-                                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
-                                        <div>
-                                            <img style={{width: 60}}
-                                                src={LOGO_PLACEHOLDER}/>
-                                        </div>
-                                        <div style={{marginTop: 5}}>
-                                            <h1 style={{color: "black", fontSize: 20, textAlign: "center"}}>
-                                                Business Name</h1>
-                                            <p style={{fontWeight: "bolder", fontSize: 12, color: "#c751b9", textAlign: "center", marginBottom: 15, marginTop: 20, letterSpacing: 0.5, fontFamily: "Courgette"}}>
-                                                    - Agent Details -</p>
-                                            <p style={{ display: "flex", justifyContent: "center", color: "white", marginTop: 10}}>
-                                                <i style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}
-                                                    className="fa-solid fa-user-tie"></i>
-                                                Mohammed Adinan
-                                            </p>
-                                            <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, textAlign: "center", marginTop: 5}}>
-                                                7327999546, adinanaries@outlook.com</p>
-                                            <div className="footer_section_each_flex_section_container" style={{marginTop: 20}}>
-                                                <p style={{fontWeight: "bolder", color: "#c751b9", fontSize: 12, textAlign: "center", marginBottom: 15, letterSpacing: 0.5, fontFamily: "Courgette"}}>
-                                                    - Contact Us -</p>
-                                                <div style={{marginTop: 10}}>
-                                                    <p style={{color: "white", textAlign: "center"}}>
-                                                        <i style={{marginRight: 10, opacity: 0.4, marginBottom: 8}} className="fa fa-envelope"></i>
-                                                        business@email.com
-                                                    </p>
-                                                    <p style={{color: "white", textAlign: "center"}}>
-                                                        <i style={{marginRight: 10, opacity: 0.4, marginBottom: 10}} className="fa fa-phone"></i>
-                                                        +1 123-123-123
-                                                    </p>
-                                                    <p style={{color: "white", textAlign: "center"}}>
-                                                        <span style={{padding: "5px", marginRight: 10, borderRadius: 4, cursor: "pointer"}}>
-                                                            <i style={{opacity: 0.5, marginBottom: 5, fontSize: 19}} className="fa fa-facebook"></i>
-                                                        </span>
-                                                        <span style={{padding: "5px", marginRight: 10, borderRadius: 4, cursor: "pointer"}}>
-                                                            <i style={{opacity: 0.5, marginBottom: 5, fontSize: 19}} className="fa fa-twitter"></i>
-                                                        </span>
-                                                        <span style={{padding: "5px", marginRight: 10, borderRadius: 4, cursor: "pointer"}}>
-                                                            <i style={{opacity: 0.5, marginBottom: 5, fontSize: 19}} className="fa fa-instagram"></i>
-                                                        </span>
-                                                    </p>
+                                    <p>
+                                        <input onInput={setHideGreetingsCard} type="checkbox" 
+                                            checked={BESettings?.hideGreetingsCard}
+                                            id="be_settings_hide_greetings_card_checkbox_2"
+                                            className="cm-toggle"
+                                        />
+                                    </p>
+                                </div>
+                            </div>
+                        </div> :
+                        <div style={{padding: 10, paddingTop: 0, borderTop: "none"}}>
+                            <div style={{display: 'flex'}}>
+                                <div style={{width: "calc(100% - 80px)"}}>
+                                    <div style={{padding: "30px 20px", 
+                                            backgroundColor: BESettings?.greetingsCardBg, 
+                                            borderRadius: BESettings?.greetingsCardBorderRadius}}>
+                                        <p style={{border: "1px solid rgba(255,255,255,0.2)", backgroundColor: "rgba(255,255,255,0.1)", marginBottom: 30, padding: 20, display: "flex", justifyContent: "center", 
+                                                color: BESettings?.greetingsCardTextColor}}>
+                                            <i style={{marginRight: 10, color: "red"}}
+                                                className="fa-solid fa-exclamation-triangle"></i>
+                                            Please complete the search form to begin search...
+                                        </p>
+                                        <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
+                                            {
+                                                BESettings?.hideCompanyLogo ? <></> :
+                                                <div>
+                                                    <img style={{width: 60, borderRadius: `${BESettings?.headerLogoBorderRadius}%`}}
+                                                        src={LOGO_PLACEHOLDER}/>
+                                                </div>
+                                            }
+                                            <div style={{marginTop: 5}}>
+                                                {
+                                                    BESettings?.hideCompanyName ? <></> :
+                                                    <h1 style={{color: BESettings?.greetingsCardTextColor, fontSize: 20, textAlign: "center"}}>
+                                                    Business Name</h1>
+                                                }
+                                                <p style={{fontWeight: "bolder", fontSize: 12, color: BESettings?.greetingsCardTitleColor, textAlign: "center", marginBottom: 15, marginTop: 20, letterSpacing: 0.5, fontFamily: "Courgette"}}>
+                                                        - Agent Details -</p>
+                                                <p style={{ display: "flex", justifyContent: "center", 
+                                                        color: BESettings?.greetingsCardTextColor, marginTop: 10}}>
+                                                    <i style={{marginRight: 10, color: BESettings?.greetingsCardIconColor}}
+                                                        className="fa-solid fa-user-tie"></i>
+                                                    Mohammed Adinan
+                                                </p>
+                                                <p style={{color: BESettings?.greetingsCardSecTextColor, fontSize: 13, textAlign: "center", marginTop: 5}}>
+                                                    7327999546, adinanaries@outlook.com</p>
+                                                <div className="footer_section_each_flex_section_container" style={{marginTop: 20}}>
+                                                    <p style={{fontWeight: "bolder", color: BESettings?.greetingsCardTitleColor, fontSize: 12, textAlign: "center", marginBottom: 15, letterSpacing: 0.5, fontFamily: "Courgette"}}>
+                                                        - Contact Us -</p>
+                                                    <div style={{marginTop: 10}}>
+                                                        <p style={{color: BESettings?.greetingsCardTextColor, textAlign: "center"}}>
+                                                            <i style={{marginRight: 10, color: BESettings?.greetingsCardIconColor, marginBottom: 8}} className="fa fa-envelope"></i>
+                                                            business@email.com
+                                                        </p>
+                                                        <p style={{color: BESettings?.greetingsCardTextColor, textAlign: "center"}}>
+                                                            <i style={{marginRight: 10, color: BESettings?.greetingsCardIconColor, marginBottom: 10}} className="fa fa-phone"></i>
+                                                            +1 123-123-123
+                                                        </p>
+                                                        <p style={{color: BESettings?.greetingsCardIconColor, textAlign: "center"}}>
+                                                            <span style={{padding: "5px", marginRight: 10, borderRadius: 4, cursor: "pointer"}}>
+                                                                <i style={{marginBottom: 5, fontSize: 19}} className="fa fa-facebook"></i>
+                                                            </span>
+                                                            <span style={{padding: "5px", marginRight: 10, borderRadius: 4, cursor: "pointer"}}>
+                                                                <i style={{marginBottom: 5, fontSize: 19}} className="fa fa-twitter"></i>
+                                                            </span>
+                                                            <span style={{padding: "5px", marginRight: 10, borderRadius: 4, cursor: "pointer"}}>
+                                                                <i style={{marginBottom: 5, fontSize: 19}} className="fa fa-instagram"></i>
+                                                            </span>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div style={{marginLeft: 10, marginTop: 10}}>
-                                <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
-                                    <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
-                                        <label for="be_setings_action_buttons_bg_color_input">
-                                            Background:</label>
-                                    </p>
-                                    <input onInput={setActionButtonsBg}
-                                        type="color" id="be_setings_action_buttons_bg_color_input" name="favcolor" 
-                                        value={BESettings?.actionButtonsBg} />
-                                </div>
-                                <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
-                                    <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
-                                        <label for="be_setings_action_buttons_bg_color_input">
-                                            Main Text:</label>
-                                    </p>
-                                    <input onInput={setActionButtonsBg}
-                                        type="color" id="be_setings_action_buttons_bg_color_input" name="favcolor" 
-                                        value={BESettings?.actionButtonsBg} />
-                                </div>
-                                <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
-                                    <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
-                                        <label for="be_setings_action_buttons_bg_color_input">
-                                            Sub Text:</label>
-                                    </p>
-                                    <input onInput={setActionButtonsBg}
-                                        type="color" id="be_setings_action_buttons_bg_color_input" name="favcolor" 
-                                        value={BESettings?.actionButtonsBg} />
-                                </div>
-                                <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
-                                    <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
-                                        <label for="be_setings_action_buttons_bg_color_input">
-                                            Icons:</label>
-                                    </p>
-                                    <input onInput={setActionButtonsBg}
-                                        type="color" id="be_setings_action_buttons_bg_color_input" name="favcolor" 
-                                        value={BESettings?.actionButtonsBg} />
-                                </div>
-                                <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
-                                    <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
-                                        <label for="be_setings_action_buttons_bg_color_input">
-                                            Titles:</label>
-                                    </p>
-                                    <input onInput={setActionButtonsBg}
-                                        type="color" id="be_setings_action_buttons_bg_color_input" name="favcolor" 
-                                        value={BESettings?.actionButtonsBg} />
+                                <div style={{marginLeft: 10, marginTop: 10}}>
+                                    <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
+                                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                                            <label>
+                                                Background:</label>
+                                        </p>
+                                        <input onInput={setGreetingsCardBg}
+                                            type="color" name="favcolor" 
+                                            value={BESettings?.greetingsCardBg} />
+                                    </div>
+                                    <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
+                                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                                            <label>
+                                                Main Text:</label>
+                                        </p>
+                                        <input onInput={setGreetingsCardTextColor}
+                                            type="color" name="favcolor" 
+                                            value={BESettings?.greetingsCardTextColor} />
+                                    </div>
+                                    <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
+                                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                                            <label>
+                                                Sub Text:</label>
+                                        </p>
+                                        <input onInput={setGreetingsCardSecTextColor}
+                                            type="color" name="favcolor" 
+                                            value={BESettings?.greetingsCardSecTextColor} />
+                                    </div>
+                                    <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
+                                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                                            <label>
+                                                Icons:</label>
+                                        </p>
+                                        <input onInput={setGreetingsCardIconColor}
+                                            type="color" name="favcolor" 
+                                            value={BESettings?.greetingsCardIconColor} />
+                                    </div>
+                                    <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
+                                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                                            <label>
+                                                Titles:</label>
+                                        </p>
+                                        <input onInput={setGreetingsCardTitleColor}
+                                            type="color" name="favcolor" 
+                                            value={BESettings?.greetingsCardTitleColor} />
+                                    </div>
+                                    <div style={{borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 10, marginBottom: 10}}>
+                                        <p style={{color: "white", marginBottom: 10, fontSize: 13}}>
+                                            <label>
+                                                Radius (px):</label>
+                                        </p>
+                                        <input onInput={setGreetingsCardBorderRadius}
+                                            value={BESettings?.greetingsCardBorderRadius}
+                                            style={{width: 50, background: "none", color: "white", border: "none", borderBottom: "1px solid lightgreen"}} type="number"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
             <div style={{display: "flex", marginTop: 30}}>
