@@ -56,7 +56,7 @@ const BookingEngineConfigurator = (props) => {
                                 Header & Company</p>
                             <div style={{border: "1px dashed lightgreen", borderRight: "none", position: "relative",
                                     backgroundColor: BESettings?.headerBg, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 5, 
-                                    padding: BESettings?.hideCompanyLogo ? "19.7px 30px" : "9.7px 30px"}}>
+                                    padding: (BESettings?.hideCompanyLogo && BESettings?.showHeaderCompany) ? "19.7px 30px" : "9.7px 30px"}}>
                                 {
                                     BESettings?.showHeaderCompany ?
                                     <>
@@ -77,6 +77,13 @@ const BookingEngineConfigurator = (props) => {
                                     <div style={{height: 33.5, display: "flex", alignItems: "center"}}>
                                         <p style={{color: "red", fontSize: 11, background: "black"}}>
                                             Company will not be shown</p>
+                                    </div>
+                                }
+                                {
+                                    (BESettings?.hideCompanyLogo && BESettings?.hideCompanyName && BESettings?.showHeaderCompany) &&
+                                    <div style={{height: 13.5, display: "flex", alignItems: "center"}}>
+                                        <p style={{color: "red", fontSize: 11, background: "black"}}>
+                                            Logo and Name will not be shown</p>
                                     </div>
                                 }
                                 {
@@ -667,7 +674,7 @@ const BookingEngineConfigurator = (props) => {
             </div>
         </div>
         <div>
-            <iframe id="be_configurator_preview_url" 
+            <iframe id="be_configurator_preview_url_window" 
                 src={("https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?ngn=1&ag="+userDetails?._id)}
                 style={{width: "100%", border: "none", height: "calc(100vh - 84px)"}}
             />

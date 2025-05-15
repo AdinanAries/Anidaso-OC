@@ -360,7 +360,7 @@ const EngineConfiguratorPage = (props) => {
         let __be_res = await createNewBookingEngine(BESettings);
         if(__be_res?._id){
             alert("Changes Saved!");
-            let be_preview_window = document.getElementById("be_configurator_preview_url")
+            let be_preview_window = document.getElementById("be_configurator_preview_url_window")
             be_preview_window.src = be_preview_window?.src;
 
         }else{

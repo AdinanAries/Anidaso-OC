@@ -3,6 +3,7 @@ import { useState } from "react";
 const HomePageSearchFormConfigurator = (props) => {
 
     const {
+        userDetails,
         BESettings,
         setHomePageSearchButtonTextColor,
         setHomePageSearchButtonBgColor,
@@ -208,6 +209,9 @@ const HomePageSearchFormConfigurator = (props) => {
                             <span style={{color: "rgb(78, 152, 241)"}}>{'src'}</span>
                             <span style={{color: "rgb(190, 191, 191)"}}>=</span>
                             <span style={{color: "rgb(121, 85, 30)"}}>{'"../../home_page_search_form/searchform.js"'}</span>
+                            <span style={{color: "rgb(78, 152, 241)"}}>{' welldugo_ag'}</span>
+                            <span style={{color: "rgb(190, 191, 191)"}}>=</span>
+                            <span style={{color: "rgb(121, 85, 30)"}}>"{userDetails?._id}"</span>
                             <span style={{color: "rgba(255,255,255,0.3)"}}>{" >"}</span>
                             <span style={{color: "rgba(255,255,255,0.3)"}}>{"</"}</span>
                             {"script"}
@@ -234,7 +238,7 @@ const HomePageSearchFormConfigurator = (props) => {
                 </div>
                 
             </div>
-            <iframe
+            <iframe id="be_configurator_preview_url_window"
                 src={siteLink}
                 style={{width: "100%", border: "none", height: "calc(100vh - 155px)"}}
             />

@@ -10,8 +10,9 @@ FaScript.setAttribute('src','https://kit.fontawesome.com/28527db20b.js');
 FaScript.setAttribute('crossorigin', 'anonymous');
 document.head.appendChild(FaScript);
 
-const init_search_form = async() => {
+const init_search_form = async () => {
 
+    // Form Styles Init
     let style_obj = {
         form_header: {
             color: "white"
@@ -29,15 +30,59 @@ const init_search_form = async() => {
         }
     };
 
+    // Server URL
+    const SVR_URL="https://welldugo-oc-prod-backend-b7f63faaa3a9.herokuapp.com"; //"http://localhost:4000"
+    const _PATH="\\api\\booking-engine\\agent\\"
+
+    // Getting Travel Agent
+    let scripts = document.getElementsByTagName('script');
+    let __this_script = Array.from(scripts).find(each=>each?.outerHTML.includes("/home_page_search_form/searchform.js\" welldugo_ag="))
+    let ag=__this_script.getAttribute('welldugo_ag');
+
+    // Fetching the Booking Engine Settings
+    try {
+        let __booking_engine = await fetch(SVR_URL+_PATH+ag);
+        if (!__booking_engine.ok) {
+            throw new Error(`HTTP error! status: ${__booking_engine.status}`);
+        }
+        const data = await __booking_engine.json();
+        console.log("EEEEEEEEEEEEEEEEEE:", data);
+        if (data?._id){
+            // Form Styles from DB
+            style_obj = {
+                form_header: {
+                    color: data
+                },
+                form_airport_input: {
+                    border: ("1px solid "+data?.homePageSearchInputBorderColor),
+                    backgroundColor: data?.homePageSearchInputBackground,
+                    borderRadius: (data?.homePageSearchInputborderRadius+"px"),
+                    iconColor: data?.homePageSearchInputIconColor,
+                    textColor: data?.homePageSearchInputTextColor,
+                },
+                search_btn: {
+                    borderRadius: (data?.homePageSearchButtonBorderRadius+"px"),
+                    color: data?.homePageSearchButtonTextColor,
+                    backgroundColor: data?.homePageSearchButtonBgColor,
+                    iconColor: data?.homePageSearchButtonIconColor
+                }
+            };
+        }
+    } catch (error) {
+        console.error('Fetching error:', error);
+    }
+
     var form_parent = document.getElementById('welldugo_search_form');
 
     // Departure Airport Input
     let departure_airport_input_container = document.createElement('div');
     departure_airport_input_container.classList.add('wdg-airport-input-fld-container');
     let departure_airport_input_icon = document.createElement('i');
+    departure_airport_input_icon.style.color = style_obj?.form_airport_input?.iconColor;
     departure_airport_input_icon.classList.add('fa-solid');
     departure_airport_input_icon.classList.add('fa-plane-departure');
     let departure_airport_input = document.createElement('input');
+    departure_airport_input.style.color=style_obj?.form_airport_input?.textColor;
     departure_airport_input_container.style.border=style_obj?.form_airport_input?.border;
     departure_airport_input_container.style.backgroundColor=style_obj?.form_airport_input?.backgroundColor;
     departure_airport_input_container.style.borderRadius=style_obj?.form_airport_input?.borderRadius;
@@ -49,9 +94,11 @@ const init_search_form = async() => {
     let destination_airport_input_container = document.createElement('div');
     destination_airport_input_container.classList.add("wdg-airport-input-fld-container");
     let destination_airport_input_icon = document.createElement('i');
+    destination_airport_input_icon.style.color = style_obj?.form_airport_input?.iconColor;
     destination_airport_input_icon.classList.add('fa-solid');
     destination_airport_input_icon.classList.add('fa-plane-arrival');
     let destination_airport_input = document.createElement('input');
+    destination_airport_input.style.color=style_obj?.form_airport_input?.textColor;
     destination_airport_input_container.style.border=style_obj?.form_airport_input?.border;
     destination_airport_input_container.style.backgroundColor=style_obj?.form_airport_input?.backgroundColor;
     destination_airport_input_container.style.borderRadius=style_obj?.form_airport_input?.borderRadius;
@@ -71,11 +118,13 @@ const init_search_form = async() => {
 
     // Cabin Select Input
     let cabin_select_input_container = document.createElement('div');
-    cabin_select_input_container.classList.add('wdg-cb-psng-tr-inner-container')
+    cabin_select_input_container.classList.add('wdg-cb-psng-tr-inner-container');
     let cabin_select_input_icon = document.createElement('i');
+    cabin_select_input_icon.style.color = style_obj?.form_airport_input?.iconColor;
     cabin_select_input_icon.classList.add('fa-solid');
     cabin_select_input_icon.classList.add('fa-level-up');
     let cabin_select_input = document.createElement('select');
+    cabin_select_input.style.color=style_obj?.form_airport_input?.textColor;
     const economy_class_option = document.createElement('option');
     economy_class_option.value = 'economy';
     economy_class_option.text = 'Economy';
@@ -102,9 +151,11 @@ const init_search_form = async() => {
     let trip_round_select_input_container = document.createElement('div');
     trip_round_select_input_container.classList.add('wdg-cb-psng-tr-inner-container')
     let trip_round_select_input_icon = document.createElement('i');
+    trip_round_select_input_icon.style.color = style_obj?.form_airport_input?.iconColor;
     trip_round_select_input_icon.classList.add('fa-solid');
     trip_round_select_input_icon.classList.add('fa-rotate');
     let trip_round_select_input = document.createElement('select');
+    trip_round_select_input.style.color=style_obj?.form_airport_input?.textColor;
     const one_way_trip_round_option = document.createElement('option');
     one_way_trip_round_option.value = 'one-way';
     one_way_trip_round_option.text = 'One Way';
@@ -126,9 +177,11 @@ const init_search_form = async() => {
     let date_input_container = document.createElement('div');
     date_input_container.classList.add("wdg-date-input-fld-container");
     let date_airport_input_icon = document.createElement('i');
+    date_airport_input_icon.style.color = style_obj?.form_airport_input?.iconColor;
     date_airport_input_icon.classList.add('fa-solid');
     date_airport_input_icon.classList.add('fa-calendar-alt');
     let trave_dates_input = document.createElement('input');
+    trave_dates_input.style.color=style_obj?.form_airport_input?.textColor;
     date_input_container.style.border=style_obj?.form_airport_input?.border;
     date_input_container.style.backgroundColor=style_obj?.form_airport_input?.backgroundColor;
     date_input_container.style.borderRadius=style_obj?.form_airport_input?.borderRadius;
