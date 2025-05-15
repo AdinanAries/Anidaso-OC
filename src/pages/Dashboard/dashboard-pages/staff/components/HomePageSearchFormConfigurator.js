@@ -179,7 +179,7 @@ const HomePageSearchFormConfigurator = (props) => {
                             to your website where to display the form.
                     </p>
                     <div style={{marginTop: 10, border: "1px solid rgba(255,255,255,0.3)", backgroundColor: "rgb(29, 29, 29)", padding: 20, color: "rgb(36, 85, 145)"}}>
-                        <p style={{fontSize: 16}}>
+                        <p style={{fontSize: 16, whiteSpace: "nowrap", overflow: "auto"}}>
                             <span style={{color: "rgba(255,255,255,0.3)"}}>{"<"}</span>
                             {"div "}
                             <span style={{color: "rgb(78, 152, 241)"}}>{'id'}</span>
@@ -203,7 +203,7 @@ const HomePageSearchFormConfigurator = (props) => {
                             Step 2:</span> Add the following script tag at the bottom of the page.
                     </p>
                     <div style={{marginTop: 10, border: "1px solid rgba(255,255,255,0.3)", backgroundColor: "rgb(29, 29, 29)", padding: 20, color: "rgb(36, 85, 145)"}}>
-                        <p style={{fontSize: 16}}>
+                        <p style={{fontSize: 16, whiteSpace: "nowrap", overflow: "auto"}}>
                             <span style={{color: "rgba(255,255,255,0.3)"}}>{"<"}</span>
                             {"script "}
                             <span style={{color: "rgb(78, 152, 241)"}}>{'src'}</span>
