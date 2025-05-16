@@ -32,6 +32,10 @@ const HomePageSearchFormConfigurator = (props) => {
         }
     };
 
+    const previewWindowRefreshOnClick = () => {
+        document.getElementById("be_configurator_preview_url_window").src=document.getElementById("be_configurator_preview_url_window").src;
+    }
+
     return <div style={{marginBottom: 10}} className="main-seaction-containers">
         <div style={{display: "flex", justifyContent: "space-between"}}>
             <div style={{width: "calc(50% - 5px)"}}>
@@ -227,16 +231,21 @@ const HomePageSearchFormConfigurator = (props) => {
         </div>
         <div>
             <div style={{display: "flex", padding: 5, borderTopLeftRadius: 9, borderTopRightRadius: 9, backgroundColor: "rgba(255,255,255,0.2)"}}>
-                <div style={{width: 40, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer"}}>
+                <div onClick={previewWindowRefreshOnClick} style={{width: 35, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer"}}>
                     <i style={{color: "orange"}} className="fa-solid fa-rotate"></i>
                 </div>
-                <div style={{borderRadius: 50, backgroundColor: "rgba(0,0,0,0.3)", width: "calc(100% - 50px)"}}>
+                <div style={{width: 35, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer"}}>
+                    <i style={{color: "orange"}} className="fa-solid fa-home"></i>
+                </div>
+                <div style={{width: 35, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer"}}>
+                    <i style={{color: "orange"}} className="fa-solid fa-floppy-disk"></i>
+                </div>
+                <div style={{borderRadius: 50, backgroundColor: "rgba(0,0,0,0.3)", width: "calc(100% - 110px)"}}>
                     <input onInput={previewAddressBarOnInput} 
                         onKeyDown={addressBarHandleEnterKeyPress}
                         style={{width: "calc(100% - 20px)", color: "white", padding: 10, background: "none", border: "none"}} 
                         type="text" value={previewWebAddressOnInputValue} />
                 </div>
-                
             </div>
             <iframe id="be_configurator_preview_url_window"
                 src={siteLink}
