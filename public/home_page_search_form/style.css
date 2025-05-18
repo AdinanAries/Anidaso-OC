@@ -171,9 +171,11 @@ input:focus {
 }
 
 .wdg-cb-psng-tr-inner-container {
-    padding: 20px;
+    padding: 20px 10px;
     padding-left: 0;
-    min-width: calc(50% - 3px);
+    min-width: 33%;
+    font-size: 13px !important;
+    text-align: center;
 }
 
 .wdg-cb-psng-tr-inner-container select {
@@ -214,6 +216,10 @@ input:focus {
   box-shadow: 0.2px 0.2px 10px rgba(0, 0, 0, 0.33);
   border-radius: 9px;
   overflow: hidden;
+}
+
+.forms_class_guests_cabin_settings_pane{
+    min-height: auto;
 }
 
 .airports_auto_complete_input {

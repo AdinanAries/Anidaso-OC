@@ -18,50 +18,65 @@ const EngineConfiguratorPage = (props) => {
 
     const [currentPage, setCurrentPage] = useState(_PAGES?.home_page_config);
 
+    const __HOME_PAGE_BE_DEFAULT_FORM_SETTINGS = {
+        homePageSearchButtonTextColor: "#FFFFFF",
+        homePageSearchButtonBgColor: "#175794",
+        homePageSearchButtonIconColor: "#e0e0e0",
+        homePageSearchButtonBorderRadius: 50,
+        homePageSearchInputBackground: "#FFFFFF",
+        homePageSearchInputIconColor: "black",
+        homePageSearchInputBorderColor: "#e0e0e0",
+        homePageSearchInputborderRadius: 9,
+        homePageSearchInputTextColor: "black",
+        homePageSearchFormProductTypeSelectorActiveBackground: "#2b343d",
+        homePageSearchFormProductTypeSelectorBackground: "#414957",
+        homePageSearchFormProductTypeSelectorActiveTextColor: "#87CEEB",
+        homePageSearchFormProductTypeSelectorTextColor: "#808080",
+        homePageSearchFormProductTypeSelectorActiveIcon: "#D66A92",
+        homePageSearchFormProductTypeSelectorIcon: "#665b63",
+        homePageSearchFormProducttypeSelectorBorderRadius: 50,
+    }
+
+    const __SEARCH_PAGE_BE_DEFAULT_FORM_SETTINGS = {
+        oc_user_id: userDetails?._id,
+        enableBookingEngine: true,
+        showHeader: true,
+        headerBg: "#000",
+        headerCompanyTxtColor: "#a9ddff",
+        showHeaderCompany: true,
+        showHeaderMenu: true,
+        headerMenuTxtColor: "#808080",
+        headerMenuIconColor: "#FFFFFF80",
+        headerMenuActiveTxtColor: "#FFA500",
+        headerMenuActiveIconColor: "#FFFF00",
+        actionButtonsBg: "#941777",
+        actionButtonsTxtColor: "#FFFFFF",
+        actionButtonsIconColor: "#ffffff80",
+        closeButtonBgColor: "#DC143C",
+        closeButtonIconColor: "#FFFFFF",
+        showSearchFilters: true,
+        searchFiltersTxtColor: "#175794",
+        searchFiltersIconColor: "#c751b9",
+        searchFiltersIndicatorColor: "#0000007f",
+        headerLogoBorderRadius: 100,
+        searchButtonBorderRadius: 100,
+        actionButtonBorderRadius: 50,
+        closeButtonBorderRadius: 100,
+        greetingsCardBg: "#000",
+        greetingsCardTextColor: "#FFFFFF",
+        greetingsCardSecTextColor: "#c9c7c9", 
+        greetingsCardIconColor: "#c9c7c9",
+        greetingsCardTitleColor: "#c751b9",
+        greetingsCardBorderRadius: 9,
+        hideGreetingsCard: false,
+        hideCompanyLogo: false,
+        hideCompanyName: false,
+    }
+
     const getBookingEngineDefaultSettings = () => {
         return {
-            oc_user_id: userDetails?._id,
-            enableBookingEngine: true,
-            showHeader: true,
-            headerBg: "#000",
-            headerCompanyTxtColor: "#a9ddff",
-            showHeaderCompany: true,
-            showHeaderMenu: true,
-            headerMenuTxtColor: "#808080",
-            headerMenuIconColor: "#FFFFFF80",
-            headerMenuActiveTxtColor: "#FFA500",
-            headerMenuActiveIconColor: "#FFFF00",
-            actionButtonsBg: "#941777",
-            actionButtonsTxtColor: "#FFFFFF",
-            actionButtonsIconColor: "#ffffff80",
-            closeButtonBgColor: "#DC143C",
-            closeButtonIconColor: "#FFFFFF",
-            showSearchFilters: true,
-            searchFiltersTxtColor: "#175794",
-            searchFiltersIconColor: "#c751b9",
-            searchFiltersIndicatorColor: "#0000007f",
-            headerLogoBorderRadius: 100,
-            searchButtonBorderRadius: 100,
-            actionButtonBorderRadius: 50,
-            closeButtonBorderRadius: 100,
-            greetingsCardBg: "#000",
-            greetingsCardTextColor: "#FFFFFF",
-            greetingsCardSecTextColor: "#c9c7c9", 
-            greetingsCardIconColor: "#c9c7c9",
-            greetingsCardTitleColor: "#c751b9",
-            greetingsCardBorderRadius: 9,
-            hideGreetingsCard: false,
-            hideCompanyLogo: false,
-            hideCompanyName: false,
-            homePageSearchButtonTextColor: "#FFFFFF",
-            homePageSearchButtonBgColor: "#175794",
-            homePageSearchButtonIconColor: "#e0e0e0",
-            homePageSearchButtonBorderRadius: 50,
-            homePageSearchInputBackground: "#FFFFFF",
-            homePageSearchInputIconColor: "black",
-            homePageSearchInputBorderColor: "#e0e0e0",
-            homePageSearchInputborderRadius: 9,
-            homePageSearchInputTextColor: "black",
+            ...__SEARCH_PAGE_BE_DEFAULT_FORM_SETTINGS,
+            ...__HOME_PAGE_BE_DEFAULT_FORM_SETTINGS,
         }
     }
 
@@ -355,6 +370,49 @@ const EngineConfiguratorPage = (props) => {
             homePageSearchInputborderRadius: parseInt(e.target.value)
         });
     }
+
+    const setHomePageSearchFormProductTypeSelectorActiveBackground = (e) => {
+        setBESettings({
+            ...BESettings,
+            homePageSearchFormProductTypeSelectorActiveBackground: e.target.value
+        });
+    }
+    const setHomePageSearchFormProductTypeSelectorBackground = (e) => {
+        setBESettings({
+            ...BESettings,
+            homePageSearchFormProductTypeSelectorBackground: e.target.value
+        });
+    }
+    const setHomePageSearchFormProductTypeSelectorActiveTextColor = (e) => {
+        setBESettings({
+            ...BESettings,
+            homePageSearchFormProductTypeSelectorActiveTextColor: e.target.value
+        });
+    }
+    const setHomePageSearchFormProductTypeSelectorTextColor = (e) => {
+        setBESettings({
+            ...BESettings,
+            homePageSearchFormProductTypeSelectorTextColor: e.target.value
+        });
+    }
+    const setHomePageSearchFormProductTypeSelectorActiveIcon = (e) => {
+        setBESettings({
+            ...BESettings,
+            homePageSearchFormProductTypeSelectorActiveIcon: e.target.value
+        });
+    }
+    const setHomePageSearchFormProductTypeSelectorIcon = (e) => {
+        setBESettings({
+            ...BESettings,
+            homePageSearchFormProductTypeSelectorIcon: e.target.value
+        });
+    }
+    const setHomePageSearchFormProducttypeSelectorBorderRadius = (e) => {
+        setBESettings({
+            ...BESettings,
+            homePageSearchFormProducttypeSelectorBorderRadius: parseInt(e.target.value)
+        });
+    }
     
     const saveNewBookingEngineSettings = async () => {
         let __be_res = await createNewBookingEngine(BESettings);
@@ -372,6 +430,19 @@ const EngineConfiguratorPage = (props) => {
         setBESettings(getBookingEngineDefaultSettings());
     }
 
+    const resetBookingEngineSearchPageSettings = () => {
+        setBESettings({
+            ...BESettings,
+            ...__SEARCH_PAGE_BE_DEFAULT_FORM_SETTINGS,
+        });
+    }
+
+    const resetBookingEngineHomePageSettings = () => {
+        setBESettings({
+            ...BESettings,
+            ...__HOME_PAGE_BE_DEFAULT_FORM_SETTINGS,
+        });
+    }
 
     return <div>
         <div style={{padding: 20, background: "rgba(0,0,0,0.2)"}}>
@@ -409,7 +480,14 @@ const EngineConfiguratorPage = (props) => {
                 setHomePageSearchButtonBorderRadius={setHomePageSearchButtonBorderRadius}
                 setHomePageSearchInputborderRadius={setHomePageSearchInputborderRadius}
                 saveNewBookingEngineSettings={saveNewBookingEngineSettings}
-                resetBookingEngineSettings={resetBookingEngineSettings}
+                resetBookingEngineHomePageSettings={resetBookingEngineHomePageSettings}
+                setHomePageSearchFormProductTypeSelectorActiveBackground={setHomePageSearchFormProductTypeSelectorActiveBackground}
+                setHomePageSearchFormProductTypeSelectorBackground={setHomePageSearchFormProductTypeSelectorBackground}
+                setHomePageSearchFormProductTypeSelectorActiveTextColor={setHomePageSearchFormProductTypeSelectorActiveTextColor}
+                setHomePageSearchFormProductTypeSelectorTextColor={setHomePageSearchFormProductTypeSelectorTextColor}
+                setHomePageSearchFormProductTypeSelectorActiveIcon={setHomePageSearchFormProductTypeSelectorActiveIcon}
+                setHomePageSearchFormProductTypeSelectorIcon={setHomePageSearchFormProductTypeSelectorIcon}
+                setHomePageSearchFormProducttypeSelectorBorderRadius={setHomePageSearchFormProducttypeSelectorBorderRadius}
             />
         }
         {
@@ -449,7 +527,7 @@ const EngineConfiguratorPage = (props) => {
                 setHideCompanyName={setHideCompanyName}
                 setHideCompanyLogo={setHideCompanyLogo}
                 saveNewBookingEngineSettings={saveNewBookingEngineSettings}
-                resetBookingEngineSettings={resetBookingEngineSettings}
+                resetBookingEngineSearchPageSettings={resetBookingEngineSearchPageSettings}
             />
         }
     </div>

@@ -38,7 +38,7 @@ const BookingEngineConfigurator = (props) => {
         setHideCompanyName,
         setHideCompanyLogo,
         saveNewBookingEngineSettings,
-        resetBookingEngineSettings,
+        resetBookingEngineSearchPageSettings,
     } = props;
 
     return <div>
@@ -666,7 +666,7 @@ const BookingEngineConfigurator = (props) => {
                     className="fa fa-eye"></i>
                     Save & Preview
                 </p>
-                <p onClick={resetBookingEngineSettings} style={{marginLeft: 10, fontSize: 13, backgroundColor: "crimson", width: 170, textAlign: "center", padding: 15, borderRadius: 50, marginBottom: 10, cursor: "pointer", color: "white"}}>
+                <p onClick={resetBookingEngineSearchPageSettings} style={{marginLeft: 10, fontSize: 13, backgroundColor: "crimson", width: 170, textAlign: "center", padding: 15, borderRadius: 50, marginBottom: 10, cursor: "pointer", color: "white"}}>
                     <i style={{marginRight: 10, fontSize: 13, color: "rgba(255,255,255,0.5)"}} 
                     className="fa fa-refresh"></i>
                     Reset to Detault

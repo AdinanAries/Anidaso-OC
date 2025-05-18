@@ -92,9 +92,15 @@ let BookingsContainer = (props)=>{
                             </div>
                             <div className="booking-pane-search-inputs-area">
                                 <div className="booking-pane-search-inputs-area-inputs-section">
-                                    <BookedFlightsSearchForm />
-                                    <BookedHotelsSearchForm />
-                                    <BookedCarsSearchForm />
+                                    <BookedFlightsSearchForm
+                                        userDetails={userDetails}
+                                    />
+                                    <BookedHotelsSearchForm 
+                                        userDetails={userDetails}
+                                    />
+                                    <BookedCarsSearchForm 
+                                        userDetails={userDetails}
+                                    />
 
                                 </div>
                                 <div className="booking-pane-search-inputs-area-other-section">

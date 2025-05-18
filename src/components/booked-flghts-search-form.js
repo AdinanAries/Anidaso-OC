@@ -6,9 +6,21 @@ import {
     showInputAirportsAutocompleteContainer, 
     hideInputAirportsAutocompleteContainer 
 } from "./airports_auto_complete";
-import { reset_pagination_params } from "../helpers/helper-functions";
+import { 
+    reset_pagination_params, 
+    toggle_show_main_sections,
+} from "../helpers/helper-functions";
+import CONSTANTS from "../constants/Constants";
 
-function BookedFlightsSearchForm(){
+function BookedFlightsSearchForm(props){
+
+    const {
+        userDetails,
+    } = props;
+
+    let isOwner = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.owner);
+    let isAdmin = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.admin);
+    let isAgent = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.agent);
 
     const [dateUnk, setDateUnk] = useState(false);
 
@@ -130,18 +142,23 @@ function BookedFlightsSearchForm(){
                     Search
                 </div>
                 <div onClick={()=>{
-                            // Copy the text inside the text field
-                            navigator.clipboard.writeText("");
-                            // Alert the copied text
-                            alert("Copied!");
+                        toggle_show_main_sections("staff");
+                        if(isAgent){
+                            window.__viewStaffInfo(userDetails?._id);
+                            window.__showBookingEnginePage();
+                        }
                     }}
                     className='tool-tip-parent'
                     style={{fontSize: 13, whiteSpace: "nowrap", margin: 20, marginBottom: 0, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
-                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-server"></i>
-                        Copy Booking Engine
-                    <div className='tool-tip' style={{color: "black", left: -100}}>
-                        You can share your booking engine link or put it on your business website to allow your customers to search on their own.
-                    </div>
+                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
+                        className={"fa-solid fa-"+(isAgent ? "server" : "users")}></i>
+                        { isAgent ? "Booking Engine" : "Manage Staff"}
+                    {
+                        isAgent &&
+                        <div className='tool-tip' style={{color: "black", left: -100}}>
+                            You can share your booking engine link or put it on your business website to allow your customers to search on their own.
+                        </div>
+                    }
                 </div>
             </div>
         </div>

@@ -177,13 +177,13 @@ const wdg_init_search_form = async () => {
                     textColor: data?.homePageSearchInputTextColor,
                 },
                 product_type_selector: {
-                    activeBackgroundColor: "rgb(43, 52, 61)",
-                    activeIconColor: "rgb(214, 106, 202)",
-                    activeTextColor: "rgb(169, 221, 255)",
-                    backgroundColor: "#414957",
-                    borderRadius: ("50px"),
-                    iconColor: "#665b63",
-                    textColor: "grey",
+                    activeBackgroundColor: data?.homePageSearchFormProductTypeSelectorActiveBackground,
+                    activeIconColor: data?.homePageSearchFormProductTypeSelectorActiveIcon,
+                    activeTextColor: data?.homePageSearchFormProductTypeSelectorActiveTextColor,
+                    backgroundColor: data?.homePageSearchFormProductTypeSelectorBackground,
+                    borderRadius: (data?.homePageSearchFormProducttypeSelectorBorderRadius+"px"),
+                    iconColor: data?.homePageSearchFormProductTypeSelectorIcon,
+                    textColor: data?.homePageSearchFormProductTypeSelectorTextColor,
                 },
                 search_btn: {
                     borderRadius: (data?.homePageSearchButtonBorderRadius+"px"),
@@ -361,7 +361,6 @@ const wdg_init_search_form = async () => {
     dep_dest_airports_input_container.appendChild(departure_airport_input_container);
     dep_dest_airports_input_container.appendChild(destination_airport_input_container);
     
-
     // Cabin, Passenger, Trip-Round Input
     let cb_psng_tr_input_container = document.createElement('div');
     cb_psng_tr_input_container.classList.add('wdg-cb-psng-tr-input-fld-container');
@@ -420,9 +419,96 @@ const wdg_init_search_form = async () => {
     trip_round_select_input_container.appendChild(trip_round_select_input_icon);
     trip_round_select_input_container.appendChild(trip_round_select_input);
 
+    // Travellers
+    let travellers_input_container = document.createElement('div');
+    travellers_input_container.classList.add('wdg-cb-psng-tr-inner-container');
+    let travellers_input_icon = document.createElement('i');
+    travellers_input_icon.style.color = style_obj?.form_airport_input?.iconColor;
+    travellers_input_icon.classList.add('fa-solid');
+    travellers_input_icon.classList.add('fa-user');
+    let travellers_input_title=document.createElement('span');
+    travellers_input_title.innerText="1 adult";
+    travellers_input_container.appendChild(travellers_input_icon);
+    travellers_input_container.appendChild(travellers_input_title);
+    travellers_input_container.style.border=style_obj?.form_airport_input?.border;
+    travellers_input_container.style.backgroundColor=style_obj?.form_airport_input?.backgroundColor;
+    travellers_input_container.style.borderRadius=style_obj?.form_airport_input?.borderRadius;
+    let travelers_select_number_input_container=document.createElement('div');
+    travelers_select_number_input_container.id="wdg_travelers_select_number_input_container";
+    travelers_select_number_input_container.classList.add('forms_class_guests_cabin_settings_pane');
+    travelers_select_number_input_container.innerHTML=`
+      <div id="add_travelers_settings_pane" style="padding: 15px; display: block;">
+        <p style="color: rgba(0, 0, 0, 0.7); font-family: Prompt, sans-serif; font-weight: bolder; font-size: 17px; margin-top: 10px; margin-bottom: 20px;">
+          Add Travelers
+        </p>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 10px;">
+          <div style="color: rgba(0, 0, 0, 0.7); height: 30px; font-family: Prompt, sans-serif; display: flex; flex-direction: column; justify-content: center;">
+            Adults
+            <p style="font-size: 12px; color: rgba(0, 0, 0, 0.6); margin-top: -10px;">
+              18 and above
+            </p>
+          </div>
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div style="cursor: pointer; border-radius: 100%; border: 1px solid rgba(0, 0, 0, 0.3); width: 35px; height: 35px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              -
+            </div>
+            <div id="add_travelers_display_adults_number" style="color: rgba(0, 0, 0, 0.7); width: 40px; height: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              1
+            </div>
+            <div style="cursor: pointer; border-radius: 100%; border: 1px solid rgba(0, 0, 0, 0.3); width: 35px; height: 35px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              +
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 10px; border-radius: 30px;">
+          <div style="color: rgba(0, 0, 0, 0.7); height: 30px; font-family: Prompt, sans-serif; display: flex; flex-direction: column; justify-content: center;">
+            Children
+            <p style="font-size: 12px; color: rgba(0, 0, 0, 0.6); margin-top: -10px;">
+              Ages 2 to 17
+            </p>
+          </div>
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div style="cursor: pointer; border-radius: 100%; border: 1px solid rgba(0, 0, 0, 0.3); width: 35px; height: 35px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              -
+            </div>
+            <div id="add_travelers_display_children_number" style="color: rgba(0, 0, 0, 0.7); width: 40px; height: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              1
+            </div>
+            <div style="cursor: pointer; border-radius: 100%; border: 1px solid rgba(0, 0, 0, 0.3); width: 35px; height: 35px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              +
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 10px; border-radius: 30px;">
+          <div style="color: rgba(0, 0, 0, 0.7); font-family: Prompt, sans-serif; height: 30px; display: flex; flex-direction: column; justify-content: center;">
+            Infants
+            <p style="font-size: 12px; color: rgba(0, 0, 0, 0.6); margin-top: -10px;">
+              Younger than 2
+            </p>
+          </div>
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div style="cursor: pointer; border-radius: 100%; border: 1px solid rgba(0, 0, 0, 0.3); width: 35px; height: 35px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              -
+            </div>
+            <div id="add_travelers_display_infants_number" style="color: rgba(0, 0, 0, 0.7); width: 40px; height: 30px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              1
+            </div>
+            <div style="cursor: pointer; border-radius: 100%; border: 1px solid rgba(0, 0, 0, 0.3); width: 35px; height: 35px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+              +
+            </div>
+          </div>
+        </div>
+      </div>
+      <div onclick="WDG_toggle_show_travelers_input_page(false)" 
+        style="background-color: ${style_obj?.search_btn?.backgroundColor}; color: ${style_obj?.search_btn?.color}; cursor: pointer; padding: 10px; text-align: center; margin: 0 10px; margin-bottom: 10px; border-radius: ${style_obj?.search_btn.borderRadius};">
+        done
+      </div>
+    `
+    cb_psng_tr_input_container.appendChild(travelers_select_number_input_container);
     cb_psng_tr_input_container.appendChild(cabin_select_input_container);
     cb_psng_tr_input_container.appendChild(trip_round_select_input_container);
-
+    cb_psng_tr_input_container.appendChild(travellers_input_container);
+    
     // Travel Dates Input
     let date_input_container = document.createElement('div');
     date_input_container.classList.add("wdg-date-input-fld-container");
@@ -523,30 +609,35 @@ const wdg_init_search_form = async () => {
     
         if(type_p===WDG_SEARCH_FORM_PRODUCT_TYPES?.flights){
 
-            flights_type_selector_container.style.color=style_obj?.product_type_selector?.activeTextColor;
-            flights_type_selector_container.style.background=style_obj?.product_type_selector?.activeBackgroundColor;
-            flights_type_selector_icon.style.color = style_obj?.product_type_selector?.activeIconColor;
-            WDG_CONSTANTS.current_product_type=WDG_SEARCH_FORM_PRODUCT_TYPES?.flights;
-            form_inputs_parent_container.style.display="block";
+          flights_type_selector_container.style.color=style_obj?.product_type_selector?.activeTextColor;
+          flights_type_selector_container.style.background=style_obj?.product_type_selector?.activeBackgroundColor;
+          flights_type_selector_icon.style.color = style_obj?.product_type_selector?.activeIconColor;
+          WDG_CONSTANTS.current_product_type=WDG_SEARCH_FORM_PRODUCT_TYPES?.flights;
+          form_inputs_parent_container.style.display="block";
 
         }else if(type_p===WDG_SEARCH_FORM_PRODUCT_TYPES?.hotels){
 
-            Stays_type_selector_container.style.color=style_obj?.product_type_selector?.activeTextColor;
-            Stays_type_selector_container.style.background=style_obj?.product_type_selector?.activeBackgroundColor;
-            Stays_type_selector_icon.style.color = style_obj?.product_type_selector?.activeIconColor;
-            WDG_CONSTANTS.current_product_type=WDG_SEARCH_FORM_PRODUCT_TYPES?.hotels;
-            stays_form_inputs_parent_container.style.display="block";
+          Stays_type_selector_container.style.color=style_obj?.product_type_selector?.activeTextColor;
+          Stays_type_selector_container.style.background=style_obj?.product_type_selector?.activeBackgroundColor;
+          Stays_type_selector_icon.style.color = style_obj?.product_type_selector?.activeIconColor;
+          WDG_CONSTANTS.current_product_type=WDG_SEARCH_FORM_PRODUCT_TYPES?.hotels;
+          stays_form_inputs_parent_container.style.display="block";
     
         } else if(type_p===WDG_SEARCH_FORM_PRODUCT_TYPES?.cars){
     
-            Cars_type_selector_container.style.color=style_obj?.product_type_selector?.activeTextColor;
-            Cars_type_selector_container.style.background=style_obj?.product_type_selector?.activeBackgroundColor;
-            Cars_type_selector_icon.style.color = style_obj?.product_type_selector?.activeIconColor;
-            WDG_CONSTANTS.current_product_type=WDG_SEARCH_FORM_PRODUCT_TYPES?.cars;
-            cars_form_inputs_parent_container.style.display="block";
+          Cars_type_selector_container.style.color=style_obj?.product_type_selector?.activeTextColor;
+          Cars_type_selector_container.style.background=style_obj?.product_type_selector?.activeBackgroundColor;
+          Cars_type_selector_icon.style.color = style_obj?.product_type_selector?.activeIconColor;
+          WDG_CONSTANTS.current_product_type=WDG_SEARCH_FORM_PRODUCT_TYPES?.cars;
+          cars_form_inputs_parent_container.style.display="block";
 
         }
     }
+
+    // Travelers Input Functions
+    travellers_input_container?.addEventListener('click', event => {
+        WDG_toggle_show_travelers_input_page(true);
+    });
       
     // Product Type onClick Functions
     flights_type_selector_container?.addEventListener('click', event => {
@@ -592,6 +683,14 @@ const wdg_init_search_form = async () => {
         console.log(__lnk);
         window.location.href = __lnk;
     })
+}
+
+const WDG_toggle_show_travelers_input_page = (is_show) => {
+  if(is_show){
+    document.getElementById("wdg_travelers_select_number_input_container").style.display="block";
+  }else{
+    document.getElementById("wdg_travelers_select_number_input_container").style.display="none";
+  }
 }
 
 const WDG_DateChoosersInit = (type=WDG_CONSTANTS.one_way) => {

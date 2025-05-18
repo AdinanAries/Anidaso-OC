@@ -266,6 +266,11 @@ const StaffInfo = (props) => {
     }
     window.__showWalletPage = showWalletPage;
 
+    const showBookingEnginePage = () => {
+        setcurrentSubPage(_PAGES?.booking_engine_configurator);
+    }
+    window.__showBookingEnginePage = showBookingEnginePage;
+
     return <div>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
             <div style={{display: "flex", margin: 10}}>
@@ -389,7 +394,9 @@ const StaffInfo = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <AgentCompanyDetails />
+                        <AgentCompanyDetails
+                            userDetails={selectedStaff}
+                         />
                     </>
                 }
                 <div className="main-seaction-containers">
