@@ -53,12 +53,29 @@ const AgentCustomers = (props) => {
                         }
                         {
                             customersList?.map(each=>{
-                                return <div style={{marginTop: 10, cursor: "pointer"}}>
+                                return <div style={{display: "flex", justifyContent: "space-between", marginTop: 10, padding: 10, paddingTop: 0, cursor: "pointer", borderBottom: "1px solid rgba(0,0,0,0.2)"}}>
                                     <p style={{color: "white", fontSize: 13}}>
-                                    <i style={{color: "yellow", marginRight: 10}}
+                                        <i style={{color: "yellow", marginRight: 10}}
                                         className='fa-solid fa-user'></i>
                                         {each?.first_name} {each?.last_name} - <span style={{color: "orange"}}>
                                             {each?.email}
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span className="tool-tip-parent" style={{color: "lightgreen", cursor: "pointer", marginLeft: 5, marginRight: 20, cursor: "pointer"}}>
+                                            <i className="fa-solid fa-pencil"></i>
+                                            <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
+                                                className="tool-tip">
+                                                Edit Customer
+                                            </span>
+                                        </span>
+
+                                        <span className="tool-tip-parent" style={{color: "red", cursor: "pointer", cursor: "pointer"}}>
+                                            <i className="fa-solid fa-trash-can"></i>
+                                            <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
+                                                className="tool-tip">
+                                                Delete Customer
+                                            </span>
                                         </span>
                                     </p>
                                 </div>

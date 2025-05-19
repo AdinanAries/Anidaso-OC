@@ -323,9 +323,10 @@ const HomePageSearchFormConfigurator = (props) => {
                 </div>
             </div>
             <div style={{width: "calc(50% - 5px", marginBottom: 10}}>
-                <p style={{color: "white", fontSize: 14, marginTop: 15, fontWeight: "bolder"}}>
+                <p style={{color: "white", fontSize: 14, marginTop: 15}}>
+                    <i className="fa-solid fa-tools" style={{marginRight: 10, color: "red"}}></i>
                     Integrate in two easy steps!</p>
-                <p style={{fontSize: 13, backgroundColor: "white", padding: 10, marginTop: 15, boxShadow: "1px 2px 3px rgba(0,0,0,0.8)"}}>
+                <p style={{fontSize: 13, backgroundColor: "white", border: "2px dashed rgba(0,0,0,0.5)", padding: 10, marginTop: 15, boxShadow: "1px 2px 3px rgba(0,0,0,0.8)"}}>
                     By adding the following two lines of code into your website, your booking engine search form will be added on the website.
                     Afterwards, you may edit the design of your search form with the tools on this page.
                 </p>

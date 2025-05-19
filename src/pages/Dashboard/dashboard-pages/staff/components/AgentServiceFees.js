@@ -11,6 +11,13 @@ const AgentServiceFees = (props) => {
         userDetails
     } = props
 
+    const __PRODUCT_TYPE_NAMES = {
+        "-1": "All Products",
+        "0": "Flights",
+        "1": "Stays",
+        "2": "Cars" 
+    }
+
     const [ agentServiceFees, setAgentServiceFees ] = useState([]);
     const [ serviceFeeFormData, setServiceFeeFormData ] = useState({
         oc_user_id: userDetails?._id,
@@ -207,41 +214,47 @@ const AgentServiceFees = (props) => {
                                     Cars
                                 </div>
                             </div>
-                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <div style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap"}}>
                                 {
                                     agentServiceFees?.map(each=>{
-                                        return <div style={{margin: 2.5, width: "calc(50% - 5px)", display: "flex", justifyContent: "space-between", backgroundColor: "rgba(0,0,0,0.2)", padding: 20, marginBottom: 10}}>
-                                            <p>
-                                                <input type="checkbox" 
-                                                    className="cm-toggle"
-                                                    checked={each?.enabled}
-                                                />
-                                                <span style={{marginLeft: 10, color: "white", fontSize: 13}}>
-                                                    <label htmlFor="">
-                                                        {each?.name}
-                                                    </label>
-                                                </span>
-                                            </p>
-                                            <p style={{color: "yellow", fontSize: 13}}>
-                                                ${each?.price}
-                                            </p>
-                                            <p>
-                                                <span className="tool-tip-parent" style={{color: "lightgreen", cursor: "pointer", marginLeft: 5, marginRight: 20, cursor: "pointer"}}>
-                                                    <i className="fa-solid fa-pencil"></i>
-                                                    <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
-                                                        className="tool-tip">
-                                                        Edit Service Fee
+                                        return <div style={{margin: 2.5, width: "calc(50% - 5px)", backgroundColor: "rgba(0,0,0,0.2)", padding: 20, marginBottom: 5}}>
+                                            <div style={{ display: "flex", justifyContent: "space-between"}}>
+                                                <p>
+                                                    <input type="checkbox" 
+                                                        className="cm-toggle"
+                                                        checked={each?.enabled}
+                                                    />
+                                                    <span style={{marginLeft: 10, color: "white", fontSize: 13}}>
+                                                        <label htmlFor="">
+                                                            {each?.name}
+                                                        </label>
                                                     </span>
-                                                </span>
-
-                                                <span className="tool-tip-parent" style={{color: "red", cursor: "pointer", cursor: "pointer"}}>
-                                                    <i className="fa-solid fa-trash-can"></i>
-                                                    <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
-                                                        className="tool-tip">
-                                                        Delete Service Fee
+                                                </p>
+                                                <p style={{color: "yellow", fontSize: 13}}>
+                                                    ${each?.price}
+                                                </p>
+                                            </div>
+                                            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10, paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.1)"}}>
+                                                <p style={{color: "rgba(255,255,255,0.5)", fontSize: 12}}>
+                                                    Charged on {__PRODUCT_TYPE_NAMES[(""+each.product)]}
+                                                </p>
+                                                <p>
+                                                    <span className="tool-tip-parent" style={{color: "lightgreen", cursor: "pointer", marginLeft: 5, marginRight: 20, cursor: "pointer"}}>
+                                                        <i className="fa-solid fa-pencil"></i>
+                                                        <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
+                                                            className="tool-tip">
+                                                            Edit Service Fee
+                                                        </span>
                                                     </span>
-                                                </span>
-                                            </p>
+                                                    <span className="tool-tip-parent" style={{color: "red", cursor: "pointer", cursor: "pointer"}}>
+                                                        <i className="fa-solid fa-trash-can"></i>
+                                                        <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
+                                                            className="tool-tip">
+                                                            Delete Service Fee
+                                                        </span>
+                                                    </span>
+                                                </p>
+                                            </div>
                                         </div>
                                     })
                                 }
