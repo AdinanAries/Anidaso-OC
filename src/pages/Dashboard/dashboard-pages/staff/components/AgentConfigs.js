@@ -5,6 +5,7 @@ import {
 } from "../../../../../services/agentServices";
 import FormErrorCard from "../../../../../components/FormErrorCard";
 import AgentServiceFees from "./AgentServiceFees";
+import AgentServiceContract from "./AgentServiceContract";
 
 const AgentConfigs = (props) => {
 
@@ -14,6 +15,12 @@ const AgentConfigs = (props) => {
 
     const isLoggedUserAgent = true;
 
+    const __PROP_KEY="profit-type";
+    const __PROFIT_TYPES = {
+        percentage: "percentage-markup",
+        flat_rate: "flat-rate",
+    };
+    const [ profitType, setProfitType ] = useState(__PROFIT_TYPES?.percentage);
     const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
         user_id: userDetails?._id,
         property: "price_markup",
@@ -112,18 +119,21 @@ const AgentConfigs = (props) => {
         <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
             <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
                 className="fa fa-tools"></i>
-            Configurations
+            General Settings
         </p>
         <div style={{marginBottom: 10}}>
             <div style={{display: "flex", justifyContent: "space-between"}}>
-                {
-                    <div style={{width: "calc(50% - 4px)"}}>
+                <div style={{width: "calc(50% - 4px)"}}>
+                    <p style={{color: "yellow", fontSize: 13, marginBottom: 10, marginLeft: 20}}>
+                        Price bound profit:</p>
+                    {
+                        profitType===__PROFIT_TYPES?.percentage &&
                         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                                 <i className="fa fa-percent" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                Price Markup (%)
-                                <span style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
-                                    Charge Flat Rate</span></p>
+                                Enter Price Markup (%)
+                                <span onClick={()=>setProfitType(__PROFIT_TYPES?.flat_rate)} style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
+                                    Change To Flat Rate</span></p>
                             <div style={{border: "none"}}>
                                 <input onInput={agentPriceMarkupOnchange}
                                         value={agentPriceMarkup?.value}
@@ -131,34 +141,50 @@ const AgentConfigs = (props) => {
                                     style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                             </div>
                         </div>
+                    }
+                    {
+                        profitType===__PROFIT_TYPES?.flat_rate &&
                         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                <i className="fa fa-share-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                Data Provider</p>
+                                <i className="fa fa-file-invoice-dollar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                Enter Flat Rate Charge
+                                <span onClick={()=>setProfitType(__PROFIT_TYPES?.percentage)} style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
+                                    Change To Percentage (%)</span></p>
                             <div style={{border: "none"}}>
-                                <select
-                                    type="text" placeholder="type here..."
-                                    style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
-                                        <option style={{color: "black"}} value="duffel">Duffel</option>
-                                        <option style={{color: "black"}} value="amadeus">Amadeus</option>
-                                        <option style={{color: "black"}} value="saber">Saber</option>
-                                        <option style={{color: "black"}} value="travelport">Travelport</option>
-                                </select>
+                                <input onInput={()=>{}}
+                                        value=""
+                                    type="number" placeholder="type here..."
+                                    style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                             </div>
                         </div>
-                        {
-                            formValidation.isError && <FormErrorCard 
-                                message={formValidation.message} 
-                                type={formValidation.type}
-                            />
-                        }
-                        <div onClick={agentBookingParametersFormOnSubmit}
-                            style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
-                            <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
-                            Save
+                    }
+                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                            <i className="fa fa-share-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                            Data Provider</p>
+                        <div style={{border: "none"}}>
+                            <select
+                                type="text" placeholder="type here..."
+                                style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
+                                    <option style={{color: "black"}} value="duffel">Duffel</option>
+                                    <option style={{color: "black"}} value="amadeus">Amadeus</option>
+                                    <option style={{color: "black"}} value="saber">Saber</option>
+                                    <option style={{color: "black"}} value="travelport">Travelport</option>
+                            </select>
                         </div>
                     </div>
-                }
+                    {
+                        formValidation.isError && <FormErrorCard 
+                            message={formValidation.message} 
+                            type={formValidation.type}
+                        />
+                    }
+                    <div onClick={agentBookingParametersFormOnSubmit}
+                        style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                        <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
+                        Save
+                    </div>
+                </div>
                 <div style={{width: "calc(50% - 4px)", borderRadius: 8, padding: 10, backgroundColor: "rgb(49, 30, 53)"}}>
                     <p style={{color: "skyblue", fontSize: 12}}>
                         <i style={{color: "yellow", marginRight: 10}}
@@ -221,126 +247,9 @@ const AgentConfigs = (props) => {
                 </div>
             </div>
         </div>
-        <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
-            <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
-                className="fa-solid fa-file-signature"></i>
-            Change Welldugo Contract
-        </p>
-        <div style={{marginBottom: 10}}>
-            <div style={{display: "flex", justifyContent: "space-between"}}>
-                <div style={{border: "2px solid lightgreen", backgroundColor: "indigo", padding: 20, borderRadius: 10, boxShadow: "1px 2px 3px rgba(0,0,0,0.6)", maxWidth: "33%"}}>
-                    <h4 style={{color: "orange"}}>
-                        <i style={{marginRight: 20, color: "lightgreen"}} className="fa-solid fa-check"></i>
-                        Free Tier - <span style={{fontWeight: "initial", fontSize: 13, color: "white"}}>
-                            No Charge</span></h4>
-                    <div style={{marginTop: 20, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.2)"}}>
-                        <ul style={{paddingLeft: 20}}>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-users"></i>
-                                    400 Customers
-                                </span>
-                                <span>
-                                    You can add up to 400 customers with this plan
-                                </span>
-                            </li>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-gauge-high"></i>
-                                    10 Actions Per $1.00
-                                </span>
-                                <span>
-                                    For each dollar amount in your wallet, you get 10 actions (link visits, customer flight/hotel/car searches, etc.)
-                                </span>
-                            </li>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-share-alt"></i>
-                                    1 Data Provider
-                                </span>
-                                <span>
-                                    You can choose only one Data Provider (Amadeus, Saber, Travelport, Duffel, etc.) for your booking engine
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div style={{backgroundColor: "indigo", padding: 20, borderRadius: 10, boxShadow: "1px 2px 3px rgba(0,0,0,0.6)", maxWidth: "33%"}}>
-                    <h4 style={{color: "orange"}}>
-                        <i style={{marginRight: 20, color: "red"}} className="fa-solid fa-circle-dot"></i>
-                        Basic Tier - <span style={{fontWeight: "initial", fontSize: 13, color: "white"}}>
-                            $25/Month</span></h4>
-                    <div style={{marginTop: 20, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.2)"}}>
-                        <ul style={{paddingLeft: 20}}>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-users"></i>
-                                    5,000 Customers
-                                </span>
-                                <span>
-                                    You can add up to 5,000 customers with this plan
-                                </span>
-                            </li>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-gauge-high"></i>
-                                    10 Actions Per $1.00
-                                </span>
-                                <span>
-                                    For each dollar amount in your wallet, you get 10 actions (link visits, customer flight/hotel/car searches, etc.)
-                                </span>
-                            </li>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-share-alt"></i>
-                                    1 Data Provider
-                                </span>
-                                <span>
-                                    You can choose only one Data Provider (Amadeus, Saber, Travelport, Duffel, etc.) for your booking engine
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div style={{backgroundColor: "indigo", padding: 20, borderRadius: 10, boxShadow: "1px 2px 3px rgba(0,0,0,0.6)", maxWidth: "33%"}}>
-                    <h4 style={{color: "orange"}}>
-                        <i style={{marginRight: 20, color: "red"}} className="fa-solid fa-circle-dot"></i>
-                        Advanced Tier - <span style={{fontWeight: "initial", fontSize: 13, color: "white"}}>
-                            $50/Month</span></h4>
-                    <div style={{marginTop: 20, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.2)"}}>
-                        <ul style={{paddingLeft: 20}}>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-users"></i>
-                                    Unlimited Customers
-                                </span>
-                                <span>
-                                    You can add up to as many customers as possible with this plan
-                                </span>
-                            </li>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-gauge-high"></i>
-                                    20 Actions Per $1.00
-                                </span>
-                                <span>
-                                    For each dollar amount in your wallet, you get 20 actions (link visits, customer flight/hotel/car searches, etc.)
-                                </span>
-                            </li>
-                            <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
-                                <span style={{whiteSpace: "nowrap", color: "skyblue", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "lightgreen"}} className="fa-solid fa-share-alt"></i>
-                                    All Data Providers
-                                </span>
-                                <span>
-                                    You can switch in-between Data Providers (Amadeus, Saber, Travelport, Duffel, etc.) for your booking engine whenever you want and be able to compare prices from different data providers
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <AgentServiceContract 
+            userDetails={userDetails}
+        />
         <AgentServiceFees
             userDetails={userDetails}
         />

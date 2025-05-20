@@ -66,7 +66,7 @@ let SalesContainer = (props) => {
                                 <span style={{fontWeight: "initial", color: "lightgreen", fontSize: 13, marginLeft: 25, textDecoration: "underline", cursor: "pointer"}}>
                                     <i style={{marginRight: 10, color: "rgba(255, 255, 255, 0.5)"}}
                                         className="fa-solid fa-money-check-dollar"></i>
-                                    Request Payout
+                                    Business Bank Settings
                                 </span>
                             </h1>
                         </div>

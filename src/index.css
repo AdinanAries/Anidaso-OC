@@ -83,6 +83,10 @@ body {
   background-color: rgba(0, 0, 0, 0.498);
   color: rgb(255, 255, 141);
 }
+.each-welldugo-service-contract-item:hover {
+  cursor: pointer;
+  border: 2px solid yellow !important;
+}
 .tool-tip-parent {
   cursor: pointer;
   position: relative;

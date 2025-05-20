@@ -4,12 +4,20 @@ import {
     createNewServiceFee,
     fetchServiceFeesByAgentId
 } from "../../../../../services/serviceFeeServices";
+import { add_commas_to_number } from "../../../../../helpers/helper-functions";
 
 const AgentServiceFees = (props) => {
 
     const {
         userDetails
     } = props
+
+    const __PRODUCT_TYPE = {
+        all_products: -1,
+        flights: 0,
+        stays: 1,
+        cars: 2
+    }
 
     const __PRODUCT_TYPE_NAMES = {
         "-1": "All Products",
@@ -18,6 +26,7 @@ const AgentServiceFees = (props) => {
         "2": "Cars" 
     }
 
+    const [ currentProduct, setCurrentProduct ] = useState(__PRODUCT_TYPE?.all_products);
     const [ agentServiceFees, setAgentServiceFees ] = useState([]);
     const [ serviceFeeFormData, setServiceFeeFormData ] = useState({
         oc_user_id: userDetails?._id,
@@ -25,6 +34,7 @@ const AgentServiceFees = (props) => {
         name: "",
         price: "",
         enabled: true,
+        deleted: false,
     });
 
     const [ isLoading, setIsLoading ] = useState(false);
@@ -58,6 +68,7 @@ const AgentServiceFees = (props) => {
             ...serviceFeeFormData,
             product: parseInt(e.target.value)
         });
+        setCurrentProduct(parseInt(e.target.value));
     }
 
     const newServiceFeeNameOnInput = (e) => {
@@ -93,13 +104,65 @@ const AgentServiceFees = (props) => {
 
         let __res = await createNewServiceFee(serviceFeeFormData);
         if(__res?._id){
-            alert("Service fee added!");
+            alert("Service fee added/modified!");
             setAgentServiceFees([
                 ...agentServiceFees,
                 __res
             ]);
+            setServiceFeeFormData({
+                ...serviceFeeFormData,
+                name: "",
+                price: "",
+                enabled: true,
+                deleted: false,
+            });
             setIsLoading(false);
         }
+    }
+
+    const toggleEnameServiceFeeOnClick = async (prop) => {
+        for(const each of agentServiceFees){
+            if(each?._id === prop.target.value){
+                each.enabled=!each?.enabled;
+                let __res = await createNewServiceFee(each);
+            }
+        }
+        setAgentServiceFees([
+            ...agentServiceFees,
+        ]);
+    }
+
+    const onDeleteServiceFee = async (id) => {
+        if (window?.confirm("Are you sure you want to delete this item?")) {
+            for(const each of agentServiceFees){
+                if(each?._id === id){
+                    each.deleted=true;
+                    let __res = await createNewServiceFee(each);
+                    const index = agentServiceFees.findIndex(item => item?._id === id);
+                    if (index > -1) {
+                        agentServiceFees?.splice(index, 1);
+                    }
+                }
+            }
+            setAgentServiceFees([
+                ...agentServiceFees,
+            ]);
+        }
+    }
+
+    const onEditServiceFee = (id) => {
+        const index = agentServiceFees.findIndex(item => item?._id === id);
+        if (index > -1) {
+            const __obj = agentServiceFees[index];
+            setServiceFeeFormData({
+                ...__obj,
+                product: parseInt(__obj?.product)
+            });
+            agentServiceFees?.splice(index, 1);
+        }
+        setAgentServiceFees([
+            ...agentServiceFees,
+        ]);
     }
     
     return <div>
@@ -122,7 +185,7 @@ const AgentServiceFees = (props) => {
                 <div style={{width: "calc(50% - 5px)"}}>
                     <div style={{marginBottom: 10}}>
                         <p style={{color: "orange", fontSize: 13}}>
-                            Add New Service Fee</p>
+                            Add/Edit Service Fee</p>
                         <div style={{padding: 10, display: "flex", alignItems: "center", justifyContent: "space-between"}}>
                             <div style={{width: "33%"}}>
                                 <p className="regular-font-color-dark-bg" 
@@ -188,7 +251,7 @@ const AgentServiceFees = (props) => {
                                 Loading.. Please Wait
                             </div> :
                             <div onClick={newServiceFeeOnSave} className="standard-action-button"
-                                style={{fontSize: 14, width: "100%", marginTop: 0, cursor: "pointer"}}>
+                                style={{fontSize: 14, padding: 10, width: "100%", marginTop: 0, cursor: "pointer"}}>
                                 <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-refresh"></i>
                                 Save
                             </div>
@@ -197,32 +260,38 @@ const AgentServiceFees = (props) => {
                     <div style={{borderTop: "1px solid rgba(255,255,255,0.1)"}}>
                         <div>
                             <div style={{display: "flex",  marginBottom: 5, backgroundColor: "black"}}>
-                                <div style={{color: "skyblue", padding: 10, fontSize: 13, cursor: "pointer", textDecoration: "underline", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-bars"></i>
+                                <div onClick={()=>setCurrentProduct(__PRODUCT_TYPE?.all_products)}  
+                                    style={{color: currentProduct===__PRODUCT_TYPE?.all_products ? "skyblue" : "grey", padding: 10, fontSize: 13, cursor: "pointer", textDecoration: "underline", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: currentProduct===__PRODUCT_TYPE?.all_products ? "yellow" : "rgba(255,255,255,0.5)"}} className="fa-solid fa-bars"></i>
                                     All Products
                                 </div>
-                                <div style={{color: "grey", padding: 10, fontSize: 13, cursor: "pointer", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-plane"></i>
+                                <div onClick={()=>setCurrentProduct(__PRODUCT_TYPE?.flights)}
+                                    style={{color: currentProduct===__PRODUCT_TYPE?.flights ? "skyblue" : "grey", padding: 10, fontSize: 13, cursor: "pointer", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: currentProduct===__PRODUCT_TYPE?.flights ? "yellow" : "rgba(255,255,255,0.5)"}} className="fa-solid fa-plane"></i>
                                     Flights
                                 </div>
-                                <div style={{color: "grey", padding: 10, fontSize: 13, cursor: "pointer", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-building"></i>
+                                <div onClick={()=>setCurrentProduct(__PRODUCT_TYPE?.stays)}
+                                    style={{color: currentProduct===__PRODUCT_TYPE?.stays ? "skyblue" : "grey", padding: 10, fontSize: 13, cursor: "pointer", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: currentProduct===__PRODUCT_TYPE?.stays ? "yellow" : "rgba(255,255,255,0.5)"}} className="fa-solid fa-building"></i>
                                     Stays
                                 </div>
-                                <div style={{color: "grey", padding: 10, fontSize: 13, cursor: "pointer", marginRight: 10}}>
-                                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-car"></i>
+                                <div onClick={()=>setCurrentProduct(__PRODUCT_TYPE?.cars)}
+                                    style={{color: currentProduct===__PRODUCT_TYPE?.cars ? "skyblue" : "grey", padding: 10, fontSize: 13, cursor: "pointer", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: currentProduct===__PRODUCT_TYPE?.cars ? "yellow" : "rgba(255,255,255,0.5)"}} className="fa-solid fa-car"></i>
                                     Cars
                                 </div>
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap"}}>
                                 {
-                                    agentServiceFees?.map(each=>{
-                                        return <div style={{margin: 2.5, width: "calc(50% - 5px)", backgroundColor: "rgba(0,0,0,0.2)", padding: 20, marginBottom: 5}}>
+                                    agentServiceFees?.filter(service=>service?.product===currentProduct)?.map(each=>{
+                                        return <div style={{margin: 2.5, width: "calc(50% - 5px)", backgroundColor: "rgba(0,0,0,0.2)", padding: 20, marginBottom: 2}}>
                                             <div style={{ display: "flex", justifyContent: "space-between"}}>
                                                 <p>
-                                                    <input type="checkbox" 
+                                                    <input onClick={toggleEnameServiceFeeOnClick}
+                                                        type="checkbox" 
                                                         className="cm-toggle"
                                                         checked={each?.enabled}
+                                                        value={each?._id}
                                                     />
                                                     <span style={{marginLeft: 10, color: "white", fontSize: 13}}>
                                                         <label htmlFor="">
@@ -239,14 +308,15 @@ const AgentServiceFees = (props) => {
                                                     Charged on {__PRODUCT_TYPE_NAMES[(""+each.product)]}
                                                 </p>
                                                 <p>
-                                                    <span className="tool-tip-parent" style={{color: "lightgreen", cursor: "pointer", marginLeft: 5, marginRight: 20, cursor: "pointer"}}>
+                                                    <span onClick={()=>onEditServiceFee(each?._id)} className="tool-tip-parent" style={{color: "lightgreen", cursor: "pointer", marginLeft: 5, marginRight: 20, cursor: "pointer"}}>
                                                         <i className="fa-solid fa-pencil"></i>
                                                         <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
                                                             className="tool-tip">
                                                             Edit Service Fee
                                                         </span>
                                                     </span>
-                                                    <span className="tool-tip-parent" style={{color: "red", cursor: "pointer", cursor: "pointer"}}>
+                                                    <span onClick={()=>onDeleteServiceFee(each?._id)}
+                                                        className="tool-tip-parent" style={{color: "red", cursor: "pointer", cursor: "pointer"}}>
                                                         <i className="fa-solid fa-trash-can"></i>
                                                         <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
                                                             className="tool-tip">
@@ -275,7 +345,7 @@ const AgentServiceFees = (props) => {
                     <div>
                         <p style={{color: "yellow", fontSize: 13, marginLeft: 20}}>
                             Checkout Overview</p>
-                        <div style={{backgroundColor: "white", border: "4px solid yellow", borderRadius: 9, padding: 20, margin: 10}}>
+                        <div style={{backgroundColor: "rgb(0, 166, 243)", border: "4px solid yellow", borderRadius: 9, padding: 20, margin: 10}}>
                             
                             <p style={{fontSize: 16, letterSpacing: 1, fontWeight: "bolder", fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.8)"}}>
                                 Price Summary
@@ -314,7 +384,7 @@ const AgentServiceFees = (props) => {
                                     </div>
                                 }
                                 {
-                                    agentServiceFees?.map(each=>{
+                                    agentServiceFees?.filter(service=>((service?.product===currentProduct || service?.product===__PRODUCT_TYPE?.all_products) && service?.enabled))?.map(each=>{
                                         return <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 10}}>
                                             <p style={{fontSize: 14, letterSpacing: 1, color: "rgba(0, 0, 0, 0.8)"}}>
                                                 {each?.name}
@@ -348,15 +418,19 @@ const AgentServiceFees = (props) => {
                                 </div>
                                 <p style={{fontSize: 17, fontWeight: "bolder", letterSpacing: 1, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.8)"}}>
                                     <span style={{fontSize: 14, fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.7)", fontWeight: "bolder"}}>
-                                        $</span>25.12
+                                        $</span>{
+                                         add_commas_to_number((agentServiceFees?.filter(service=>
+                                            ((service?.product===currentProduct || service?.product===__PRODUCT_TYPE?.all_products) && service?.enabled))
+                                            ?.reduce((accumulator, current_elem) => accumulator + current_elem?.price, 0)))
+                                    }
                                 </p>
                             </div>
                             <div>
                                 <div style={{display: "flex", marginTop: 20, justifyContent: "space-between"}}>
-                                    <div style={{cursor: "pointer", boxShadow: "rgba(0, 0, 0, 0.3) 1px 2px 3px", backgroundColor: "crimson", color: "white", borderRadius: "100%", width: 40, height: 40, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                    <div style={{cursor: "pointer", boxShadow: "rgba(0, 0, 0, 0.3) 1px 2px 3px", backgroundColor: "rgb(167, 149, 149)", color: "grey", borderRadius: "100%", width: 40, height: 40, display: "flex", justifyContent: "center", alignItems: "center"}}>
                                         <i className="fa-solid fa-arrow-left" ariaHidden="true"></i>
                                     </div>
-                                    <div style={{cursor: "pointer", marginTop: 0, display: "flex", justifyContent: "center", alignItems: "center", width: "calc(100% - 50px)", backgroundColor: "rgb(23, 87, 148)", color: "white", borderRadius: 50}}>
+                                    <div style={{cursor: "pointer", marginTop: 0, display: "flex", justifyContent: "center", alignItems: "center", width: "calc(100% - 50px)", backgroundColor: "rgb(138, 141, 144)", color: "grey", borderRadius: 50}}>
                                         Continue
                                         <span style={{fontSize: 13, color: "rgba(255, 255, 255, 0.4)", marginLeft: 10}}>
                                             (Passengers)
