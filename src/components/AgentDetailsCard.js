@@ -37,10 +37,10 @@ const AgentDetailsCard = (props) => {
                     <p style={{letterSpacing: 1, color: "rgb(217, 0, 255)", fontSize: 14, marginBottom: 10}}>
                         Sales: 
                         <span style={{marginLeft: 10, color: "orange"}}>
-                        $3,000 
+                        $3,000
                         </span>
-                        <span style={{marginLeft: 5, color: "rgba(255, 255, 255, 0.57)"}}>
-                            - 8 days
+                        <span style={{marginLeft: 5, fontSize: 11, color: "rgba(255, 255, 255, 0.57)"}}>
+                            (profit made this month)
                         </span>
                     </p>
                     <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 10}}>

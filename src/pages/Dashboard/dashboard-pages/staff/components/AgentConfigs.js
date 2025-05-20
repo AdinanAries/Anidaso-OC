@@ -15,16 +15,21 @@ const AgentConfigs = (props) => {
 
     const isLoggedUserAgent = true;
 
-    const __PROP_KEY="profit-type";
+    const __PROFIT_TYPE_PROP_KEY="profit_type";
     const __PROFIT_TYPES = {
-        percentage: "percentage-markup",
-        flat_rate: "flat-rate",
+        percentage: "price_markup",
+        flat_rate: "flat_rate",
     };
     const [ profitType, setProfitType ] = useState(__PROFIT_TYPES?.percentage);
     const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
         user_id: userDetails?._id,
-        property: "price_markup",
+        property: __PROFIT_TYPES?.percentage,
         value: 15,
+    });
+    const [ agentFlatRate, setAgentFlatRate ] = useState({
+        user_id: userDetails?._id,
+        property: __PROFIT_TYPES?.flat_rate,
+        value: 0,
     });
     const [ appConfigs, setAppConfigs ] = useState([
         {
@@ -61,13 +66,30 @@ const AgentConfigs = (props) => {
         message: "",
     });
 
+    const resetFormValidation = () => {
+        setFormValidation({
+            type: "warning",
+            isError: false,
+            message: "",
+        });
+    }
+
     useEffect(()=>{
         setCurrentAgentInfo();
     }, []);
 
     const setCurrentAgentInfo = async () => {
+
+        // 1. Agent's Profit Type
+        let pt_res = await fetchAgentInfoByAgentIdAndPropName(
+            userDetails?._id, 
+            __PROFIT_TYPE_PROP_KEY
+        );
+        if(pt_res?._id){
+            setProfitType(pt_res?.value);
+        }
         
-        // 1. Agent's Price Markup Percentage
+        // 2. Agent's Price Markup Percentage
         let pmp_res = await fetchAgentInfoByAgentIdAndPropName(
             agentPriceMarkup?.user_id, 
             agentPriceMarkup?.property
@@ -79,36 +101,71 @@ const AgentConfigs = (props) => {
             });
         }
 
-        // 2. Agents Set Data Provder
+        // 3. Agent's Flat Rate Profit
+        let flp_res = await fetchAgentInfoByAgentIdAndPropName(
+            agentFlatRate?.user_id, 
+            agentFlatRate?.property
+        );
+        if(flp_res?._id){
+            setAgentFlatRate({
+                ...agentFlatRate,
+                value: flp_res?.value,
+            });
+        }
+
+        // 3. Agents Set Data Provder
     }
 
     const agentPriceMarkupOnchange = (e) => {
+        resetFormValidation();
         setAgentPriceMarkup({
             ...agentPriceMarkup,
             value: e.target.value
         })
     }
 
+    const agentFlatRateOnchange = (e) => {
+        resetFormValidation();
+        setAgentFlatRate({
+            ...agentFlatRate,
+            value: e.target.value
+        })
+    }
+
     const agentBookingParametersFormOnSubmit = async () => {
-        // 1. Price Markup
-        if(!agentPriceMarkup.value) {
+        
+        if(!agentPriceMarkup.value && profitType===__PROFIT_TYPES?.percentage) {
             setFormValidation({
                 type: "error",
                 isError: true,
-                message: "Please add price markup percentage value",
+                message: "Percentage must be provided and above 0",
             });
             return
         }
-        let res = await createNewAgentInfo(agentPriceMarkup);
-        /*if(!res._id){
+
+        if(!agentFlatRate.value && profitType===__PROFIT_TYPES?.flat_rate) {
             setFormValidation({
                 type: "error",
                 isError: true,
-                message: res.message,
+                message: "Flat rate value must be provided and above 0",
             });
-        }*/
+            return
+        }
 
-        // 2. Data Provider
+        // 1. Saving Current Profit Type
+        let pt_res = await createNewAgentInfo({
+            user_id: userDetails?._id,
+            property: __PROFIT_TYPE_PROP_KEY,
+            value: profitType,
+        });
+
+        // 2. Saving Current Price Markup
+        let pmp_res = await createNewAgentInfo(agentPriceMarkup);
+
+        // 3. Saving Current Flat Rate Profit
+        let flp_res = await createNewAgentInfo(agentFlatRate);
+
+        // 4. Data Provider
         //---Here for Data Provider--//
 
         alert(`Booking parameters modified!`);
@@ -147,12 +204,12 @@ const AgentConfigs = (props) => {
                         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                                 <i className="fa fa-file-invoice-dollar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                Enter Flat Rate Charge
+                                Enter Flat Rate Charge ($)
                                 <span onClick={()=>setProfitType(__PROFIT_TYPES?.percentage)} style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
                                     Change To Percentage (%)</span></p>
                             <div style={{border: "none"}}>
-                                <input onInput={()=>{}}
-                                        value=""
+                                <input onInput={agentFlatRateOnchange}
+                                        value={agentFlatRate?.value}
                                     type="number" placeholder="type here..."
                                     style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
                             </div>
