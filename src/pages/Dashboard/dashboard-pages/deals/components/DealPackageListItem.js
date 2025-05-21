@@ -15,14 +15,14 @@ const DealPackageListItem = (props) => {
     }
 
     return <div onClick={viewDealPackageInfoOnclick} 
-        style={{background: completed ? "rgba(0,0,0,0.1)" : "rgba(255,0,0,0.1)", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+        style={{background: completed ? "rgba(0,0,0,0.1)" : "rgba(255,0,0,0.1)", cursor: "pointer"}}>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
             <div style={{display: "flex", alignItems: "center"}}>
                 {
                     img ?
-                    <div style={{backgroundImage: `url('${HotelPic}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center", width: 100, height: 100, border: "1px solid rgba(255,255,255,0.1)"}}>
+                    <div style={{backgroundImage: `url('${HotelPic}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center", width: 100, height: 100}}>
                     </div> :
-                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: 100, height: 100, background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)"}}>
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: 100, height: 100, background: "rgba(0,0,0,0.2)"}}>
                         <i style={{color: "orange", fontSize: 27}} className="fa fa-folder"></i>
                     </div>
                 }
@@ -48,13 +48,13 @@ const DealPackageListItem = (props) => {
                                 Incomplete Setup
                             </span>
                         </div> :
-                        <p style={{fontSize: 13, borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 10, color: "rgba(255,255,255,0.8)", marginTop: 10}}>
+                        <p style={{fontSize: 13, color: "rgba(255,255,255,0.8)", marginTop: 10}}>
                             Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod...
                         </p>
                     }
                 </div>
             </div>
-            <div style={{marginRight: 10, display: "flex", justifyContent: "center", alignItems: "center", width: 30, height: 30, borderRadius: "100%", border: "1px solid rgba(255,255,255,0.1)"}}>
+            <div style={{marginRight: 10, display: "flex", justifyContent: "center", alignItems: "center", width: 30, height: 30, borderRadius: "100%"}}>
                 <i style={{color: completed ? "lightgreen" : "red", fontSize: 20}} className={"fa fa-"+ (completed ? "angle-right" : "tools")}></i>
             </div>
         </div>

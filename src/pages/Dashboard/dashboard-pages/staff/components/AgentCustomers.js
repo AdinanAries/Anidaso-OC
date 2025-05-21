@@ -20,9 +20,9 @@ const AgentCustomers = (props) => {
         setCustomersList(__customers);
     }
 
-    const customerOnDelete = (id) => {
+    const customerOnDelete = (cust_obj) => {
         if(window.confirm("Do you want to delete customer?")){
-            alert("Deleting Customer "+id);
+            alert("Deleting Customer "+cust_obj?._id);
         }
     }
 
@@ -40,7 +40,7 @@ const AgentCustomers = (props) => {
                             className='fa-solid fa-search'></i>
                         <input 
                             style={{background: "none", color: "white", border: "none", width: "calc(100% - 40px)"}}
-                            placeholder="Enter customer here"
+                            placeholder="Enter customer name/email here"
                         />
                         <div style={{background: "green", color: "white", padding: "10px 20px", borderRadius: 50, cursor: "pointer"}}>
                             Search
@@ -78,7 +78,7 @@ const AgentCustomers = (props) => {
                                             </span>
                                         </span>
 
-                                        <span onClick={()=>customerOnDelete(each?._id)}
+                                        <span onClick={()=>customerOnDelete(each)}
                                             className="tool-tip-parent" style={{color: "red", cursor: "pointer", cursor: "pointer"}}>
                                             <i className="fa-solid fa-trash-can"></i>
                                             <span style={{color: "black", fontSize: 13, textAlign: 'center'}}

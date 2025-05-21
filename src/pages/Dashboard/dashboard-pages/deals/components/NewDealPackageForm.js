@@ -6,7 +6,7 @@ function NewDealPackageForm(props){
     return (
         <div>
             <div className="login_page_form_container" 
-                style={{padding: "20px 10px", borderRadius: 8, backgroundColor: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.1)", overflow: "hidden"}}>
+                style={{padding: "20px 10px", borderRadius: 8, backgroundColor: "rgba(255,255,255,0.1)", overflow: "hidden"}}>
                 <p className="title-font-color-default" style={{padding: "0 20px", fontSize: 14, marginBottom: 10}}>
                     <i className="fa fa-folder" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                     Please complete the form below to add new deal or package</p>
@@ -14,7 +14,7 @@ function NewDealPackageForm(props){
                     <div style={{marginBottom: 5,}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", 
                             width: "100%", height: 200, background: "rgba(0,0,0,0.2)", borderRadius: 8,
-                            border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer"}}>
+                            cursor: "pointer"}}>
                             <div>
                                 <p style={{textAlign: "center"}}>
                                     <i style={{color: "orange", fontSize: 27}} className="fa fa-plus"></i>

@@ -9,7 +9,7 @@ const OtherInfo = (props) => {
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                             position: "relative", width: 80, height: 80, borderRadius: 8, cursor: "pointer", marginRight: 5,
-                            border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
+                            background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, top: 0, right: 0, background: "rgba(0,0,0,0.2)"}}>
                             <i style={{color: "lightgreen"}} className="fa fa-plus"></i>
                         </div>
@@ -23,7 +23,7 @@ const OtherInfo = (props) => {
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                             position: "relative", width: 80, height: 80, borderRadius: 8, cursor: "pointer", marginRight: 5,
-                            border: "1px solid lightgreen", background: "rgba(0,255,0,0.1)", overflow: "hidden"}}>
+                            background: "rgba(0,255,0,0.1)", overflow: "hidden"}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, top: 0, right: 0, background: "rgba(0,0,0,0.2)"}}>
                             <i style={{color: "red"}} className="fa fa-trash"></i>
                         </div>
@@ -37,7 +37,7 @@ const OtherInfo = (props) => {
                     </div>  
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                             position: "relative", width: 80, height: 80, borderRadius: 8, cursor: "pointer", marginRight: 5,
-                            border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
+                            background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, top: 0, right: 0, background: "rgba(0,0,0,0.2)"}}>
                             <i style={{color: "lightgreen"}} className="fa fa-plus"></i>
                         </div>
@@ -51,7 +51,7 @@ const OtherInfo = (props) => {
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                             position: "relative", width: 80, height: 80, borderRadius: 8, cursor: "pointer", marginRight: 5,
-                            border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
+                            background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, top: 0, right: 0, background: "rgba(0,0,0,0.2)"}}>
                             <i style={{color: "lightgreen"}} className="fa fa-plus"></i>
                         </div>
@@ -65,7 +65,7 @@ const OtherInfo = (props) => {
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                             position: "relative", width: 80, height: 80, borderRadius: 8, cursor: "pointer", marginRight: 5,
-                            border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
+                            background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, top: 0, right: 0, background: "rgba(0,0,0,0.2)"}}>
                             <i style={{color: "lightgreen"}} className="fa fa-plus"></i>
                         </div>
@@ -79,7 +79,7 @@ const OtherInfo = (props) => {
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                             position: "relative", width: 80, height: 80, borderRadius: 8, cursor: "pointer", marginRight: 5,
-                            border: "1px solid lightgreen", background: "rgba(0,255,0,0.1)", overflow: "hidden"}}>
+                            background: "rgba(0,255,0,0.1)", overflow: "hidden"}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, top: 0, right: 0, background: "rgba(0,0,0,0.2)"}}>
                             <i style={{color: "red"}} className="fa fa-trash"></i>
                         </div>
@@ -93,7 +93,7 @@ const OtherInfo = (props) => {
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                             position: "relative", width: 80, height: 80, borderRadius: 8, cursor: "pointer", marginRight: 5,
-                            border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
+                            background: "rgba(0,0,0,0.1)", overflow: "hidden"}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, top: 0, right: 0, background: "rgba(0,0,0,0.2)"}}>
                             <i style={{color: "lightgreen"}} className="fa fa-plus"></i>
                         </div>

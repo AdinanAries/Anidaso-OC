@@ -157,6 +157,12 @@ const CustomerForm = (props) => {
         if(__res?._id){
             successCallBack();
             setIsLoading(false);
+            if(currentCustomer?._id){
+                onCancelButtonFunc({});
+            }else{
+                setformData(__INIT_CUST_OBJ);
+            }
+            
         }else{
             setFormValidation({
                 type: "error",
