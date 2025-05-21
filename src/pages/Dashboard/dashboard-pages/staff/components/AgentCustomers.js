@@ -9,6 +9,7 @@ const AgentCustomers = (props) => {
     } = props;
 
     const [customersList, setCustomersList ] = useState([]);
+    const [ currentCustomer, setCurrentCustomer ] = useState({});
 
     useEffect(()=>{
         loadCustomers();
@@ -17,6 +18,12 @@ const AgentCustomers = (props) => {
     const loadCustomers = async () => {
         let __customers = await fetchCustomersByAgentId(userDetails?._id);
         setCustomersList(__customers);
+    }
+
+    const customerOnDelete = (id) => {
+        if(window.confirm("Do you want to delete customer?")){
+            alert("Deleting Customer "+id);
+        }
     }
 
     return <div style={{paddingTop: 30}} className="main-seaction-containers">
@@ -28,14 +35,17 @@ const AgentCustomers = (props) => {
         <div style={{marginBottom: 10}}>
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div style={{width: "calc(50% - 4px)", borderRadius: 8, backgroundColor: "rgb(43, 52, 61)", padding: 10}}>
-                    <p style={{backgroundColor: "rgba(0,0,0,0.2)", padding: 10, fontSize: 12}}>
+                    <div style={{backgroundColor: "rgba(0,0,0,0.2)", padding: 10, fontSize: 12, display: "flex", alignItems: "center"}}>
                         <i style={{color: "lightgreen", marginRight: 10}}
                             className='fa-solid fa-search'></i>
                         <input 
                             style={{background: "none", color: "white", border: "none", width: "calc(100% - 40px)"}}
-                            placeholder="Search customer here"
+                            placeholder="Enter customer here"
                         />
-                    </p>
+                        <div style={{background: "green", color: "white", padding: "10px 20px", borderRadius: 50, cursor: "pointer"}}>
+                            Search
+                        </div>
+                    </div>
                     <div style={{marginTop: 2, borderTop: "1px dashed rgba(0,0,0,0.5)"}}>
                         {
                             (customersList?.length < 1) && <>
@@ -45,13 +55,10 @@ const AgentCustomers = (props) => {
                                     <p style={{color: "white", fontSize: 13}}>
                                         You dont have any saved customers yet. You may add new customer or simply enter customer email on the right to send search link to customer!</p>
                                 </div>
-                                <p style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
-                                    <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-address-card'></i>
-                                    Open Extended New Customer Form
-                                </p>
                             </>
                         }
                         {
+                            !currentCustomer?._id &&
                             customersList?.map(each=>{
                                 return <div style={{display: "flex", justifyContent: "space-between", marginTop: 10, padding: 10, paddingTop: 0, cursor: "pointer", borderBottom: "1px solid rgba(0,0,0,0.2)"}}>
                                     <p style={{color: "white", fontSize: 13}}>
@@ -62,7 +69,8 @@ const AgentCustomers = (props) => {
                                         </span>
                                     </p>
                                     <p>
-                                        <span className="tool-tip-parent" style={{color: "lightgreen", cursor: "pointer", marginLeft: 5, marginRight: 20, cursor: "pointer"}}>
+                                        <span onClick={()=>setCurrentCustomer(each)}
+                                            className="tool-tip-parent" style={{color: "lightgreen", cursor: "pointer", marginLeft: 5, marginRight: 20, cursor: "pointer"}}>
                                             <i className="fa-solid fa-pencil"></i>
                                             <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
                                                 className="tool-tip">
@@ -70,7 +78,8 @@ const AgentCustomers = (props) => {
                                             </span>
                                         </span>
 
-                                        <span className="tool-tip-parent" style={{color: "red", cursor: "pointer", cursor: "pointer"}}>
+                                        <span onClick={()=>customerOnDelete(each?._id)}
+                                            className="tool-tip-parent" style={{color: "red", cursor: "pointer", cursor: "pointer"}}>
                                             <i className="fa-solid fa-trash-can"></i>
                                             <span style={{color: "black", fontSize: 13, textAlign: 'center'}}
                                                 className="tool-tip">
@@ -80,6 +89,18 @@ const AgentCustomers = (props) => {
                                     </p>
                                 </div>
                             }) 
+                        }
+                        {
+                            currentCustomer?._id &&
+                            <div style={{marginTop: 10}}>
+                                <CustomerForm 
+                                    showFull={true}
+                                    userDetails={userDetails}
+                                    successCallBack={loadCustomers}
+                                    currentCustomer={currentCustomer}
+                                    onCancelButtonFunc={setCurrentCustomer}
+                                />
+                            </div>
                         }
                     </div>
                     {   
@@ -95,6 +116,7 @@ const AgentCustomers = (props) => {
                 </div>
                 <div style={{width: "calc(50% - 4px)"}}>
                     <CustomerForm 
+                        showFull={false}
                         userDetails={userDetails}
                         successCallBack={loadCustomers}
                     />

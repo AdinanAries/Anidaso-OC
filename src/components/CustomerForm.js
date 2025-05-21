@@ -5,8 +5,11 @@ import FormErrorCard from "./FormErrorCard";
 const CustomerForm = (props) => {
 
     const {
+        showFull,
         userDetails,
         successCallBack,
+        currentCustomer,
+        onCancelButtonFunc,
     } = props;
 
     const [ isLoading, setIsLoading ] = useState(false);
@@ -24,8 +27,7 @@ const CustomerForm = (props) => {
         });
     }
 
-    const [ isExtendedForm, setIsExtendedForm ] = useState(false);
-    const [ formData, setformData ] = useState({
+    let __INIT_CUST_OBJ={
         oc_user_id: userDetails?._id,
         first_name: "",
         last_name: "",
@@ -38,7 +40,14 @@ const CustomerForm = (props) => {
         state: "",
         country: "",
         zip_code: "",
-    });
+    };
+
+    if(currentCustomer){
+        __INIT_CUST_OBJ=currentCustomer;
+    }
+
+    const [ isExtendedForm, setIsExtendedForm ] = useState(showFull);
+    const [ formData, setformData ] = useState(__INIT_CUST_OBJ);
 
     const firstNameOnInput = (e) => {
         resetFormValidation();
@@ -159,11 +168,19 @@ const CustomerForm = (props) => {
     }
 
     return <div>
-        <p className="title-font-color-default" style={{color: "orange", fontSize: 12, marginBottom: 10}}>
-            <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
-                className="fa fa-user-plus"></i>
-            Create Customer
-        </p>
+        {
+            currentCustomer?._id ? 
+            <p className="title-font-color-default" style={{color: "orange", fontSize: 12, marginBottom: 10}}>
+                <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
+                    className="fa fa-pencil"></i>
+                Edit Customer
+            </p> :
+            <p className="title-font-color-default" style={{color: "orange", fontSize: 12, marginBottom: 10}}>
+                <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
+                    className="fa fa-user-plus"></i>
+                Create Customer
+            </p>
+        }
         {
             isLoading ?
             <div style={{padding: "40px 20px", backgroundColor: "rgba(0,255,255,0.1)", marginTop: 20, display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -323,10 +340,20 @@ const CustomerForm = (props) => {
                         type={formValidation.type}
                     />
                 }
-                <div onClick={formOnSubmit} 
-                    className="standard-action-button" style={{marginTop: 10}}>
-                    <i style={{marginRight: 10, fontSize: 14}} className="fa-solid fa-plus"></i>
-                    Create Customer
+                <div style={{display: currentCustomer?._id ? "flex" : "block", justifyContent: "space-between", }}>
+                    <div onClick={formOnSubmit} 
+                        className="standard-action-button" style={{marginTop: 10}}>
+                        <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-floppy-disk"></i>
+                        Save
+                    </div>
+                    {
+                        currentCustomer?._id &&
+                        <div onClick={()=>onCancelButtonFunc({})} 
+                            className="standard-action-button" style={{marginTop: 10, backgroundColor: "crimson"}}>
+                            <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-times"></i>
+                            Cancel
+                        </div>
+                    }
                 </div>
             </>
         }
