@@ -18,6 +18,7 @@ import AgentWallet from "./AgentWallet";
 import AgentDetailsCard from "../../../../../components/AgentDetailsCard";
 import AgentCompanyDetails from "./AgentCompanyDetails";
 import EngineConfiguratorPage from "./EngineConfiguratorPage";
+import ActivityLog from "./ActivityLog";
 
 const StaffInfo = (props) => {
 
@@ -567,93 +568,9 @@ const StaffInfo = (props) => {
                                 }
                             </div>
                             <div style={{width: "calc(50% - 10px)"}}>
-                                <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
-                                    <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
-                                        className="fa fa-rectangle-list"></i>
-                                    Activity Log
-                                </p>
-                                <div>
-                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                                className="fa fa-history"></i>
-                                            New Flight Booking Booking
-                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                                03-04-2024 @ 14:12:34
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                                className="fa fa-history"></i>
-                                            New Flight Booking Booking
-                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                                03-04-2024 @ 14:12:34
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                                className="fa fa-history"></i>
-                                            New Flight Booking Booking
-                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                                03-04-2024 @ 14:12:34
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                                className="fa fa-history"></i>
-                                            New Flight Booking Booking
-                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                                03-04-2024 @ 14:12:34
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                                className="fa fa-history"></i>
-                                            New Flight Booking Booking
-                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                                03-04-2024 @ 14:12:34
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                                className="fa fa-history"></i>
-                                            New Flight Booking Booking
-                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                                03-04-2024 @ 14:12:34
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                                className="fa fa-history"></i>
-                                            New Flight Booking Booking
-                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                                03-04-2024 @ 14:12:34
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div style={{padding: 10, borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
-                                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13}}>
-                                            <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} 
-                                                className="fa fa-history"></i>
-                                            New Flight Booking Booking
-                                            <span style={{color: "orange", fontSize: 12, marginLeft: 10}}>
-                                                03-04-2024 @ 14:12:34
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
+                                <ActivityLog
+                                    userDetails={selectedStaff}
+                                />
                             </div>
                         </div>
                     </div>

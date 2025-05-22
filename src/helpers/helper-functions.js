@@ -497,6 +497,13 @@ export function return_values_as_array_from_obj(obj){
     return values;
 }
 
+export const getClient = async () => {
+    const client={};
+    // Browser
+    client.device=navigator.userAgent;
+    return client;
+}
+
 export function calculateActionPoints(total_money_amount){
     let unit_amout = 0.05; // $0.05 is to 1 action
     return (total_money_amount/unit_amout).toFixed(0);

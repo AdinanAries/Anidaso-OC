@@ -5,6 +5,7 @@ import {
     fetchServiceFeesByAgentId
 } from "../../../../../services/serviceFeeServices";
 import { add_commas_to_number } from "../../../../../helpers/helper-functions";
+import Logger from "../../../../../helpers/Logger";
 
 const AgentServiceFees = (props) => {
 
@@ -117,6 +118,15 @@ const AgentServiceFees = (props) => {
                 deleted: false,
             });
             setIsLoading(false);
+            // Log Acivity
+            Logger.log_activity(
+                __res?.oc_user_id,
+                {
+                    title: `${__res?.name} service fee was added`,
+                    body: `${__res?.name} service fee of $${__res?.price} was added for ${__PRODUCT_TYPE_NAMES[__res?.product]}.`,
+                    resource_id: "",
+                    resource_type: "Service Fee",
+            });
         }
     }
 
@@ -142,6 +152,15 @@ const AgentServiceFees = (props) => {
                     if (index > -1) {
                         agentServiceFees?.splice(index, 1);
                     }
+                    // Log Acivity
+                    Logger.log_activity(
+                        __res?.oc_user_id,
+                        {
+                            title: `${each?.name} service fee was deleted`,
+                            body: `${each?.name} service fee of $${each?.price} was deleted from ${__PRODUCT_TYPE_NAMES[each?.product]}.`,
+                            resource_id: "",
+                            resource_type: "Service Fee",
+                    });
                 }
             }
             setAgentServiceFees([
