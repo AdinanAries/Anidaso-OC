@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import LOGO_PLACEHOLDER from "../../../../../LOGO_PLACEHOLDER.jpg";
 import { 
     createNewCompany,
-    fetchCompanyById
+    fetchCompanyById,
+    updateCompany,
 } from "../../../../../services/companyServices";
 import { updateAccountInfo } from "../../../../../services/accountServices";
+import Logger from "../../../../../helpers/Logger";
 
 const AgentCompanyDetails = (props) => {
 
@@ -123,8 +125,20 @@ const AgentCompanyDetails = (props) => {
         }
 
         if(formData?._id){
-            alert("supposed to update!")
-            // update here
+            let __res = await updateCompany(formData);
+            setIsLoading(false);
+            if(__res?._id){
+                // Log Acivity
+                Logger.log_activity(
+                    userDetails._id,
+                    {
+                        title: `${__res?.business_name} company was updated`,
+                        body: `${__res?.business_name} company was updated with the following details: 
+                            ${__res?.business_phone}, ${__res?.business_email}, ${__res?.business_facebook_link}, ${__res?.business_twitter_link}, ${__res?.business_instagram_link}`,
+                        resource_id: "",
+                        resource_type: "Company",
+                });
+            }
         } else {
             let __res = await createNewCompany(formData);
             if(__res?._id){
@@ -147,6 +161,18 @@ const AgentCompanyDetails = (props) => {
                 if(__u_res?._id){
                     alert("New Company Info Crated!");
                     setIsLoading(false);
+
+                    // Log Acivity
+                    Logger.log_activity(
+                        userDetails._id,
+                        {
+                            title: `${__res?.business_name} company was created`,
+                            body: `${__res?.business_name} company was created with the following details: 
+                            ${__res?.business_phone}, ${__res?.business_email}, ${__res?.business_facebook_link}, ${__res?.business_twitter_link}, ${__res?.business_instagram_link}`,
+                            resource_id: "",
+                            resource_type: "Company",
+                    });
+
                 }else{
                     setFormValidation({
                         type: "error",

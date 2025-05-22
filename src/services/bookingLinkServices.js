@@ -29,7 +29,7 @@ export const createNewBookingLink = async (formData, path=`\\api\\booking-links\
     }
 }
 
-export const fetchBookingLinksByAgentId = async (agent_id, offset=1, limit=10, path=`\\api\\booking-links\\agent\\all\\`) => {
+export const fetchBookingLinksByAgentId = async (agent_id, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\booking-links\\agent\\all\\`) => {
     try{
         return await fetch(API_URL+path+agent_id+'\\'+offset+'\\'+limit, {
             method: "GET",
@@ -39,7 +39,14 @@ export const fetchBookingLinksByAgentId = async (agent_id, offset=1, limit=10, p
                 'Authorization': `Bearer ${USER_TOKEN}`
             },
         })
-        .then(res => res.json())
+        .then(res => {
+            for (var pair of res.headers.entries()) {
+                if (pair[0] === 'pagination-total-items') {
+                    setTotalItemsState(pair[1]);
+                }
+            }
+            return res.json();
+        })
         .then(data => {
             if(data?.status && data?.status === 401)
                 deleteUserToken();

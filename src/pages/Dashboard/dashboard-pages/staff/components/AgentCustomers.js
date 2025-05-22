@@ -12,18 +12,22 @@ const AgentCustomers = (props) => {
         userDetails
     } = props;
 
+    const PAGI_LIMIT = 10;
+
     const [customersList, setCustomersList ] = useState([]);
     const [ currentCustomer, setCurrentCustomer ] = useState({});
     const [ searchCustomerQuery, setSearchCustomerQuery ] = useState("");
     const [ isLoading, setisLoading ] = useState(false);
+    const [ totalItems, setTotalItems ] = useState(0);
+    const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
 
     useEffect(()=>{
         loadCustomers();
-    }, []);
+    }, [pagiCurrentPage]);
 
     const loadCustomers = async () => {
         setisLoading(true);
-        let __customers = await fetchCustomersByAgentId(userDetails?._id);
+        let __customers = await fetchCustomersByAgentId(userDetails?._id, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
         setCustomersList(__customers);
         setisLoading(false);
     }
@@ -63,8 +67,18 @@ const AgentCustomers = (props) => {
             alert("Please enter customer name or email or phone");
             return;
         }
-        let __customers = await fetchCustomersByAgentIdAndSearchQuery(userDetails?._id, searchCustomerQuery);
+        let __customers = await fetchCustomersByAgentIdAndSearchQuery(userDetails?._id, searchCustomerQuery, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
         setCustomersList(__customers);
+    }
+
+    const all_pages = [];
+    let i=1;
+    while(true){
+        all_pages.push(i);
+        if(i>=totalItems){
+            break
+        }
+        i+=PAGI_LIMIT;
     }
 
     return <div style={{paddingTop: 30}} className="main-seaction-containers">
@@ -152,15 +166,30 @@ const AgentCustomers = (props) => {
                             }
                         </div>
                     }
-                    {   
-                        (customersList?.length > 0) &&
-                        <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
-                            <div className='prev-next-btn inactive'>
-                                <i className='fa-solid fa-angle-left'></i></div>
-                            <div>1</div>
-                            <div className='prev-next-btn inactive'>
-                                <i className='fa-solid fa-angle-right'></i></div>
-                        </div>
+                    {
+                        totalItems > PAGI_LIMIT &&
+                        <>
+                            <select onInput={e=>setpagiCurrentPage(e.target.value)}
+                                value={pagiCurrentPage}
+                                className="select-input-paginator"
+                            >
+                                {
+                                    all_pages?.map((each, i)=>{
+                                        return <option style={{color: "black"}}
+                                            value={each}
+                                        >{each} - {(each+PAGI_LIMIT-1)}</option>
+                                            
+                                    })  
+                                }
+                            </select>
+                            <span style={{color: "grey", marginLeft: 10, fontSize: 12}}>
+                                <span style={{margin: 10, color: "rgba(255,255,255,0.5)", fontSize: 15}}>-</span>
+                                Total: 
+                                <span style={{color: "orange", margin: 5}}>{totalItems}</span> 
+                                item(s)
+                                <span style={{margin: 10, color: "rgba(255,255,255,0.5)", fontSize: 15}}>-</span>
+                            </span>
+                        </>
                     }
                 </div>
                 <div style={{width: "calc(50% - 4px)"}}>

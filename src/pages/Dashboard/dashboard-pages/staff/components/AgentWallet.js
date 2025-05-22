@@ -23,15 +23,21 @@ const AgentWallet = (props) => {
     let isAdmin = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.admin);
     let isAgent = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.agent);
 
+    const PAGI_LIMIT = 10;
+
+    const [ isLoading, setIsLoading ] = useState(false);
     const [ transactions, setTransactions ] = useState([]);
     const [ transactionTypes, setTransactionTypes ] = useState([]);
+    const [ totalItems, setTotalItems ] = useState(0);
+    const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
 
     useEffect(()=>{
         if(userDetails?.wallet_info)
             loadPageData();
-    }, []);
+    }, [pagiCurrentPage]);
 
     const loadPageData = async () => {
+        setIsLoading(true);
         // Setting current balance
         if(userDetails?._id === loggedInUserDetails?._id){
             let _wallet = await fetchWalletById(userDetails?.wallet_info?._id);
@@ -46,7 +52,7 @@ const AgentWallet = (props) => {
             /*setUserDetails(updated_user_info);*/
         }
 
-        let __trans = await fetchTransactionsByWalletId(userDetails?.wallet_info?._id);
+        let __trans = await fetchTransactionsByWalletId(userDetails?.wallet_info?._id, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
         let __trans_types = await fetchTransactionTypes();
         console.log(__trans_types);
         setTransactionTypes(__trans_types);
@@ -60,6 +66,17 @@ const AgentWallet = (props) => {
             }
         }
         setTransactions(__trans);
+        setIsLoading(false);
+    }
+
+    const all_pages = [];
+    let i=1;
+    while(true){
+        all_pages.push(i);
+        if(i>=totalItems){
+            break
+        }
+        i+=PAGI_LIMIT;
     }
 
     return <div style={{paddingTop: 30}} className="main-seaction-containers">
@@ -144,99 +161,136 @@ const AgentWallet = (props) => {
                                 style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
                         </div>
                     </div>
-                    <table className='app-standard-table'>
-                        <tr>
-                            <td>Type</td>
-                            <td>Title</td>
-                            <td>Description</td>
-                            <td style={{backgroundColor: "pink"}}>Updated At</td>
-                            <td>Amount</td>
-                            <td>Points</td>
-                            <td>Balance Before</td>
-                            <td>Balance After</td>
-                        </tr>
-                        {/*<tr>
-                            <td style={{color: "orangered"}}>
-                                <i style={{color: "red", marginRight: 10}}
-                                    className="fa-solid fa-minus"></i>
-                                Debit
-                            </td>
-                            <td>Customer Flight Search</td>
-                            <td>
-                                flight, round-trip, 2025-04-30 - 2025-05-03, ACC, JFK, economy, 1 adult, 0 child, 0 infant
-                            </td>
-                            <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                2024-12-25, 01:26:22
-                            </td>
-                            <td>$0.32</td>
-                            <td>3 actions</td>
-                            <td>$3,000</td>
-                            <td>$2,999.68</td>
-                        </tr>
-                        <tr>
-                            <td style={{color: "lightgreen"}}>
-                                <i style={{marginRight: 10}}
-                                    className="fa-solid fa-plus"></i>
-                                Credit
-                            </td>
-                            <td>Wallet Top-up</td>
-                            <td>
-                                account balance increased with debit/credit card ending in ...4593
-                            </td>
-                            <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                2024-12-25, 01:26:22
-                            </td>
-                            <td>$0.32</td>
-                            <td>3 actions</td>
-                            <td>$3,000</td>
-                            <td>$2,999.68</td>
-                        </tr>*/}
-                        {
-                            transactions?.length && transactions?.map(each=>{
-                                return <tr>
-                                    <td style={{color: (each?.type_info?.type?.toLowerCase().trim()==="debit" ? "orangered" : "lightgreen"), fontSize: 11}}>
-                                        {
-                                            (each?.type_info?.type?.toLowerCase().trim()==="debit") &&
-                                            <>
-                                                <i style={{color: "red", marginRight: 10}}
-                                                    className="fa-solid fa-minus"></i>
-                                                Debit
-                                            </>
-                                        }
-                                        {
-                                            (each?.type_info?.type?.toLowerCase().trim()==="credit") &&
-                                            <>
-                                                <i style={{marginRight: 10}}
-                                                    className="fa-solid fa-plus"></i>
-                                                Credit
-                                            </>
-                                        }
-                                    </td>
-                                    <td>{each?.type_info?.title}</td>
-                                    <td className="tool-tip-parent" style={{color: "white"}}>
-                                        {each?.description?.substring(0, 25)}...
-                                        <div style={{top: "calc(100% - 5px)", minWidth: "100%", color: "black"}} className="tool-tip">
-                                            {each?.description}
-                                        </div>
-                                    </td>
-                                    <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                        {each?.updatedAt}
-                                    </td>
-                                    <td>${each?.total_amount}</td>
-                                    <td>{each?.total_action_points} actions</td>
-                                    <td>${(each?.wallet_balance_before).toFixed(2)}</td>
-                                    <td>${(each?.wallet_balance_after).toFixed(2)}</td>
-                                </tr>
-                            })
-                        }
-                    </table>
-                    <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
-                        <div className='prev-next-btn inactive'>
-                            <i className='fa-solid fa-angle-left'></i></div>
-                        <div>1</div>
-                        <div className='prev-next-btn inactive'>
-                            <i className='fa-solid fa-angle-right'></i></div>
-                    </div>
+                    {
+                        isLoading ? 
+                        <div style={{backgroundColor: "green", padding: 20, textAlign: "center",
+                            fontSize: 12, color: "lightgreen", margin: 10, marginBottom: 20, cursor: "pointer"}}>
+                            <i style={{marginRight: 10, color: "yellow"}} className="fa fa-spinner"></i>
+                            Loading.. Please Wait
+                        </div> :
+                        <>
+                            {
+                                transactions?.length < 1 ?
+                                <div style={{padding: 20, backgroundColor: "rgba(255,0,0,0.2)"}}>
+                                    <p style={{color: "white", fontSize: 13, textAlign: "center"}}>
+                                        <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-exclamation-triangle"></i>
+                                        Nothing to show...
+                                    </p>
+                                </div> :
+                                <table className='app-standard-table'>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td>Title</td>
+                                        <td>Description</td>
+                                        <td style={{backgroundColor: "pink"}}>Updated At</td>
+                                        <td>Amount</td>
+                                        <td>Points</td>
+                                        <td>Balance Before</td>
+                                        <td>Balance After</td>
+                                    </tr>
+                                    {/*<tr>
+                                        <td style={{color: "orangered"}}>
+                                            <i style={{color: "red", marginRight: 10}}
+                                                className="fa-solid fa-minus"></i>
+                                            Debit
+                                        </td>
+                                        <td>Customer Flight Search</td>
+                                        <td>
+                                            flight, round-trip, 2025-04-30 - 2025-05-03, ACC, JFK, economy, 1 adult, 0 child, 0 infant
+                                        </td>
+                                        <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                            2024-12-25, 01:26:22
+                                        </td>
+                                        <td>$0.32</td>
+                                        <td>3 actions</td>
+                                        <td>$3,000</td>
+                                        <td>$2,999.68</td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{color: "lightgreen"}}>
+                                            <i style={{marginRight: 10}}
+                                                className="fa-solid fa-plus"></i>
+                                            Credit
+                                        </td>
+                                        <td>Wallet Top-up</td>
+                                        <td>
+                                            account balance increased with debit/credit card ending in ...4593
+                                        </td>
+                                        <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                            2024-12-25, 01:26:22
+                                        </td>
+                                        <td>$0.32</td>
+                                        <td>3 actions</td>
+                                        <td>$3,000</td>
+                                        <td>$2,999.68</td>
+                                    </tr>*/}
+                                    {
+                                        transactions?.length && transactions?.map(each=>{
+                                            return <tr>
+                                                <td style={{color: (each?.type_info?.type?.toLowerCase().trim()==="debit" ? "orangered" : "lightgreen"), fontSize: 11}}>
+                                                    {
+                                                        (each?.type_info?.type?.toLowerCase().trim()==="debit") &&
+                                                        <>
+                                                            <i style={{color: "red", marginRight: 10}}
+                                                                className="fa-solid fa-minus"></i>
+                                                            Debit
+                                                        </>
+                                                    }
+                                                    {
+                                                        (each?.type_info?.type?.toLowerCase().trim()==="credit") &&
+                                                        <>
+                                                            <i style={{marginRight: 10}}
+                                                                className="fa-solid fa-plus"></i>
+                                                            Credit
+                                                        </>
+                                                    }
+                                                </td>
+                                                <td>{each?.type_info?.title}</td>
+                                                <td className="tool-tip-parent" style={{color: "white"}}>
+                                                    {each?.description?.substring(0, 25)}...
+                                                    <div style={{top: "calc(100% - 5px)", minWidth: "100%", color: "black"}} className="tool-tip">
+                                                        {each?.description}
+                                                    </div>
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                                    {each?.updatedAt}
+                                                </td>
+                                                <td>${each?.total_amount}</td>
+                                                <td>{each?.total_action_points} actions</td>
+                                                <td>${(each?.wallet_balance_before).toFixed(2)}</td>
+                                                <td>${(each?.wallet_balance_after).toFixed(2)}</td>
+                                            </tr>
+                                        })
+                                    }
+                                </table>
+                            }
+                        </>
+                    }
+                    {
+                        totalItems > PAGI_LIMIT &&
+                        <>
+                            <select onInput={e=>setpagiCurrentPage(e.target.value)}
+                                value={pagiCurrentPage}
+                                className="select-input-paginator"
+                            >
+                                {
+                                    all_pages?.map((each, i)=>{
+                                        return <option style={{color: "black"}}
+                                            value={each}
+                                        >{each} - {(each+PAGI_LIMIT-1)}</option>
+                                            
+                                    })  
+                                }
+                            </select>
+                            <span style={{color: "grey", marginLeft: 10, fontSize: 12}}>
+                                <span style={{margin: 10, color: "rgba(255,255,255,0.5)", fontSize: 15}}>-</span>
+                                Total: 
+                                <span style={{color: "orange", margin: 5}}>{totalItems}</span> 
+                                item(s)
+                                <span style={{margin: 10, color: "rgba(255,255,255,0.5)", fontSize: 15}}>-</span>
+                            </span>
+                        </>
+                    }
                 </div>
             </> :
             <div>

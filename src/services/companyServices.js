@@ -55,3 +55,29 @@ export const fetchCompanyById = async (company_id, path=`\\api\\company-info\\on
         return {isError: true, message: e.message};
     }
 }
+
+export const updateCompany = async (formData, path=`\\api\\company-info\\edit\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(res => res.json())
+        .then(data =>{ 
+            console.log(data);
+            return data;
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}

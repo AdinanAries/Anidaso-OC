@@ -52,7 +52,7 @@ export const fetchAgentInfoByAgentIdAndPropName = async (user_id, prop_name, pat
     }
 }
 
-export const fetchTransactionsByWalletId = async (wallet_id, offset=1, limit=10, path=`\\api\\wallets\\agent\\transaction\\all\\`) => {
+export const fetchTransactionsByWalletId = async (wallet_id, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\wallets\\agent\\transaction\\all\\`) => {
     try{
         return await fetch(API_URL+path+wallet_id+'\\'+offset+'\\'+limit, {
             method: "GET",
@@ -62,7 +62,14 @@ export const fetchTransactionsByWalletId = async (wallet_id, offset=1, limit=10,
                 'Authorization': `Bearer ${USER_TOKEN}`
             },
         })
-        .then(res => res.json())
+        .then(res => {
+            for (var pair of res.headers.entries()) {
+                if (pair[0] === 'pagination-total-items') {
+                    setTotalItemsState(pair[1]);
+                }
+            }
+            return res.json();
+        })
         .then(data => {
             if(data?.status && data?.status === 401)
                 deleteUserToken();
