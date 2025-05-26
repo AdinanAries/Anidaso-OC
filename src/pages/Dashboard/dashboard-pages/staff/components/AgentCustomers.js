@@ -28,7 +28,8 @@ const AgentCustomers = (props) => {
     const loadCustomers = async () => {
         setisLoading(true);
         let __customers = await fetchCustomersByAgentId(userDetails?._id, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
-        setCustomersList(__customers);
+        if(Array.isArray(__customers))
+            setCustomersList(__customers);
         setisLoading(false);
     }
 
@@ -68,7 +69,8 @@ const AgentCustomers = (props) => {
             return;
         }
         let __customers = await fetchCustomersByAgentIdAndSearchQuery(userDetails?._id, searchCustomerQuery, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
-        setCustomersList(__customers);
+        if(Array.isArray(__customers))
+            setCustomersList(__customers);
     }
 
     const all_pages = [];

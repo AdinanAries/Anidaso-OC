@@ -52,15 +52,16 @@ export const fetchAgentInfoByAgentIdAndPropName = async (user_id, prop_name, pat
     }
 }
 
-export const fetchTransactionsByWalletId = async (wallet_id, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\wallets\\agent\\transaction\\all\\`) => {
+export const fetchTransactionsByWalletId = async (wallet_id, filters, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\wallets\\agent\\transaction\\all\\`) => {
     try{
         return await fetch(API_URL+path+wallet_id+'\\'+offset+'\\'+limit, {
-            method: "GET",
+            method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${USER_TOKEN}`
             },
+            body: JSON.stringify({filters})
         })
         .then(res => {
             for (var pair of res.headers.entries()) {

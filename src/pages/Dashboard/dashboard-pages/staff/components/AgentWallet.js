@@ -30,11 +30,18 @@ const AgentWallet = (props) => {
     const [ transactionTypes, setTransactionTypes ] = useState([]);
     const [ totalItems, setTotalItems ] = useState(0);
     const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
+    const [ filtersTitleFld, setFiltersTitleFld ] = useState("");
+    const [ pageFilters, setPageFilters ] = useState({
+        product: -1,
+        trans_type: "all",
+        title: "",
+        time_intervals: "",
+    });
 
     useEffect(()=>{
         if(userDetails?.wallet_info)
             loadPageData();
-    }, [pagiCurrentPage]);
+    }, [pagiCurrentPage, pageFilters]);
 
     const loadPageData = async () => {
         setIsLoading(true);
@@ -52,21 +59,48 @@ const AgentWallet = (props) => {
             /*setUserDetails(updated_user_info);*/
         }
 
-        let __trans = await fetchTransactionsByWalletId(userDetails?.wallet_info?._id, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
+        let __trans = await fetchTransactionsByWalletId(userDetails?.wallet_info?._id, pageFilters, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
         let __trans_types = await fetchTransactionTypes();
         console.log(__trans_types);
         setTransactionTypes(__trans_types);
         if(__trans_types?.length){
-            for(let trans of __trans){
-                for(let trans_type of __trans_types) {
-                    if(trans_type?._id===trans?.transaction_type_id){
-                        trans.type_info=trans_type;
+            if(Array.isArray(__trans)){
+                for(let trans of __trans){
+                    for(let trans_type of __trans_types) {
+                        if(trans_type?._id===trans?.transaction_type_id){
+                            trans.type_info=trans_type;
+                        }
                     }
                 }
             }
         }
-        setTransactions(__trans);
+        if(Array.isArray(__trans))
+            setTransactions(__trans);
         setIsLoading(false);
+    }
+
+    const transTypeFilterOnInput = (e) => {
+        setpagiCurrentPage(1);
+        setPageFilters({
+            ...pageFilters,
+            trans_type: e.target.value
+        });
+    }
+
+    const productFilterOninput = (e) => {
+        setpagiCurrentPage(1);
+        setPageFilters({
+            ...pageFilters,
+            product: e.target.value
+        });
+    }
+
+    const filterButtonOnclick = () => {
+        setpagiCurrentPage(1);
+        setPageFilters({
+            ...pageFilters,
+            title: filtersTitleFld
+        });
     }
 
     const all_pages = [];
@@ -116,12 +150,24 @@ const AgentWallet = (props) => {
                             <p className="regular-font-color-dark-bg" 
                                 style={{fontSize: 13, marginBottom: 5}}>
                                     Product</p>
-                            <select style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                <option style={{color: "black"}}>
+                            <select onInput={productFilterOninput}
+                                value={pageFilters?.product}
+                                style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                <option value={-1}
+                                    style={{color: "black"}}>
                                     All
                                 </option>
-                                <option style={{color: "black"}}>
+                                <option value={0}
+                                    style={{color: "black"}}>
                                     Flights
+                                </option>
+                                <option value={1}
+                                    style={{color: "black"}}>
+                                    Stays
+                                </option>
+                                <option value={2}
+                                    style={{color: "black"}}>
+                                    Cars
                                 </option>
                             </select>
                         </div>
@@ -129,14 +175,19 @@ const AgentWallet = (props) => {
                             <p className="regular-font-color-dark-bg" 
                                 style={{fontSize: 13, marginBottom: 5}}>
                                     Trans. Type</p>
-                            <select style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                <option style={{color: "black"}}>
+                            <select onInput={transTypeFilterOnInput}
+                                value={pageFilters?.trans_type}
+                                style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                <option value="all"
+                                    style={{color: "black"}}>
                                     All
                                 </option>
-                                <option style={{color: "black"}}>
+                                <option value="debit"
+                                    style={{color: "black"}}>
                                     Debit
                                 </option>
-                                <option style={{color: "black"}}>
+                                <option value="credit"
+                                    style={{color: "black"}}>
                                     Credit
                                 </option>
                             </select>
@@ -147,7 +198,9 @@ const AgentWallet = (props) => {
                                     style={{fontSize: 13, marginBottom: 5}}>
                                     Trans. Title</p>
                             </div>
-                            <input placeholder="enter title here..."
+                            <input onInput={(e)=>setFiltersTitleFld(e.target.value)}
+                                value={filtersTitleFld}
+                                placeholder="enter title here..."
                                 style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
                         </div>
                         <div style={{marginRight: 10}}>
@@ -159,6 +212,12 @@ const AgentWallet = (props) => {
                             <input readOnly="true" 
                                 placeholder="select dates here..."
                                 style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
+                        </div>
+                        <div>
+                            <div onClick={filterButtonOnclick}
+                                style={{padding: "10px 20px", marginTop: 23, cursor: "pointer", backgroundColor: "green", color: "white", borderRadius: 50, fontSize: 13}}>
+                                Filter
+                            </div>
                         </div>
                     </div>
                     {

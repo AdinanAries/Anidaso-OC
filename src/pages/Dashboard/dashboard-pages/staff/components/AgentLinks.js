@@ -16,16 +16,40 @@ const AgentLinks = (props) => {
     const [bookingLinks, setBookingLinks ] = useState([]);
     const [ totalItems, setTotalItems ] = useState(0);
     const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
+    const [ pageFilters, setPageFilters ] = useState({
+        product: -1,
+        trip_round: "all",
+        origin_airport: "",
+        destination_airport: "",
+        time_intervals: "",
+    });
     
     useEffect(()=>{
         initPageData();
-    }, [pagiCurrentPage]);
+    }, [pagiCurrentPage, pageFilters]);
 
     const initPageData = async () => {
         setIsLoading(true);
-        const bl_res = await fetchBookingLinksByAgentId(userDetails?._id, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
-        setBookingLinks(bl_res);
+        const bl_res = await fetchBookingLinksByAgentId(userDetails?._id, pageFilters, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
+        if(Array.isArray(bl_res))
+            setBookingLinks(bl_res);
         setIsLoading(false);
+    }
+
+    const tripTypeFilterOnInput = (e) => {
+        setpagiCurrentPage(1);
+        setPageFilters({
+            ...pageFilters,
+            trip_round: e.target.value
+        });
+    }
+
+    const productFilterOninput = (e) => {
+        setpagiCurrentPage(1);
+        setPageFilters({
+            ...pageFilters,
+            product: e.target.value
+        });
     }
 
     const all_pages = [];
@@ -50,12 +74,23 @@ const AgentLinks = (props) => {
                     <p className="regular-font-color-dark-bg" 
                         style={{fontSize: 13, marginBottom: 5}}>
                             Product</p>
-                    <select style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
-                        <option style={{color: "black"}}>
+                    <select onInput={productFilterOninput} 
+                        style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                        <option value={-1}
+                            style={{color: "black"}}>
                             All
                         </option>
-                        <option style={{color: "black"}}>
+                        <option value={0}
+                            style={{color: "black"}}>
                             Flights
+                        </option>
+                        <option value={1}
+                            style={{color: "black"}}>
+                            Stays
+                        </option>
+                        <option value={2}
+                            style={{color: "black"}}>
+                            Cars
                         </option>
                     </select>
                 </div>
@@ -63,14 +98,19 @@ const AgentLinks = (props) => {
                     <p className="regular-font-color-dark-bg" 
                         style={{fontSize: 13, marginBottom: 5}}>
                             Trip Type</p>
-                    <select style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
-                        <option style={{color: "black"}}>
+                    <select onInput={tripTypeFilterOnInput}
+                        value={pageFilters?.trip_round}
+                        style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                        <option value="all"
+                            style={{color: "black"}}>
                             All
                         </option>
-                        <option style={{color: "black"}}>
+                        <option value="one-way"
+                            style={{color: "black"}}>
                             One way
                         </option>
-                        <option style={{color: "black"}}>
+                        <option value={"round-trip"} 
+                            style={{color: "black"}}>
                             Round trip
                         </option>
                     </select>

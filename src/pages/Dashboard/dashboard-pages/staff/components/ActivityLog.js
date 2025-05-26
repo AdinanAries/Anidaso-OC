@@ -17,7 +17,8 @@ const ActivityLog = (props) => {
 
     const loadComponentData = async () => {
         const __logs = await fetchActivityLogByUserId(userDetails?._id);
-        setActivityLogs(__logs);
+        if(Array.isArray(__logs))
+            setActivityLogs(__logs);
     }
     return <div>
         <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>

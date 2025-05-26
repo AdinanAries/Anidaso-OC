@@ -12,7 +12,10 @@ import {
     createNewAgentInfo,
     fetchAgentInfoByAgentIdAndPropName
 } from '../services/agentServices';
-import { fetchCustomersByAgentId } from '../services/customerServices';
+import { 
+    fetchCustomersByAgentId,
+    fetchCustomersByAgentIdAndSearchQuery,
+} from '../services/customerServices';
 import {
     reload_business_settings_page_customer_app_preview_iframe,
     toggle_show_main_sections
@@ -25,6 +28,8 @@ import {
 } from '../helpers/helper-functions';
 import { useEffect, useState } from 'react';
 import CustomerForm from './CustomerForm';
+import NewsLetterEditor from './NewsLetterEditor';
+import SelectCustomersList from './SelectCustomersList';
 
 let SettingsContainer = (props) => {
 
@@ -98,12 +103,18 @@ let SettingsContainer = (props) => {
         /* Others here */
     ];
     const _PAGES = {
+        campaign: 0,
         search_link: 1,
         booking_params: 2,
         send_link: 3
     }
 
+    const PAGI_LIMIT = 10;
+    
+    const [ totalItems, setTotalItems ] = useState(0);
+    const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
     const [customersList, setCustomersList ] = useState([]);
+    const [ searchCustomerQuery, setSearchCustomerQuery ] = useState("");
     const [ isAddNewCustomer, setIsAddNewCustomer ] = useState(false);
     const [ formData, setFormData ] = useState({
         property: SETTINGS_PROPS_NAMES[0]?.value,
@@ -114,7 +125,7 @@ let SettingsContainer = (props) => {
         property: "price_markup",
         value: 15,
     });
-    const [ currentSubPage, setCurrentSubPage ] = useState(_PAGES?.search_link);
+    const [ currentSubPage, setCurrentSubPage ] = useState(_PAGES?.campaign);
     const [ searchLink, setSearchLink ] = useState({
         _id: "",
         product: 0,
@@ -226,8 +237,9 @@ let SettingsContainer = (props) => {
     }
 
     const loadCustomers = async () => {
-        let __customers = await fetchCustomersByAgentId(userDetails?._id);
-        setCustomersList(__customers);
+        let __customers = await fetchCustomersByAgentId(userDetails?._id, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
+        if(Array.isArray(__customers))
+            setCustomersList(__customers);
     }
 
     const showSearchLinkForm = () => {
@@ -253,7 +265,6 @@ let SettingsContainer = (props) => {
     }
 
     const showSendLinkPage = () => {
-        loadCustomers();
         setCurrentSubPage(_PAGES?.send_link)
     }
 
@@ -568,11 +579,33 @@ let SettingsContainer = (props) => {
     }
 
     {/*onChange={slDateOnChange}*/}
+    const searchCustomerFieldOnInput = (e) => {
+        if(!e.target.value){
+            loadCustomers();
+        }
+        setSearchCustomerQuery(e.target.value);
+    }
+
+    const searchCustomerOnSubmit = async () => {
+        if(!searchCustomerQuery){
+            alert("Please enter customer name or email or phone");
+            return;
+        }
+        let __customers = await fetchCustomersByAgentIdAndSearchQuery(userDetails?._id, searchCustomerQuery, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
+        if(Array.isArray(__customers))
+            setCustomersList(__customers);
+    }
 
     return(
          <section id="settings-container" style={{display: "none"}}>
             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                 <div style={{display: "flex", margin: 10}}>
+                    <div onClick={()=>setCurrentSubPage(_PAGES?.campaign)}
+                        style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.campaign) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                        <i style={{color: (currentSubPage===_PAGES?.campaign) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
+                        Campaign
+                        <div style={{border: (currentSubPage===_PAGES?.campaign) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                    </div>
                     <div onClick={showSearchLinkForm}
                         style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.search_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                         <i style={{color: (currentSubPage===_PAGES?.search_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
@@ -588,7 +621,7 @@ let SettingsContainer = (props) => {
                     <div  onClick={showSendLinkPage}
                         style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.send_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                         <i style={{color:  (currentSubPage===_PAGES?.send_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>
-                        Send Link
+                        Send Email
                         <div style={{border: (currentSubPage===_PAGES?.send_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                     </div>
                 </div>
@@ -616,6 +649,15 @@ let SettingsContainer = (props) => {
             </div>
             <div>
                 <div style={{marginTop: 10}}>
+                    {
+                        (currentSubPage===_PAGES?.campaign) && <div>
+                            <div style={{marginBottom: 10}}>
+                                <NewsLetterEditor 
+                                    isEditMode={true}
+                                />
+                            </div>
+                        </div>
+                    }
                     {
                         (currentSubPage===_PAGES?.search_link) &&
                         <div style={{display: "flex", justifyContent: "space-between", padding: "10px 20px", borderRadius: 8, background: "rgba(255, 255, 255, 0.1)", marginBottom: 20}}>
@@ -728,9 +770,6 @@ let SettingsContainer = (props) => {
                                                 Price Markup (%)
                                                 <span style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
                                                     Charge Flat Rate</span>
-                                                <span style={{cursor: "pointer", color: "orange", fontSize: 12, marginLeft: 20, textDecoration: "underline"}}>
-                                                    Add Services Fees
-                                                </span>
                                             </p>
                                             <div style={{border: "none"}}>
                                                 <input onInput={agentPriceMarkupOnchange}
@@ -903,57 +942,20 @@ let SettingsContainer = (props) => {
                         <div style={{marginBottom: 10}}>
                             <div style={{display: "flex", justifyContent: "space-between"}}>
                                 <div style={{width: "calc(50% - 4px)", borderRadius: 8, backgroundColor: "rgb(43, 52, 61)", padding: 10}}>
-                                    <p style={{backgroundColor: "rgba(0,0,0,0.2)", padding: 10, fontSize: 12}}>
-                                        <i style={{color: "lightgreen", marginRight: 10}}
-                                            className='fa-solid fa-search'></i>
-                                        <input 
-                                            style={{background: "none", color: "white", border: "none", width: "calc(100% - 40px)"}}
-                                            placeholder="Search customer here"
-                                        />
-                                    </p>
-                                    <div style={{marginTop: 2, borderTop: "1px dashed rgba(0,0,0,0.5)"}}>
-                                        {
-                                            (customersList.length < 1) && <>
-                                                <div style={{display: "flex", padding: 20, margin: "10px 0", backgroundColor: "rgba(255,0,0,0.1)"}}>
-                                                    <i style={{color: "yellow", marginRight: 10}}
-                                                        className='fa-solid fa-exclamation-triangle'></i>
-                                                    <p style={{color: "white", fontSize: 13}}>
-                                                        You dont have any saved customers yet. You may add new customer or simply enter customer email on the right to send search link to customer!</p>
-                                                </div>
-                                                {
-                                                    !isAddNewCustomer &&
-                                                    <p onClick={()=>setIsAddNewCustomer(true)}
-                                                        style={{color: "skyblue", cursor: "pointer", textDecoration: "underline", marginTop: 10, fontSize: 14}}>
-                                                        <i style={{color: "rgba(255,255,255,0.6)", marginRight: 10}} className='fa-solid fa-plus'></i>
-                                                        Create New Customer
-                                                    </p>
-                                                }
-                                            </>
-                                        }
-                                        {
-                                            customersList?.map(each=>{
-                                                return <div style={{marginTop: 10, cursor: "pointer"}}>
-                                                    <p style={{color: "white", fontSize: 13}}>
-                                                    <i style={{color: "yellow", marginRight: 10}}
-                                                        className='fa-solid fa-user'></i>
-                                                        {each?.first_name} {each?.last_name} - <span style={{color: "orange"}}>
-                                                            {each?.email}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            })
-                                        }
-                                    </div>
-                                    {   
-                                        (customersList.length > 0) &&
-                                        <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
-                                            <div className='prev-next-btn inactive'>
-                                                <i className='fa-solid fa-angle-left'></i></div>
-                                            <div>1</div>
-                                            <div className='prev-next-btn inactive'>
-                                                <i className='fa-solid fa-angle-right'></i></div>
-                                        </div>
-                                    }
+                                    <SelectCustomersList
+                                        userDetails={userDetails}
+                                        totalItems={totalItems}
+                                        PAGI_LIMIT={PAGI_LIMIT}
+                                        setpagiCurrentPage={setpagiCurrentPage}
+                                        pagiCurrentPage={pagiCurrentPage}
+                                        customersList={customersList}
+                                        loadCustomers={loadCustomers}
+                                        isAddNewCustomer={isAddNewCustomer}
+                                        setIsAddNewCustomer={setIsAddNewCustomer}
+                                        searchCustomerFieldOnInput={searchCustomerFieldOnInput}
+                                        searchCustomerOnSubmit={searchCustomerOnSubmit}
+                                        searchCustomerQuery={searchCustomerQuery}
+                                    />
                                 </div>
                                 <div style={{width: "calc(50% - 4px)"}}>
                                     {
@@ -970,6 +972,77 @@ let SettingsContainer = (props) => {
                                             />
                                         </> :
                                         <>
+                                        <div style={{padding: 10, backgroundColor: "white", marginBottom: 10}}>
+                                                <h3 contentEditable={true} style={{padding: 10}}>
+                                                    (No Subject)
+                                                </h3>
+                                                <div style={{marginTop: 5, marginBottom: 10, display: "flex"}}>
+                                                    <p style={{fontSize: 13, marginRight: 5, color: "rgba(0,0,0,0.6)"}}>
+                                                        to:
+                                                    </p>
+                                                    <div style={{display: "flex", flexWrap: "wrap"}}>
+                                                        <p className='tool-tip-parent' style={{fontSize: 12}}>
+                                                            <span style={{color: "rgba(0,0,0,0.4)"}}>
+                                                                {"<"}</span>
+                                                            k.joseph@gmail.com
+                                                            <span style={{color: "rgba(0,0,0,0.4)"}}>
+                                                                {">"}</span>
+                                                            <span style={{textAlign: "center", top: 10}} className='tool-tip'>
+                                                                Keyana Joseph
+                                                                <i style={{color: "red", fontSize: 15, marginLeft: 10}}
+                                                                    className='fa-solid fa-trash-can'></i>
+                                                            </span>
+                                                        </p>
+                                                        <p className='tool-tip-parent' style={{fontSize: 12}}>
+                                                            <span style={{color: "rgba(0,0,0,0.4)"}}>
+                                                                {"<"}</span>
+                                                            molina.g@gmail.com
+                                                            <span style={{color: "rgba(0,0,0,0.4)"}}>
+                                                                {">"}</span>
+                                                            <span style={{textAlign: "center", top: 10}} className='tool-tip'>
+                                                                Molina Gomez
+                                                                <i style={{color: "red", fontSize: 15, marginLeft: 10}}
+                                                                    className='fa-solid fa-trash-can'></i>
+                                                            </span>
+                                                        </p>
+                                                        <p className='tool-tip-parent' style={{fontSize: 12}}>
+                                                            <span style={{color: "rgba(0,0,0,0.4)"}}>
+                                                                {"<"}</span>
+                                                            d.carolina@yahoo.com
+                                                            <span style={{color: "rgba(0,0,0,0.4)"}}>
+                                                                {">"}</span>
+                                                            <span style={{textAlign: "center", top: 10}} className='tool-tip'>
+                                                                Donte Carolina
+                                                                <i style={{color: "red", fontSize: 15, marginLeft: 10}}
+                                                                    className='fa-solid fa-trash-can'></i>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p style={{border: "3px dashed rgba(0,0,0,0.1)", fontSize: 12, marginBottom: 10, borderRadius: 9, color: "rgba(0,0,0,0.5)",
+                                                            padding: 20, background: "rgba(0,0,0,0.1)", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                                        <i style={{marginRight: 10}} className='fa-solid fa-paperclip'></i>
+                                                        drop files here
+                                                    </p>
+                                                    <p>
+                                                        <span className='tool-tip-parent'>
+                                                            <i style={{color: "rgba(0,0,0,0.7)", fontSize: 15, marginLeft: 10}}
+                                                                className='fa-solid fa-paperclip'></i>
+                                                            <span style={{textAlign: "center", top: 10, fontSize: 13}} className='tool-tip'>
+                                                                Attach A file
+                                                            </span>
+                                                        </span>
+                                                        <span className='tool-tip-parent'>
+                                                            <i style={{color: "rgba(0,0,0,0.7)", fontSize: 15, marginLeft: 15}}
+                                                                className='fa-solid fa-images'></i>
+                                                            <span style={{textAlign: "center", top: 10, fontSize: 13}} className='tool-tip'>
+                                                                Add Images
+                                                            </span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
                                             <div style={{padding: 20, borderRadius: 8, backgroundColor: "rgba(0,255,0,0.1)", marginBottom: 10}}>
                                                 <p style={{color: "white", fontSize: 13, display: "flex"}}>
                                                     <i style={{color: "lightgreen", marginRight: 10}} className='fa-solid fa-info-circle'></i>
@@ -983,100 +1056,115 @@ let SettingsContainer = (props) => {
                                                     Create New Customer
                                                 </p>
                                             </div>
-                                            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                                                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                                    <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                                    Customer Email</p>
-                                                <div style={{border: "none"}}>
-                                                    <input
-                                                        type="email" placeholder="type here..."
-                                                        style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                            <div>
+                                                <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                                    <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                        <i className="fa fa-envelope" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                        Customer Email</p>
+                                                    <div style={{border: "none", display: "flex"}}>
+                                                        <input
+                                                            type="email" placeholder="type here..."
+                                                            style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                                        <input style={{border: "none", padding: "10px 20px", backgroundColor: "lightgreen", cursor: "pointer", borderRadius: 50,}}
+                                                            type="button" value="Add to list" />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
                                                 <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
-                                                Send Link
+                                                Send Email
                                             </div>
                                         </>
                                     }
                                 </div>
                             </div>
+                            <div style={{marginTop: 10}}>
+                                <NewsLetterEditor 
+                                    isEditMode={false}
+                                />
+                            </div>
                         </div>
                     }
-                    <div style={{display: "flex", borderRadius: 50, justifyContent: "space-between", padding: "0 10px", width: "100%", backgroundColor: "black", border: "1px solid pink"}}>
-                        <p id="searchLinkAddressTextToCopy" style={{whiteSpace: "nowrap", overflow: "hidden", padding: 10, width: "calc(100% - 70px)", fontSize: 13, color: "white"}}>
-                            {search_link_client_app_url}/?product=<span style={{color: "lightgreen"}}>
-                                {searchLink.product}</span>
-                            &type=<span style={{color: "lightgreen"}}>
-                                {searchLink.type}</span>
-                            &date=<span style={{color: "lightgreen"}}>
-                                {searchLink.date}</span>
-                            &dpt_airport=<span style={{color: "lightgreen"}}>
-                                {searchLink.dpt_airport}</span>
-                            &dst_airport=<span style={{color: "lightgreen"}}>
-                                {searchLink.dst_airport}</span>
-                            &cabin=<span style={{color: "lightgreen"}}>
-                                {searchLink.cabin}</span>
-                            &adults=<span style={{color: "lightgreen"}}>
-                                {searchLink.adults}</span>
-                            &children=<span style={{color: "lightgreen"}}>
-                                {searchLink.children}</span>
-                            &infants=<span style={{color: "lightgreen"}}>
-                                {searchLink.infants}</span>
-                            &ag={userDetails?._id}
-                            &bl={searchLink?._id}
-                        </p>
-                        <>
-                            <div onClick={()=>loadPreviewPage(true)} className='tool-tip-parent'
-                                style={{color: "pink", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                <i className="fa-solid fa-arrow-rotate-right"></i>
-                                <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
-                                    Reload Page
-                                </span>
-                            </div>
-                            <div className='tool-tip-parent' onClick={()=>{
+                    {
+                        (currentSubPage!==_PAGES?.campaign) &&
+                        <div style={{display: "flex", borderRadius: 50, justifyContent: "space-between", padding: "0 10px", width: "100%", backgroundColor: "black", border: "1px solid pink"}}>
+                            <p id="searchLinkAddressTextToCopy" style={{whiteSpace: "nowrap", overflow: "hidden", padding: 10, width: "calc(100% - 70px)", fontSize: 13, color: "white"}}>
+                                {search_link_client_app_url}/?product=<span style={{color: "lightgreen"}}>
+                                    {searchLink.product}</span>
+                                &type=<span style={{color: "lightgreen"}}>
+                                    {searchLink.type}</span>
+                                &date=<span style={{color: "lightgreen"}}>
+                                    {searchLink.date}</span>
+                                &dpt_airport=<span style={{color: "lightgreen"}}>
+                                    {searchLink.dpt_airport}</span>
+                                &dst_airport=<span style={{color: "lightgreen"}}>
+                                    {searchLink.dst_airport}</span>
+                                &cabin=<span style={{color: "lightgreen"}}>
+                                    {searchLink.cabin}</span>
+                                &adults=<span style={{color: "lightgreen"}}>
+                                    {searchLink.adults}</span>
+                                &children=<span style={{color: "lightgreen"}}>
+                                    {searchLink.children}</span>
+                                &infants=<span style={{color: "lightgreen"}}>
+                                    {searchLink.infants}</span>
+                                &ag={userDetails?._id}
+                                &bl={searchLink?._id}
+                            </p>
+                            <>
+                                <div onClick={()=>loadPreviewPage(true)} className='tool-tip-parent'
+                                    style={{color: "pink", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <i className="fa-solid fa-arrow-rotate-right"></i>
+                                    <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
+                                        Reload Page
+                                    </span>
+                                </div>
+                                <div className='tool-tip-parent' onClick={()=>{
 
-                                    // Validation
-                                    if(
-                                    searchLink.product==="" ||
-                                    !searchLink.type ||
-                                    !searchLink.date ||
-                                    !searchLink.dpt_airport ||
-                                    !searchLink.dst_airport ||
-                                    !searchLink.cabin ||
-                                    searchLink.adults==="" ||
-                                    searchLink.children==="" ||
-                                    searchLink.infants===""){
-                                        alert("Error! Link Not Copied. Some values are missing.");
-                                        return;
-                                    }
+                                        // Validation
+                                        if(
+                                        searchLink.product==="" ||
+                                        !searchLink.type ||
+                                        !searchLink.date ||
+                                        !searchLink.dpt_airport ||
+                                        !searchLink.dst_airport ||
+                                        !searchLink.cabin ||
+                                        searchLink.adults==="" ||
+                                        searchLink.children==="" ||
+                                        searchLink.infants===""){
+                                            alert("Error! Link Not Copied. Some values are missing.");
+                                            return;
+                                        }
 
-                                    let elem = document.getElementById("searchLinkAddressTextToCopy");
-                                    // Copy the text inside the text field
-                                    navigator.clipboard.writeText(elem.innerText);
-                                    // Alert the copied text
-                                    console.log("Copied the text: " + elem.innerText);
-                                    alert("Copied!");
-                                }} 
-                                style={{cursor: "pointer", display: "flex", alignItems: "center", marginRight: 10, color: "pink", justifyContent: "center"}}>
-                                <i className="fa-solid fa-copy"></i>
-                                <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
-                                    Copy Link
-                                </span>
-                            </div>
-                        </>
-                    </div>
+                                        let elem = document.getElementById("searchLinkAddressTextToCopy");
+                                        // Copy the text inside the text field
+                                        navigator.clipboard.writeText(elem.innerText);
+                                        // Alert the copied text
+                                        console.log("Copied the text: " + elem.innerText);
+                                        alert("Copied!");
+                                    }} 
+                                    style={{cursor: "pointer", display: "flex", alignItems: "center", marginRight: 10, color: "pink", justifyContent: "center"}}>
+                                    <i className="fa-solid fa-copy"></i>
+                                    <span style={{left: -50, fontSize: 12, color: "black", minWidth: 90, textAlign: "center"}} className='tool-tip'>
+                                        Copy Link
+                                    </span>
+                                </div>
+                            </>
+                        </div>
+                    }
                 </div>
             </div>
-             <div style={{marginTop: 5}}>
-                {false && <p style={{color: "red", marginBottom: 10, fontSize: 13}}>
-                    <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-eye'></i>
-                    Preview - Customer App
-                </p>}
-                <iframe id="business-settings-page-customer-app-preview-iframe" 
-                    style={{width: "100%", height: "calc(100vh - 130px)", border: "none", borderRadius: 8}} 
-                    src={previewLink} title="description"></iframe>
-             </div>
+            {
+                (currentSubPage!==_PAGES?.campaign) &&
+                <div style={{marginTop: 5}}>
+                    {false && <p style={{color: "red", marginBottom: 10, fontSize: 13}}>
+                        <i style={{color: "yellow", marginRight: 10}} className='fa-solid fa-eye'></i>
+                        Preview - Customer App
+                    </p>}
+                    <iframe id="business-settings-page-customer-app-preview-iframe" 
+                        style={{width: "100%", height: "calc(100vh - 130px)", border: "none", borderRadius: 8}} 
+                        src={previewLink} title="description"></iframe>
+                </div>
+                }
         </section>
     )
 }

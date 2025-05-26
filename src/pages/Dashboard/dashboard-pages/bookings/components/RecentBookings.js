@@ -19,11 +19,11 @@ const RecentBookings = (props) => {
                 <p className="regular-font-color-dark-bg" 
                     style={{fontSize: 13, marginBottom: 5}}>
                         Type</p>
-                <select style={{padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
-                    <option>
+                <select style={{padding: "10px 20px", borderRadius: 50, border: "none", backgroundColor: "rgba(255,255,255,0.1)", color: "white"}}>
+                    <option style={{color: "black"}}>
                         All
                     </option>
-                    <option>
+                    <option style={{color: "black"}}>
                         Flights
                     </option>
                 </select>
@@ -44,14 +44,14 @@ const RecentBookings = (props) => {
                             </p>
                         </div>
                 </div>
-                <div style={{display: includeIntervalDates ? "none" : "block", padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}>
+                <div style={{display: includeIntervalDates ? "none" : "block", padding: "10px 20px", borderRadius: 50, backgroundColor: "rgba(255,255,255,0.1)", color: "white"}}>
                     <p style={{fontSize: 13, textAlign: "center"}}>
                         <i style={{color: "orangered", marginRight: 10}} 
                             className="fa fa-exclamation-triangle"></i>
                         Search Without Interval</p>
                 </div>
                 <input id="bookings-pane-filter-by-dates-input" readOnly="true" 
-                    style={{display: includeIntervalDates ? "block" : "none", padding: "10px 20px", borderRadius: 5, border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "#eee"}}/>
+                    style={{display: includeIntervalDates ? "block" : "none", padding: "10px 20px", borderRadius: 50, border: "none", backgroundColor: "rgba(255,255,255,0.1)", color: "white"}}/>
             </div>
         </div>
         <div id="bookings-pane-recent-bookings-list-container">

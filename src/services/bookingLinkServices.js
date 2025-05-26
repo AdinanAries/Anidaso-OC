@@ -29,15 +29,16 @@ export const createNewBookingLink = async (formData, path=`\\api\\booking-links\
     }
 }
 
-export const fetchBookingLinksByAgentId = async (agent_id, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\booking-links\\agent\\all\\`) => {
+export const fetchBookingLinksByAgentId = async (agent_id, filters, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\booking-links\\agent\\all\\`) => {
     try{
         return await fetch(API_URL+path+agent_id+'\\'+offset+'\\'+limit, {
-            method: "GET",
+            method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${USER_TOKEN}`
             },
+            body: JSON.stringify({filters})
         })
         .then(res => {
             for (var pair of res.headers.entries()) {

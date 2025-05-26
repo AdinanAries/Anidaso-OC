@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PageRestricted from '../../../../components/page-restricted';
 import CONSTANTS from '../../../../constants/Constants';
 import { toggle_show_main_sections } from '../../../../helpers/helper-functions';
@@ -9,11 +9,13 @@ let SalesContainer = (props) => {
         userDetails,
     } = props;
 
+    const [ selectedSale, setSelectedSale ] = useState({});
+
     useEffect(()=>{
         let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
         render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
-    });
+    }, []);
 
     const render_agent_sales_stats_chart = (labels, values) => {
         const ctx = document.getElementById('salesStatsChart');
@@ -145,223 +147,238 @@ let SalesContainer = (props) => {
                                 </div>
                             </div>
                             <div style={{width: "60%"}}>
-                                <table className='app-standard-table white-bg'>
-                                    <tr>
-                                        <td>Type</td>
-                                        <td style={{backgroundColor: "rgb(0, 46, 106)"}}>Timestamp</td>
-                                        <td>Data Provider</td>
-                                        <td>Total</td>
-                                        <td>Profit</td>
-                                        <td>Email</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Flight
-                                        </td>
-                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                            2025-05-02T02:43:12.636Z
-                                        </td>
-                                        <td>
-                                            Duffel
-                                        </td>
-                                        <td>
-                                            $341.22
-                                        </td>
-                                        <td>
-                                            $43.23
-                                        </td>
-                                        <td>
-                                            m.adinan@yahoo.com
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
-                                    <div className='prev-next-btn'>
-                                        <i className='fa-solid fa-angle-left'></i></div>
-                                    <div>1</div>
-                                    <div className='prev-next-btn'>
-                                        <i className='fa-solid fa-angle-right'></i></div>
-                                </div>
+                                {
+                                    selectedSale?._id ?
+                                    <div>
+                                        <p>Selected Sale</p>
+                                        <div>
+                                            <div onClick={()=>setSelectedSale({})}
+                                                style={{padding: 20, color: "green", textDecoration: "underline", cursor: "pointer", fontSize: 13}} >
+                                                <i style={{color: "red", marginRight: 10}} className="fa fa-angle-left"></i>
+                                                Sales List
+                                            </div>
+                                        </div>
+                                    </div> :
+                                    <>
+                                        <table className='app-standard-table white-bg'>
+                                            <tr>
+                                                <td>Type</td>
+                                                <td style={{backgroundColor: "rgb(0, 46, 106)"}}>Timestamp</td>
+                                                <td>Data Provider</td>
+                                                <td>Total</td>
+                                                <td>Profit</td>
+                                                <td>Email</td>
+                                            </tr>
+                                            <tr onClick={()=>setSelectedSale({_id: "id"})} style={{cursor: "pointer"}}>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Flight
+                                                </td>
+                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                    2025-05-02T02:43:12.636Z
+                                                </td>
+                                                <td>
+                                                    Duffel
+                                                </td>
+                                                <td>
+                                                    $341.22
+                                                </td>
+                                                <td>
+                                                    $43.23
+                                                </td>
+                                                <td>
+                                                    m.adinan@yahoo.com
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
+                                            <div className='prev-next-btn'>
+                                                <i className='fa-solid fa-angle-left'></i></div>
+                                            <div>1</div>
+                                            <div className='prev-next-btn'>
+                                                <i className='fa-solid fa-angle-right'></i></div>
+                                        </div>
+                                    </>
+                                }
                             </div>
                         </div>
                     </div>
