@@ -9,6 +9,10 @@ ul li {
   list-style-type: none;
 }
 
+.highlighted {
+  background-color: rgba(0, 0, 0, 0.443);
+}
+
 .nl-button-container {
   position: relative;
 }

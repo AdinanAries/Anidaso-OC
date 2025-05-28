@@ -1,8 +1,8 @@
-import LOGO_PLACEHOLDER from "../LOGO_PLACEHOLDER.jpg";
 import HERO_BG from "../tour-img.svg";
 import NewsLetter1 from "../newsLetter1.png";
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { fonts } from "../helpers/fonts";
+import NewsLetterPreviewer from "./NewsLetterPreviewer";
 
 function rgbToHex(rgb_string) {
     //"rgb(255,255,255)"
@@ -25,10 +25,13 @@ const NewsLetterEditor = (props) => {
         isEditMode
     } = props;
 
-    const [currentDesign, setCurrentDesign] = useState({
-        default_theme: {},
-        hero_background: ""
-    });
+    const buttonUrlOnInput = (e) => {
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            buttonElemUrl: e.target.value
+        });
+    }
+
     const [ currentElemToolsState, setCurrentElemToolsState ] = useState({
         isBold: false,
         isItalic: false,
@@ -42,15 +45,62 @@ const NewsLetterEditor = (props) => {
         containerBackground: "",
         buttonElemUrl: "https://yourwebsiteurl.com",
         currentElem: null,
+        hero_background: "",
     });
-    const [ lastSelection, setLastSelection ] = useState(null)
+    const [ lastSelection, setLastSelection ] = useState(null);
     const [ lastRange, setLastRange ] = useState(null);
     const [ lastFocusedElement, setLastFocusedElement ] = useState(null);
+    const [ newSettingsSpan, setNewSettingsSpan ] = useState(null);
+    const [currentDesign, setCurrentDesign] = useState({
+        editable_react_version: <NewsLetterPreviewer 
+                                    isEditMode={isEditMode}
+                                    currentElemToolsState={currentElemToolsState}
+                                    buttonUrlOnInput={buttonUrlOnInput}
+                                />,
+        string_snap_shot: "",
+        changes_history: [
+
+        ],
+        hero_background: ""
+    });
+
+    useEffect(()=>{
+
+        if(lastRange){
+
+            const treeWalker = document.createTreeWalker(
+                lastRange.commonAncestorContainer,
+                global.NodeFilter.SHOW_ELEMENT,
+                null,
+                false
+            );
+
+            let node;
+            while ((node = treeWalker.nextNode())) {
+                // Todo add other styling resets...
+                node.style.backgroundColor="initial";//e.target.value;
+            }
+
+            newSettingsSpan.contentEditable=true;
+            newSettingsSpan.tabIndex="-1";
+            newSettingsSpan.classList.add('highlighted');
+
+            newSettingsSpan.appendChild(lastRange.extractContents());
+            lastRange.insertNode(newSettingsSpan);
+        }
+
+    }, [newSettingsSpan]);
+
+    useEffect(()=>{
+        if(newSettingsSpan)
+            newSettingsSpan.classList.remove('highlighted');
+    }, [lastRange])
 
     useEffect(()=>{
         setTimeout(()=>{
-            setCurrentDesign({
-                ...currentDesign,
+
+            setCurrentElemToolsState({
+                ...currentElemToolsState,
                 //hero_background: HERO_BG
             });
             
@@ -62,9 +112,12 @@ const NewsLetterEditor = (props) => {
                     setLastSelection(selection)
                     if (selection.rangeCount > 0) {
                         setLastRange(selection.getRangeAt(0));
+                        const span = document.createElement('span');
+                        setNewSettingsSpan(span);
                     }
+                    
                     const computedStyle = window.getComputedStyle(event.target);
-                    console.log(computedStyle)
+                    console.log(computedStyle);
                     setCurrentElemToolsState({
                         ...currentElemToolsState,
                         textColor: rgbToHex(computedStyle.color),
@@ -72,7 +125,9 @@ const NewsLetterEditor = (props) => {
                         isItalic: (computedStyle.fontStyle==="italic"),
                         isUnderline: (computedStyle.textDecoration.includes("none solid")),
                         font: (computedStyle.fontFamily),
+                        fontSize: parseInt((computedStyle.fontSize).replaceAll("px","")),
                     });
+                    
                 });
             });
 
@@ -85,7 +140,7 @@ const NewsLetterEditor = (props) => {
                     setLastFocusedElement(event.target);
                     setCurrentElemToolsState({
                         ...currentElemToolsState,
-                        fontSize: parseInt((computedStyle.fontSize).replaceAll("px","")),
+                        //fontSize: parseInt((computedStyle.fontSize).replaceAll("px","")),
                     });
                 }, true);
             });
@@ -104,6 +159,10 @@ const NewsLetterEditor = (props) => {
             });
 
         }, 1500);
+        setTimeout(()=>{
+            // Initial Save
+            onSave();
+        }, 2000);
     }, []);
 
     const removeSpansFromSelection = () => {
@@ -147,6 +206,7 @@ const NewsLetterEditor = (props) => {
             ...currentElemToolsState,
             textColor: e.target.value
         });
+        newSettingsSpan.style.color=e.target.value;
     }
 
     const toolsHighlightColorOnInput = (e) => {
@@ -155,52 +215,8 @@ const NewsLetterEditor = (props) => {
             ...currentElemToolsState,
             highlightColor: e.target.value
         });
-    }
-
-    const toolsHighlightColorOnSet = (e) => {
-        e.preventDefault();
-        const span = document.createElement('span');
-        span.contentEditable=true;
-        span.tabIndex="-1";
-        span.style.backgroundColor=currentElemToolsState?.highlightColor;
         
-        const treeWalker = document.createTreeWalker(
-            lastRange.commonAncestorContainer,
-            global.NodeFilter.SHOW_ELEMENT,
-            null,
-            false
-        );
-        
-        let node;
-        while ((node = treeWalker.nextNode())) {
-            node.style.backgroundColor=currentElemToolsState?.highlightColor;
-        }
-
-        span.appendChild(lastRange.extractContents());
-        lastRange.insertNode(span);
-        //lastRange.surroundContents(span);
-    }
-
-    const toolsTextColorOnSet = () => {
-        const span = document.createElement('span');
-        span.contentEditable=true;
-        span.tabIndex="-1";
-        span.style.color=currentElemToolsState?.textColor;
-        
-        const treeWalker = document.createTreeWalker(
-            lastRange.commonAncestorContainer,
-            global.NodeFilter.SHOW_ELEMENT,
-            null,
-            false
-        );
-        
-        let node;
-        while ((node = treeWalker.nextNode())) {
-            node.style.color=currentElemToolsState?.textColor;
-        }
-
-        span.appendChild(lastRange.extractContents());
-        lastRange.insertNode(span);
+        newSettingsSpan.style.backgroundColor=e.target.value;
         //lastRange.surroundContents(span);
     }
 
@@ -211,33 +227,26 @@ const NewsLetterEditor = (props) => {
     }
 
     const boldTextOnClick = () => {
-        //lastFocusedElement.style.fontWeight="bolder";
-        const span = document.createElement('span');
-        span.contentEditable=true;
-        span.tabIndex="-1";
-        span.style.fontWeight="bolder";
-        span.appendChild(lastRange.extractContents());
-        lastRange.insertNode(span);
-        //lastRange.surroundContents(span);
+
+        let fontWeight="";
+        let _bool=false;
+        if(currentElemToolsState.isBold){
+            fontWeight="initial";
+            _bool=false;
+        }else{
+            fontWeight="bolder";
+            _bool=true;
+        }
+        newSettingsSpan.style.fontWeight=fontWeight;
         setCurrentElemToolsState({
             ...currentElemToolsState,
-            isBold: true,
+            isBold: _bool,
         });
-        /*
-            span.style.color = 'black';
-            span.style.fontStyle = 'italic';
-        */
-        
         //lastSelection.removeAllRanges(); // Clear selection
     }
 
     const underlineTextOnClick = () => {
-        const span = document.createElement('span');
-        span.contentEditable=true;
-        span.tabIndex="-1";
-        span.style.textDecoration="underline";
-        span.appendChild(lastRange.extractContents());
-        lastRange.insertNode(span);
+        newSettingsSpan.style.textDecoration="underline";
         setCurrentElemToolsState({
             ...currentElemToolsState,
             isUnderline: true,
@@ -245,15 +254,20 @@ const NewsLetterEditor = (props) => {
     }
 
     const italizeTextOnClick = () => {
-        const span = document.createElement('span');
-        span.contentEditable=true;
-        span.tabIndex="-1";
-        span.style.fontStyle="italic";
-        span.appendChild(lastRange.extractContents());
-        lastRange.insertNode(span);
+        let fontStyle="initial";
+        let _bool=false;
+        if(currentElemToolsState.isItalic){
+            fontStyle="initial";
+            _bool=false;
+        }else{
+            fontStyle="italic";
+            _bool=true;
+        }
+        newSettingsSpan.style.fontStyle=fontStyle;
+        //newSettingsSpan.classList.remove('highlighted');
         setCurrentElemToolsState({
             ...currentElemToolsState,
-            isItalic: true,
+            isItalic: _bool,
         });
     }
 
@@ -296,8 +310,8 @@ const NewsLetterEditor = (props) => {
             ...currentElemToolsState,
             fontSize: e.target.value
         });
-        if(lastFocusedElement)
-            lastFocusedElement.style.fontSize=(e.target.value+"px");
+        if(newSettingsSpan)
+            newSettingsSpan.style.fontSize=(e.target.value+"px");
         //lastRange.surroundContents(span);
     }
 
@@ -307,8 +321,8 @@ const NewsLetterEditor = (props) => {
             ...currentElemToolsState,
             fontSize: __size
         });
-        if(lastFocusedElement)
-            lastFocusedElement.style.fontSize=(__size+"px");
+        if(newSettingsSpan)
+            newSettingsSpan.style.fontSize=(__size+"px");
     }
 
     const decrementFont = () => {
@@ -317,15 +331,8 @@ const NewsLetterEditor = (props) => {
             ...currentElemToolsState,
             fontSize: __size
         });
-        if(lastFocusedElement)
-            lastFocusedElement.style.fontSize=(__size+"px");
-    }
-
-    const buttonUrlOnInput = (e) => {
-        setCurrentElemToolsState({
-            ...currentElemToolsState,
-            buttonElemUrl: e.target.value
-        });
+        if(newSettingsSpan)
+            newSettingsSpan.style.fontSize=(__size+"px");
     }
 
     const fontOnInput = (e) => {
@@ -333,8 +340,34 @@ const NewsLetterEditor = (props) => {
             ...currentElemToolsState,
             fontFamily: e.target.value
         });
-        if(lastFocusedElement)
-            lastFocusedElement.style.fontFamily=e.target.value;
+        if(newSettingsSpan)
+            newSettingsSpan.style.fontFamily=e.target.value;
+    }
+
+    const onSave = () => {
+        let __page = document.getElementById("news_letter_current_editable_page").innerHTML;
+        let _cloned=cloneElement(currentDesign?.editable_react_version);
+        let __history=[...currentDesign?.changes_history, _cloned];
+        console.log(_cloned);
+        setCurrentDesign({
+            ...currentDesign,
+            string_snap_shot: __page,
+            changes_history: __history,
+        });
+    }
+
+    const unDo = () => {
+        let __history = currentDesign?.changes_history;
+        let __page = __history.pop();
+        console.log(__page)
+        if(__page){
+            setCurrentDesign({
+                ...currentDesign,
+                editable_react_version: __page, //<div dangerouslySetInnerHTML={{ __html: __page }} />,
+                string_snap_shot: __page,
+                changes_history: __history,
+            });
+        }
     }
 
     return <div style={{background: "white", padding: 5, borderRadius: 9}}>
@@ -342,14 +375,14 @@ const NewsLetterEditor = (props) => {
             isEditMode &&
             <div className="nl-editor-top-tools-container" style={{display: "flex", justifyContent: "center", alignItems: "center", background: "rgb(237, 237, 237)"}}>
                 <div style={{display: "flex", borderRight: "1px solid rgba(0,0,0,0.1)", marginRight: 10, paddingRight: 10}}>
-                    <div disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
+                    <div onClick={onSave} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
                         <i className="fa-solid fa-floppy-disk"></i>
                         <div className="tool-tip"
                             style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
                             Save Changes
                         </div>
                     </div>
-                    <div disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
+                    <div onClick={unDo} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
                         <i className="fa-solid fa-rotate-left"></i>
                         <div className="tool-tip"
                             style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
@@ -388,13 +421,12 @@ const NewsLetterEditor = (props) => {
                 <div style={{width: 40}} className="tool-tip-parent">
                     <div style={{textAlign: "center"}}>
                         <label htmlFor="nl_editor_text_color_input">
-                            <p onClick={toolsTextColorOnSet} style={{position: "relative", zIndex: 1}}>
+                            <p style={{position: "relative", zIndex: 1}}>
                                 <i className="fa-solid fa-a"></i>
                             </p>
                         </label>
                         <p style={{marginTop: -10}}>
-                            <input onBlur={toolsTextColorOnSet}
-                                onInput={toolsTextColorOnchange}
+                            <input onInput={toolsTextColorOnchange}
                                 id="nl_editor_text_color_input"
                                 type="color" name="toolsColor" 
                                 value={currentElemToolsState?.textColor} 
@@ -408,12 +440,13 @@ const NewsLetterEditor = (props) => {
                     </div>
                 </div>
                 <div style={{padding: 10, textAlign: "center"}} className="tool-tip-parent">
-                        <p onClick={toolsHighlightColorOnSet} style={{position: "relative", zIndex: 1}}>
-                            <i className="fa-solid fa-highlighter"></i>
-                        </p>
+                        <label htmlFor="nl_editor_highlighter_color_input">
+                            <p style={{position: "relative", zIndex: 1}}>
+                                <i className="fa-solid fa-highlighter"></i>
+                            </p>
+                        </label>
                         <p style={{marginTop: -10}}>
-                            <input onBlur={toolsHighlightColorOnSet}
-                                onInput={toolsHighlightColorOnInput}
+                            <input onInput={toolsHighlightColorOnInput}
                                 id="nl_editor_highlighter_color_input"
                                 type="color" name="toolsColor" 
                                 value={currentElemToolsState?.highlightColor} 
@@ -579,118 +612,8 @@ const NewsLetterEditor = (props) => {
                     </div>
                 </div>
             }
-            <div style={{maxWidth: 650, background: "rgba(0,0,0,0.07)", borderLeft: isEditMode ? "1px solid rgba(0, 0, 0, 0.1)" : "none"}}>
-                <table style={{width: "100%", borderSpacing: 0, backgroundColor: "white"}}>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div className="nl-focusable-container-elem" tabIndex="-1" style={{background: "black", padding: 10}}>
-                                    <p className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode} style={{color: "white", fontSize: 13, textAlign: "center"}}>
-                                        Sed ut perspiciatis unde omnis iste natus error?</p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div className="nl-focusable-container-elem" tabIndex="-1" style={{display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgb(133, 193, 239)", padding: "25px 20px"}}>
-                                    <img style={{height: 40, marginRight: 10}} src={LOGO_PLACEHOLDER} />
-                                    <h3 className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode}>
-                                        Company Name
-                                    </h3>
-                                </div>
-                                <div className="nl-focusable-container-elem" tabIndex="-1" style={{display: "flex", justifyContent: "center", alignItems: "center", padding: 10, backgroundColor: "crimson"}}>
-                                    <p className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode} style={{margin: "0 15px", color: "white"}}>
-                                        Text Examp</p>
-                                    <p className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode} style={{margin: "0 15px", color: "white"}}>
-                                        Text Examp</p>
-                                    <p className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode} style={{margin: "0 15px", color: "white"}}>
-                                        Text Examp</p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style={{backgroundImage: `url('${currentDesign?.hero_background}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", 
-                                        borderBottomLeftRadius: 50, borderBottomRightRadius: 50, overflow: "hidden", height: 400}}>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style={{padding: 20}}>
-                                    <h1 className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode} style={{fontSize: 33, fontWeight: "bolder", textAlign: "center"}}>
-                                        Travel Safe!</h1>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style={{padding: 10}}>
-                                    <p className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode} style={{textAlign: "center"}}>
-                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div>
-                                    <div className="nl-focusable-container-elem nl-button-container" tabIndex="-1" contentEditable={isEditMode} style={{cursor: "pointer", width: 300, margin: "auto", backgroundColor: "black", color: "white", borderRadius: 50, padding: 20, textAlign: "center"}}>
-                                        Book Now
-                                        <div className="nl-button-settings-container">
-                                            <p style={{fontSize: 13, color: "black", textAlign: "left"}}>
-                                                <i style={{marginRight: 5}} className="fa-solid fa-globe"></i>
-                                                Edit Button Link:</p>
-                                            <div>
-                                                <input onInput={buttonUrlOnInput}
-                                                    style={{marginTop: 5, border: "none", backgroundColor: "rgba(0,0,0,0.07)", minWidth: 300, padding: 10, borderRadius: 50}} 
-                                                    value={currentElemToolsState?.buttonElemUrl} 
-                                                    type="text"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style={{padding: 10, marginTop: 10}}>
-                                    <h3 className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode} style={{textAlign: "center", color: "crimson", fontWeight: "bolder", marginBottom: 10}}>
-                                        Important Notice
-                                    </h3>
-                                    <p className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode} style={{textAlign: "center", color: "red"}}>
-                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div tabIndex="-1" className="nl-focusable-container-elem" style={{background: "skyblue", padding: "30px 10px", marginTop: 20}}>
-                                    <p style={{textAlign: "center"}}>
-                                        <i style={{marginRight: 10}} className="fa-solid fa-envelope"></i>
-                                        <span className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode}>
-                                            youremail@server.com
-                                        </span>
-                                    </p>
-                                    <p style={{textAlign: "center", marginTop: 5}}>
-                                        <i style={{marginRight: 10}} className="fa-solid fa-phone"></i>
-                                        <span className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode}>
-                                            +1 234 322 3433
-                                        </span>
-                                    </p>
-                                    <p style={{textAlign: "center", marginTop: 5}}>
-                                        <i style={{marginRight: 10}} className="fa-solid fa-globe"></i>
-                                        <span className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode}>
-                                            https://yourwebsite.com
-                                        </span>
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div id="news_letter_current_editable_page" style={{maxWidth: 650, background: "rgba(0,0,0,0.07)", borderLeft: isEditMode ? "1px solid rgba(0, 0, 0, 0.1)" : "none"}}>
+                {currentDesign?.editable_react_version}
             </div>
         </div>
     </div>
