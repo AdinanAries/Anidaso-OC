@@ -3,6 +3,7 @@ import NewsLetter1 from "../newsLetter1.png";
 import { cloneElement, useEffect, useState } from "react";
 import { fonts } from "../helpers/fonts";
 import NewsLetterPreviewer from "./NewsLetterPreviewer";
+import { event } from "jquery";
 
 function rgbToHex(rgb_string) {
     //"rgb(255,255,255)"
@@ -68,7 +69,7 @@ const NewsLetterEditor = (props) => {
 
         if(lastRange){
 
-            const treeWalker = document.createTreeWalker(
+            let treeWalker = document.createTreeWalker(
                 lastRange.commonAncestorContainer,
                 global.NodeFilter.SHOW_ELEMENT,
                 null,
@@ -78,7 +79,12 @@ const NewsLetterEditor = (props) => {
             let node;
             while ((node = treeWalker.nextNode())) {
                 // Todo add other styling resets...
-                node.style.backgroundColor="initial";//e.target.value;
+                node.style.background="none";//e.target.value;
+                node.style.fontWeight="inherit";
+                node.style.fontSize="inherit";
+                node.style.fontFamily="inherit";
+                node.style.textDecoration="inherit";
+                node.style.fontStyle="inherit";
             }
 
             newSettingsSpan.contentEditable=true;
@@ -94,7 +100,7 @@ const NewsLetterEditor = (props) => {
     useEffect(()=>{
         if(newSettingsSpan)
             newSettingsSpan.classList.remove('highlighted');
-    }, [lastRange])
+    }, [lastRange]);
 
     useEffect(()=>{
         setTimeout(()=>{
@@ -103,17 +109,21 @@ const NewsLetterEditor = (props) => {
                 ...currentElemToolsState,
                 //hero_background: HERO_BG
             });
-            
+
             // Last Highlighted Text
             let highlightable_elems = document.getElementsByClassName("nl-highlightable-text");
             Array.from(highlightable_elems).forEach(each=>{
                 each.addEventListener('mouseup', (event) => {
                     let selection = window.getSelection();
-                    setLastSelection(selection)
+                    setLastSelection(selection);
                     if (selection.rangeCount > 0) {
-                        setLastRange(selection.getRangeAt(0));
-                        const span = document.createElement('span');
-                        setNewSettingsSpan(span);
+                        if(selection.toString().length > 0){
+                            setLastRange(selection.getRangeAt(0));
+                            const span = document.createElement('span');
+                            setNewSettingsSpan(span);
+                        }else{
+                            setLastRange(null);
+                        }
                     }
                     
                     const computedStyle = window.getComputedStyle(event.target);
@@ -536,7 +546,7 @@ const NewsLetterEditor = (props) => {
         <div style={{display: "flex", justifyContent: "center"}}>
             {
                 isEditMode &&
-                <div style={{width: "calc(100% - 650px)", background: "rgba(0,0,0,0.07)"}}>
+                <div style={{width: "calc(100% - 750px)", background: "rgba(0,0,0,0.07)"}}>
                     <h1 style={{margin: 15, maxWidth: 200, color: "rgb(110, 0, 97)", display: "none"}}>
                         Pick a Template to Design Your News Letter!</h1>
                     <div style={{display: "flex", backgroundColor: "rgb(69, 0, 61)", justifyContent: "center"}}>
@@ -615,6 +625,28 @@ const NewsLetterEditor = (props) => {
             <div id="news_letter_current_editable_page" style={{maxWidth: 650, background: "rgba(0,0,0,0.07)", borderLeft: isEditMode ? "1px solid rgba(0, 0, 0, 0.1)" : "none"}}>
                 {currentDesign?.editable_react_version}
             </div>
+            {
+                isEditMode &&
+                <div style={{width: 150, padding: 10, textAlign: "center", backgroundColor: "rgb(55, 7, 49)"}}>
+                    <p style={{fontSize: 13, padding: 10, color: "orange", textDecoration: "underline"}}>
+                        Elements</p>
+                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                        <p style={{fontSize: 13}}>
+                            <i style={{marginRight: 10}} className="fa-solid fa-link"></i>
+                            Button</p>
+                    </div>
+                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                        <p style={{fontSize: 13}}>
+                            <i style={{marginRight: 10}} className="fa-solid fa-paragraph"></i>
+                            Paragraph</p>
+                    </div>
+                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                        <p style={{fontSize: 13}}>
+                            <i style={{marginRight: 10}} className="fa-solid fa-heading"></i>
+                            Heading</p>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 

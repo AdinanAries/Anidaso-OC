@@ -63,10 +63,11 @@ const NewsLetterPreviewer = (props) => {
             <tr>
                 <td>
                     <div>
-                        <div className="nl-focusable-container-elem nl-button-container" tabIndex="-1" contentEditable={isEditMode} style={{cursor: "pointer", width: 300, margin: "auto", backgroundColor: "black", color: "white", borderRadius: 50, padding: 20, textAlign: "center"}}>
-                            Book Now
+                        <div className="nl-focusable-container-elem nl-button-container" style={{cursor: "pointer", width: 300, margin: "auto", backgroundColor: "black", color: "white", borderRadius: 50, padding: 20, textAlign: "center"}}>
+                            <span tabIndex="-1" contentEditable={isEditMode}>
+                                Book Now</span>
                             <div className="nl-button-settings-container">
-                                <p style={{fontSize: 13, color: "black", textAlign: "left"}}>
+                                <p contentEditable={false} style={{fontSize: 13, color: "black", textAlign: "left"}}>
                                     <i style={{marginRight: 5}} className="fa-solid fa-globe"></i>
                                     Edit Button Link:</p>
                                 <div>
