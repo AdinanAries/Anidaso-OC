@@ -33,6 +33,50 @@ const NewsLetterEditor = (props) => {
         });
     }
 
+    const handleDragStart = (e, item) => {
+        e.dataTransfer.setData('text/plain', item);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const droppedItem = e.dataTransfer.getData('text/plain');
+        if(droppedItem==="button"){
+            e.target.innerHTML+=`
+                <div class="nl-focusable-container-elem nl-button-container" style="cursor: pointer; width: 300px; margin: auto; background-color: black; color: white; border-radius: 50px; padding: 20px; text-align: center;">
+                    <span tab-index="-1" content-editable=true >
+                        Book Now</span>
+                    <div class="nl-button-settings-container">
+                        <p content-editable=false style="font-size: 13px; color: black; text-align: left;">
+                            <i style="marginR-right: 5px" class="fa-solid fa-globe"></i>
+                            Edit Button Link:</p>
+                        <div>
+                            <input
+                                style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
+                                value="" 
+                                type="text"
+                            />
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        e.target.classList.remove("dnd_drop_zone_hover");
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.target.classList.add("dnd_drop_zone_hover");
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.target.classList.remove("dnd_drop_zone_hover");
+    }
+
+    const handleDragEnd = (e) => {
+        
+    }
+
     const [ currentElemToolsState, setCurrentElemToolsState ] = useState({
         isBold: false,
         isItalic: false,
@@ -56,6 +100,10 @@ const NewsLetterEditor = (props) => {
         editable_react_version: <NewsLetterPreviewer 
                                     isEditMode={isEditMode}
                                     currentElemToolsState={currentElemToolsState}
+                                    handleDrop={handleDrop}
+                                    handleDragOver={handleDragOver}
+                                    handleDragLeave={handleDragLeave}
+                                    handleDragEnd={handleDragEnd}
                                     buttonUrlOnInput={buttonUrlOnInput}
                                 />,
         string_snap_shot: "",
@@ -630,7 +678,7 @@ const NewsLetterEditor = (props) => {
                 <div style={{width: 150, padding: 10, textAlign: "center", backgroundColor: "rgb(55, 7, 49)"}}>
                     <p style={{fontSize: 13, padding: 10, color: "orange", textDecoration: "underline"}}>
                         Elements</p>
-                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                    <div draggable onDragStart={(e) => handleDragStart(e, "button")} style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
                         <p style={{fontSize: 13}}>
                             <i style={{marginRight: 10}} className="fa-solid fa-link"></i>
                             Button</p>
@@ -644,6 +692,68 @@ const NewsLetterEditor = (props) => {
                         <p style={{fontSize: 13}}>
                             <i style={{marginRight: 10}} className="fa-solid fa-heading"></i>
                             Heading</p>
+                    </div>
+                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                        <p style={{fontSize: 13}}>
+                            <i style={{marginRight: 10}} className="fa-solid fa-image"></i>
+                            Image</p>
+                    </div>
+                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                        <p style={{fontSize: 13}}>
+                            <i style={{marginRight: 10}} className="fa-solid fa-expand"></i>
+                            Section</p>
+                    </div>
+                    <p style={{fontSize: 13, padding: 10, marginTop: 10, color: "orange", textDecoration: "underline"}}>
+                        Box Model</p>
+                    <div style={{padding: 10, color: "lightgreen"}}>
+                        <p style={{fontSize: 13, marginBottom: 5, textAlign: "left"}}>
+                            Padding:
+                        </p>
+                        <p>
+                            <input style={{border: "none", borderBottom: "2px solid lightgreen",
+                                background: "none", color: "white",
+                                maxWidth: "100%", textAlign: "right"}} type="number" />
+                        </p>
+                    </div>
+                    <div style={{padding: 10, color: "lightgreen"}}>
+                        <p style={{fontSize: 13, marginBottom: 5, textAlign: "left"}}>
+                            Margin:
+                        </p>
+                        <p>
+                            <input style={{border: "none", borderBottom: "2px solid lightgreen",
+                                background: "none", color: "white",
+                                maxWidth: "100%", textAlign: "right"}} type="number" />
+                        </p>
+                    </div>
+                    <p style={{fontSize: 13, padding: 10, marginTop: 10, color: "orange", textDecoration: "underline"}}>
+                        Box Alignment</p>
+                    <div style={{padding: 10, color: "lightgreen"}}>
+                        <p style={{fontSize: 13, marginBottom: 5, textAlign: "left"}}>
+                            Vertical:
+                        </p>
+                        <p>
+                            <select style={{border: "none", borderBottom: "2px solid lightgreen",
+                                background: "none", color: "white",
+                                width: "100%", textAlign: "right"}}>
+                                    <option>Top</option>
+                                    <option>Center</option>
+                                    <option>Bottom</option>
+                            </select>
+                        </p>
+                    </div>
+                    <div style={{padding: 10, color: "lightgreen"}}>
+                        <p style={{fontSize: 13, marginBottom: 5, textAlign: "left"}}>
+                            Horizontal:
+                        </p>
+                        <p>
+                            <select style={{border: "none", borderBottom: "2px solid lightgreen",
+                                background: "none", color: "white",
+                                width: "100%", textAlign: "right"}}>
+                                    <option>Left</option>
+                                    <option>Center</option>
+                                    <option>Right</option>
+                            </select>
+                        </p>
                     </div>
                 </div>
             }

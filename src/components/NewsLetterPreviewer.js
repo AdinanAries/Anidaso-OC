@@ -6,9 +6,13 @@ const NewsLetterPreviewer = (props) => {
         isEditMode,
         currentElemToolsState,
         buttonUrlOnInput,
+        handleDrop,
+        handleDragOver,
+        handleDragLeave,
+        handleDragEnd,
     } = props;
 
-    return <table style={{width: "100%", borderSpacing: 0, backgroundColor: "white"}}>
+    return <table onDragEnd={handleDragEnd} onDragLeave={handleDragLeave} onDrop={handleDrop} onDragOver={handleDragOver} style={{width: "100%", borderSpacing: 0, backgroundColor: "white"}}>
         <tbody>
             <tr>
                 <td>
