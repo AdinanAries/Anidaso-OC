@@ -27,64 +27,6 @@ const NewsLetterEditor = (props) => {
         userDetails,
     } = props;
 
-    const buttonUrlOnInput = (e) => {
-        setCurrentElemToolsState({
-            ...currentElemToolsState,
-            buttonElemUrl: e.target.value
-        });
-    }
-
-    const handleDragStart = (e, item) => {
-        e.dataTransfer.setData('text/plain', item);
-    };
-
-    const handleDrop = (e) => {
-        e.preventDefault();
-        const droppedItem = e.dataTransfer.getData('text/plain');
-        if(droppedItem==="button"){
-            e.target.innerHTML+=`
-                <div>
-                    <div class="nl-focusable-container-elem nl-button-container" style="cursor: pointer; width: 300px; background-color: black; color: white; border-radius: 50px; padding: 20px; text-align: center;">
-                        <span tabindex="-1" contenteditable=true >
-                            Book Now</span>
-                        <div class="nl-button-settings-container">
-                            <p content-editable=false style="font-size: 13px; color: black; text-align: left;">
-                                <i style="marginR-right: 5px" class="fa-solid fa-globe"></i>
-                                Edit Button Link:</p>
-                            <div>
-                                <input
-                                    style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
-                                    value="" 
-                                    type="text"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        e.target.classList.remove("dnd_drop_zone_hover");
-    };
-
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        e.target.classList.add("dnd_drop_zone_hover");
-    };
-
-    const handleDragLeave = (e) => {
-        e.preventDefault();
-        e.target.classList.remove("dnd_drop_zone_hover");
-    }
-
-    const handleDragEnd = (e) => {
-        
-    }
-
-    const removeElement = (e) => {
-        console.log(e.target.parentNode.parentNode);
-        e.target.parentNode.parentNode.style.display="none";
-    }
-
     const [ currentElemToolsState, setCurrentElemToolsState ] = useState({
         isBold: false,
         isItalic: false,
@@ -107,6 +49,98 @@ const NewsLetterEditor = (props) => {
             padding: 0,
         }
     });
+
+    const containerFocusEvent = (event) => {
+        // Get the computed style of the element
+        const computedStyle = window.getComputedStyle(event.target);
+        setLastFocusedElement(event.target);
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            containerBackground: rgbToHex(computedStyle.backgroundColor),
+            boxModel: {
+                ...currentElemToolsState?.boxModel,
+                padding: parseInt((computedStyle.padding).replaceAll("px",""))
+            }
+        });
+    }
+
+    const buttonUrlOnInput = (e) => {
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            buttonElemUrl: e.target.value
+        });
+    }
+
+    const handleDragStart = (e, item) => {
+        e.dataTransfer.setData('text/plain', item);
+    };
+
+    const removeElement = (e) => {
+        console.log(e.target.parentNode.parentNode);
+        e.target.parentNode.parentNode.style.display="none";
+    }
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const droppedItem = e.dataTransfer.getData('text/plain');
+        if(droppedItem==="button"){
+            e.target.innerHTML+=`
+                <div>
+                    <div class="nl-focusable-container-elem nl-button-container" style="cursor: pointer; width: 300px; background-color: black; color: white; border-radius: 50px; padding: 20px; text-align: center;">
+                        <span tabindex="-1" contenteditable=true >
+                            Title Here</span>
+                        <div class="nl-button-settings-container">
+                            <p content-editable=false style="font-size: 13px; color: black; text-align: left;">
+                                <i style="marginR-right: 5px" class="fa-solid fa-globe"></i>
+                                Edit Button Link:</p>
+                            <div>
+                                <input
+                                    style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
+                                    value="" 
+                                    type="text"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        if(droppedItem==="div"){
+                let div = document.createElement('div');
+                div.classList.add("nl-focusable-container-elem");
+                div.style.cursor = "pointer"; 
+                div.style.width = "100%";
+                div.style.minHeight = "40px";
+                div.style.background = "rgba(129, 236, 255, 0.1)";
+                div.tabIndex = -1;
+                let delete_div = document.createElement('div');
+                delete_div.classList.add("nl-page-elem-delete-button");
+                delete_div.addEventListener("click", removeElement);
+                delete_div.innerHTML=`<i class="fa-solid fa-trash-can"></i>`;
+                div.appendChild(delete_div);
+                div.addEventListener('focus', (event) => {
+                    containerFocusEvent(event);
+                }, true);
+
+                e.target.appendChild(div);
+        }
+        e.target.classList.remove("dnd_drop_zone_hover");
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.target.classList.add("dnd_drop_zone_hover");
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.target.classList.remove("dnd_drop_zone_hover");
+    }
+
+    const handleDragEnd = (e) => {
+        
+    }
+
     const [ lastSelection, setLastSelection ] = useState(null);
     const [ lastRange, setLastRange ] = useState(null);
     const [ lastFocusedElement, setLastFocusedElement ] = useState(null);
@@ -233,17 +267,7 @@ const NewsLetterEditor = (props) => {
             let focusable_container_elems = document.getElementsByClassName("nl-focusable-container-elem");
             Array.from(focusable_container_elems).forEach(each=>{
                 each.addEventListener('focus', (event) => {
-                    // Get the computed style of the element
-                    const computedStyle = window.getComputedStyle(event.target);
-                    setLastFocusedElement(event.target);
-                    setCurrentElemToolsState({
-                        ...currentElemToolsState,
-                        containerBackground: rgbToHex(computedStyle.backgroundColor),
-                        boxModel: {
-                            ...currentElemToolsState?.boxModel,
-                            padding: parseInt((computedStyle.padding).replaceAll("px",""))
-                        }
-                    });
+                    containerFocusEvent(event);
                 }, true);
 
                 let focusable_icon_container_elems = document.getElementsByClassName("nl-focusable-icon-container-elem");
@@ -805,7 +829,7 @@ const NewsLetterEditor = (props) => {
                             <i style={{marginRight: 10}} className="fa-solid fa-image"></i>
                             Image</p>
                     </div>
-                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                    <div draggable onDragStart={(e) => handleDragStart(e, "div")} style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
                         <p style={{fontSize: 13}}>
                             <i style={{marginRight: 10}} className="fa-solid fa-expand"></i>
                             Section</p>

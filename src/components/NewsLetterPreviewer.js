@@ -55,7 +55,7 @@ const NewsLetterPreviewer = (props) => {
             <tr>
                 <td>
                     <div className="nl-focusable-container-elem" tabIndex="-1"
-                        style={{backgroundImage: `url('${currentElemToolsState?.background_image}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat",  overflow: "hidden", height: 400}}>
+                        style={{backgroundImage: `url('${currentElemToolsState?.background_image}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", height: 400}}>
                         <div className="nl-focusable-container-elem" tabIndex="-1" style={{display: "flex", justifyContent: "center", alignItems: "center", padding: 20}}>
                             <p className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode} style={{margin: "0 15px", color: "white"}}>
                                 Text Examp</p>
@@ -100,23 +100,27 @@ const NewsLetterPreviewer = (props) => {
                 <td>
                     <div>
                         <div className="nl-focusable-container-elem nl-button-container" tabIndex="-1" style={{marginTop: 10}}>
-                            <div className="nl-focusable-container-elem nl-button-container" tabIndex="-1"
-                                style={{cursor: "pointer", width: 300, margin: "auto", backgroundColor: "black", color: "white", borderRadius: 50, padding: 20, textAlign: "center"}}>
-                                <span tabIndex="-1" contentEditable={isEditMode}>
-                                    Book Now</span>
-                                <div className="nl-button-settings-container">
-                                    <p contentEditable={false} style={{fontSize: 13, color: "black", textAlign: "left"}}>
-                                        <i style={{marginRight: 5}} className="fa-solid fa-globe"></i>
-                                        Edit Button Link:</p>
-                                    <div>
-                                        <input onInput={buttonUrlOnInput}
-                                            style={{marginTop: 5, border: "none", backgroundColor: "rgba(0,0,0,0.07)", minWidth: 300, padding: 10, borderRadius: 50}} 
-                                            value={currentElemToolsState?.buttonElemUrl} 
-                                            type="text"
-                                        />
+                            
+                                <div className="nl-focusable-container-elem nl-button-container" tabIndex="-1"
+                                    style={{cursor: "pointer", width: 300, margin: "auto", backgroundColor: "black", borderRadius: 50, textAlign: "center"}}>
+                                    <a style={{textDecoration: "none"}} disabled={isEditMode} target="_blank" href={currentElemToolsState?.buttonElemUrl}>
+                                        <p tabIndex="-1" contentEditable={isEditMode}
+                                            style={{padding: 20, color: "white"}}>
+                                            Visit Our Website</p>
+                                    </a> 
+                                    <div className="nl-button-settings-container">
+                                        <p contentEditable={false} style={{fontSize: 13, color: "black", textAlign: "left"}}>
+                                            <i style={{marginRight: 5}} className="fa-solid fa-globe"></i>
+                                            Edit Button Link:</p>
+                                        <div>
+                                            <input onInput={buttonUrlOnInput}
+                                                style={{marginTop: 5, border: "none", backgroundColor: "rgba(0,0,0,0.07)", minWidth: 300, padding: 10, borderRadius: 50}} 
+                                                value={currentElemToolsState?.buttonElemUrl} 
+                                                type="text"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <div onClick={removeElement} className="nl-page-elem-delete-button">
                                 <i className="fa-solid fa-trash-can"></i>
                             </div>
