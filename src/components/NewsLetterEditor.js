@@ -80,6 +80,11 @@ const NewsLetterEditor = (props) => {
         
     }
 
+    const removeElement = (e) => {
+        console.log(e.target.parentNode.parentNode);
+        e.target.parentNode.parentNode.style.display="none";
+    }
+
     const [ currentElemToolsState, setCurrentElemToolsState ] = useState({
         isBold: false,
         isItalic: false,
@@ -117,6 +122,7 @@ const NewsLetterEditor = (props) => {
                                     handleDragLeave={handleDragLeave}
                                     handleDragEnd={handleDragEnd}
                                     buttonUrlOnInput={buttonUrlOnInput}
+                                    removeElement={removeElement}
                                 />,
         string_snap_shot: "",
         changes_history: [

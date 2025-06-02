@@ -11,6 +11,7 @@ const NewsLetterPreviewer = (props) => {
         handleDragOver,
         handleDragLeave,
         handleDragEnd,
+        removeElement,
     } = props;
 
     const {
@@ -28,6 +29,9 @@ const NewsLetterPreviewer = (props) => {
             <tr>
                 <td>
                     <div className="nl-focusable-container-elem" tabIndex="-1" style={{background: "black", padding: 10}}>
+                        <div onClick={removeElement} className="nl-page-elem-delete-button">
+                            <i className="fa-solid fa-trash-can"></i>
+                        </div>
                         <p className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode} style={{color: "white", fontSize: 13, textAlign: "center"}}>
                             Sed ut perspiciatis unde omnis iste natus error?</p>
                     </div>
@@ -41,21 +45,27 @@ const NewsLetterPreviewer = (props) => {
                         <h3 style={{color: "orange", fontFamily: 'courier'}} className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode}>
                             {business_name || "Company Name"}
                         </h3>
+                        <div onClick={removeElement} className="nl-page-elem-delete-button">
+                            <i className="fa-solid fa-trash-can"></i>
+                        </div>
                     </div>
                     
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div  className="nl-focusable-container-elem" tabIndex="-1"
+                    <div className="nl-focusable-container-elem" tabIndex="-1"
                         style={{backgroundImage: `url('${currentElemToolsState?.background_image}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat",  overflow: "hidden", height: 400}}>
-                                <div className="nl-focusable-container-elem" tabIndex="-1" style={{display: "flex", justifyContent: "center", alignItems: "center", padding: 20}}>
+                        <div className="nl-focusable-container-elem" tabIndex="-1" style={{display: "flex", justifyContent: "center", alignItems: "center", padding: 20}}>
                             <p className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode} style={{margin: "0 15px", color: "white"}}>
                                 Text Examp</p>
                             <p className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode} style={{margin: "0 15px", color: "white"}}>
                                 Text Examp</p>
                             <p className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode} style={{margin: "0 15px", color: "white"}}>
                                 Text Examp</p>
+                        </div>
+                        <div onClick={removeElement} className="nl-page-elem-delete-button">
+                            <i className="fa-solid fa-trash-can"></i>
                         </div>
                     </div>
                 </td>
@@ -66,6 +76,9 @@ const NewsLetterPreviewer = (props) => {
                         <h1 className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode} 
                             style={{fontSize: 33, fontWeight: "bolder", textAlign: "center", color: "rgb(134, 197, 255)"}}>
                             Travel Safe!</h1>
+                        <div onClick={removeElement} className="nl-page-elem-delete-button">
+                            <i className="fa-solid fa-trash-can"></i>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -77,6 +90,9 @@ const NewsLetterPreviewer = (props) => {
                             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque
                             voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque
                         </p>
+                        <div onClick={removeElement} className="nl-page-elem-delete-button">
+                            <i className="fa-solid fa-trash-can"></i>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -100,6 +116,9 @@ const NewsLetterPreviewer = (props) => {
                                         />
                                     </div>
                                 </div>
+                            </div>
+                            <div onClick={removeElement} className="nl-page-elem-delete-button">
+                                <i className="fa-solid fa-trash-can"></i>
                             </div>
                         </div>
                     </div>
@@ -144,6 +163,9 @@ const NewsLetterPreviewer = (props) => {
                                 https://yourwebsite.com
                             </span>
                         </p>
+                        <div onClick={removeElement} className="nl-page-elem-delete-button">
+                            <i className="fa-solid fa-trash-can"></i>
+                        </div>
                     </div>
                 </td>
             </tr>

@@ -37,6 +37,23 @@ ul li {
   display: block;
 }
 
+.nl-focusable-container-elem {
+  position: relative;
+}
+
+.nl-page-elem-delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: red;
+  display: none;
+  cursor: pointer;
+}
+
+.nl-focusable-container-elem:hover .nl-page-elem-delete-button {
+  display: block;
+}
+
 input[type="color"] {
   -webkit-appearance: none;
   border: none;
