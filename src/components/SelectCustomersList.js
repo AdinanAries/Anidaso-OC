@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 const SelectCustomersList = (props) => {
 
     const {
+        setMailingList,
+        mailingList,
         userDetails,
         totalItems,
         PAGI_LIMIT,
@@ -30,6 +32,17 @@ const SelectCustomersList = (props) => {
             break
         }
         i+=PAGI_LIMIT;
+    }
+
+    const addCustomerToMailingList = (e, cust) =>{
+        e.target.checked=!e.target.checked;
+        let _list = mailingList;
+        if(e.target.checked){
+            _list.push(cust);
+            setMailingList([...new Set(_list)]);
+        }else{
+            setMailingList(_list?.filter(each=>each?.email!==cust?.email));
+        }
     }
 
     return <div>
@@ -69,18 +82,26 @@ const SelectCustomersList = (props) => {
             }
             {
                 customersList?.map(each=>{
+                    let cb_checked=false;
+                    let ___obj = mailingList?.find(item=>item?.email===each?.email);
+                    if(___obj)
+                        cb_checked = true;
                     return <div style={{marginTop: 10, cursor: "pointer"}}>
                         <p style={{color: "white", fontSize: 13}}>
-                            <input
+                            <input onInput={(e)=>addCustomerToMailingList(e, each)}
+                                id={`ml_cust_${each?._id}`}
                                 type="checkbox" 
                                 className="cm-toggle"
                                 style={{marginRight: 10}}
+                                checked={cb_checked}
                             />
-                            <i style={{color: "yellow", marginRight: 10}}
-                                className='fa-solid fa-user'></i>
-                            {each?.first_name} {each?.last_name} - <span style={{color: "orange"}}>
-                                {each?.email}
-                            </span>
+                            <label htmlFor={`ml_cust_${each?._id}`}>
+                                <i style={{color: "yellow", marginRight: 10}}
+                                    className='fa-solid fa-user'></i>
+                                {each?.first_name} {each?.last_name} - <span style={{color: "orange"}}>
+                                    {each?.email}
+                                </span>
+                            </label>
                         </p>
                     </div>
                 })

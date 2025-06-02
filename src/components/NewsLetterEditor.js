@@ -1,4 +1,4 @@
-import HERO_BG from "../tour-img.svg";
+import HERO_BG from "../news-letter-bg1.jpg";
 import NewsLetter1 from "../newsLetter1.png";
 import { cloneElement, useEffect, useState } from "react";
 import { fonts } from "../helpers/fonts";
@@ -23,7 +23,8 @@ function rgbToHex(rgb_string) {
 const NewsLetterEditor = (props) => {
 
     const {
-        isEditMode
+        isEditMode,
+        userDetails,
     } = props;
 
     const buttonUrlOnInput = (e) => {
@@ -42,19 +43,21 @@ const NewsLetterEditor = (props) => {
         const droppedItem = e.dataTransfer.getData('text/plain');
         if(droppedItem==="button"){
             e.target.innerHTML+=`
-                <div class="nl-focusable-container-elem nl-button-container" style="cursor: pointer; width: 300px; margin: auto; background-color: black; color: white; border-radius: 50px; padding: 20px; text-align: center;">
-                    <span tab-index="-1" content-editable=true >
-                        Book Now</span>
-                    <div class="nl-button-settings-container">
-                        <p content-editable=false style="font-size: 13px; color: black; text-align: left;">
-                            <i style="marginR-right: 5px" class="fa-solid fa-globe"></i>
-                            Edit Button Link:</p>
-                        <div>
-                            <input
-                                style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
-                                value="" 
-                                type="text"
-                            />
+                <div>
+                    <div class="nl-focusable-container-elem nl-button-container" style="cursor: pointer; width: 300px; background-color: black; color: white; border-radius: 50px; padding: 20px; text-align: center;">
+                        <span tabindex="-1" contenteditable=true >
+                            Book Now</span>
+                        <div class="nl-button-settings-container">
+                            <p content-editable=false style="font-size: 13px; color: black; text-align: left;">
+                                <i style="marginR-right: 5px" class="fa-solid fa-globe"></i>
+                                Edit Button Link:</p>
+                            <div>
+                                <input
+                                    style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
+                                    value="" 
+                                    type="text"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,14 +93,23 @@ const NewsLetterEditor = (props) => {
         containerBackground: "",
         buttonElemUrl: "https://yourwebsiteurl.com",
         currentElem: null,
-        hero_background: "",
+        background_image: HERO_BG,
+        boxModel: {
+            disply: "block",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            margin: 0,
+            padding: 0,
+        }
     });
     const [ lastSelection, setLastSelection ] = useState(null);
     const [ lastRange, setLastRange ] = useState(null);
     const [ lastFocusedElement, setLastFocusedElement ] = useState(null);
     const [ newSettingsSpan, setNewSettingsSpan ] = useState(null);
+    const [ lastFocusedIcon, setlastFocusedIcon ] = useState(null);
     const [currentDesign, setCurrentDesign] = useState({
         editable_react_version: <NewsLetterPreviewer 
+                                    userDetails={userDetails}
                                     isEditMode={isEditMode}
                                     currentElemToolsState={currentElemToolsState}
                                     handleDrop={handleDrop}
@@ -110,7 +122,7 @@ const NewsLetterEditor = (props) => {
         changes_history: [
 
         ],
-        hero_background: ""
+        background_image: ""
     });
 
     useEffect(()=>{
@@ -148,15 +160,16 @@ const NewsLetterEditor = (props) => {
     useEffect(()=>{
         if(newSettingsSpan)
             newSettingsSpan.classList.remove('highlighted');
+        setlastFocusedIcon(null);
     }, [lastRange]);
 
     useEffect(()=>{
         setTimeout(()=>{
 
-            setCurrentElemToolsState({
+            /*setCurrentElemToolsState({
                 ...currentElemToolsState,
-                //hero_background: HERO_BG
-            });
+                background_image: HERO_BG
+            });*/
 
             // Last Highlighted Text
             let highlightable_elems = document.getElementsByClassName("nl-highlightable-text");
@@ -175,7 +188,6 @@ const NewsLetterEditor = (props) => {
                     }
                     
                     const computedStyle = window.getComputedStyle(event.target);
-                    console.log(computedStyle);
                     setCurrentElemToolsState({
                         ...currentElemToolsState,
                         textColor: rgbToHex(computedStyle.color),
@@ -184,6 +196,11 @@ const NewsLetterEditor = (props) => {
                         isUnderline: (computedStyle.textDecoration.includes("none solid")),
                         font: (computedStyle.fontFamily),
                         fontSize: parseInt((computedStyle.fontSize).replaceAll("px","")),
+                        boxModel: {
+                            ...currentElemToolsState?.boxModel,
+                            padding: parseInt((computedStyle.padding).replaceAll("px","")),
+                            margin: parseInt((computedStyle.margin).replaceAll("px",""))
+                        }
                     });
                     
                 });
@@ -198,7 +215,11 @@ const NewsLetterEditor = (props) => {
                     setLastFocusedElement(event.target);
                     setCurrentElemToolsState({
                         ...currentElemToolsState,
-                        //fontSize: parseInt((computedStyle.fontSize).replaceAll("px","")),
+                        boxModel: {
+                            ...currentElemToolsState?.boxModel,
+                            padding: parseInt((computedStyle.padding).replaceAll("px","")),
+                            margin: parseInt((computedStyle.margin).replaceAll("px",""))
+                        }
                     });
                 }, true);
             });
@@ -211,9 +232,26 @@ const NewsLetterEditor = (props) => {
                     setLastFocusedElement(event.target);
                     setCurrentElemToolsState({
                         ...currentElemToolsState,
-                        containerBackground: rgbToHex(computedStyle.backgroundColor)
+                        containerBackground: rgbToHex(computedStyle.backgroundColor),
+                        boxModel: {
+                            ...currentElemToolsState?.boxModel,
+                            padding: parseInt((computedStyle.padding).replaceAll("px",""))
+                        }
                     });
                 }, true);
+
+                let focusable_icon_container_elems = document.getElementsByClassName("nl-focusable-icon-container-elem");
+                Array.from(focusable_icon_container_elems).forEach(each=>{
+                    each.addEventListener('focus', (event) => {
+                        // Get the computed style of the element
+                        const computedStyle = window.getComputedStyle(event.target);
+                        setlastFocusedIcon(event.target);
+                        setCurrentElemToolsState({
+                            ...currentElemToolsState,
+                            textColor: rgbToHex(computedStyle.color),
+                        });
+                    }, true);
+                });
             });
 
         }, 1500);
@@ -264,7 +302,10 @@ const NewsLetterEditor = (props) => {
             ...currentElemToolsState,
             textColor: e.target.value
         });
-        newSettingsSpan.style.color=e.target.value;
+        if(newSettingsSpan)
+            newSettingsSpan.style.color=e.target.value;
+        if(lastFocusedIcon)
+            lastFocusedIcon.style.color=e.target.value;
     }
 
     const toolsHighlightColorOnInput = (e) => {
@@ -274,7 +315,8 @@ const NewsLetterEditor = (props) => {
             highlightColor: e.target.value
         });
         
-        newSettingsSpan.style.backgroundColor=e.target.value;
+        if(newSettingsSpan)
+            newSettingsSpan.style.backgroundColor=e.target.value;
         //lastRange.surroundContents(span);
     }
 
@@ -321,7 +363,8 @@ const NewsLetterEditor = (props) => {
             fontStyle="italic";
             _bool=true;
         }
-        newSettingsSpan.style.fontStyle=fontStyle;
+        if(newSettingsSpan)
+            newSettingsSpan.style.fontStyle=fontStyle;
         //newSettingsSpan.classList.remove('highlighted');
         setCurrentElemToolsState({
             ...currentElemToolsState,
@@ -400,6 +443,64 @@ const NewsLetterEditor = (props) => {
         });
         if(newSettingsSpan)
             newSettingsSpan.style.fontFamily=e.target.value;
+    }
+
+    const paddingOnInput = (e) => {
+        let _pp = e.target.value;
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            boxModel: {
+                ...currentElemToolsState.boxModel,
+                padding: _pp
+            }
+        });
+        if(lastFocusedElement)
+            lastFocusedElement.style.padding=(_pp+"px");
+    }
+
+    const marginOnInput = (e) => {
+        let _pp = e.target.value;
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            boxModel: {
+                ...currentElemToolsState.boxModel,
+                margin: _pp
+            }
+        });
+        if(lastFocusedElement)
+            lastFocusedElement.style.margin=(_pp+"px");
+    }
+
+    const alignVerticalOnChange = (e) => {
+        let _vv = e.target.value;
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            boxModel: {
+                ...currentElemToolsState.boxModel,
+                display: "flex",
+                alignItems: _vv
+            }
+        });
+        if(lastFocusedElement){
+            lastFocusedElement.style.display='flex';
+            lastFocusedElement.style.alignItems=_vv;
+        }
+    }
+
+    const alignHorizontalOnchange = (e) => {
+        let _vv = e.target.value;
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            boxModel: {
+                ...currentElemToolsState.boxModel,
+                display: "flex",
+                justifyContent: _vv
+            }
+        });
+        if(lastFocusedElement){
+            lastFocusedElement.style.display='flex';
+            lastFocusedElement.style.justifyContent=_vv;
+        }
     }
 
     const onSave = () => {
@@ -601,14 +702,14 @@ const NewsLetterEditor = (props) => {
                         <p style={{padding: 15, fontSize: 13, cursor: "pointer", color: "yellow", textDecoration: "underline"}}>
                             All Categories
                         </p>
-                        <p style={{padding: 15, fontSize: 13, cursor: "pointer", color: "white"}}>
-                            Category 1
+                        <p style={{padding: 15, fontSize: 13, cursor: "pointer", color: "grey", cursor: "not-allowed"}}>
+                            Travel
                         </p>
-                        <p style={{padding: 15, fontSize: 13, cursor: "pointer", color: "white"}}>
-                            Category 2
+                        <p style={{padding: 15, fontSize: 13, cursor: "pointer", color: "grey", cursor: "not-allowed"}}>
+                            Tours
                         </p>
-                        <p style={{padding: 15, fontSize: 13, cursor: "pointer", color: "white"}}>
-                            Category 3
+                        <p style={{padding: 15, fontSize: 13, cursor: "pointer", color: "grey", cursor: "not-allowed"}}>
+                            Packages
                         </p>
                     </div>
                     <div style={{display: "flex", justifyContent: "center", flexWrap: "wrap", padding: 3}}>
@@ -706,52 +807,58 @@ const NewsLetterEditor = (props) => {
                     <p style={{fontSize: 13, padding: 10, marginTop: 10, color: "orange", textDecoration: "underline"}}>
                         Box Model</p>
                     <div style={{padding: 10, color: "lightgreen"}}>
-                        <p style={{fontSize: 13, marginBottom: 5, textAlign: "left"}}>
-                            Padding:
+                        <p style={{fontSize: 13, marginBottom: 5}}>
+                            Padding
                         </p>
                         <p>
-                            <input style={{border: "none", borderBottom: "2px solid lightgreen",
+                            <input onInput={paddingOnInput}
+                                value={currentElemToolsState?.boxModel?.padding}
+                                style={{border: "none", borderBottom: "2px solid lightgreen",
                                 background: "none", color: "white",
-                                maxWidth: "100%", textAlign: "right"}} type="number" />
+                                maxWidth: "100%", textAlign: "center"}} type="number" />
                         </p>
                     </div>
                     <div style={{padding: 10, color: "lightgreen"}}>
-                        <p style={{fontSize: 13, marginBottom: 5, textAlign: "left"}}>
-                            Margin:
+                        <p style={{fontSize: 13, marginBottom: 5}}>
+                            Margin
                         </p>
                         <p>
-                            <input style={{border: "none", borderBottom: "2px solid lightgreen",
+                            <input onInput={marginOnInput}
+                                value={currentElemToolsState?.boxModel?.margin}
+                                style={{border: "none", borderBottom: "2px solid lightgreen",
                                 background: "none", color: "white",
-                                maxWidth: "100%", textAlign: "right"}} type="number" />
+                                maxWidth: "100%", textAlign: "center"}} type="number" />
                         </p>
                     </div>
                     <p style={{fontSize: 13, padding: 10, marginTop: 10, color: "orange", textDecoration: "underline"}}>
                         Box Alignment</p>
                     <div style={{padding: 10, color: "lightgreen"}}>
-                        <p style={{fontSize: 13, marginBottom: 5, textAlign: "left"}}>
-                            Vertical:
+                        <p style={{fontSize: 13, marginBottom: 5}}>
+                            Vertical
                         </p>
                         <p>
-                            <select style={{border: "none", borderBottom: "2px solid lightgreen",
+                            <select onInput={alignVerticalOnChange}
+                                style={{border: "none", borderBottom: "2px solid lightgreen",
                                 background: "none", color: "white",
-                                width: "100%", textAlign: "right"}}>
-                                    <option>Top</option>
-                                    <option>Center</option>
-                                    <option>Bottom</option>
+                                width: "100%", textAlign: "center"}}>
+                                    <option value='flex-start' style={{color: "black"}}>Top</option>
+                                    <option value='center' style={{color: "black"}}>Center</option>
+                                    <option value='flex-end' style={{color: "black"}}>Bottom</option>
                             </select>
                         </p>
                     </div>
                     <div style={{padding: 10, color: "lightgreen"}}>
-                        <p style={{fontSize: 13, marginBottom: 5, textAlign: "left"}}>
-                            Horizontal:
+                        <p style={{fontSize: 13, marginBottom: 5}}>
+                            Horizontal
                         </p>
                         <p>
-                            <select style={{border: "none", borderBottom: "2px solid lightgreen",
+                            <select onInput={alignHorizontalOnchange}
+                                style={{border: "none", borderBottom: "2px solid lightgreen",
                                 background: "none", color: "white",
-                                width: "100%", textAlign: "right"}}>
-                                    <option>Left</option>
-                                    <option>Center</option>
-                                    <option>Right</option>
+                                width: "100%", textAlign: "center"}}>
+                                    <option value='flex-start' style={{color: "black"}}>Left</option>
+                                    <option value='center' style={{color: "black"}}>Center</option>
+                                    <option value='flex-end' style={{color: "black"}}>Right</option>
                             </select>
                         </p>
                     </div>

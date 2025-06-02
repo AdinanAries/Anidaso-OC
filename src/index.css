@@ -56,8 +56,9 @@ input[type="color"]::-webkit-color-swatch {
   z-index: 100;
 }
 
-.nl-focusable-container-elem:focus {
-  border: 3px dashed red;
+.nl-highlightable-text:focus, .nl-focusable-container-elem:focus {
+  outline: none;
+  border: 3px dashed rgb(0, 179, 143);
 }
 
 /* width */

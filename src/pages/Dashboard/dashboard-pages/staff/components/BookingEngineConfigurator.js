@@ -41,6 +41,16 @@ const BookingEngineConfigurator = (props) => {
         resetBookingEngineSearchPageSettings,
     } = props;
 
+    const {
+        business_name,
+        logo_url,
+        business_email,
+        business_phone,
+        business_facebook_link,
+        business_twitter_link,
+        business_instagram_link,
+    } = userDetails.company_info;
+
     return <div>
         <div style={{marginBottom: 10}} className="main-seaction-containers">
             <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20, marginTop: 10}}>
@@ -70,7 +80,7 @@ const BookingEngineConfigurator = (props) => {
                                         {
                                             BESettings?.hideCompanyName ? <></> :
                                             <p style={{whiteSpace: "nowrap", color: BESettings?.headerCompanyTxtColor, fontSize: 12, fontWeight: "bolder", marginLeft: 10}}>
-                                                Business Name
+                                                {business_name || "Business Name"}
                                             </p>
                                         }
                                     </> :
@@ -558,7 +568,7 @@ const BookingEngineConfigurator = (props) => {
                                                 {
                                                     BESettings?.hideCompanyName ? <></> :
                                                     <h1 style={{color: BESettings?.greetingsCardTextColor, fontSize: 20, textAlign: "center"}}>
-                                                    Business Name</h1>
+                                                    {business_name || "Business Name"}</h1>
                                                 }
                                                 <p style={{fontWeight: "bolder", fontSize: 12, color: BESettings?.greetingsCardTitleColor, textAlign: "center", marginBottom: 15, marginTop: 20, letterSpacing: 0.5, fontFamily: "Courgette"}}>
                                                         - Agent Details -</p>
