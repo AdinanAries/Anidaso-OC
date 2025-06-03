@@ -81,49 +81,140 @@ const NewsLetterEditor = (props) => {
     }
 
     const handleDrop = (e) => {
+        
         e.preventDefault();
         const droppedItem = e.dataTransfer.getData('text/plain');
-        if(droppedItem==="button"){
-            e.target.innerHTML+=`
-                <div>
-                    <div class="nl-focusable-container-elem nl-button-container" style="cursor: pointer; width: 300px; background-color: black; color: white; border-radius: 50px; padding: 20px; text-align: center;">
-                        <span tabindex="-1" contenteditable=true >
-                            Title Here</span>
-                        <div class="nl-button-settings-container">
-                            <p content-editable=false style="font-size: 13px; color: black; text-align: left;">
-                                <i style="marginR-right: 5px" class="fa-solid fa-globe"></i>
-                                Edit Button Link:</p>
-                            <div>
-                                <input
-                                    style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
-                                    value="" 
-                                    type="text"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        if(droppedItem==="div"){
-                let div = document.createElement('div');
-                div.classList.add("nl-focusable-container-elem");
-                div.style.cursor = "pointer"; 
-                div.style.width = "100%";
-                div.style.minHeight = "40px";
-                div.style.background = "rgba(129, 236, 255, 0.1)";
-                div.tabIndex = -1;
-                let delete_div = document.createElement('div');
-                delete_div.classList.add("nl-page-elem-delete-button");
-                delete_div.addEventListener("click", removeElement);
-                delete_div.innerHTML=`<i class="fa-solid fa-trash-can"></i>`;
-                div.appendChild(delete_div);
-                div.addEventListener('focus', (event) => {
-                    containerFocusEvent(event);
-                }, true);
+        
+        let delete_div = document.createElement('div');
+        delete_div.classList.add("nl-page-elem-delete-button");
+        delete_div.addEventListener("click", removeElement);
+        delete_div.innerHTML=`<i class="fa-solid fa-trash-can"></i>`;
 
-                e.target.appendChild(div);
+        if(droppedItem==="button"){
+
+            let outer_div = document.createElement("div");
+            outer_div.classList.add("nl-focusable-container-elem");
+            outer_div.tabIndex=-1;
+            let focusable_div = document.createElement("div");
+            let anchor = document.createElement("a");
+            let title_p = document.createElement("p");
+            let button_settings_div = document.createElement("div");
+
+            let url_field_title = document.createElement("p");
+            let url_input_field_container = document.createElement("div");
+            let url_input_field = document.createElement("input");
+
+            focusable_div.classList.add("nl-focusable-container-elem", "nl-button-container");
+            focusable_div.tabIndex=-1;
+            focusable_div.style.cursor = "pointer";
+            focusable_div.style.width = "300px";
+            focusable_div.style.textAlign = "center";
+            
+            anchor.target="_blank";
+            anchor.textDecoration = "none";
+            anchor.url = "https://google.com/";
+
+            title_p.tabIndex=-1;
+            title_p.contentEditable=true;
+            title_p.style.backgroundColor = "black"; 
+            title_p.style.borderRadius = "50px";
+            title_p.style.padding = "20px";
+            title_p.style.color = "white";
+            title_p.innerText="Title Here";
+            
+            button_settings_div.classList.add("nl-button-settings-container");
+            
+            url_field_title.contentEditable=false;
+            url_field_title.style.fontSize = "13px"; 
+            url_field_title.style.color = "black"; 
+            url_field_title.style.textAlign = "left";
+            url_field_title.innerHTML = `
+                                <i style="marginR-right: 5px" class="fa-solid fa-globe"></i>
+                                Edit Button Link:</p>`;
+            
+            url_input_field.type = "text";
+            url_input_field.style.marginTop = "5px"; 
+            url_input_field.style.border = "none"; 
+            url_input_field.style.backgroundColor = "rgba(0,0,0,0.07)"; 
+            url_input_field.style.minWidth = "300px"; 
+            url_input_field.style.padding = "10px"; 
+            url_input_field.style.borderRadius = "50px";
+            
+            focusable_div.addEventListener('focus', (event) => {
+                containerFocusEvent(event);
+            }, true);
+
+            outer_div.addEventListener('focus', (event) => {
+                containerFocusEvent(event);
+            }, true);
+
+            url_input_field_container.appendChild(url_input_field);
+            button_settings_div.appendChild(url_field_title);
+            button_settings_div.appendChild(url_input_field_container);
+            anchor.appendChild(title_p);
+            focusable_div.appendChild(anchor);
+            focusable_div.appendChild(button_settings_div);
+            outer_div.appendChild(delete_div);
+            outer_div.appendChild(focusable_div);
+            e.target.appendChild(outer_div);
         }
+
+        if(droppedItem==="div"){
+
+            let div = document.createElement('div');
+            div.classList.add("nl-focusable-container-elem");
+            div.style.cursor = "pointer"; 
+            div.style.width = "100%";
+            div.style.minHeight = "40px";
+            div.style.background = "rgba(129, 236, 255, 0.1)";
+            div.tabIndex = -1;
+            
+            div.appendChild(delete_div);
+
+            div.addEventListener('focus', (event) => {
+                containerFocusEvent(event);
+            }, true);
+
+            e.target.appendChild(div);
+        }
+
+        if(droppedItem==="p"){
+            let _p = document.createElement("p");
+            _p.innerHTML="add paragraph text here";
+            _p.tabIndex=-1;
+            _p.contentEditable=true;
+            e.target.appendChild(_p);
+        }
+
+        if(droppedItem==="h1"){
+            let _h1 = document.createElement("h1");
+            _h1.innerHTML="add heading text here";
+            _h1.tabIndex=-1;
+            _h1.contentEditable=true;
+            e.target.appendChild(_h1);
+        }
+
+        if(droppedItem==="img"){
+
+            let outer_div = document.createElement("div");
+            let _img = document.createElement("img");
+
+            outer_div.classList.add("nl-focusable-container-elem");
+            outer_div.tabIndex=-1;
+            outer_div.style.display="flex";
+            outer_div.style.justifyContent="center";
+            outer_div.style.alignItems="center";
+
+            _img.style.width="300px";
+            _img.innerHTML="add heading text here";
+            _img.tabIndex=-1;
+            _img.src="https://picsum.photos/300";
+
+            outer_div.appendChild(_img);
+            outer_div.appendChild(delete_div);
+            e.target.appendChild(outer_div);
+        }
+
         e.target.classList.remove("dnd_drop_zone_hover");
     };
 
@@ -814,17 +905,17 @@ const NewsLetterEditor = (props) => {
                             <i style={{marginRight: 10}} className="fa-solid fa-link"></i>
                             Button</p>
                     </div>
-                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                    <div draggable onDragStart={(e) => handleDragStart(e, "p")} style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
                         <p style={{fontSize: 13}}>
                             <i style={{marginRight: 10}} className="fa-solid fa-paragraph"></i>
                             Paragraph</p>
                     </div>
-                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                    <div draggable onDragStart={(e) => handleDragStart(e, "h1")} style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
                         <p style={{fontSize: 13}}>
                             <i style={{marginRight: 10}} className="fa-solid fa-heading"></i>
                             Heading</p>
                     </div>
-                    <div draggable style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
+                    <div draggable onDragStart={(e) => handleDragStart(e, "img")} style={{padding: 10, color: "white", borderBottom: "1px solid rgba(255,255,255,0.1)"}}>
                         <p style={{fontSize: 13}}>
                             <i style={{marginRight: 10}} className="fa-solid fa-image"></i>
                             Image</p>
