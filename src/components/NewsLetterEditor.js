@@ -1,8 +1,11 @@
 import HERO_BG from "../news-letter-bg1.jpg";
 import NewsLetter1 from "../newsLetter1.png";
+import NLBlank from "../news-letter-blank.png";
+import NLDarkular from "../news-letter-darkula.png";
 import { cloneElement, useEffect, useState } from "react";
 import { fonts } from "../helpers/fonts";
-import NewsLetterPreviewer from "./NewsLetterPreviewer";
+import NewsLetterPreviewerDarkula from "./NewsLetterPreviewerDarkula";
+import NewsLetterPreviewerBlanK from "./NewsLetterPreviewerBlank";
 import { event } from "jquery";
 
 function rgbToHex(rgb_string) {
@@ -64,6 +67,50 @@ const NewsLetterEditor = (props) => {
         });
     }
 
+    const textFocusEvent = (event) => {
+        // Get the computed style of the element
+        const computedStyle = window.getComputedStyle(event.target);
+        setLastFocusedElement(event.target);
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            boxModel: {
+                ...currentElemToolsState?.boxModel,
+                padding: parseInt((computedStyle.padding).replaceAll("px","")),
+                margin: parseInt((computedStyle.margin).replaceAll("px",""))
+            }
+        });
+    }
+
+    const textHighlightEvent = (event) => {
+        let selection = window.getSelection();
+        setLastSelection(selection);
+        if (selection.rangeCount > 0) {
+            if(selection.toString().length > 0){
+                setLastRange(selection.getRangeAt(0));
+                const span = document.createElement('span');
+                setNewSettingsSpan(span);
+            }else{
+                setLastRange(null);
+            }
+        }
+        
+        const computedStyle = window.getComputedStyle(event.target);
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            textColor: rgbToHex(computedStyle.color),
+            isBold: (parseInt(computedStyle.fontWeight) > 500),
+            isItalic: (computedStyle.fontStyle==="italic"),
+            isUnderline: (computedStyle.textDecoration.includes("none solid")),
+            font: (computedStyle.fontFamily),
+            fontSize: parseInt((computedStyle.fontSize).replaceAll("px","")),
+            boxModel: {
+                ...currentElemToolsState?.boxModel,
+                padding: parseInt((computedStyle.padding).replaceAll("px","")),
+                margin: parseInt((computedStyle.margin).replaceAll("px",""))
+            }
+        });
+    }
+
     const buttonUrlOnInput = (e) => {
         setCurrentElemToolsState({
             ...currentElemToolsState,
@@ -91,7 +138,6 @@ const NewsLetterEditor = (props) => {
         delete_div.innerHTML=`<i class="fa-solid fa-trash-can"></i>`;
 
         if(droppedItem==="button"){
-
             let outer_div = document.createElement("div");
             outer_div.classList.add("nl-focusable-container-elem");
             outer_div.tabIndex=-1;
@@ -160,7 +206,6 @@ const NewsLetterEditor = (props) => {
         }
 
         if(droppedItem==="div"){
-
             let div = document.createElement('div');
             div.classList.add("nl-focusable-container-elem");
             div.style.cursor = "pointer"; 
@@ -168,30 +213,71 @@ const NewsLetterEditor = (props) => {
             div.style.minHeight = "40px";
             div.style.background = "rgba(129, 236, 255, 0.1)";
             div.tabIndex = -1;
-            
-            div.appendChild(delete_div);
 
             div.addEventListener('focus', (event) => {
                 containerFocusEvent(event);
             }, true);
 
+            div.appendChild(delete_div);
             e.target.appendChild(div);
         }
 
         if(droppedItem==="p"){
-            let _p = document.createElement("p");
+            let outer_div = document.createElement("div");
+            let _p = document.createElement("p");   
+
+            outer_div.classList.add("nl-focusable-container-elem");
+            outer_div.tabIndex=-1;
+            outer_div.style.display="flex";
+            outer_div.style.padding="10px";
+            outer_div.style.justifyContent="center";
+            outer_div.style.alignItems="center";
+            
+            _p.classList.add("nl-highlightable-text", "nl-focusable-text");
             _p.innerHTML="add paragraph text here";
             _p.tabIndex=-1;
             _p.contentEditable=true;
-            e.target.appendChild(_p);
+
+            _p.addEventListener('focus', (event) => {
+                textFocusEvent(event);
+            }, true);
+
+            _p.addEventListener('mouseup', (event) => {
+                textHighlightEvent(event);
+            });
+
+            outer_div.appendChild(delete_div);
+            outer_div.appendChild(_p)
+            e.target.appendChild(outer_div);
         }
 
         if(droppedItem==="h1"){
+            let outer_div = document.createElement("div");
             let _h1 = document.createElement("h1");
+
+            outer_div.classList.add("nl-focusable-container-elem");
+            outer_div.tabIndex=-1;
+            outer_div.style.display="flex";
+            outer_div.style.padding="10px";
+            outer_div.style.justifyContent="center";
+            outer_div.style.alignItems="center";
+            
+            _h1.classList.add("nl-highlightable-text", "nl-focusable-text"); // Add class here
             _h1.innerHTML="add heading text here";
             _h1.tabIndex=-1;
             _h1.contentEditable=true;
-            e.target.appendChild(_h1);
+
+            _h1.addEventListener('focus', (event) => {
+                textFocusEvent(event);
+            }, true);
+
+            _h1.addEventListener('mouseup', (event) => {
+                textHighlightEvent(event);
+            });
+            
+            outer_div.appendChild(delete_div);
+            outer_div.appendChild(_h1)
+            e.target.appendChild(outer_div);
         }
 
         if(droppedItem==="img"){
@@ -237,8 +323,8 @@ const NewsLetterEditor = (props) => {
     const [ lastFocusedElement, setLastFocusedElement ] = useState(null);
     const [ newSettingsSpan, setNewSettingsSpan ] = useState(null);
     const [ lastFocusedIcon, setlastFocusedIcon ] = useState(null);
-    const [currentDesign, setCurrentDesign] = useState({
-        editable_react_version: <NewsLetterPreviewer 
+    const [ currentDesign, setCurrentDesign ] = useState({
+        editable_react_version: <NewsLetterPreviewerDarkula
                                     userDetails={userDetails}
                                     isEditMode={isEditMode}
                                     currentElemToolsState={currentElemToolsState}
@@ -253,7 +339,8 @@ const NewsLetterEditor = (props) => {
         changes_history: [
 
         ],
-        background_image: ""
+        background_image: "",
+        current_template: "darkula",
     });
 
     useEffect(()=>{
@@ -306,34 +393,7 @@ const NewsLetterEditor = (props) => {
             let highlightable_elems = document.getElementsByClassName("nl-highlightable-text");
             Array.from(highlightable_elems).forEach(each=>{
                 each.addEventListener('mouseup', (event) => {
-                    let selection = window.getSelection();
-                    setLastSelection(selection);
-                    if (selection.rangeCount > 0) {
-                        if(selection.toString().length > 0){
-                            setLastRange(selection.getRangeAt(0));
-                            const span = document.createElement('span');
-                            setNewSettingsSpan(span);
-                        }else{
-                            setLastRange(null);
-                        }
-                    }
-                    
-                    const computedStyle = window.getComputedStyle(event.target);
-                    setCurrentElemToolsState({
-                        ...currentElemToolsState,
-                        textColor: rgbToHex(computedStyle.color),
-                        isBold: (parseInt(computedStyle.fontWeight) > 500),
-                        isItalic: (computedStyle.fontStyle==="italic"),
-                        isUnderline: (computedStyle.textDecoration.includes("none solid")),
-                        font: (computedStyle.fontFamily),
-                        fontSize: parseInt((computedStyle.fontSize).replaceAll("px","")),
-                        boxModel: {
-                            ...currentElemToolsState?.boxModel,
-                            padding: parseInt((computedStyle.padding).replaceAll("px","")),
-                            margin: parseInt((computedStyle.margin).replaceAll("px",""))
-                        }
-                    });
-                    
+                    textHighlightEvent(event);
                 });
             });
 
@@ -341,17 +401,7 @@ const NewsLetterEditor = (props) => {
             let focusable_elems = document.getElementsByClassName("nl-focusable-text");
             Array.from(focusable_elems).forEach(each=>{
                 each.addEventListener('focus', (event) => {
-                    // Get the computed style of the element
-                    const computedStyle = window.getComputedStyle(event.target);
-                    setLastFocusedElement(event.target);
-                    setCurrentElemToolsState({
-                        ...currentElemToolsState,
-                        boxModel: {
-                            ...currentElemToolsState?.boxModel,
-                            padding: parseInt((computedStyle.padding).replaceAll("px","")),
-                            margin: parseInt((computedStyle.margin).replaceAll("px",""))
-                        }
-                    });
+                    textFocusEvent(event);
                 }, true);
             });
 
@@ -376,11 +426,11 @@ const NewsLetterEditor = (props) => {
             });
 
         }, 1500);
-        setTimeout(()=>{
+        /*setTimeout(()=>{
             // Initial Save
             onSave();
-        }, 2000);
-    }, []);
+        }, 2000);*/
+    }, [currentDesign]);
 
     const removeSpansFromSelection = () => {
 
@@ -406,6 +456,44 @@ const NewsLetterEditor = (props) => {
         lastRange.insertNode(tempDiv.firstChild);
         lastSelection.removeAllRanges();
         lastSelection.addRange(lastRange);
+    }
+
+    const changeTemplate = (template) => {
+        if(template === "blank"){
+            setCurrentDesign({
+                ...currentDesign,
+                current_template: template,
+                editable_react_version: <NewsLetterPreviewerBlanK
+                                    userDetails={userDetails}
+                                    isEditMode={isEditMode}
+                                    currentElemToolsState={currentElemToolsState}
+                                    handleDrop={handleDrop}
+                                    handleDragOver={handleDragOver}
+                                    handleDragLeave={handleDragLeave}
+                                    handleDragEnd={handleDragEnd}
+                                    buttonUrlOnInput={buttonUrlOnInput}
+                                    removeElement={removeElement}
+                                />
+            })
+        }
+        if(template === "darkula"){
+            setCurrentDesign({
+                ...currentDesign,
+                current_template: template,
+                editable_react_version: <NewsLetterPreviewerDarkula
+                                    userDetails={userDetails}
+                                    isEditMode={isEditMode}
+                                    currentElemToolsState={currentElemToolsState}
+                                    handleDrop={handleDrop}
+                                    handleDragOver={handleDragOver}
+                                    handleDragLeave={handleDragLeave}
+                                    handleDragEnd={handleDragEnd}
+                                    buttonUrlOnInput={buttonUrlOnInput}
+                                    removeElement={removeElement}
+                                />
+            });
+                                
+        }
     }
 
     const toolsBackgroundColorOnInput = (e) => {
@@ -813,7 +901,7 @@ const NewsLetterEditor = (props) => {
                 </div>
             </div>
         }
-        <div style={{display: "flex", justifyContent: "center"}}>
+        <div style={{display: "flex", justifyContent: isEditMode ? "space-between" : "center"}}>
             {
                 isEditMode &&
                 <div style={{width: "calc(100% - 750px)", background: "rgba(0,0,0,0.07)"}}>
@@ -834,18 +922,26 @@ const NewsLetterEditor = (props) => {
                         </p>
                     </div>
                     <div style={{display: "flex", justifyContent: "center", flexWrap: "wrap", padding: 3}}>
-                        <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
-                            <div style={{backgroundImage: `url('${NewsLetter1}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
+                        <div onClick={()=>changeTemplate("blank")} style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
+                            <div style={{backgroundImage: `url('${NLBlank}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
                                     cursor: "pointer", position: "relative", height: 250}}>
-                                <div style={{backgroundColor: "green", color: "white", top: 0, right: 0, borderRadius: "100%", position: "absolute", width: 25, height: 25, display: "flex", justifyContent: "center", alignItems: "center"}}>
-                                    <i className="fa-solid fa-check"></i>
-                                </div>
+                                {
+                                    currentDesign?.current_template==="blank" &&
+                                    <div style={{backgroundColor: "green", color: "white", top: 0, right: 0, borderRadius: "100%", position: "absolute", width: 25, height: 25, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                        <i className="fa-solid fa-check"></i>
+                                    </div>
+                                }
                             </div>
                         </div>
-                        <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
-                            <div style={{backgroundImage: `url('${NewsLetter1}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
+                        <div onClick={()=>changeTemplate("darkula")} style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
+                            <div style={{backgroundImage: `url('${NLDarkular}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
                                     cursor: "pointer", position: "relative", height: 250}}>
-                                
+                                {
+                                    currentDesign?.current_template==="darkula" &&
+                                    <div style={{backgroundColor: "green", color: "white", top: 0, right: 0, borderRadius: "100%", position: "absolute", width: 25, height: 25, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                        <i className="fa-solid fa-check"></i>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
@@ -892,7 +988,7 @@ const NewsLetterEditor = (props) => {
                     </div>
                 </div>
             }
-            <div id="news_letter_current_editable_page" style={{maxWidth: 650, background: "rgba(0,0,0,0.07)", borderLeft: isEditMode ? "1px solid rgba(0, 0, 0, 0.1)" : "none"}}>
+            <div id="news_letter_current_editable_page" style={{maxWidth: 650, background: "white", border: isEditMode ? "1px solid rgba(0, 0, 0, 0.1)" : "none"}}>
                 {currentDesign?.editable_react_version}
             </div>
             {

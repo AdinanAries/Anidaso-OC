@@ -49,7 +49,6 @@ const NewsLetterPreviewer = (props) => {
                             <i className="fa-solid fa-trash-can"></i>
                         </div>
                     </div>
-                    
                 </td>
             </tr>
             <tr>
