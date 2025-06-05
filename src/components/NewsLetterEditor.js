@@ -38,7 +38,7 @@ const NewsLetterEditor = (props) => {
         isUnderline: false,
         isHighlighted: false,
         highlightColor: "#FFF700",
-        textAlign: "",
+        textAlign: "left",
         fontSize: 11,
         textColor: "",
         font: fonts[0],
@@ -878,28 +878,32 @@ const NewsLetterEditor = (props) => {
                     </div>
                 </div>
                 <div style={{display: "flex", borderLeft: "1px solid rgba(0,0,0,0.1)", marginLeft: 10, marginRight: 10, padding: "0 10px"}}>
-                    <div onClick={()=>alignTextOnclick(1)} className="tool-tip-parent" style={{padding: 5}}>
+                    <div onClick={()=>alignTextOnclick(1)} className="tool-tip-parent" 
+                        style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="left" ? "rgba(0,0,0,0.07)" : "none"}}>
                         <i className="fa-solid fa-align-left"></i>
                         <div className="tool-tip"
                             style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
                             Align Left
                         </div>
                     </div>
-                    <div onClick={()=>alignTextOnclick(2)} className="tool-tip-parent" style={{padding: 5}}>
+                    <div onClick={()=>alignTextOnclick(2)} className="tool-tip-parent" 
+                        style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="center" ? "rgba(0,0,0,0.07)" : "none"}}>
                         <i className="fa-solid fa-align-center"></i>
                         <div className="tool-tip"
                             style={{color: "black", fontSize: 12, minWidth: 90, textAlign: "center"}}>
                             Align Center
                         </div>
                     </div>
-                    <div onClick={()=>alignTextOnclick(3)} className="tool-tip-parent" style={{padding: 5}}>
+                    <div onClick={()=>alignTextOnclick(3)} className="tool-tip-parent" 
+                        style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="right" ? "rgba(0,0,0,0.07)" : "none"}}>
                         <i className="fa-solid fa-align-right"></i>
                         <div className="tool-tip"
                             style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
                             Align Right
                         </div>
                     </div>
-                    <div onClick={()=>alignTextOnclick(4)} className="tool-tip-parent" style={{padding: 5}}>
+                    <div onClick={()=>alignTextOnclick(4)} className="tool-tip-parent" 
+                        style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="justify" ? "rgba(0,0,0,0.07)" : "none"}}>
                         <i className="fa-solid fa-align-justify"></i>
                         <div className="tool-tip"
                             style={{color: "black", fontSize: 12, minWidth: 90, textAlign: "center"}}>
@@ -1047,10 +1051,17 @@ const NewsLetterEditor = (props) => {
                     </div>
                     <p style={{fontSize: 13, padding: 10, marginTop: 10, color: "orange", textDecoration: "underline"}}>
                         Box Model</p>
-                    <div style={{padding: 10, color: "lightgreen"}}>
+                    <div style={{padding: 10, marginBottom: 2, color: "lightgreen", background: "rgba(0,0,0,0.2)", borderRadius: 5}}>
                         <p style={{fontSize: 13, marginBottom: 5}}>
                             Padding
                         </p>
+                        <select style={{textAlign: "center", padding: 10, background: "none", border: "none", width: "100%", color: "white"}}>
+                            <option style={{color: "black"}}>all Sides</option>
+                            <option style={{color: "black"}}>top</option>
+                            <option style={{color: "black"}}>left</option>
+                            <option style={{color: "black"}}>right</option>
+                            <option style={{color: "black"}}>bottom</option>
+                        </select>
                         <p>
                             <input onInput={paddingOnInput}
                                 value={currentElemToolsState?.boxModel?.padding}
@@ -1059,10 +1070,17 @@ const NewsLetterEditor = (props) => {
                                 maxWidth: "100%", textAlign: "center"}} type="number" />
                         </p>
                     </div>
-                    <div style={{padding: 10, color: "lightgreen"}}>
+                    <div style={{padding: 10, marginBottom: 10, color: "lightgreen", background: "rgba(0,0,0,0.2)", borderRadius: 5}}>
                         <p style={{fontSize: 13, marginBottom: 5}}>
                             Margin
                         </p>
+                        <select style={{textAlign: "center", padding: 10, background: "none", border: "none", width: "100%", color: "white"}}>
+                            <option style={{color: "black"}}>all Sides</option>
+                            <option style={{color: "black"}}>top</option>
+                            <option style={{color: "black"}}>left</option>
+                            <option style={{color: "black"}}>right</option>
+                            <option style={{color: "black"}}>bottom</option>
+                        </select>
                         <p>
                             <input onInput={marginOnInput}
                                 value={currentElemToolsState?.boxModel?.margin}
@@ -1073,35 +1091,51 @@ const NewsLetterEditor = (props) => {
                     </div>
                     <p style={{fontSize: 13, padding: 10, marginTop: 10, color: "orange", textDecoration: "underline"}}>
                         Box Alignment</p>
-                    <div style={{padding: 10, color: "lightgreen"}}>
-                        <p style={{fontSize: 13, marginBottom: 5}}>
-                            Vertical
-                        </p>
-                        <p>
-                            <select onInput={alignVerticalOnChange}
-                                style={{border: "none", borderBottom: "2px solid lightgreen",
-                                background: "none", color: "white",
-                                width: "100%", textAlign: "center"}}>
-                                    <option value='flex-start' style={{color: "black"}}>Top</option>
-                                    <option value='center' style={{color: "black"}}>Center</option>
-                                    <option value='flex-end' style={{color: "black"}}>Bottom</option>
-                            </select>
-                        </p>
-                    </div>
-                    <div style={{padding: 10, color: "lightgreen"}}>
-                        <p style={{fontSize: 13, marginBottom: 5}}>
-                            Horizontal
-                        </p>
-                        <p>
-                            <select onInput={alignHorizontalOnchange}
-                                style={{border: "none", borderBottom: "2px solid lightgreen",
-                                background: "none", color: "white",
-                                width: "100%", textAlign: "center"}}>
-                                    <option value='flex-start' style={{color: "black"}}>Left</option>
-                                    <option value='center' style={{color: "black"}}>Center</option>
-                                    <option value='flex-end' style={{color: "black"}}>Right</option>
-                            </select>
-                        </p>
+                    <div style={{marginBottom: 2, color: "lightgreen", background: "rgba(0,0,0,0.2)", borderRadius: 5}}>
+                        <div style={{padding: 10, color: "lightgreen"}}>
+                            <p style={{fontSize: 13, marginBottom: 5}}>
+                                Direction
+                            </p>
+                            <p>
+                                <select
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    width: "100%", textAlign: "center"}}>
+                                        <option value='column' style={{color: "black"}}>Top-Bottom</option>
+                                        <option value='row' style={{color: "black"}}>Left-Right</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div style={{padding: 10, color: "lightgreen"}}>
+                            <p style={{fontSize: 13, marginBottom: 5}}>
+                                Vertical
+                            </p>
+                            <p>
+                                <select onInput={alignVerticalOnChange}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    width: "100%", textAlign: "center"}}>
+                                        <option value='flex-start' style={{color: "black"}}>Top</option>
+                                        <option value='center' style={{color: "black"}}>Center</option>
+                                        <option value='flex-end' style={{color: "black"}}>Bottom</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div style={{padding: 10, color: "lightgreen"}}>
+                            <p style={{fontSize: 13, marginBottom: 5}}>
+                                Horizontal
+                            </p>
+                            <p>
+                                <select onInput={alignHorizontalOnchange}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    width: "100%", textAlign: "center"}}>
+                                        <option value='flex-start' style={{color: "black"}}>Left</option>
+                                        <option value='center' style={{color: "black"}}>Center</option>
+                                        <option value='flex-end' style={{color: "black"}}>Right</option>
+                                </select>
+                            </p>
+                        </div>
                     </div>
                 </div>
             }

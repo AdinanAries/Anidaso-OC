@@ -38,6 +38,11 @@ ul li {
   display: block;
 }
 
+.nl-focusable-text {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
 .nl-focusable-container-elem {
   position: relative;
 }
