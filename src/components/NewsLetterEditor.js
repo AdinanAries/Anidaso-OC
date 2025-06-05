@@ -2,10 +2,12 @@ import HERO_BG from "../news-letter-bg1.jpg";
 import NewsLetter1 from "../newsLetter1.png";
 import NLBlank from "../news-letter-blank.png";
 import NLDarkular from "../news-letter-darkula.png";
+import NLSlickBG from "../news-letter-slick-bg.png";
 import { cloneElement, useEffect, useState } from "react";
 import { fonts } from "../helpers/fonts";
 import NewsLetterPreviewerDarkula from "./NewsLetterPreviewerDarkula";
 import NewsLetterPreviewerBlanK from "./NewsLetterPreviewerBlank";
+import NewsLetterPreviewerSlickBg from "./NewsLetterPreviewerSlickBg";
 import { event } from "jquery";
 
 function rgbToHex(rgb_string) {
@@ -494,6 +496,23 @@ const NewsLetterEditor = (props) => {
             });
                                 
         }
+        if(template === "slickbg"){
+            setCurrentDesign({
+                ...currentDesign,
+                current_template: template,
+                editable_react_version: <NewsLetterPreviewerSlickBg
+                                    userDetails={userDetails}
+                                    isEditMode={isEditMode}
+                                    currentElemToolsState={currentElemToolsState}
+                                    handleDrop={handleDrop}
+                                    handleDragOver={handleDragOver}
+                                    handleDragLeave={handleDragLeave}
+                                    handleDragEnd={handleDragEnd}
+                                    buttonUrlOnInput={buttonUrlOnInput}
+                                    removeElement={removeElement}
+                                />
+            });
+        }
     }
 
     const toolsBackgroundColorOnInput = (e) => {
@@ -944,10 +963,15 @@ const NewsLetterEditor = (props) => {
                                 }
                             </div>
                         </div>
-                        <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
-                            <div style={{backgroundImage: `url('${NewsLetter1}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
+                        <div onClick={()=>changeTemplate("slickbg")} style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
+                            <div style={{backgroundImage: `url('${NLSlickBG}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
                                     cursor: "pointer", position: "relative", height: 250}}>
-                                
+                                {
+                                    currentDesign?.current_template==="slickbg" &&
+                                    <div style={{backgroundColor: "green", color: "white", top: 0, right: 0, borderRadius: "100%", position: "absolute", width: 25, height: 25, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                        <i className="fa-solid fa-check"></i>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>

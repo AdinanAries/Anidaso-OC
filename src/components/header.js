@@ -216,12 +216,12 @@ function Header(props){
                         <div onClick={()=>toggle_show_main_sections("settings")}
                              id="top-menu-settings-btn" className="header-right-side-icon tool-tip-parent">
                             <p className="header-icon" style={{textAlign: "center"}}>
-                                <i style={{color: "skyblue", fontSize: 18}} className="fa-solid fa-briefcase" aria-hidden="true"></i>
+                                <i style={{color: "skyblue", fontSize: 18}} className="fa-solid fa-cogs" aria-hidden="true"></i>
                             </p>
                             <p className="header-icon-titles tool-tip" 
                                 style={{minWidth: 60, left: -15}}>
                                 <span style={{color: "black", fontSize: 12}}>
-                                    Business</span></p>
+                                    Settings</span></p>
                         </div>
                         <div onClick={logoutOnclick} className="header-right-side-icon tool-tip-parent" 
                             style={{cursor: "pointer", padding: "0 10px"}}>

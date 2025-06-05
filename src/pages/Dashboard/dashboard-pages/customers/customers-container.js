@@ -1,9 +1,10 @@
 
-import PageNA from '../../../../components/page-not-available';
 import PageRestricted from '../../../../components/page-restricted';
 import CONSTANTS from '../../../../constants/Constants';
+import AgentCustomers from "../staff/components/AgentCustomers";
 
 let CustomersContainer = (props) => {
+
     const {
         userDetails,
     } = props;
@@ -16,7 +17,9 @@ let CustomersContainer = (props) => {
             {
                 !has_access_this_page ?
                 <PageRestricted /> :
-                <PageNA />
+                <AgentCustomers 
+                    userDetails={userDetails}
+                />
             }
         </section>
     )
