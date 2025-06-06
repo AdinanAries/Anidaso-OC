@@ -9,6 +9,32 @@ const Dashboard = (props) =>  {
         LogoutOnClick,
         userDetails,
         setUserDetails,
+        currentDesign,
+        setCurrentDesign,
+        buttonUrlOnInput,
+        handleDragStart,
+        removeElement,
+        handleDrop,
+        handleDragOver,
+        handleDragLeave,
+        handleDragEnd,
+        containerFocusEvent,
+        textFocusEvent,
+        textHighlightEvent,
+        lastSelection,
+        setLastSelection,
+        lastRange, 
+        setLastRange,
+        lastFocusedElement, 
+        setLastFocusedElement,
+        newSettingsSpan, 
+        setNewSettingsSpan,
+        lastFocusedIcon, 
+        setlastFocusedIcon,
+        currentElemToolsState,
+        setCurrentElemToolsState,
+        bindNewsLetterElemEvents,
+        applyNewsLetterChanges,
     } = props
 
     return <>
@@ -23,6 +49,32 @@ const Dashboard = (props) =>  {
         <MainSection
             userDetails={userDetails}
             setUserDetails={setUserDetails}
+            currentDesign={currentDesign}
+            setCurrentDesign={setCurrentDesign}
+            buttonUrlOnInput={buttonUrlOnInput}
+            handleDragStart={handleDragStart}
+            removeElement={removeElement}
+            handleDrop={handleDrop}
+            handleDragOver={handleDragOver}
+            handleDragLeave={handleDragLeave}
+            handleDragEnd={handleDragEnd}
+            containerFocusEvent={containerFocusEvent}
+            textFocusEvent={textFocusEvent}
+            textHighlightEvent={textHighlightEvent}
+            lastSelection={lastSelection}
+            setLastSelection={setLastSelection}
+            lastRange={lastRange} 
+            setLastRange={setLastRange}
+            lastFocusedElement={lastFocusedElement} 
+            setLastFocusedElement={setLastFocusedElement}
+            newSettingsSpan={newSettingsSpan} 
+            setNewSettingsSpan={setNewSettingsSpan}
+            lastFocusedIcon={lastFocusedIcon} 
+            setlastFocusedIcon={setlastFocusedIcon}
+            currentElemToolsState={currentElemToolsState} 
+            setCurrentElemToolsState={setCurrentElemToolsState}
+            bindNewsLetterElemEvents={bindNewsLetterElemEvents}
+            applyNewsLetterChanges={applyNewsLetterChanges}
         />
     </>;
 

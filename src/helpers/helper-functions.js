@@ -61,6 +61,21 @@ export function show_main_menu(){
     });
 }
 
+export function rgbToHex(rgb_string) {
+    //"rgb(255,255,255)"
+    let __proper = rgb_string.replaceAll("rgb(","").replaceAll(")","");
+    __proper=__proper.split(",");
+    let r=parseInt(__proper[0].trim());
+    let g=parseInt(__proper[1].trim());
+    let b=parseInt(__proper[2].trim());
+    const toHex = (c) => {
+        const hex = c.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+    };
+
+  return "#" + toHex(r) + toHex(g) + toHex(b);
+}
+
 export function show_booking_search_type_form(type){
     if(type === "flights"){
         setActiveNavOption("booking-pane-search-type-each-option", "booking-pane-search-type-flights-option");

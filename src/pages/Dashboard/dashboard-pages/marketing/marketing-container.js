@@ -39,6 +39,32 @@ let MarketingContainer = (props)=>{
 
     const {
         userDetails,
+        currentDesign,
+        setCurrentDesign,
+        buttonUrlOnInput,
+        handleDragStart,
+        removeElement,
+        handleDrop,
+        handleDragOver,
+        handleDragLeave,
+        handleDragEnd,
+        containerFocusEvent,
+        textFocusEvent,
+        textHighlightEvent,
+        lastSelection,
+        setLastSelection,
+        lastRange, 
+        setLastRange,
+        lastFocusedElement, 
+        setLastFocusedElement,
+        newSettingsSpan, 
+        setNewSettingsSpan,
+        lastFocusedIcon, 
+        setlastFocusedIcon,
+        currentElemToolsState,
+        setCurrentElemToolsState,
+        bindNewsLetterElemEvents,
+        applyNewsLetterChanges,
     } = props;
     
     const _pageConstant=CONSTANTS.app_page_constants.marketing;
@@ -667,6 +693,32 @@ let MarketingContainer = (props)=>{
                                         <NewsLetterEditor 
                                             userDetails={userDetails}
                                             isEditMode={true}
+                                            currentDesign={currentDesign}
+                                            setCurrentDesign={setCurrentDesign}
+                                            buttonUrlOnInput={buttonUrlOnInput}
+                                            handleDragStart={handleDragStart}
+                                            removeElement={removeElement}
+                                            handleDrop={handleDrop}
+                                            handleDragOver={handleDragOver}
+                                            handleDragLeave={handleDragLeave}
+                                            handleDragEnd={handleDragEnd}
+                                            containerFocusEvent={containerFocusEvent}
+                                            textFocusEvent={textFocusEvent}
+                                            textHighlightEvent={textHighlightEvent}
+                                            lastSelection={lastSelection}
+                                            setLastSelection={setLastSelection}
+                                            lastRange={lastRange} 
+                                            setLastRange={setLastRange}
+                                            lastFocusedElement={lastFocusedElement} 
+                                            setLastFocusedElement={setLastFocusedElement}
+                                            newSettingsSpan={newSettingsSpan} 
+                                            setNewSettingsSpan={setNewSettingsSpan}
+                                            lastFocusedIcon={lastFocusedIcon} 
+                                            setlastFocusedIcon={setlastFocusedIcon}
+                                            currentElemToolsState={currentElemToolsState} 
+                                            setCurrentElemToolsState={setCurrentElemToolsState}
+                                            bindNewsLetterElemEvents={bindNewsLetterElemEvents}
+                                            applyNewsLetterChanges={applyNewsLetterChanges}
                                         />
                                     </div>
                                 </div>
@@ -998,6 +1050,32 @@ let MarketingContainer = (props)=>{
                                         <NewsLetterEditor 
                                             userDetails={userDetails}
                                             isEditMode={false}
+                                            currentDesign={currentDesign}
+                                            setCurrentDesign={setCurrentDesign}
+                                            buttonUrlOnInput={buttonUrlOnInput}
+                                            handleDragStart={handleDragStart}
+                                            removeElement={removeElement}
+                                            handleDrop={handleDrop}
+                                            handleDragOver={handleDragOver}
+                                            handleDragLeave={handleDragLeave}
+                                            handleDragEnd={handleDragEnd}
+                                            containerFocusEvent={containerFocusEvent}
+                                            textFocusEvent={textFocusEvent}
+                                            textHighlightEvent={textHighlightEvent}
+                                            lastSelection={lastSelection}
+                                            setLastSelection={setLastSelection}
+                                            lastRange={lastRange} 
+                                            setLastRange={setLastRange}
+                                            lastFocusedElement={lastFocusedElement} 
+                                            setLastFocusedElement={setLastFocusedElement}
+                                            newSettingsSpan={newSettingsSpan} 
+                                            setNewSettingsSpan={setNewSettingsSpan}
+                                            lastFocusedIcon={lastFocusedIcon} 
+                                            setlastFocusedIcon={setlastFocusedIcon}
+                                            currentElemToolsState={currentElemToolsState} 
+                                            setCurrentElemToolsState={setCurrentElemToolsState}
+                                            bindNewsLetterElemEvents={bindNewsLetterElemEvents}
+                                            applyNewsLetterChanges={applyNewsLetterChanges}
                                         />
                                     </div>
                                 </div>
