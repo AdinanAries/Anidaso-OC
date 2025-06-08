@@ -36,9 +36,9 @@ const AgentConfigs = (props) => {
             msg: "",
             color: "skyblue",
             icon: "globe",
-            name: "Client App",
+            name: "Website Url",
             value: ( isLoggedUserAgent ?
-                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" : 
+                "https://yourwebsiteurl.com" ://"http://localhost:3001" : 
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
             ),
         },

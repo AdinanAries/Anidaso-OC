@@ -179,9 +179,9 @@ let MarketingContainer = (props)=>{
             msg: "",
             color: "skyblue",
             icon: "globe",
-            name: "Client App",
+            name: "Website Url",
             value: ( isLoggedUserAgent ?
-                "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" :
+                "https://yourwebsiteurl.com" : //"https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" :
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
             ),
         },
@@ -203,7 +203,7 @@ let MarketingContainer = (props)=>{
             value: "Basic Tier"
         },
     ]);
-    const search_link_client_app_url = appConfigs[0].value;
+    const search_link_client_app_url = "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com";
     const [ previewLink, setPreviewLink ] = useState(
         (search_link_client_app_url+(isLoggedUserAgent ? `/?ag=${userDetails?._id}&product=0` : ""))
     );
@@ -274,6 +274,10 @@ let MarketingContainer = (props)=>{
         let __customers = await fetchCustomersByAgentId(userDetails?._id, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
         if(Array.isArray(__customers))
             setCustomersList(__customers);
+    }
+
+    const showCampaignPage = () => {
+        setCurrentSubPage(_PAGES?.campaign)
     }
 
     const showSearchLinkForm = () => {
@@ -638,7 +642,7 @@ let MarketingContainer = (props)=>{
                 <>
                     <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                         <div style={{display: "flex", margin: 10}}>
-                            <div onClick={()=>setCurrentSubPage(_PAGES?.campaign)}
+                            <div onClick={showCampaignPage}
                                 style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.campaign) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                                 <i style={{color: (currentSubPage===_PAGES?.campaign) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
                                 Campaign
@@ -656,7 +660,10 @@ let MarketingContainer = (props)=>{
                                 Booking Parameters
                                 <div style={{border: (currentSubPage===_PAGES?.booking_params) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                             </div>
-                            <div  onClick={showSendLinkPage}
+                            <div  onClick={()=>{
+                                    showSendLinkPage();
+                                    applyNewsLetterChanges()
+                                }}
                                 style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.send_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                                 <i style={{color:  (currentSubPage===_PAGES?.send_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>
                                 Send Email
@@ -719,6 +726,7 @@ let MarketingContainer = (props)=>{
                                             setCurrentElemToolsState={setCurrentElemToolsState}
                                             bindNewsLetterElemEvents={bindNewsLetterElemEvents}
                                             applyNewsLetterChanges={applyNewsLetterChanges}
+                                            showCampaignPage={showCampaignPage}
                                         />
                                     </div>
                                 </div>
@@ -1076,6 +1084,7 @@ let MarketingContainer = (props)=>{
                                             setCurrentElemToolsState={setCurrentElemToolsState}
                                             bindNewsLetterElemEvents={bindNewsLetterElemEvents}
                                             applyNewsLetterChanges={applyNewsLetterChanges}
+                                            showCampaignPage={showCampaignPage}
                                         />
                                     </div>
                                 </div>

@@ -1,13 +1,15 @@
-import NewsLetter1 from "../newsLetter1.png";
 import NLBlank from "../news-letter-blank.png";
 import NLDarkular from "../news-letter-darkula.png";
 import NLSlickBG from "../news-letter-slick-bg.png";
-import { cloneElement, useEffect, useState } from "react";
+import NLLight from "../news-letter-light.png";
+import NLClassicLetter from "../news-letter-classic-letter.png";
+import { useEffect } from "react";
 import { fonts } from "../helpers/fonts";
-import NewsLetterPreviewerDarkula from "./NewsLetterPreviewerDarkula";
-import NewsLetterPreviewerBlanK from "./NewsLetterPreviewerBlank";
+import NewsLetterPreviewerBlank from "./NewsLetterPreviewerBlank";
 import NewsLetterPreviewerSlickBg from "./NewsLetterPreviewerSlickBg";
-import { rgbToHex } from "../helpers/helper-functions";
+import NewsLetterPreviewerClassicLetter from "./NewsLetterPreviewerClassicLetter";
+import NewsLetterPreviewerDarkular from "./NewsLetterPreviewerDarkular";
+import NewsLetterPreviewerLight from "./NewsLetterPreviewerLight";
 import { event } from "jquery";
 
 const NewsLetterEditor = (props) => {
@@ -41,73 +43,99 @@ const NewsLetterEditor = (props) => {
         setCurrentElemToolsState,
         bindNewsLetterElemEvents,
         applyNewsLetterChanges,
+        showCampaignPage,
     } = props;
 
     useEffect(()=>{
         if(!isEditMode){
             document.getElementById("news_letter_current_editable_page").innerHTML=currentDesign?.string_snap_shot;
+            document.getElementById("news_letter_current_editable_page").querySelectorAll("*").forEach(element => {
+                element.contentEditable = false;
+                element.tabIndex=1; 
+                if(element.classList.contains("nl-focusable-container-elem")){
+                    element.classList.remove("nl-focusable-container-elem")
+                }
+                if(element.classList.contains("nl-focusable-text")){
+                    element.classList.remove("nl-focusable-text")
+                }
+                if(element.classList.contains("nl-highlightable-text")){
+                    element.classList.remove("nl-highlightable-text")
+                }
+                if(element.classList.contains("nl-page-elem-delete-button")){
+                    element.remove();
+                }
+                if(element.classList.contains("nl-button-settings-container")){
+                    element.remove();
+                }
+            });
         }else{
             if(currentDesign?.string_snap_shot){
                 document.getElementById("news_letter_current_editable_page").innerHTML=currentDesign?.string_snap_shot;
             }
             bindNewsLetterElemEvents();
         }
-
+        window.handleDrop=handleDrop;
+        window.handleDragOver=handleDragOver;
+        window.handleDragLeave=handleDragLeave;
+        window.handleDragEnd=handleDragEnd;
+        window.removeElement=removeElement;
+        window.buttonUrlOnInput=buttonUrlOnInput;
     }, []);
 
     const changeTemplate = (template) => {
+        let _tt="";
         if(template === "blank"){
-            setCurrentDesign({
-                ...currentDesign,
-                current_template: template,
-                editable_react_version: <NewsLetterPreviewerBlanK
-                    userDetails={userDetails}
-                    isEditMode={isEditMode}
-                    currentElemToolsState={currentElemToolsState}
-                    handleDrop={handleDrop}
-                    handleDragOver={handleDragOver}
-                    handleDragLeave={handleDragLeave}
-                    handleDragEnd={handleDragEnd}
-                    buttonUrlOnInput={buttonUrlOnInput}
-                    removeElement={removeElement}
-                />
-            })
+            let _tt=NewsLetterPreviewerBlank({
+                userDetails,
+                isEditMode,
+                currentElemToolsState,
+                buttonUrlOnInput
+            });
+            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
         }
         if(template === "darkula"){
-            setCurrentDesign({
-                ...currentDesign,
-                current_template: template,
-                editable_react_version: <NewsLetterPreviewerDarkula
-                    userDetails={userDetails}
-                    isEditMode={isEditMode}
-                    currentElemToolsState={currentElemToolsState}
-                    handleDrop={handleDrop}
-                    handleDragOver={handleDragOver}
-                    handleDragLeave={handleDragLeave}
-                    handleDragEnd={handleDragEnd}
-                    buttonUrlOnInput={buttonUrlOnInput}
-                    removeElement={removeElement}
-                />
+            let _tt=NewsLetterPreviewerDarkular({
+                userDetails,
+                isEditMode,
+                currentElemToolsState,
+                buttonUrlOnInput
             });
-                                
+            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;                     
         }
         if(template === "slickbg"){
-            setCurrentDesign({
-                ...currentDesign,
-                current_template: template,
-                editable_react_version: <NewsLetterPreviewerSlickBg
-                                    userDetails={userDetails}
-                                    isEditMode={isEditMode}
-                                    currentElemToolsState={currentElemToolsState}
-                                    handleDrop={handleDrop}
-                                    handleDragOver={handleDragOver}
-                                    handleDragLeave={handleDragLeave}
-                                    handleDragEnd={handleDragEnd}
-                                    buttonUrlOnInput={buttonUrlOnInput}
-                                    removeElement={removeElement}
-                                />
+            let _tt=NewsLetterPreviewerSlickBg({
+                userDetails,
+                isEditMode,
+                currentElemToolsState,
+                buttonUrlOnInput
             });
+            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
         }
+        if(template === "classicletter"){
+            let _tt=NewsLetterPreviewerClassicLetter({
+                userDetails,
+                isEditMode,
+                currentElemToolsState,
+                buttonUrlOnInput
+            });
+            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
+        }
+        if(template === "light"){
+            let _tt=NewsLetterPreviewerLight({
+                userDetails,
+                isEditMode,
+                currentElemToolsState,
+                buttonUrlOnInput
+            });
+            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
+        }
+
+        setCurrentDesign({
+            ...currentDesign,
+            string_snap_shot: _tt,
+            changes_history: [_tt],
+            current_template: template,
+        });
 
         //setTimeout(applyNewsLetterChanges, 200);
     }
@@ -171,11 +199,19 @@ const NewsLetterEditor = (props) => {
     }
 
     const underlineTextOnClick = () => {
-        newSettingsSpan.style.textDecoration="underline";
-        setCurrentElemToolsState({
-            ...currentElemToolsState,
-            isUnderline: true,
-        });
+        if(currentElemToolsState.isUnderline){
+            newSettingsSpan.style.textDecoration="none";
+            setCurrentElemToolsState({
+                ...currentElemToolsState,
+                isUnderline: false,
+            });
+        }else{
+            newSettingsSpan.style.textDecoration="underline";
+            setCurrentElemToolsState({
+                ...currentElemToolsState,
+                isUnderline: true,
+            });
+        }
     }
 
     const italizeTextOnClick = () => {
@@ -270,30 +306,123 @@ const NewsLetterEditor = (props) => {
             newSettingsSpan.style.fontFamily=e.target.value;
     }
 
-    const paddingOnInput = (e) => {
-        let _pp = e.target.value;
+    const paddingSideOnInput = (e) => {
+        let _ps = parseInt(e.target.value);
         setCurrentElemToolsState({
             ...currentElemToolsState,
             boxModel: {
                 ...currentElemToolsState.boxModel,
-                padding: _pp
+                paddingSide: _ps
             }
         });
-        if(lastFocusedElement)
-            lastFocusedElement.style.padding=(_pp+"px");
+    }
+
+    const paddingOnInput = (e) => {
+        let _side = currentElemToolsState?.boxModel?.paddingSide;
+        let _pv = e.target.value;
+        let _pp = {};
+        if(_side===1){
+            _pp = {
+                padding: _pv
+            }
+            if(lastFocusedElement)
+                lastFocusedElement.style.padding=(_pv+"px");
+        }
+        if(_side===2){
+            _pp = {
+                paddingTop: _pv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.paddingTop=(_pv+"px");
+        }
+        if(_side===3){
+            _pp = {
+                paddingLeft: _pv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.paddingLeft=(_pv+"px");
+        }
+        if(_side===4){
+            _pp = {
+                paddingRight: _pv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.paddingRight=(_pv+"px");
+        }
+        if(_side===5){
+            _pp = {
+                paddingBottom: _pv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.paddingBottom=(_pv+"px");
+        }
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            boxModel: {
+                ...currentElemToolsState.boxModel,
+                ..._pp
+            }
+        });
+    }
+
+    const marginSideOnInput = (e) => {
+        let _ms = parseInt(e.target.value);
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            boxModel: {
+                ...currentElemToolsState.boxModel,
+                marginSide: _ms
+            }
+        });
     }
 
     const marginOnInput = (e) => {
-        let _pp = e.target.value;
+        let _side = currentElemToolsState?.boxModel?.marginSide;
+        let _mv = e.target.value;
+        let _mm = {};
+        if(_side===1){
+            _mm = {
+                margin: _mv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.margin=(_mv+"px");
+        }
+        if(_side===2){
+            _mm = {
+                marginTop: _mv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.marginTop=(_mv+"px");
+        }
+        if(_side===3){
+            _mm = {
+                marginLeft: _mv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.marginLeft=(_mv+"px");
+        }
+        if(_side===4){
+            _mm = {
+                marginRight: _mv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.marginRight=(_mv+"px");
+        }
+        if(_side===5){
+            _mm = {
+                marginBottom: _mv
+            };
+            if(lastFocusedElement)
+                lastFocusedElement.style.marginBottom=(_mv+"px");
+        }
         setCurrentElemToolsState({
             ...currentElemToolsState,
             boxModel: {
                 ...currentElemToolsState.boxModel,
-                margin: _pp
+                ..._mm
             }
         });
-        if(lastFocusedElement)
-            lastFocusedElement.style.margin=(_pp+"px");
+        
     }
 
     const alignVerticalOnChange = (e) => {
@@ -325,6 +454,22 @@ const NewsLetterEditor = (props) => {
         if(lastFocusedElement){
             lastFocusedElement.style.display='flex';
             lastFocusedElement.style.justifyContent=_vv;
+        }
+    }
+
+    const flexDirectionOnChange = (e) => {
+        let _dd = e.target.value;
+        setCurrentElemToolsState({
+            ...currentElemToolsState,
+            boxModel: {
+                ...currentElemToolsState.boxModel,
+                display: "flex",
+                flexDirection: _dd,
+            }
+        });
+        if(lastFocusedElement){
+            lastFocusedElement.style.display='flex';
+            lastFocusedElement.style.flexDirection=_dd;
         }
     }
 
@@ -545,6 +690,17 @@ const NewsLetterEditor = (props) => {
                                 }
                             </div>
                         </div>
+                        <div onClick={()=>changeTemplate("classicletter")} style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
+                            <div style={{backgroundImage: `url('${NLClassicLetter}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
+                                    cursor: "pointer", position: "relative", height: 250}}>
+                                {
+                                    currentDesign?.current_template==="classicletter" &&
+                                    <div style={{backgroundColor: "green", color: "white", top: 0, right: 0, borderRadius: "100%", position: "absolute", width: 25, height: 25, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                        <i className="fa-solid fa-check"></i>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                         <div onClick={()=>changeTemplate("darkula")} style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
                             <div style={{backgroundImage: `url('${NLDarkular}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
                                     cursor: "pointer", position: "relative", height: 250}}>
@@ -567,28 +723,15 @@ const NewsLetterEditor = (props) => {
                                 }
                             </div>
                         </div>
-                        <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
-                            <div style={{backgroundImage: `url('${NewsLetter1}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
+                        <div onClick={()=>changeTemplate("light")} style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
+                            <div style={{backgroundImage: `url('${NLLight}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
                                     cursor: "pointer", position: "relative", height: 250}}>
-                                
-                            </div>
-                        </div>
-                        <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
-                            <div style={{backgroundImage: `url('${NewsLetter1}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
-                                    cursor: "pointer", position: "relative", height: 250}}>
-                                
-                            </div>
-                        </div>
-                        <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
-                            <div style={{backgroundImage: `url('${NewsLetter1}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
-                                    cursor: "pointer", position: "relative", height: 250}}>
-                                
-                            </div>
-                        </div>
-                        <div style={{backgroundColor: "rgb(223, 229, 232)", margin: 2, width: "calc(33% - 3px)", padding: "10px 5px", borderRadius: 8}}>
-                            <div style={{backgroundImage: `url('${NewsLetter1}')`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center",
-                                    cursor: "pointer", position: "relative", height: 250}}>
-                                
+                                {
+                                    currentDesign?.current_template==="light" &&
+                                    <div style={{backgroundColor: "green", color: "white", top: 0, right: 0, borderRadius: "100%", position: "absolute", width: 25, height: 25, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                        <i className="fa-solid fa-check"></i>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -599,14 +742,16 @@ const NewsLetterEditor = (props) => {
                 <div style={{padding: 5}}>
                     <h1 style={{margin: 15, maxWidth: 200, color: "rgb(110, 0, 97)"}}>
                         Preview News Letter Before Send!</h1>
-                    <div style={{marginTop: 10, textDecoration: "underline", cursor: "pointer"}}>
+                    <div onClick={showCampaignPage} style={{marginTop: 10, textDecoration: "underline", cursor: "pointer"}}>
                         <i style={{marginRight: 10}} className="fa-solid fa-pencil"></i>
                         Got Back to Edit
                     </div>
                 </div>
             }
             <div id="news_letter_current_editable_page" style={{maxWidth: 650, background: "white", border: isEditMode ? "1px solid rgba(0, 0, 0, 0.1)" : "none"}}>
-                {isEditMode && currentDesign?.editable_react_version}
+                {
+                    /**New Letter Content Goes Here */
+                }
             </div>
             {
                 isEditMode &&
@@ -644,38 +789,112 @@ const NewsLetterEditor = (props) => {
                         <p style={{fontSize: 13, marginBottom: 5}}>
                             Padding
                         </p>
-                        <select style={{textAlign: "center", padding: 10, background: "none", border: "none", width: "100%", color: "white"}}>
-                            <option style={{color: "black"}}>all Sides</option>
-                            <option style={{color: "black"}}>top</option>
-                            <option style={{color: "black"}}>left</option>
-                            <option style={{color: "black"}}>right</option>
-                            <option style={{color: "black"}}>bottom</option>
+                        <select onInput={paddingSideOnInput}
+                            value={currentElemToolsState?.paddingSide}
+                            style={{textAlign: "center", padding: 10, background: "none", border: "none", width: "100%", color: "white"}}>
+                            <option value="1" style={{color: "black"}}>all Sides</option>
+                            <option value="2" style={{color: "black"}}>top</option>
+                            <option value="3" style={{color: "black"}}>left</option>
+                            <option value="4" style={{color: "black"}}>right</option>
+                            <option value="5" style={{color: "black"}}>bottom</option>
                         </select>
                         <p>
-                            <input onInput={paddingOnInput}
-                                value={currentElemToolsState?.boxModel?.padding}
-                                style={{border: "none", borderBottom: "2px solid lightgreen",
-                                background: "none", color: "white",
-                                maxWidth: "100%", textAlign: "center"}} type="number" />
+                            {
+                                currentElemToolsState?.boxModel?.paddingSide===1 &&
+                                <input onInput={paddingOnInput}
+                                    value={currentElemToolsState?.boxModel?.padding}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
+                            {
+                                currentElemToolsState?.boxModel?.paddingSide===2 &&
+                                <input onInput={paddingOnInput}
+                                    value={currentElemToolsState?.boxModel?.paddingTop}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
+                            {
+                                currentElemToolsState?.boxModel?.paddingSide===3 &&
+                                <input onInput={paddingOnInput}
+                                    value={currentElemToolsState?.boxModel?.paddingLeft}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
+                            {
+                                currentElemToolsState?.boxModel?.paddingSide===4 &&
+                                <input onInput={paddingOnInput}
+                                    value={currentElemToolsState?.boxModel?.paddingRight}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
+                            {
+                                currentElemToolsState?.boxModel?.paddingSide===5 &&
+                                <input onInput={paddingOnInput}
+                                    value={currentElemToolsState?.boxModel?.paddingBottom}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
                         </p>
                     </div>
                     <div style={{padding: 10, marginBottom: 10, color: "lightgreen", background: "rgba(0,0,0,0.2)", borderRadius: 5}}>
                         <p style={{fontSize: 13, marginBottom: 5}}>
                             Margin
                         </p>
-                        <select style={{textAlign: "center", padding: 10, background: "none", border: "none", width: "100%", color: "white"}}>
-                            <option style={{color: "black"}}>all Sides</option>
-                            <option style={{color: "black"}}>top</option>
-                            <option style={{color: "black"}}>left</option>
-                            <option style={{color: "black"}}>right</option>
-                            <option style={{color: "black"}}>bottom</option>
+                        <select onInput={marginSideOnInput}
+                            value={currentElemToolsState?.marginSide}
+                            style={{textAlign: "center", padding: 10, background: "none", border: "none", width: "100%", color: "white"}}>
+                            <option value="1" style={{color: "black"}}>all Sides</option>
+                            <option value="2" style={{color: "black"}}>top</option>
+                            <option value="3" style={{color: "black"}}>left</option>
+                            <option value="4" style={{color: "black"}}>right</option>
+                            <option value="5" style={{color: "black"}}>bottom</option>
                         </select>
                         <p>
-                            <input onInput={marginOnInput}
-                                value={currentElemToolsState?.boxModel?.margin}
-                                style={{border: "none", borderBottom: "2px solid lightgreen",
-                                background: "none", color: "white",
-                                maxWidth: "100%", textAlign: "center"}} type="number" />
+                            {
+                                currentElemToolsState?.boxModel?.marginSide===1 &&
+                                <input onInput={marginOnInput}
+                                    value={currentElemToolsState?.boxModel?.margin}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
+                            {
+                                currentElemToolsState?.boxModel?.marginSide===2 &&
+                                <input onInput={marginOnInput}
+                                    value={currentElemToolsState?.boxModel?.marginTop}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
+                            {
+                                currentElemToolsState?.boxModel?.marginSide===3 &&
+                                <input onInput={marginOnInput}
+                                    value={currentElemToolsState?.boxModel?.marginLeft}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
+                            {
+                                currentElemToolsState?.boxModel?.marginSide===4 &&
+                                <input onInput={marginOnInput}
+                                    value={currentElemToolsState?.boxModel?.marginRight}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
+                            {
+                                currentElemToolsState?.boxModel?.marginSide===5 &&
+                                <input onInput={marginOnInput}
+                                    value={currentElemToolsState?.boxModel?.marginBottom}
+                                    style={{border: "none", borderBottom: "2px solid lightgreen",
+                                    background: "none", color: "white",
+                                    maxWidth: "100%", textAlign: "center"}} type="number" />
+                            }
                         </p>
                     </div>
                     <p style={{fontSize: 13, padding: 10, marginTop: 10, color: "orange", textDecoration: "underline"}}>
@@ -686,7 +905,8 @@ const NewsLetterEditor = (props) => {
                                 Direction
                             </p>
                             <p>
-                                <select
+                                <select onClick={flexDirectionOnChange}
+                                    value={currentElemToolsState?.flexDirection}
                                     style={{border: "none", borderBottom: "2px solid lightgreen",
                                     background: "none", color: "white",
                                     width: "100%", textAlign: "center"}}>

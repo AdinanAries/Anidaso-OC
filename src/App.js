@@ -9,7 +9,7 @@ import { verifyUserToken } from './services/sessionServices';
 import { fetchAccountInfo } from './services/accountServices';
 import { useEffect, useState } from 'react';
 import { dashboardInits } from './helpers/inits';
-import NewsLetterPreviewerDarkula from "./components/NewsLetterPreviewerDarkula";
+import NewsLetterPreviewerDarkular from "./components/NewsLetterPreviewerDarkular";
 import { fonts } from "./helpers/fonts";
 import { rgbToHex } from './helpers/helper-functions';
 
@@ -33,8 +33,19 @@ function App() {
       disply: "block",
       justifyContent: "flex-start",
       alignItems: "flex-start",
+      flexDirection: "row",
       margin: 0,
+      marginTop: 0,
+      marginLeft: 0,
+      marginRight: 0,
+      marginBottom: 0,
+      marginSide: 1,
       padding: 0,
+      paddingTop: 0,
+      paddingLeft: 0,
+      paddingRight: 0,
+      paddingBottom: 0,
+      paddingSide: 1,
     }
   });
 
@@ -53,7 +64,16 @@ function App() {
           containerBackground: rgbToHex(computedStyle.backgroundColor),
           boxModel: {
               ...currentElemToolsState?.boxModel,
-              padding: parseInt((computedStyle.padding).replaceAll("px",""))
+              padding: parseInt((computedStyle.padding).replaceAll("px","")),
+              paddingLeft: parseInt((computedStyle.paddingLeft).replaceAll("px","")),
+              paddingRight: parseInt((computedStyle.paddingRight).replaceAll("px","")),
+              paddingTop: parseInt((computedStyle.paddingTop).replaceAll("px","")),
+              paddingBottom: parseInt((computedStyle.paddingBottom).replaceAll("px","")),
+              margin: parseInt((computedStyle.margin).replaceAll("px","")),
+              marginLeft: parseInt((computedStyle.marginLeft).replaceAll("px","")),
+              marginRight: parseInt((computedStyle.marginRight).replaceAll("px","")),
+              marginTop: parseInt((computedStyle.marginTop).replaceAll("px","")),
+              marginBottom: parseInt((computedStyle.marginBottom).replaceAll("px","")),
           }
       });
   }
@@ -86,12 +106,14 @@ function App() {
       }
       
       const computedStyle = window.getComputedStyle(event.target);
+      console.log(computedStyle);
       setCurrentElemToolsState({
           ...currentElemToolsState,
           textColor: rgbToHex(computedStyle.color),
           isBold: (parseInt(computedStyle.fontWeight) > 500),
           isItalic: (computedStyle.fontStyle==="italic"),
-          isUnderline: (computedStyle.textDecoration.includes("none solid")),
+          isUnderline: (computedStyle.textDecoration.includes("underline")),
+          textAlign: (computedStyle.textAlign),
           font: (computedStyle.fontFamily),
           fontSize: parseInt((computedStyle.fontSize).replaceAll("px","")),
           boxModel: {
@@ -390,11 +412,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userDetails, setUserDetails] = useState({});
   const [ currentDesign, setCurrentDesign ] = useState({
-    editable_react_version: null,
     string_snap_shot: "",
-    changes_history: [
-
-    ],
+    changes_history: [],
     background_image: "",
     current_template: "darkula",
   });
@@ -419,12 +438,14 @@ function App() {
             node.style.fontFamily="inherit";
             node.style.textDecoration="inherit";
             node.style.fontStyle="inherit";
+            //node.style.textDecoration="none";
         }
 
         if(newSettingsSpan){
             newSettingsSpan.contentEditable=true;
             newSettingsSpan.tabIndex="-1";
             newSettingsSpan.classList.add('highlighted');
+            newSettingsSpan.style.fontFamily= (newSettingsSpan.style.fontFamily || "inherit");
             newSettingsSpan.appendChild(lastRange.extractContents());
         }
 
@@ -470,19 +491,16 @@ function App() {
             usr.resources_can_access_actions_constants = usr?.resources_can_access_actions_info?.map(each=>each?.constant);
           }
           setUserDetails(usr);
+          let nl_init_template = NewsLetterPreviewerDarkular({
+            userDetails: usr,
+            isEditMode: true,
+            currentElemToolsState,
+            buttonUrlOnInput
+          });
           setCurrentDesign({
             ...currentDesign,
-            editable_react_version: <NewsLetterPreviewerDarkula
-                                userDetails={usr}
-                                isEditMode={false}
-                                currentElemToolsState={currentElemToolsState}
-                                handleDrop={handleDrop}
-                                handleDragOver={handleDragOver}
-                                handleDragLeave={handleDragLeave}
-                                handleDragEnd={handleDragEnd}
-                                buttonUrlOnInput={buttonUrlOnInput}
-                                removeElement={removeElement}
-                            />
+            string_snap_shot: nl_init_template,
+            changes_history: [nl_init_template],
           });
           setIsLoading(false);
           setTimeout(()=>{

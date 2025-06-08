@@ -1,17 +1,11 @@
 import LOGO_PLACEHOLDER from "../LOGO_PLACEHOLDER.jpg";
 
-const NewsLetterPreviewer = (props) => {
+const NewsLetterPreviewerBlank = (props) => {
 
     const {
         isEditMode,
         userDetails,
         currentElemToolsState,
-        buttonUrlOnInput,
-        handleDrop,
-        handleDragOver,
-        handleDragLeave,
-        handleDragEnd,
-        removeElement,
     } = props;
 
     const {
@@ -24,73 +18,104 @@ const NewsLetterPreviewer = (props) => {
         business_instagram_link,
     } = userDetails.company_info;
 
-    return <table onDragEnd={handleDragEnd} onDragLeave={handleDragLeave} onDrop={handleDrop} onDragOver={handleDragOver} style={{width: "100%", borderSpacing: 0, minHeight: 300, minWidth: 350, backgroundColor: "white"}}>
+    return `<table ondragend="handleDragEnd(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" style="width: 100%; border-spacing: 0; min-height: 300px; min-width: 350px; background-color: white;">
         <tbody>
             <tr>
                 <td>
-                    <div className="nl-focusable-container-elem" tabIndex="-1" 
-                        style={{display: "flex", alignItems: "center", justifyContent: "center", padding: "25px 20px", borderBottom: "1px solid rgba(0,0,0,0.1)",}}>
-                        <img style={{height: 40, marginRight: 10}} src={LOGO_PLACEHOLDER} />
-                        <h3 style={{fontFamily: 'courier'}} className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode}>
-                            {business_name || "Company Name"}
+                    <div class="nl-focusable-container-elem" tabindex="-1" 
+                        style="display: flex; align-items: center; justify-content: center; padding: 25px 20px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                        <img style="height: 40px; margin-right: 10px;" src=${LOGO_PLACEHOLDER} />
+                        <h3 style="font-family: courier;" class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode}>
+                            ${business_name || "Company Name"}
                         </h3>
-                        <div onClick={removeElement} className="nl-page-elem-delete-button">
-                            <i className="fa-solid fa-trash-can"></i>
+                        <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
+                            <i class="fa-solid fa-trash-can"></i>
                         </div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div className="nl-focusable-container-elem" tabIndex="-1" style={{padding: "20px 0", minHeight: 300}}>
-                        <div onClick={removeElement} className="nl-page-elem-delete-button">
-                            <i className="fa-solid fa-trash-can"></i>
+                    <div class="nl-focusable-container-elem" tabindex="-1" style="padding: 10px;">
+                        <div onclick="removeElement(event);" class="nl-page-elem-delete-button">
+                            <i class="fa-solid fa-trash-can"></i>
                         </div>
-                        <div className="nl-focusable-container-elem" tabIndex="-1" style={{padding: 10}}>
-                            <div onClick={removeElement} className="nl-page-elem-delete-button">
-                                <i className="fa-solid fa-trash-can"></i>
+                        <div class="nl-focusable-container-elem" tabindex="-1" style="padding: 10px;">
+                            <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
+                                <i class="fa-solid fa-trash-can"></i>
                             </div>
-                            <p className="nl-highlightable-text nl-focusable-text" tabIndex="-1" contentEditable={isEditMode} style={{fontSize: 13, textAlign: "center"}}>
-                                Edit page body here</p>
+                            <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px; text-align: center;">
+                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque voluptatem accusantium 
+                                doloremque laudantium t voluptatem accusantium doloremque
+                            </p>
                         </div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div tabIndex="-1" className="nl-focusable-container-elem" style={{padding: "30px 10px", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-                        <p style={{textAlign: "center"}}>
-                            <span tabIndex="-1" className="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style={{marginRight: 10}} className="fa-solid fa-envelope"></i>
+                    <div class="nl-focusable-container-elem nl-button-container" tabindex="-1" style="padding: 10px; padding-top: 0;">
+                        <div class="nl-focusable-container-elem nl-button-container" tabindex="-1"
+                            style="cursor: pointer; width: 300px; margin: auto; text-align: center;">
+                            <a style="text-decoration: none;" disabled=${isEditMode} target="_blank" href="">
+                                <p tabindex="-1" contenteditable=${isEditMode}
+                                    style="padding: 20px; color: white; background-color: black; border-radius: 50px;">
+                                    Visit Our Website</p>
+                            </a> 
+                            <div class="nl-button-settings-container">
+                                <p content-editable="false" style="font-size: 13px; color: black; text-align: left;">
+                                    <i style="margin-right: 5px;" class="fa-solid fa-globe"></i>
+                                    Edit Button Link:</p>
+                                <div>
+                                    <input oninput="buttonUrlOnInput(event)"
+                                        style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
+                                        value=""
+                                        type="text"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div tabindex="-1" class="nl-focusable-container-elem" style="padding: 30px 10px; border-top: 1px solid rgba(0,0,0,0.1);">
+                        <p style="text-align: center; font-size: 13px;">
+                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
+                                <i style="marginRight: 10px;" class="fa-solid fa-envelope"></i>
                             </span>
-                            <span className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode}>
+                            <span class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
                                 youremail@server.com
                             </span>
                         </p>
-                        <p style={{textAlign: "center", marginTop: 5}}>
-                            <span tabIndex="-1" className="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style={{marginRight: 10}} className="fa-solid fa-phone"></i>
+                        <p style="text-align: center; margin-top: 5px; font-size: 13px;">
+                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
+                                <i style="margin-right: 10px;" class="fa-solid fa-phone"></i>
                             </span>
-                            <span className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode}>
+                            <span class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
                                 +1 234 322 3433
                             </span>
                         </p>
-                        <p style={{textAlign: "center", marginTop: 5}}>
-                            <span tabIndex="-1" className="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style={{marginRight: 10}} className="fa-solid fa-globe"></i>
+                        <p style="text-align: center; margin-top: 5px; font-size: 13px;">
+                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
+                                <i style="margin-right: 10px;" class="fa-solid fa-globe"></i>
                             </span>
-                            <span className="nl-highlightable-text" tabIndex="-1" contentEditable={isEditMode}>
+                            <span class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
                                 https://yourwebsite.com
                             </span>
                         </p>
-                        <div onClick={removeElement} className="nl-page-elem-delete-button">
-                            <i className="fa-solid fa-trash-can"></i>
+                        <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
+                            <i class="fa-solid fa-trash-can"></i>
                         </div>
                     </div>
                 </td>
             </tr>
         </tbody>
-    </table>;
+    </table>`;
 }
 
-export default NewsLetterPreviewer;
+export default NewsLetterPreviewerBlank;
