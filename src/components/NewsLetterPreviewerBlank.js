@@ -24,10 +24,20 @@ const NewsLetterPreviewerBlank = (props) => {
                 <td>
                     <div class="nl-focusable-container-elem" tabindex="-1" 
                         style="display: flex; align-items: center; justify-content: center; padding: 25px 20px; border-bottom: 1px solid rgba(0,0,0,0.1);">
-                        <img style="height: 40px; margin-right: 10px;" src=${LOGO_PLACEHOLDER} />
-                        <h3 style="font-family: courier;" class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode}>
-                            ${business_name || "Company Name"}
-                        </h3>
+                        <div class="nl-focusable-container-elem" tabindex="-1">
+                            <img style="height: 40px; margin-right: 10px;" src=${LOGO_PLACEHOLDER} />
+                            <div  style="top: -5px; right: -5px;" onclick="removeElement(event)" class="nl-page-elem-delete-button">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </div>
+                        </div>
+                        <div class="nl-focusable-container-elem" tabindex="-1">
+                            <h3 style="font-family: courier;" class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode}>
+                                ${business_name || "Company Name"}
+                            </h3>
+                            <div style="top: -15px; right: -15px;" onclick="removeElement(event)" class="nl-page-elem-delete-button">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </div>
+                        </div>
                         <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </div>
@@ -57,7 +67,7 @@ const NewsLetterPreviewerBlank = (props) => {
                     <div class="nl-focusable-container-elem nl-button-container" tabindex="-1" style="padding: 10px; padding-top: 0;">
                         <div class="nl-focusable-container-elem nl-button-container" tabindex="-1"
                             style="cursor: pointer; width: 300px; margin: auto; text-align: center;">
-                            <a style="text-decoration: none;" disabled=${isEditMode} target="_blank" href="">
+                            <a style="text-decoration: none;" class="nl-button-hyper-tag" onclick="return false;" target="_blank" href="">
                                 <p tabindex="-1" contenteditable=${isEditMode}
                                     style="padding: 20px; color: white; background-color: black; border-radius: 50px;">
                                     Visit Our Website</p>

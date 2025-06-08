@@ -648,21 +648,30 @@ let MarketingContainer = (props)=>{
                                 Campaign
                                 <div style={{border: (currentSubPage===_PAGES?.campaign) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                             </div>
-                            <div onClick={showSearchLinkForm}
+                            <div onClick={()=>{
+                                    if((currentSubPage===_PAGES?.campaign))
+                                        applyNewsLetterChanges();
+                                    showSearchLinkForm();
+                                }}
                                 style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.search_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                                 <i style={{color: (currentSubPage===_PAGES?.search_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
                                 Search Link
                                 <div style={{border: (currentSubPage===_PAGES?.search_link) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                             </div>
-                            <div  onClick={()=>setCurrentSubPage(_PAGES?.booking_params)}
+                            <div onClick={()=>{
+                                    if((currentSubPage===_PAGES?.campaign))
+                                        applyNewsLetterChanges();
+                                    setCurrentSubPage(_PAGES?.booking_params);
+                                }}
                                 style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.booking_params) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                                 <i style={{color:  (currentSubPage===_PAGES?.booking_params) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
                                 Booking Parameters
                                 <div style={{border: (currentSubPage===_PAGES?.booking_params) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                             </div>
                             <div  onClick={()=>{
+                                    if((currentSubPage===_PAGES?.campaign))
+                                        applyNewsLetterChanges();
                                     showSendLinkPage();
-                                    applyNewsLetterChanges()
                                 }}
                                 style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.send_link) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                                 <i style={{color:  (currentSubPage===_PAGES?.send_link) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-envelope"></i>

@@ -97,7 +97,7 @@ const NewsLetterPreviewerLight = (props) => {
                         <div class="nl-focusable-container-elem nl-button-container" tabindex="-1" style="margin-top: 10px;">
                             <div class="nl-focusable-container-elem nl-button-container" tabindex="-1"
                                 style="cursor: pointer; width: 300px; margin: auto; text-align: center;">
-                                <a style="text-decoration: none;" disabled=${isEditMode} target="_blank" href="">
+                                <a style="text-decoration: none;" class="nl-button-hyper-tag" onclick="return false;" target="_blank" href="">
                                     <p tabindex="-1" contenteditable=${isEditMode}
                                         style="padding: 20px; color: white; background-color: black; border-radius: 50px;">
                                         Visit Our Website</p>

@@ -9,7 +9,7 @@ import { verifyUserToken } from './services/sessionServices';
 import { fetchAccountInfo } from './services/accountServices';
 import { useEffect, useState } from 'react';
 import { dashboardInits } from './helpers/inits';
-import NewsLetterPreviewerDarkular from "./components/NewsLetterPreviewerDarkular";
+import NewsLetterPreviewerClassicLetter from './components/NewsLetterPreviewerClassicLetter';
 import { fonts } from "./helpers/fonts";
 import { rgbToHex } from './helpers/helper-functions';
 
@@ -26,7 +26,6 @@ function App() {
     textColor: "",
     font: fonts[0],
     containerBackground: "",
-    buttonElemUrl: "https://yourwebsiteurl.com",
     currentElem: null,
     background_image: HERO_BG,
     boxModel: {
@@ -125,10 +124,7 @@ function App() {
   }
 
   const buttonUrlOnInput = (e) => {
-    setCurrentElemToolsState({
-      ...currentElemToolsState,
-      buttonElemUrl: e.target.value
-    });
+    console.log(e.target.parent);
   }
 
   const handleDragStart = (e, item) => {
@@ -197,7 +193,10 @@ function App() {
         
         anchor.target="_blank";
         anchor.textDecoration = "none";
-        anchor.url = "https://google.com/";
+        anchor.classList.add("nl-button-hyper-tag");
+        anchor.style.textDecoration="none";
+        anchor.onclick=()=>false;
+        anchor.href = "https://google.com/";
 
         title_p.tabIndex=-1;
         title_p.contentEditable=true;
@@ -397,15 +396,18 @@ function App() {
 
   const applyNewsLetterChanges = () => {
     let __page = "";
-    if(document.getElementById("news_letter_current_editable_page"))
+    if(document.getElementById("news_letter_current_editable_page")){
       __page=document.getElementById("news_letter_current_editable_page").innerHTML;
-    //let _cloned=cloneElement(currentDesign?.editable_react_version);
-    let __history=[...currentDesign?.changes_history, __page];
-    setCurrentDesign({
-        ...currentDesign,
-        string_snap_shot: __page,
-        changes_history: __history,
-    });
+      //let _cloned=cloneElement(currentDesign?.editable_react_version);
+      if(__page){
+        let __history=[...currentDesign?.changes_history, __page];
+        setCurrentDesign({
+            ...currentDesign,
+            string_snap_shot: __page,
+            changes_history: __history,
+        });
+      }
+    }
   }
 
   const [loggedIn, setIsLoggedIn] = useState(false);
@@ -415,7 +417,7 @@ function App() {
     string_snap_shot: "",
     changes_history: [],
     background_image: "",
-    current_template: "darkula",
+    current_template: "classicletter",
   });
 
   useEffect(()=>{
@@ -491,7 +493,7 @@ function App() {
             usr.resources_can_access_actions_constants = usr?.resources_can_access_actions_info?.map(each=>each?.constant);
           }
           setUserDetails(usr);
-          let nl_init_template = NewsLetterPreviewerDarkular({
+          let nl_init_template = NewsLetterPreviewerClassicLetter({
             userDetails: usr,
             isEditMode: true,
             currentElemToolsState,
@@ -514,6 +516,13 @@ function App() {
         setIsLoading(false);
       }
     })();
+
+    window.handleDrop=handleDrop;
+    window.handleDragOver=handleDragOver;
+    window.handleDragLeave=handleDragLeave;
+    window.handleDragEnd=handleDragEnd;
+    window.removeElement=removeElement;
+    window.buttonUrlOnInput=buttonUrlOnInput;
   }, []);
 
   return (

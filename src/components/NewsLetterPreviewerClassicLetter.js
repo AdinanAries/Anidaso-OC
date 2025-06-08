@@ -41,7 +41,7 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                     <div class="nl-focusable-container-elem nl-button-container" tabindex="-1" style="margin: 10px;">
                         <div class="nl-focusable-container-elem nl-button-container" tabindex="-1"
                             style="cursor: pointer;">
-                            <a style="text-decoration: none;" disabled=${isEditMode} target="_blank" href="">
+                            <a style="text-decoration: none;" class="nl-button-hyper-tag" onclick="return false;" target="_blank" href="">
                                 <p tabindex="-1" contenteditable=${isEditMode}
                                     style="padding: 20px; color: white; background-color: black; border-radius: 50px; width: 300px; text-align: center;">
                                     Visit Our Website</p>
@@ -109,12 +109,22 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                                     https://yourwebsite.com
                                 </span>
                             </p>
-                            <h3 style="font-family: courier; margin-top: 10px;" class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                ${business_name || "Company Name"}
-                            </h3>
-                            <p style="margin-top: 5px;">
-                                <img style="height: 40px;" src=${LOGO_PLACEHOLDER} />
-                            </p>
+                            <div class="nl-focusable-container-elem" tabindex="-1">
+                                <h3 style="font-family: courier; margin-top: 10px;" class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode}>
+                                    ${business_name || "Company Name"}
+                                </h3>
+                                <div style="top: -15px; right: -15px;" onclick="removeElement(event)" class="nl-page-elem-delete-button">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </div>
+                            </div>
+                            <div class="nl-focusable-container-elem" tabindex="-1">
+                                <p style="margin-top: 5px;">
+                                    <img style="height: 40px;" src=${LOGO_PLACEHOLDER} />
+                                </p>
+                                <div  style="top: -5px; right: -5px;" onclick="removeElement(event)" class="nl-page-elem-delete-button">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </div>
+                            </div>
                             <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
                                 <i class="fa-solid fa-trash-can"></i>
                             </div>

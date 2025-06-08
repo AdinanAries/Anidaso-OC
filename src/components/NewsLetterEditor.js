@@ -52,6 +52,9 @@ const NewsLetterEditor = (props) => {
             document.getElementById("news_letter_current_editable_page").querySelectorAll("*").forEach(element => {
                 element.contentEditable = false;
                 element.tabIndex=1; 
+                if(element.classList.contains("nl-button-hyper-tag")){
+                    element.onclick=null;
+                }
                 if(element.classList.contains("nl-focusable-container-elem")){
                     element.classList.remove("nl-focusable-container-elem")
                 }
@@ -71,15 +74,15 @@ const NewsLetterEditor = (props) => {
         }else{
             if(currentDesign?.string_snap_shot){
                 document.getElementById("news_letter_current_editable_page").innerHTML=currentDesign?.string_snap_shot;
+                document.getElementById("news_letter_current_editable_page").querySelectorAll("*").forEach(element => {
+                    if(element.classList.contains("nl-page-elem-delete-button")){
+                        if(!element.onclick)
+                            element.addEventListener("click", removeElement);
+                    }
+                });
             }
             bindNewsLetterElemEvents();
         }
-        window.handleDrop=handleDrop;
-        window.handleDragOver=handleDragOver;
-        window.handleDragLeave=handleDragLeave;
-        window.handleDragEnd=handleDragEnd;
-        window.removeElement=removeElement;
-        window.buttonUrlOnInput=buttonUrlOnInput;
     }, []);
 
     const changeTemplate = (template) => {
