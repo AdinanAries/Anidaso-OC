@@ -416,6 +416,7 @@ function App() {
   const [ currentDesign, setCurrentDesign ] = useState({
     string_snap_shot: "",
     changes_history: [],
+    redo_changes_stack: [],
     background_image: "",
     current_template: "classicletter",
   });

@@ -3,13 +3,17 @@ import NLDarkular from "../news-letter-darkula.png";
 import NLSlickBG from "../news-letter-slick-bg.png";
 import NLLight from "../news-letter-light.png";
 import NLClassicLetter from "../news-letter-classic-letter.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fonts } from "../helpers/fonts";
 import NewsLetterPreviewerBlank from "./NewsLetterPreviewerBlank";
 import NewsLetterPreviewerSlickBg from "./NewsLetterPreviewerSlickBg";
 import NewsLetterPreviewerClassicLetter from "./NewsLetterPreviewerClassicLetter";
 import NewsLetterPreviewerDarkular from "./NewsLetterPreviewerDarkular";
 import NewsLetterPreviewerLight from "./NewsLetterPreviewerLight";
+import { 
+    createNewsLetterState, 
+    fetchNewsLetterStateByAgentAndTemplateName 
+} from "../services/newsLetterServices";
 import { event } from "jquery";
 
 const NewsLetterEditor = (props) => {
@@ -45,6 +49,28 @@ const NewsLetterEditor = (props) => {
         applyNewsLetterChanges,
         showCampaignPage,
     } = props;
+
+    const [ newsLetterPostData, setNewsLetterPostData ] = useState({
+        oc_user_id: userDetails?._id,
+        template_name: "",
+        saved_state: ""
+    });
+    const [ isSaving, setIsSaving ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
+
+    useEffect(()=>{
+        (async()=>{
+            if(
+                newsLetterPostData?.oc_user_id &&
+                newsLetterPostData?.template_name && 
+                newsLetterPostData?.saved_state
+            ){
+                setIsSaving(true);
+                let __res = await createNewsLetterState(newsLetterPostData);
+                setIsSaving(false);
+            }
+        })();
+    }, [newsLetterPostData])
 
     useEffect(()=>{
         if(!isEditMode){
@@ -85,60 +111,67 @@ const NewsLetterEditor = (props) => {
         }
     }, []);
 
-    const changeTemplate = (template) => {
-        let _tt="";
-        if(template === "blank"){
-            let _tt=NewsLetterPreviewerBlank({
-                userDetails,
-                isEditMode,
-                currentElemToolsState,
-                buttonUrlOnInput
-            });
+    const changeTemplate = async (template) => {
+        setIsLoading(true);
+        const __res =await fetchNewsLetterStateByAgentAndTemplateName(userDetails?._id, template);
+        let _tt=__res?.saved_state;
+        if(_tt){
             document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
         }
-        if(template === "darkula"){
-            let _tt=NewsLetterPreviewerDarkular({
-                userDetails,
-                isEditMode,
-                currentElemToolsState,
-                buttonUrlOnInput
-            });
-            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;                     
+        if(!_tt){
+            if(template === "blank"){
+                let _tt=NewsLetterPreviewerBlank({
+                    userDetails,
+                    isEditMode,
+                    currentElemToolsState,
+                    buttonUrlOnInput
+                });
+                document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
+            }
+            if(template === "darkula"){
+                let _tt=NewsLetterPreviewerDarkular({
+                    userDetails,
+                    isEditMode,
+                    currentElemToolsState,
+                    buttonUrlOnInput
+                });
+                document.getElementById("news_letter_current_editable_page").innerHTML=_tt;                     
+            }
+            if(template === "slickbg"){
+                let _tt=NewsLetterPreviewerSlickBg({
+                    userDetails,
+                    isEditMode,
+                    currentElemToolsState,
+                    buttonUrlOnInput
+                });
+                document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
+            }
+            if(template === "classicletter"){
+                let _tt=NewsLetterPreviewerClassicLetter({
+                    userDetails,
+                    isEditMode,
+                    currentElemToolsState,
+                    buttonUrlOnInput
+                });
+                document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
+            }
+            if(template === "light"){
+                let _tt=NewsLetterPreviewerLight({
+                    userDetails,
+                    isEditMode,
+                    currentElemToolsState,
+                    buttonUrlOnInput
+                });
+                document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
+            }
         }
-        if(template === "slickbg"){
-            let _tt=NewsLetterPreviewerSlickBg({
-                userDetails,
-                isEditMode,
-                currentElemToolsState,
-                buttonUrlOnInput
-            });
-            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
-        }
-        if(template === "classicletter"){
-            let _tt=NewsLetterPreviewerClassicLetter({
-                userDetails,
-                isEditMode,
-                currentElemToolsState,
-                buttonUrlOnInput
-            });
-            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
-        }
-        if(template === "light"){
-            let _tt=NewsLetterPreviewerLight({
-                userDetails,
-                isEditMode,
-                currentElemToolsState,
-                buttonUrlOnInput
-            });
-            document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
-        }
-
         setCurrentDesign({
             ...currentDesign,
             string_snap_shot: _tt,
             changes_history: [_tt],
             current_template: template,
         });
+        setIsLoading(false);
 
         //setTimeout(applyNewsLetterChanges, 200);
     }
@@ -478,16 +511,41 @@ const NewsLetterEditor = (props) => {
 
     const onSave = () => {
         applyNewsLetterChanges();
+        setNewsLetterPostData({
+            oc_user_id: userDetails?._id,
+            template_name: currentDesign?.current_template,
+            saved_state: document.getElementById("news_letter_current_editable_page").innerHTML,
+        });
     }
 
     const unDo = () => {
         let __history = currentDesign?.changes_history;
+        let __redo_stack = currentDesign?.redo_changes_stack;
         let __page = __history.pop();
         if(__page){
+            __redo_stack.push(__page);
             setCurrentDesign({
                 ...currentDesign,
                 string_snap_shot: __page,
                 changes_history: __history,
+                redo_changes_stack: __redo_stack,
+            });
+            document.getElementById("news_letter_current_editable_page").innerHTML=__page;
+            bindNewsLetterElemEvents();
+        }
+    }
+
+    const reDo = () => {
+        let __redo_stack = currentDesign?.redo_changes_stack;
+        let __history = currentDesign?.changes_history;
+        let __page = __redo_stack.pop();
+        if(__page){
+            __history.push(__page);
+            setCurrentDesign({
+                ...currentDesign,
+                string_snap_shot: __page,
+                changes_history: __history,
+                redo_changes_stack: __redo_stack,
             });
             document.getElementById("news_letter_current_editable_page").innerHTML=__page;
             bindNewsLetterElemEvents();
@@ -497,169 +555,187 @@ const NewsLetterEditor = (props) => {
     return <div style={{background: "white", padding: 5, borderRadius: 9}}>
         {
             isEditMode &&
-            <div className="nl-editor-top-tools-container" style={{display: "flex", justifyContent: "center", alignItems: "center", background: "rgb(237, 237, 237)"}}>
-                <div style={{display: "flex", borderRight: "1px solid rgba(0,0,0,0.1)", marginRight: 10, paddingRight: 10}}>
-                    <div onClick={onSave} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
-                        <i className="fa-solid fa-floppy-disk"></i>
-                        <div className="tool-tip"
-                            style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                            Save Changes
+            <>
+                <div className="nl-editor-top-tools-container" style={{display: "flex", justifyContent: "center", alignItems: "center", background: "rgb(237, 237, 237)"}}>
+                    <div style={{display: "flex", borderRight: "1px solid rgba(0,0,0,0.1)", marginRight: 10, paddingRight: 10}}>
+                        <div onClick={onSave} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
+                            <i className="fa-solid fa-floppy-disk"></i>
+                            <div className="tool-tip"
+                                style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
+                                Save Changes
+                            </div>
+                        </div>
+                        <div onClick={unDo} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
+                            <i className="fa-solid fa-rotate-left"></i>
+                            <div className="tool-tip"
+                                style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
+                                Undo Changes
+                            </div>
+                        </div>
+                        <div onClick={reDo} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
+                            <i className="fa-solid fa-rotate-right"></i>
+                            <div className="tool-tip"
+                                style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
+                                Redo Changes
+                            </div>
                         </div>
                     </div>
-                    <div onClick={unDo} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
-                        <i className="fa-solid fa-rotate-left"></i>
+                    <div disabled onClick={boldTextOnClick}  style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.isBold ? "rgba(0,0,0,0.07)" : "none"}} className="tool-tip-parent">
+                        <i className="fa-solid fa-bold"></i>
                         <div className="tool-tip"
                             style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                            Undo Changes
+                            Bold Text
                         </div>
                     </div>
-                    <div disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
-                        <i className="fa-solid fa-rotate-right"></i>
-                        <div className="tool-tip"
-                            style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                            Redo Changes
-                        </div>
-                    </div>
-                </div>
-                <div disabled onClick={boldTextOnClick}  style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.isBold ? "rgba(0,0,0,0.07)" : "none"}} className="tool-tip-parent">
-                    <i className="fa-solid fa-bold"></i>
-                    <div className="tool-tip"
-                        style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                        Bold Text
-                    </div>
-                </div>
-                <div disabled onClick={italizeTextOnClick} style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.isItalic ? "rgba(0,0,0,0.07)" : "none"}} className="tool-tip-parent">
-                    <i className="fa-solid fa-italic"></i>
-                    <div className="tool-tip"
-                        style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                        Italize Text
-                    </div>
-                </div>
-                <div disabled onClick={underlineTextOnClick} style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.isUnderline ? "rgba(0,0,0,0.07)" : "none"}} className="tool-tip-parent">
-                    <i className="fa-solid fa-underline"></i>
-                    <div className="tool-tip"
-                        style={{color: "black", fontSize: 12, minWidth: 100, textAlign: "center"}}>
-                        Underline Text
-                    </div>
-                </div>
-                <div style={{width: 40}} className="tool-tip-parent">
-                    <div style={{textAlign: "center"}}>
-                        <label htmlFor="nl_editor_text_color_input">
-                            <p style={{position: "relative", zIndex: 1}}>
-                                <i className="fa-solid fa-a"></i>
-                            </p>
-                        </label>
-                        <p style={{marginTop: -10}}>
-                            <input onInput={toolsTextColorOnchange}
-                                id="nl_editor_text_color_input"
-                                type="color" name="toolsColor" 
-                                value={currentElemToolsState?.textColor} 
-                                style={{height: 5, border: "none", padding: 0, margin: "auto", width: 30}}
-                            />
-                        </p>
-                    </div>
-                    <div className="tool-tip"
-                        style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                        Text Color
-                    </div>
-                </div>
-                <div style={{padding: 10, textAlign: "center"}} className="tool-tip-parent">
-                        <label htmlFor="nl_editor_highlighter_color_input">
-                            <p style={{position: "relative", zIndex: 1}}>
-                                <i className="fa-solid fa-highlighter"></i>
-                            </p>
-                        </label>
-                        <p style={{marginTop: -10}}>
-                            <input onInput={toolsHighlightColorOnInput}
-                                id="nl_editor_highlighter_color_input"
-                                type="color" name="toolsColor" 
-                                value={currentElemToolsState?.highlightColor} 
-                                style={{height: 5, border: "none", padding: 0, margin: "auto", width: 30}}
-                            />
-                        </p>
-                    <div className="tool-tip"
-                        style={{color: "black", fontSize: 12, minWidth: 100, textAlign: "center"}}>
-                        Text Highlight
-                    </div>
-                </div>
-                <div className="tool-tip-parent" style={{display: "flex", alignItems: "center", borderLeft: "1px solid rgba(0,0,0,0.1)", marginLeft: 10, marginRight: 10, padding: "0 10px"}}>
-                    <div onClick={decrementFont} style={{marginRight: 10}}>
-                        <i className="fa-solid fa-minus"></i>
-                    </div>
-                    <input onInput={fontSizeOnInput}
-                        value={currentElemToolsState?.fontSize} 
-                        type="number"
-                        style={{padding: 5, width: 60, textAlign: "center"}} />
-                    <div onClick={incrementFont} style={{marginLeft: 10}}>
-                        <i className="fa-solid fa-plus"></i>
-                    </div>
-                    <div className="tool-tip"
-                        style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                        Font Size
-                    </div>
-                </div>
-                <div className="tool-tip-parent" style={{display: "flex", borderLeft: "1px solid rgba(0,0,0,0.1)", marginLeft: 10, marginRight: 10, padding: "0 10px"}}>
-                    <select onInput={fontOnInput}
-                        style={{border: "none", background: "none", padding: 10}}>
-                        {
-                            fonts?.map(each=>{
-                                return <option value={each}>
-                                        {each}</option>
-                            })
-                            
-                        }
-                    </select>
-                    <div className="tool-tip"
-                        style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                        Font
-                    </div>
-                </div>
-                <div style={{display: "flex", borderLeft: "1px solid rgba(0,0,0,0.1)", marginLeft: 10, marginRight: 10, padding: "0 10px"}}>
-                    <div onClick={()=>alignTextOnclick(1)} className="tool-tip-parent" 
-                        style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="left" ? "rgba(0,0,0,0.07)" : "none"}}>
-                        <i className="fa-solid fa-align-left"></i>
+                    <div disabled onClick={italizeTextOnClick} style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.isItalic ? "rgba(0,0,0,0.07)" : "none"}} className="tool-tip-parent">
+                        <i className="fa-solid fa-italic"></i>
                         <div className="tool-tip"
                             style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                            Align Left
+                            Italize Text
                         </div>
                     </div>
-                    <div onClick={()=>alignTextOnclick(2)} className="tool-tip-parent" 
-                        style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="center" ? "rgba(0,0,0,0.07)" : "none"}}>
-                        <i className="fa-solid fa-align-center"></i>
+                    <div disabled onClick={underlineTextOnClick} style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.isUnderline ? "rgba(0,0,0,0.07)" : "none"}} className="tool-tip-parent">
+                        <i className="fa-solid fa-underline"></i>
                         <div className="tool-tip"
-                            style={{color: "black", fontSize: 12, minWidth: 90, textAlign: "center"}}>
-                            Align Center
+                            style={{color: "black", fontSize: 12, minWidth: 100, textAlign: "center"}}>
+                            Underline Text
                         </div>
                     </div>
-                    <div onClick={()=>alignTextOnclick(3)} className="tool-tip-parent" 
-                        style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="right" ? "rgba(0,0,0,0.07)" : "none"}}>
-                        <i className="fa-solid fa-align-right"></i>
+                    <div style={{width: 40}} className="tool-tip-parent">
+                        <div style={{textAlign: "center"}}>
+                            <label htmlFor="nl_editor_text_color_input">
+                                <p style={{position: "relative", zIndex: 1}}>
+                                    <i className="fa-solid fa-a"></i>
+                                </p>
+                            </label>
+                            <p style={{marginTop: -10}}>
+                                <input onInput={toolsTextColorOnchange}
+                                    id="nl_editor_text_color_input"
+                                    type="color" name="toolsColor" 
+                                    value={currentElemToolsState?.textColor} 
+                                    style={{height: 5, border: "none", padding: 0, margin: "auto", width: 30}}
+                                />
+                            </p>
+                        </div>
                         <div className="tool-tip"
                             style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
-                            Align Right
+                            Text Color
                         </div>
                     </div>
-                    <div onClick={()=>alignTextOnclick(4)} className="tool-tip-parent" 
-                        style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="justify" ? "rgba(0,0,0,0.07)" : "none"}}>
-                        <i className="fa-solid fa-align-justify"></i>
+                    <div style={{padding: 10, textAlign: "center"}} className="tool-tip-parent">
+                            <label htmlFor="nl_editor_highlighter_color_input">
+                                <p style={{position: "relative", zIndex: 1}}>
+                                    <i className="fa-solid fa-highlighter"></i>
+                                </p>
+                            </label>
+                            <p style={{marginTop: -10}}>
+                                <input onInput={toolsHighlightColorOnInput}
+                                    id="nl_editor_highlighter_color_input"
+                                    type="color" name="toolsColor" 
+                                    value={currentElemToolsState?.highlightColor} 
+                                    style={{height: 5, border: "none", padding: 0, margin: "auto", width: 30}}
+                                />
+                            </p>
                         <div className="tool-tip"
-                            style={{color: "black", fontSize: 12, minWidth: 90, textAlign: "center"}}>
-                            Align Justify
+                            style={{color: "black", fontSize: 12, minWidth: 100, textAlign: "center"}}>
+                            Text Highlight
                         </div>
                     </div>
+                    <div className="tool-tip-parent" style={{display: "flex", alignItems: "center", borderLeft: "1px solid rgba(0,0,0,0.1)", marginLeft: 10, marginRight: 10, padding: "0 10px"}}>
+                        <div onClick={decrementFont} style={{marginRight: 10}}>
+                            <i className="fa-solid fa-minus"></i>
+                        </div>
+                        <input onInput={fontSizeOnInput}
+                            value={currentElemToolsState?.fontSize} 
+                            type="number"
+                            style={{padding: 5, width: 60, textAlign: "center"}} />
+                        <div onClick={incrementFont} style={{marginLeft: 10}}>
+                            <i className="fa-solid fa-plus"></i>
+                        </div>
+                        <div className="tool-tip"
+                            style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
+                            Font Size
+                        </div>
+                    </div>
+                    <div className="tool-tip-parent" style={{display: "flex", borderLeft: "1px solid rgba(0,0,0,0.1)", marginLeft: 10, marginRight: 10, padding: "0 10px"}}>
+                        <select onInput={fontOnInput}
+                            style={{border: "none", background: "none", padding: 10}}>
+                            {
+                                fonts?.map(each=>{
+                                    return <option value={each}>
+                                            {each}</option>
+                                })
+                                
+                            }
+                        </select>
+                        <div className="tool-tip"
+                            style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
+                            Font
+                        </div>
+                    </div>
+                    <div style={{display: "flex", borderLeft: "1px solid rgba(0,0,0,0.1)", marginLeft: 10, marginRight: 10, padding: "0 10px"}}>
+                        <div onClick={()=>alignTextOnclick(1)} className="tool-tip-parent" 
+                            style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="left" ? "rgba(0,0,0,0.07)" : "none"}}>
+                            <i className="fa-solid fa-align-left"></i>
+                            <div className="tool-tip"
+                                style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
+                                Align Left
+                            </div>
+                        </div>
+                        <div onClick={()=>alignTextOnclick(2)} className="tool-tip-parent" 
+                            style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="center" ? "rgba(0,0,0,0.07)" : "none"}}>
+                            <i className="fa-solid fa-align-center"></i>
+                            <div className="tool-tip"
+                                style={{color: "black", fontSize: 12, minWidth: 90, textAlign: "center"}}>
+                                Align Center
+                            </div>
+                        </div>
+                        <div onClick={()=>alignTextOnclick(3)} className="tool-tip-parent" 
+                            style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="right" ? "rgba(0,0,0,0.07)" : "none"}}>
+                            <i className="fa-solid fa-align-right"></i>
+                            <div className="tool-tip"
+                                style={{color: "black", fontSize: 12, minWidth: 80, textAlign: "center"}}>
+                                Align Right
+                            </div>
+                        </div>
+                        <div onClick={()=>alignTextOnclick(4)} className="tool-tip-parent" 
+                            style={{padding: 10, borderRadius: 4, background: currentElemToolsState?.textAlign==="justify" ? "rgba(0,0,0,0.07)" : "none"}}>
+                            <i className="fa-solid fa-align-justify"></i>
+                            <div className="tool-tip"
+                                style={{color: "black", fontSize: 12, minWidth: 90, textAlign: "center"}}>
+                                Align Justify
+                            </div>
+                        </div>
+                    </div>
+                    <div style={{display: "flex", alignItems: "center", borderLeft: "1px solid rgba(0,0,0,0.1)", marginRight: 10, padding: "0 10px"}}>
+                        <p style={{marginRight: 10, fontSize: 11}}>
+                            <label htmlFor="nl_editor_container_background_input" 
+                                style={{color: "rgba(0,0,0,0.4"}}>
+                                Background:</label>
+                        </p>
+                        <input id="nl_editor_container_background_input"
+                            onInput={toolsBackgroundColorOnInput}
+                            type="color" name="favcolor" 
+                            value={currentElemToolsState?.containerBackground} />
+                    </div>
                 </div>
-                <div style={{display: "flex", alignItems: "center", borderLeft: "1px solid rgba(0,0,0,0.1)", marginRight: 10, padding: "0 10px"}}>
-                    <p style={{marginRight: 10, fontSize: 11}}>
-                        <label htmlFor="nl_editor_container_background_input" 
-                            style={{color: "rgba(0,0,0,0.4"}}>
-                            Background:</label>
-                    </p>
-                    <input id="nl_editor_container_background_input"
-                        onInput={toolsBackgroundColorOnInput}
-                        type="color" name="favcolor" 
-                        value={currentElemToolsState?.containerBackground} />
-                </div>
-            </div>
+                {
+                    isSaving &&
+                    <div style={{backgroundColor: "#eee", padding: 5, textAlign: "center",
+                        fontSize: 12, borderTop: "1px solid rgba(0,0,0,0.1)", cursor: "pointer"}}>
+                        <i style={{marginRight: 10, color: "green"}} className="fa fa-spinner"></i>
+                        Saving in progress...
+                    </div>
+                }
+                {
+                    isLoading &&
+                    <div style={{backgroundColor: "#eee", padding: 5, textAlign: "center",
+                        fontSize: 12, borderTop: "1px solid rgba(0,0,0,0.1)", cursor: "pointer"}}>
+                        <i style={{marginRight: 10, color: "green"}} className="fa fa-spinner"></i>
+                        Loading, Please wait...
+                    </div>
+                }
+            </>
         }
         <div style={{display: "flex", justifyContent: isEditMode ? "space-between" : "center"}}>
             {
