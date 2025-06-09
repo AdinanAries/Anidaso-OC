@@ -11,7 +11,6 @@ const Dashboard = (props) =>  {
         setUserDetails,
         currentDesign,
         setCurrentDesign,
-        buttonUrlOnInput,
         handleDragStart,
         removeElement,
         handleDrop,
@@ -51,7 +50,6 @@ const Dashboard = (props) =>  {
             setUserDetails={setUserDetails}
             currentDesign={currentDesign}
             setCurrentDesign={setCurrentDesign}
-            buttonUrlOnInput={buttonUrlOnInput}
             handleDragStart={handleDragStart}
             removeElement={removeElement}
             handleDrop={handleDrop}

@@ -41,7 +41,6 @@ let MarketingContainer = (props)=>{
         userDetails,
         currentDesign,
         setCurrentDesign,
-        buttonUrlOnInput,
         handleDragStart,
         removeElement,
         handleDrop,
@@ -711,7 +710,6 @@ let MarketingContainer = (props)=>{
                                             isEditMode={true}
                                             currentDesign={currentDesign}
                                             setCurrentDesign={setCurrentDesign}
-                                            buttonUrlOnInput={buttonUrlOnInput}
                                             handleDragStart={handleDragStart}
                                             removeElement={removeElement}
                                             handleDrop={handleDrop}
@@ -1069,7 +1067,6 @@ let MarketingContainer = (props)=>{
                                             isEditMode={false}
                                             currentDesign={currentDesign}
                                             setCurrentDesign={setCurrentDesign}
-                                            buttonUrlOnInput={buttonUrlOnInput}
                                             handleDragStart={handleDragStart}
                                             removeElement={removeElement}
                                             handleDrop={handleDrop}

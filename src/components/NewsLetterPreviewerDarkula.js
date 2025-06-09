@@ -6,7 +6,6 @@ const NewsLetterPreviewer = (props) => {
         isEditMode,
         userDetails,
         currentElemToolsState,
-        buttonUrlOnInput,
         handleDrop,
         handleDragOver,
         handleDragLeave,
@@ -112,7 +111,7 @@ const NewsLetterPreviewer = (props) => {
                                             <i style={{marginRight: 5}} className="fa-solid fa-globe"></i>
                                             Edit Button Link:</p>
                                         <div>
-                                            <input onInput={buttonUrlOnInput}
+                                            <input
                                                 style={{marginTop: 5, border: "none", backgroundColor: "rgba(0,0,0,0.07)", minWidth: 300, padding: 10, borderRadius: 50}} 
                                                 value={currentElemToolsState?.buttonElemUrl} 
                                                 type="text"

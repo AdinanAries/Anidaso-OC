@@ -495,7 +495,6 @@ function App() {
             userDetails: usr,
             isEditMode: true,
             currentElemToolsState,
-            buttonUrlOnInput
           });
           setCurrentDesign({
             ...currentDesign,
@@ -520,7 +519,6 @@ function App() {
     window.handleDragLeave=handleDragLeave;
     window.handleDragEnd=handleDragEnd;
     window.removeElement=removeElement;
-    window.buttonUrlOnInput=buttonUrlOnInput;
   }, []);
 
   return (
@@ -536,7 +534,6 @@ function App() {
                 setUserDetails={setUserDetails}
                 currentDesign={currentDesign}
                 setCurrentDesign={setCurrentDesign}
-                buttonUrlOnInput={buttonUrlOnInput}
                 handleDragStart={handleDragStart}
                 removeElement={removeElement}
                 handleDrop={handleDrop}

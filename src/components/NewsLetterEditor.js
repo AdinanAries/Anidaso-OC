@@ -23,7 +23,6 @@ const NewsLetterEditor = (props) => {
         userDetails,
         currentDesign,
         setCurrentDesign,
-        buttonUrlOnInput,
         handleDragStart,
         removeElement,
         handleDrop,
@@ -128,7 +127,6 @@ const NewsLetterEditor = (props) => {
                     userDetails,
                     isEditMode,
                     currentElemToolsState,
-                    buttonUrlOnInput
                 });
                 document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
             }
@@ -137,7 +135,6 @@ const NewsLetterEditor = (props) => {
                     userDetails,
                     isEditMode,
                     currentElemToolsState,
-                    buttonUrlOnInput
                 });
                 document.getElementById("news_letter_current_editable_page").innerHTML=_tt;                     
             }
@@ -146,7 +143,6 @@ const NewsLetterEditor = (props) => {
                     userDetails,
                     isEditMode,
                     currentElemToolsState,
-                    buttonUrlOnInput
                 });
                 document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
             }
@@ -155,7 +151,6 @@ const NewsLetterEditor = (props) => {
                     userDetails,
                     isEditMode,
                     currentElemToolsState,
-                    buttonUrlOnInput
                 });
                 document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
             }
@@ -164,7 +159,6 @@ const NewsLetterEditor = (props) => {
                     userDetails,
                     isEditMode,
                     currentElemToolsState,
-                    buttonUrlOnInput
                 });
                 document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
             }

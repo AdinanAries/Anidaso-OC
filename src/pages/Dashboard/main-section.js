@@ -17,7 +17,6 @@ let MainSection = (props)=>{
         setUserDetails,
         currentDesign,
         setCurrentDesign,
-        buttonUrlOnInput,
         handleDragStart,
         removeElement,
         handleDrop,
@@ -77,7 +76,6 @@ let MainSection = (props)=>{
                 userDetails={userDetails}
                 currentDesign={currentDesign}
                 setCurrentDesign={setCurrentDesign}
-                buttonUrlOnInput={buttonUrlOnInput}
                 handleDragStart={handleDragStart}
                 removeElement={removeElement}
                 handleDrop={handleDrop}
