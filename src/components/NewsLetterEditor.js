@@ -78,6 +78,10 @@ const NewsLetterEditor = (props) => {
             document.getElementById("news_letter_current_editable_page").querySelectorAll("*").forEach(element => {
                 element.contentEditable = false;
                 element.tabIndex=1; 
+                if(element.classList.contains("nl-button-container")){
+                    let btn_url = element.querySelector(".nl-button-url-input-elem").innerText;
+                    element.querySelector(".nl-button-hyper-tag").href=btn_url;
+                }
                 if(element.classList.contains("nl-button-hyper-tag")){
                     element.onclick=null;
                 }

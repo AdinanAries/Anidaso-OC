@@ -123,10 +123,6 @@ function App() {
       });
   }
 
-  const buttonUrlOnInput = (e) => {
-    console.log(e.target.parent);
-  }
-
   const handleDragStart = (e, item) => {
     e.dataTransfer.setData('text/plain', item);
   };
@@ -183,7 +179,7 @@ function App() {
 
         let url_field_title = document.createElement("p");
         let url_input_field_container = document.createElement("div");
-        let url_input_field = document.createElement("input");
+        let url_input_field = document.createElement("p");
 
         focusable_div.classList.add("nl-focusable-container-elem", "nl-button-container");
         focusable_div.tabIndex=-1;
@@ -196,7 +192,7 @@ function App() {
         anchor.classList.add("nl-button-hyper-tag");
         anchor.style.textDecoration="none";
         anchor.onclick=()=>false;
-        anchor.href = "https://google.com/";
+        anchor.href = "";
 
         title_p.tabIndex=-1;
         title_p.contentEditable=true;
@@ -216,7 +212,8 @@ function App() {
                             <i style="marginR-right: 5px" class="fa-solid fa-globe"></i>
                             Edit Button Link:</p>`;
         
-        url_input_field.type = "text";
+        url_input_field.classList.add("nl-button-url-input-elem");
+        url_input_field.contentEditable=true;
         url_input_field.style.marginTop = "5px"; 
         url_input_field.style.border = "none"; 
         url_input_field.style.backgroundColor = "rgba(0,0,0,0.07)"; 

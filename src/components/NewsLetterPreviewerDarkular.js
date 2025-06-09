@@ -102,7 +102,7 @@ const NewsLetterPreviewerDarkular = (props) => {
             <tr>
                 <td>
                     <div>
-                        <div class="nl-focusable-container-elem nl-button-container" tabindex="-1" style="margin-top: 10px;">
+                        <div class="nl-focusable-container-elem" tabindex="-1" style="margin-top: 10px;">
                             <div class="nl-focusable-container-elem nl-button-container" tabindex="-1"
                                 style="cursor: pointer; width: 300px; margin: auto; text-align: center;">
                                 <a style="text-decoration: none;" class="nl-button-hyper-tag" onclick="return false;" target="_blank" href="">
@@ -115,11 +115,10 @@ const NewsLetterPreviewerDarkular = (props) => {
                                         <i style="margin-right: 5px;" class="fa-solid fa-globe"></i>
                                         Edit Button Link:</p>
                                     <div>
-                                        <input oninput="buttonUrlOnInput(event)"
+                                        <p class="nl-button-url-input-elem"
                                             style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
-                                            value=""
-                                            type="text"
-                                        />
+                                            contenteditable="true"
+                                        ></p>
                                     </div>
                                 </div>
                             </div>
