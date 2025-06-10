@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { sendNewsLetterEmail } from "../services/newsLetterServices";
 
 const SendEmail = (props) => {
 
@@ -28,9 +29,21 @@ const SendEmail = (props) => {
         setEmailInput(e.target.value);
     }
 
+    const sendEmailOnclick = async () => {
+        const send_obj = {
+            to: mailingList[0].email, // should change soon, just testing now.
+            from: "adinanaries@outlook.com",
+            subject: document.getElementById("nl-send-email-title-input").innerText,
+            text: "test news letter",
+            html: document.getElementById("news_letter_current_editable_page").innerHTML,
+        }
+        let res = await sendNewsLetterEmail(send_obj);
+        console.log(res);
+    }
+
     return <div>
         <div style={{padding: 10, backgroundColor: "white", marginBottom: 10}}>
-            <h3 contentEditable={true} style={{padding: 10}}>
+            <h3 id="nl-send-email-title-input" contentEditable={true} style={{padding: 10}}>
                 (No Subject)
             </h3>
             <div style={{marginTop: 5, marginBottom: 10, display: "flex"}}>
@@ -114,7 +127,7 @@ const SendEmail = (props) => {
                 </div>
             </div>
         </div>
-        <div style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+        <div onClick={sendEmailOnclick} style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
             <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
             Send Email
         </div>
