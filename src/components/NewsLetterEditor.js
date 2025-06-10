@@ -56,6 +56,7 @@ const NewsLetterEditor = (props) => {
     });
     const [ isSaving, setIsSaving ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ isDefaultTemplate, setisDefaultTemplate ] = useState((currentDesign?.db_obj?._id ? false : true));
 
     useEffect(()=>{
         (async()=>{
@@ -114,12 +115,20 @@ const NewsLetterEditor = (props) => {
         }
     }, []);
 
-    const changeTemplate = async (template) => {
+    const changeTemplate = async (template, use_default=false) => {
         setIsLoading(true);
-        const __res =await fetchNewsLetterStateByAgentAndTemplateName(userDetails?._id, template);
-        let _tt=__res?.saved_state;
+        let _tt="";
+        let __res={};
+        if(!use_default){
+            __res=await fetchNewsLetterStateByAgentAndTemplateName(userDetails?._id, template);
+            _tt=__res?.saved_state;
+            setisDefaultTemplate(false);
+        }
         if(_tt){
             document.getElementById("news_letter_current_editable_page").innerHTML=_tt;
+        }
+        if(use_default || !_tt){
+            setisDefaultTemplate(true);
         }
         if(!_tt){
             if(template === "blank"){
@@ -165,6 +174,7 @@ const NewsLetterEditor = (props) => {
         }
         setCurrentDesign({
             ...currentDesign,
+            db_obj: __res,
             string_snap_shot: _tt,
             changes_history: [_tt],
             current_template: template,
@@ -556,6 +566,16 @@ const NewsLetterEditor = (props) => {
             <>
                 <div className="nl-editor-top-tools-container" style={{display: "flex", justifyContent: "center", alignItems: "center", background: "rgb(237, 237, 237)"}}>
                     <div style={{display: "flex", borderRight: "1px solid rgba(0,0,0,0.1)", marginRight: 10, paddingRight: 10}}>
+                        {
+                            !isDefaultTemplate &&
+                            <div onClick={()=>changeTemplate(currentDesign?.current_template, true)} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
+                                <i style={{color: "darkslateblue"}} className="fa-solid fa-file-circle-check"></i>
+                                <div className="tool-tip"
+                                    style={{color: "black", background: "white", fontSize: 12, minWidth: 80, textAlign: "center"}}>
+                                    Use Default
+                                </div>
+                            </div>
+                        }
                         <div onClick={onSave} disabled style={{padding: 10, borderRadius: 4}} className="tool-tip-parent">
                             <i className="fa-solid fa-floppy-disk"></i>
                             <div className="tool-tip"

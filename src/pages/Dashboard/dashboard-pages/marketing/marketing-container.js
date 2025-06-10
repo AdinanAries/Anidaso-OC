@@ -142,7 +142,12 @@ let MarketingContainer = (props)=>{
     }
 
     const PAGI_LIMIT = 10;
-    
+    const __PROFIT_TYPE_PROP_KEY="profit_type";
+    const __PROFIT_TYPES = {
+        percentage: "price_markup",
+        flat_rate: "flat_rate",
+    };
+    const [ profitType, setProfitType ] = useState(__PROFIT_TYPES?.percentage);
     const [ totalItems, setTotalItems ] = useState(0);
     const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
     const [customersList, setCustomersList ] = useState([]);
@@ -153,9 +158,14 @@ let MarketingContainer = (props)=>{
         property: SETTINGS_PROPS_NAMES[0]?.value,
         value: ""
     });
+    const [ agentFlatRate, setAgentFlatRate ] = useState({
+        user_id: userDetails?._id,
+        property: __PROFIT_TYPES?.flat_rate,
+        value: 0,
+    });
     const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
         user_id: userDetails?._id,
-        property: "price_markup",
+        property: __PROFIT_TYPES?.percentage,
         value: 15,
     });
     const [ currentSubPage, setCurrentSubPage ] = useState(_PAGES?.campaign);
@@ -305,6 +315,14 @@ let MarketingContainer = (props)=>{
         setCurrentSubPage(_PAGES?.send_link)
     }
 
+    const agentFlatRateOnchange = (e) => {
+        resetFormValidation();
+        setAgentFlatRate({
+            ...agentFlatRate,
+            value: e.target.value
+        })
+    }
+
     const agentPriceMarkupOnchange = (e) => {
         setAgentPriceMarkup({
             ...agentPriceMarkup,
@@ -313,28 +331,65 @@ let MarketingContainer = (props)=>{
     }
 
     const agentBookingParametersFormOnSubmit = async () => {
-        // 1. Price Markup
-        if(!agentPriceMarkup.value) {
+
+        if(!agentPriceMarkup.value && profitType===__PROFIT_TYPES?.percentage) {
             setFormValidation({
                 type: "error",
                 isError: true,
-                message: "Please add price markup percentage value",
+                message: "Percentage must be provided and above 0",
             });
             return
         }
-        let res = await createNewAgentInfo(agentPriceMarkup);
-        if(!res._id){
+
+        if(!agentFlatRate.value && profitType===__PROFIT_TYPES?.flat_rate) {
             setFormValidation({
                 type: "error",
                 isError: true,
-                message: res.message,
+                message: "Flat rate value must be provided and above 0",
+            });
+            return
+        }
+
+        // 1. Saving Current Profit Type
+        let pt_res = await createNewAgentInfo({
+            user_id: userDetails?._id,
+            property: __PROFIT_TYPE_PROP_KEY,
+            value: profitType,
+        });
+        if(!pt_res._id){
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: pt_res.message,
             });
         }
 
-        // 2. Data Provider
+        // 2. Saving Current Price Markup
+        let pmp_res = await createNewAgentInfo(agentPriceMarkup);
+        if(!pmp_res._id){
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: pmp_res.message,
+            });
+        }
+
+        // 3. Saving Current Flat Rate Profit
+        let flp_res = await createNewAgentInfo(agentFlatRate);
+        if(!flp_res._id){
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: flp_res.message,
+            });
+        }
+
+        // 4. Data Provider
         //---Here for Data Provider--//
 
-        alert(`Booking parameters modified!`);
+        if(pt_res._id && pmp_res._id && flp_res._id)
+            alert(`Booking parameters modified!`);
+
         setTimeout(()=>{
             loadPreviewPage();
         }, 300);
@@ -511,7 +566,16 @@ let MarketingContainer = (props)=>{
 
     const setCurrentAgentInfo = async () => {
         
-        // 1. Agent's Price Markup Percentage
+        // 1. Agent's Profit Type
+        let pt_res = await fetchAgentInfoByAgentIdAndPropName(
+            userDetails?._id, 
+            __PROFIT_TYPE_PROP_KEY
+        );
+        if(pt_res?._id){
+            setProfitType(pt_res?.value);
+        }
+
+        // 2. Agent's Price Markup Percentage
         let pmp_res = await fetchAgentInfoByAgentIdAndPropName(
             agentPriceMarkup?.user_id, 
             agentPriceMarkup?.property
@@ -523,7 +587,20 @@ let MarketingContainer = (props)=>{
             });
         }
 
-        // 2. Agents Set Data Provder
+        // 3. Agent's Flat Rate Profit
+        let flp_res = await fetchAgentInfoByAgentIdAndPropName(
+            agentFlatRate?.user_id, 
+            agentFlatRate?.property
+        );
+        if(flp_res?._id){
+            setAgentFlatRate({
+                ...agentFlatRate,
+                value: flp_res?.value,
+            });
+        }
+
+        // 4. Agents Set Data Provder
+
     }
 
     const setFieldType = (settings_prop) => {
@@ -843,21 +920,43 @@ let MarketingContainer = (props)=>{
                                 <div style={{marginBottom: 10}}>
                                     <div style={{display: "flex", justifyContent: "space-between"}}>
                                         {
-                                            isLoggedUserAgent ? <div style={{width: "calc(50% - 4px)"}}>
-                                                <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
-                                                    <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                                                        <i className="fa fa-percent" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                                        Price Markup (%)
-                                                        <span style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
-                                                            Charge Flat Rate</span>
-                                                    </p>
-                                                    <div style={{border: "none"}}>
-                                                        <input onInput={agentPriceMarkupOnchange}
-                                                            value={agentPriceMarkup?.value}
-                                                            type="number" placeholder="type here..."
-                                                            style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                            isLoggedUserAgent ? 
+                                            <div style={{width: "calc(50% - 4px)"}}>
+                                                {
+                                                    profitType===__PROFIT_TYPES?.flat_rate &&
+                                                    <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                            <i className="fa fa-file-invoice-dollar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                            Enter Flat Rate Charge ($)
+                                                            <span onClick={()=>setProfitType(__PROFIT_TYPES?.percentage)} style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
+                                                                Change To Percentage (%)</span></p>
+                                                        <div style={{border: "none"}}>
+                                                            <input onInput={agentFlatRateOnchange}
+                                                                    value={agentFlatRate?.value}
+                                                                type="number" placeholder="type here..."
+                                                                style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                }
+                                                {
+                                                    profitType===__PROFIT_TYPES?.percentage &&
+                                                    <div>
+                                                        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
+                                                            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                                <i className="fa fa-percent" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                                Price Markup (%)
+                                                                <span onClick={()=>setProfitType(__PROFIT_TYPES?.flat_rate)} style={{marginLeft: 20, textDecoration: "underline", color: "orange", cursor: "pointer"}}>
+                                                                    Charge Flat Rate</span>
+                                                            </p>
+                                                            <div style={{border: "none"}}>
+                                                                <input onInput={agentPriceMarkupOnchange}
+                                                                    value={agentPriceMarkup?.value}
+                                                                    type="number" placeholder="type here..."
+                                                                    style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
                                                 <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", border: "1px solid rgba(255,255,255,0.1)", padding: 10, borderRadius: 8}}>
                                                     <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                                                         <i className="fa fa-share-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>

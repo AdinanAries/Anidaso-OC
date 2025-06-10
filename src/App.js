@@ -7,6 +7,7 @@ import FullPageLoader from './components/FullPageLoader';
 import CreatePasswordPage from "./pages/CreatePasswordPage";
 import { verifyUserToken } from './services/sessionServices';
 import { fetchAccountInfo } from './services/accountServices';
+import { fetchNewsLetterStateByAgentAndTemplateName } from './services/newsLetterServices';
 import { useEffect, useState } from 'react';
 import { dashboardInits } from './helpers/inits';
 import NewsLetterPreviewerClassicLetter from './components/NewsLetterPreviewerClassicLetter';
@@ -411,6 +412,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userDetails, setUserDetails] = useState({});
   const [ currentDesign, setCurrentDesign ] = useState({
+    db_obj: {},
     string_snap_shot: "",
     changes_history: [],
     redo_changes_stack: [],
@@ -491,13 +493,18 @@ function App() {
             usr.resources_can_access_actions_constants = usr?.resources_can_access_actions_info?.map(each=>each?.constant);
           }
           setUserDetails(usr);
-          let nl_init_template = NewsLetterPreviewerClassicLetter({
-            userDetails: usr,
-            isEditMode: true,
-            currentElemToolsState,
-          });
+          const __ns_res=await fetchNewsLetterStateByAgentAndTemplateName(usr?._id, "classicletter");
+          let nl_init_template=__ns_res?.saved_state;
+          if(!nl_init_template){
+            nl_init_template = NewsLetterPreviewerClassicLetter({
+              userDetails: usr,
+              isEditMode: true,
+              currentElemToolsState,
+            });
+          }
           setCurrentDesign({
             ...currentDesign,
+            db_obj: __ns_res,
             string_snap_shot: nl_init_template,
             changes_history: [nl_init_template],
           });
