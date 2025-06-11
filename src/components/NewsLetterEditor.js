@@ -47,6 +47,8 @@ const NewsLetterEditor = (props) => {
         bindNewsLetterElemEvents,
         applyNewsLetterChanges,
         showCampaignPage,
+        newsLetterSendObj, 
+        setNewsLetterSendObj,
     } = props;
 
     const [ newsLetterPostData, setNewsLetterPostData ] = useState({

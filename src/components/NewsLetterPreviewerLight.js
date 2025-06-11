@@ -58,7 +58,7 @@ const NewsLetterPreviewerLight = (props) => {
             <tr>
                 <td>
                     <div class="nl-focusable-container-elem" tabindex="-1"
-                        style="background-image: url('${currentElemToolsState?.background_image}'); background-size: cover; background-repeat: no-repeat; height: 400px;">
+                        style="background-image: url('${currentElemToolsState?.background_image}'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 400px;">
                         <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </div>

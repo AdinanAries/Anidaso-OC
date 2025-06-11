@@ -4,12 +4,16 @@ import { sendNewsLetterEmail } from "../services/newsLetterServices";
 const SendEmail = (props) => {
 
     const {
+        userDetails,
         setIsAddNewCustomer,
         mailingList,
         setMailingList,
+        newsLetterSendObj,
+        setNewsLetterSendObj,
     } = props;
 
     const [ emailInput, setEmailInput ] = useState("");
+    const [ isSendingEmail, setIsSendingEmail ] = useState(false);
 
     const addEmailToMailingList = () => {
         if(emailInput) {
@@ -29,22 +33,53 @@ const SendEmail = (props) => {
         setEmailInput(e.target.value);
     }
 
+    const emailTitleOninput = (e) => {
+        let __title = e.target.innerText;
+        setNewsLetterSendObj({
+            ...newsLetterSendObj,
+            title: __title,
+        })
+    }
+
     const sendEmailOnclick = async () => {
+        setIsSendingEmail(true);
+        let __title = newsLetterSendObj?.title;
+        let __toEmails = mailingList[0]?.email; // Changes Later.
+        if(__title?.trim()==="(No Subject)" || __title?.trim()===""){
+            alert("Please add email title");
+            setIsSendingEmail(false);
+            return;
+        }
+        if(mailingList?.length < 1){
+            if(emailInput){
+                addEmailToMailingList();
+                __toEmails=emailInput;
+            }else{
+                alert("Please add email addresses");
+                setIsSendingEmail(false);
+                return;
+            }
+        }
         const send_obj = {
-            to: mailingList[0].email, // should change soon, just testing now.
-            from: "adinanaries@outlook.com",
-            subject: document.getElementById("nl-send-email-title-input").innerText,
+            oc_user_id: userDetails?._id,
+            to: __toEmails,
+            from: newsLetterSendObj?.from,
+            subject: __title,
             text: "test news letter",
             html: document.getElementById("news_letter_current_editable_page").innerHTML,
         }
         let res = await sendNewsLetterEmail(send_obj);
+        setIsSendingEmail(false);
+        if(!res?.isError){
+            alert("Email Sent!!!")
+        }
         console.log(res);
     }
 
     return <div>
         <div style={{padding: 10, backgroundColor: "white", marginBottom: 10}}>
-            <h3 id="nl-send-email-title-input" contentEditable={true} style={{padding: 10}}>
-                (No Subject)
+            <h3 onBlur={emailTitleOninput} id="nl-send-email-title-input" contentEditable={true} style={{padding: 10}}>
+                {newsLetterSendObj?.title}
             </h3>
             <div style={{marginTop: 5, marginBottom: 10, display: "flex"}}>
                 <p style={{fontSize: 13, marginRight: 5, color: "rgba(0,0,0,0.6)"}}>
@@ -127,9 +162,17 @@ const SendEmail = (props) => {
                 </div>
             </div>
         </div>
-        <div onClick={sendEmailOnclick} style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
-            <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
-            Send Email
+        <div style={{position: "relative"}}>
+            {
+                isSendingEmail && <div style={{borderRadius: 50, fontSize: 14, position: "absolute", zIndex: 1, backgroundColor: "rgba(0,0,0,0.8)", color: "white", width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <i style={{marginRight: 10, fontSize: 14, color: "orange"}} className="fa fa-spinner"></i>
+                    Sending... Please Wait...
+                </div>
+            }
+            <div onClick={sendEmailOnclick} style={{cursor: "pointer", backgroundColor: "yellow", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                <i style={{marginRight: 10, fontSize: 14}} className="fa fa-check-square-o"></i>
+                Send Email
+            </div>
         </div>
     </div>
 }

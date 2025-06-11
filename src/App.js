@@ -28,7 +28,7 @@ function App() {
     font: fonts[0],
     containerBackground: "",
     currentElem: null,
-    background_image: HERO_BG,
+    background_image: "https://welldugo-oc-53db16692066.herokuapp.com/static/media/news-letter-bg1.f922fef0.jpg",
     boxModel: {
       disply: "block",
       justifyContent: "flex-start",

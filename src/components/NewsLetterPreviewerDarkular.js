@@ -58,7 +58,7 @@ const NewsLetterPreviewerDarkular = (props) => {
             <tr>
                 <td>
                     <div class="nl-focusable-container-elem" tabindex="-1"
-                        style="background-image: url('${currentElemToolsState?.background_image}'); background-size: cover; background-repeat: no-repeat; height: 400px;">
+                        style="background-image: url('${currentElemToolsState?.background_image}'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 400px;">
                         <div class="nl-focusable-container-elem" tabindex="-1" style="display: flex; justify-content: center; align-items: center; padding: 20px;">
                             <p class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode} style="margin: 0 15px; color: white;">
                                 Text Examp</p>

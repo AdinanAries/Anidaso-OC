@@ -212,6 +212,10 @@ let MarketingContainer = (props)=>{
             value: "Basic Tier"
         },
     ]);
+    const [ newsLetterSendObj, setNewsLetterSendObj ] = useState({
+        title: "(No Subject)",
+        from: "adinanaries@outlook.com",
+    });
     const search_link_client_app_url = "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com";
     const [ previewLink, setPreviewLink ] = useState(
         (search_link_client_app_url+(isLoggedUserAgent ? `/?ag=${userDetails?._id}&product=0` : ""))
@@ -811,6 +815,8 @@ let MarketingContainer = (props)=>{
                                             bindNewsLetterElemEvents={bindNewsLetterElemEvents}
                                             applyNewsLetterChanges={applyNewsLetterChanges}
                                             showCampaignPage={showCampaignPage}
+                                            newsLetterSendObj={newsLetterSendObj}
+                                            setNewsLetterSendObj={setNewsLetterSendObj}
                                         />
                                     </div>
                                 </div>
@@ -1153,9 +1159,12 @@ let MarketingContainer = (props)=>{
                                                     />
                                                 </> :
                                                 <SendEmail
+                                                    userDetails={userDetails}
                                                     mailingList={mailingList}
                                                     setMailingList={setMailingList}
                                                     setIsAddNewCustomer={setIsAddNewCustomer}
+                                                    newsLetterSendObj={newsLetterSendObj}
+                                                    setNewsLetterSendObj={setNewsLetterSendObj}
                                                 />
                                             }
                                         </div>
@@ -1190,6 +1199,8 @@ let MarketingContainer = (props)=>{
                                             bindNewsLetterElemEvents={bindNewsLetterElemEvents}
                                             applyNewsLetterChanges={applyNewsLetterChanges}
                                             showCampaignPage={showCampaignPage}
+                                            newsLetterSendObj={newsLetterSendObj} 
+                                            setNewsLetterSendObj={setNewsLetterSendObj}
                                         />
                                     </div>
                                 </div>

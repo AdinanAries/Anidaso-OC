@@ -23,7 +23,7 @@ const NewsLetterPreviewerSlickBg = (props) => {
             <tr>
                 <td>
                     <div class="nl-focusable-container-elem" tabindex="-1"
-                        style="background-image: url('${currentElemToolsState?.background_image}'); background-size: cover; background-repeat: no-repeat;">
+                        style="background-image: url('${currentElemToolsState?.background_image}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                         <div class="nl-focusable-container-elem" tabindex="-1" 
                             style="padding: 25px 20px;">
                             <div style="display: flex; align-items: center; justify-content: center;">
