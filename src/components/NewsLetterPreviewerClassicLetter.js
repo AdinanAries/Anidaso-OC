@@ -34,8 +34,12 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                             <i class="fa-solid fa-trash-can"></i>
                         </div>
                         <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque
-                            voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque    
+                            Are you dreaming of your next getaway, family visit, or business trip? I’m here to help make your travel plans smooth, stress-free, and affordable.
+                            <br/><br/>
+                            As your trusted independent travel agent, I offer personalized service with competitive pricing on flights to destinations worldwide. Whether it’s a quick weekend escape or a long-awaited international adventure, I’ve got you covered.
+                            <br/><br/>
+                            <span style="font-weight: bolder;">
+                                Book your flights now using this link:</span>
                         </p>
                     </div>
                     <div class="nl-focusable-container-elem" tabindex="-1" style="margin: 10px;">
@@ -44,7 +48,7 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                             <a style="text-decoration: none;" class="nl-button-hyper-tag" onclick="return false;" target="_blank" href="">
                                 <p tabindex="-1" contenteditable=${isEditMode}
                                     style="padding: 20px; color: white; background-color: black; border-radius: 50px; width: 300px; text-align: center;">
-                                    Visit Our Website</p>
+                                    Book Now</p>
                             </a> 
                             <div class="nl-button-settings-container">
                                 <p contenteditable="false" style="font-size: 13px; color: black; text-align: left;">
@@ -67,8 +71,15 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                             <i class="fa-solid fa-trash-can"></i>
                         </div>
                         <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque
-                            voluptatem accusantium doloremque laudantium t voluptatem accusantium doloremque    
+                            Why book with me?
+                            <br/><br/>
+                            ✅ Personalized support before and after your trip<br/>
+                            ✅ Access to exclusive deals and flexible flight options<br/>
+                            ✅ One-on-one service – no call centers or hold music<br/>
+                            <br/><br/>
+                            Need help choosing the best route or fare? Just reply to this email – I’m happy to assist!
+                            <br/><br/>
+                            Let’s get you on your way.
                         </p>
                     </div>
                     <div class="nl-focusable-container-elem" tabindex="-1" style="padding: 10px;">
@@ -76,7 +87,7 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                             <i class="fa-solid fa-trash-can"></i>
                         </div>
                         <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
-                            Thank You!    
+                            Warm regards,  
                         </p>
                         <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
                             Mohammed Adinan
@@ -131,6 +142,20 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div style="padding: 10px;">
+                        <h3 class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="text-align: center; color: crimson; font-weight: bolder; margin-bottom: 10px;">
+                            Disclaimer
+                        </h3>
+                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="text-align: center; color: red;">
+                            As an independent travel agent, I act solely as an intermediary between clients and travel service providers, including airlines, hotels, cruise lines, and tour operators. I do not own or operate any of these services and cannot guarantee the performance or quality of services provided by third parties.
+                            All travel arrangements are subject to the terms and conditions of the relevant travel suppliers. I am not responsible for changes, cancellations, delays, or other unforeseen events beyond my control. Clients are advised to carefully review all supplier policies, including those related to cancellation, refund, and travel insurance.
+                            It is the responsibility of the traveler to ensure they have valid travel documents, including passports, visas, and any required health certifications. I strongly recommend the purchase of comprehensive travel insurance to cover potential risks and disruptions.
+                            By booking through me, clients acknowledge and accept these terms
+                        </p>
+                    </div>
+                </td>
         </tbody>
     </table>`;
 }
