@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { sendNewsLetterEmail } from "../services/newsLetterServices";
+import DragAndDropFileInput from "./DragAndDropFileInput";
+let ATTACHMENTS=[];
 
 const SendEmail = (props) => {
 
@@ -67,6 +69,7 @@ const SendEmail = (props) => {
             subject: __title,
             text: "test news letter",
             html: document.getElementById("news_letter_current_editable_page").innerHTML,
+            attachments: ATTACHMENTS,
         }
         let res = await sendNewsLetterEmail(send_obj);
         setIsSendingEmail(false);
@@ -74,6 +77,19 @@ const SendEmail = (props) => {
             alert("Email Sent!!!")
         }
         console.log(res);
+    }
+
+    const setFiles = (files) => {
+        ATTACHMENTS = [];
+        for(let each of files){
+            ATTACHMENTS.push({
+                content: each.content,
+                filename: each.name, // File name
+                type: each.type, // MIME type
+                disposition: 'attachment', // Attachment disposition
+            });
+        }
+        console.log(ATTACHMENTS);
     }
 
     return <div>
@@ -110,6 +126,9 @@ const SendEmail = (props) => {
                 </div>
             </div>
             <div>
+                <DragAndDropFileInput onFilesSelected={setFiles} />
+            </div>
+            {/*<div>
                 <p style={{border: "3px dashed rgba(0,0,0,0.1)", fontSize: 12, marginBottom: 10, borderRadius: 9, color: "rgba(0,0,0,0.5)",
                         padding: 20, background: "rgba(0,0,0,0.1)", display: "flex", justifyContent: "center", alignItems: "center"}}>
                     <i style={{marginRight: 10}} className='fa-solid fa-paperclip'></i>
@@ -131,7 +150,7 @@ const SendEmail = (props) => {
                         </span>
                     </span>
                 </p>
-            </div>
+            </div>*/}
         </div>
         <div style={{padding: 20, borderRadius: 8, backgroundColor: "rgba(0,255,0,0.1)", marginBottom: 10}}>
             <p style={{color: "white", fontSize: 13, display: "flex"}}>
