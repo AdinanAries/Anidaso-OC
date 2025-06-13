@@ -1,4 +1,4 @@
-import LOGO_PLACEHOLDER from "../LOGO_PLACEHOLDER.jpg";
+const LOGO_PLACEHOLDER = "https://welldugo-oc-53db16692066.herokuapp.com/static/media/LOGO_PLACEHOLDER.6fc45b94.jpg";
 
 const NewsLetterPreviewerClassicLetter = (props) => {
 
@@ -26,14 +26,14 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                         <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </div>
-                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
+                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 14px;">
                             Dear Customer,</p>
                     </div>
                     <div class="nl-focusable-container-elem" tabindex="-1" style="padding: 10px;">
                         <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </div>
-                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
+                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 14px;">
                             Are you dreaming of your next getaway, family visit, or business trip? I’m here to help make your travel plans smooth, stress-free, and affordable.
                             <br/><br/>
                             As your trusted independent travel agent, I offer personalized service with competitive pricing on flights to destinations worldwide. Whether it’s a quick weekend escape or a long-awaited international adventure, I’ve got you covered.
@@ -51,7 +51,7 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                                     Book Now</p>
                             </a> 
                             <div class="nl-button-settings-container">
-                                <p contenteditable="false" style="font-size: 13px; color: black; text-align: left;">
+                                <p contenteditable="false" style="font-size: 14px; color: black; text-align: left;">
                                     <i style="margin-right: 5px;" class="fa-solid fa-globe"></i>
                                     Edit Button Link:</p>
                                 <div>
@@ -70,7 +70,7 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                         <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </div>
-                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
+                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 14px;">
                             Why book with me?
                             <br/><br/>
                             ✅ Personalized support before and after your trip<br/>
@@ -86,37 +86,25 @@ const NewsLetterPreviewerClassicLetter = (props) => {
                         <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </div>
-                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
+                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 14px;">
                             Warm regards,  
-                        </p>
-                        <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px;">
-                            Mohammed Adinan
+                            <br/>
+                            ${(userDetails?.first_name || "First Name")} ${(userDetails?.last_name || "Last Name")}
                         </p>
                     </div>
                     <div style="display: flex;">
                         <div class="nl-focusable-container-elem" tabindex="-1" style="padding: 10px;">
                             <p>
-                                <span style="font-size: 13px;" tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                    <i style="margin-right: 10px;" class="fa-solid fa-envelope"></i>
+                                <span style=" font-size: 14px;" class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
+                                    ${(userDetails?.email || "youremail@server.com")}
                                 </span>
-                                <span style=" font-size: 13px;" class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                    youremail@server.com
+                                <br/>
+                                <span style="font-size: 14px;" class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
+                                    ${(userDetails?.phone || "+1 123 456 7890")}
                                 </span>
-                            </p>
-                            <p>
-                                <span style="font-size: 13px;" tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                    <i style="margin-right: 10px;" class="fa-solid fa-phone"></i>
-                                </span>
-                                <span style="font-size: 13px;" class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                    +1 234 322 3433
-                                </span>
-                            </p>
-                            <p>
-                                <span style=" font-size: 13px;" tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                    <i style="margin-right: 10px;" class="fa-solid fa-globe"></i>
-                                </span>
-                                <span style=" font-size: 13px;" class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                    https://yourwebsite.com
+                                <br/>
+                                <span style=" font-size: 14px;" class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
+                                    ${(userDetails?.website_url || "https://yourwebsiteurl.com")}
                                 </span>
                             </p>
                             <div class="nl-focusable-container-elem" tabindex="-1">

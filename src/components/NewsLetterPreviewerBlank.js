@@ -1,4 +1,4 @@
-import LOGO_PLACEHOLDER from "../LOGO_PLACEHOLDER.jpg";
+const LOGO_PLACEHOLDER = "https://welldugo-oc-53db16692066.herokuapp.com/static/media/LOGO_PLACEHOLDER.6fc45b94.jpg";
 
 const NewsLetterPreviewerBlank = (props) => {
 
@@ -23,7 +23,7 @@ const NewsLetterPreviewerBlank = (props) => {
             <tr>
                 <td>
                     <div class="nl-focusable-container-elem" tabindex="-1" 
-                        style="display: flex; align-items: center; justify-content: center; padding: 25px 20px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                        style="display: flex; align-items: center; justify-content: center; padding: 10px 20px; border-bottom: 1px solid rgba(0,0,0,0.1);">
                         <div class="nl-focusable-container-elem" tabindex="-1">
                             <img style="height: 40px; margin-right: 10px;" src=${LOGO_PLACEHOLDER} />
                             <div  style="top: -5px; right: -5px;" onclick="removeElement(event)" class="nl-page-elem-delete-button">
@@ -54,12 +54,17 @@ const NewsLetterPreviewerBlank = (props) => {
                             <div onclick="removeElement(event)" class="nl-page-elem-delete-button">
                                 <i class="fa-solid fa-trash-can"></i>
                             </div>
-                            <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 13px; text-align: center;">
+                            <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 16px; text-align: center;">
                                 Are you dreaming of your next getaway, family visit, or business trip? I’m here to help make your travel plans smooth, stress-free, and affordable.
-                                <br/><br/>
+                                <br/>
+                                <br/>
+                            </p>
+                            <p class="nl-highlightable-text nl-focusable-text" tabindex="-1" contenteditable=${isEditMode} style="font-size: 14px; text-align: center;">
                                 As your trusted independent travel agent, I offer personalized service with competitive pricing on flights to destinations worldwide. Whether it’s a quick weekend escape or a long-awaited international adventure, I’ve got you covered.
                                 <br/><br/>
-                                Book your flights now using this link:
+                                <span style="font-weight: bolder;">
+                                    Book your flights now using this link:
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -76,14 +81,16 @@ const NewsLetterPreviewerBlank = (props) => {
                                     Book Now</p>
                             </a> 
                             <div class="nl-button-settings-container">
-                                <p content-editable="false" style="font-size: 13px; color: black; text-align: left;">
+                                <p content-editable="false" style="font-size: 14px; color: black; text-align: left;">
                                     <i style="margin-right: 5px;" class="fa-solid fa-globe"></i>
                                     Edit Button Link:</p>
                                 <div>
                                     <p class="nl-button-url-input-elem"
                                         style="margin-top: 5px; border: none; background-color: rgba(0,0,0,0.07); min-width: 300px; padding: 10px; border-radius: 50px;"
                                         contenteditable="true"
-                                    ></p>
+                                    >
+                                    ${(userDetails?.website_url || "")}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -110,29 +117,18 @@ const NewsLetterPreviewerBlank = (props) => {
             </tr>
             <tr>
                 <td>
-                    <div tabindex="-1" class="nl-focusable-container-elem" style="padding: 30px 10px; border-top: 1px solid rgba(0,0,0,0.1);">
-                        <p style="text-align: center; font-size: 13px;">
-                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style="marginRight: 10px;" class="fa-solid fa-envelope"></i>
-                            </span>
+                    <div tabindex="-1" class="nl-focusable-container-elem" style="padding: 10px; border-top: 1px solid rgba(0,0,0,0.1);">
+                        <p style="text-align: center; font-size: 14px;">
                             <span class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                youremail@server.com
+                                ${(userDetails?.email || "youremail@server.com")}
                             </span>
-                        </p>
-                        <p style="text-align: center; margin-top: 5px; font-size: 13px;">
-                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style="margin-right: 10px;" class="fa-solid fa-phone"></i>
-                            </span>
+                            <br/>
                             <span class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                +1 234 322 3433
+                                ${(userDetails?.phone || "+1 123 456 7890")}
                             </span>
-                        </p>
-                        <p style="text-align: center; margin-top: 5px; font-size: 13px;">
-                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style="margin-right: 10px;" class="fa-solid fa-globe"></i>
-                            </span>
+                            <br/>
                             <span class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                https://yourwebsite.com
+                                ${(userDetails?.website_url || "https://yourwebsiteurl.com")}
                             </span>
                         </p>
                         <div onclick="removeElement(event)" class="nl-page-elem-delete-button">

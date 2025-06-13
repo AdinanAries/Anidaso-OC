@@ -1,4 +1,4 @@
-import LOGO_PLACEHOLDER from "../LOGO_PLACEHOLDER.jpg";
+const LOGO_PLACEHOLDER = "https://welldugo-oc-53db16692066.herokuapp.com/static/media/LOGO_PLACEHOLDER.6fc45b94.jpg";
 
 const NewsLetterPreviewer = (props) => {
 

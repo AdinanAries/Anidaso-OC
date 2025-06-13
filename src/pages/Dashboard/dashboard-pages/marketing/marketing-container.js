@@ -134,13 +134,14 @@ let MarketingContainer = (props)=>{
 
         /* Others here */
     ];
+
     const _PAGES = {
         campaign: 0,
         search_link: 1,
         booking_params: 2,
         send_link: 3
     }
-
+    const AGENT_WEBSITE_URL = (userDetails?.website_url || "N/A");
     const PAGI_LIMIT = 10;
     const __PROFIT_TYPE_PROP_KEY="profit_type";
     const __PROFIT_TYPES = {
@@ -190,7 +191,7 @@ let MarketingContainer = (props)=>{
             icon: "globe",
             name: "Website Url",
             value: ( isLoggedUserAgent ?
-                "https://yourwebsiteurl.com" : //"https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" :
+                AGENT_WEBSITE_URL : //"https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" :
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
             ),
         },

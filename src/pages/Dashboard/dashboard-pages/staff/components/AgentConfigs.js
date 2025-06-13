@@ -20,6 +20,7 @@ const AgentConfigs = (props) => {
         percentage: "price_markup",
         flat_rate: "flat_rate",
     };
+    const AGENT_WEBSITE_URL = (userDetails?.website_url || "N/A");
     const [ profitType, setProfitType ] = useState(__PROFIT_TYPES?.percentage);
     const [ agentPriceMarkup, setAgentPriceMarkup ] = useState({
         user_id: userDetails?._id,
@@ -38,7 +39,7 @@ const AgentConfigs = (props) => {
             icon: "globe",
             name: "Website Url",
             value: ( isLoggedUserAgent ?
-                "https://yourwebsiteurl.com" ://"http://localhost:3001" : 
+                AGENT_WEBSITE_URL ://"http://localhost:3001" : 
                 "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
             ),
         },

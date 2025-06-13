@@ -1,4 +1,4 @@
-import LOGO_PLACEHOLDER from "../LOGO_PLACEHOLDER.jpg";
+const LOGO_PLACEHOLDER = "https://welldugo-oc-53db16692066.herokuapp.com/static/media/LOGO_PLACEHOLDER.6fc45b94.jpg";
 
 const NewsLetterPreviewerDarkular = (props) => {
 
@@ -151,27 +151,16 @@ const NewsLetterPreviewerDarkular = (props) => {
                 <td>
                     <div tabindex="-1" class="nl-focusable-container-elem" style="padding: 30px 10px; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
                         <p style="text-align: center; color: rgb(134, 197, 255);">
-                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style="marginRight: 10px;" class="fa-solid fa-envelope"></i>
-                            </span>
                             <span class="nl-highlightable-text" taiIndex="-1" contenteditable=${isEditMode}>
-                                youremail@server.com
+                                ${(userDetails?.email || "youremail@server.com")}
                             </span>
-                        </p>
-                        <p style="text-align: center; margin-top: 5px; color: rgb(134, 197, 255);">
-                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style="marginRight: 10px" className="fa-solid fa-phone"></i>
-                            </span>
+                            <br/>
                             <span class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                +1 234 322 3433
+                                ${(userDetails?.phone || "+1 123 456 7890")}
                             </span>
-                        </p>
-                        <p style="text-align: center; margin-top: 5px; color: rgb(134, 197, 255);">
-                            <span tabindex="-1" class="nl-focusable-container-elem nl-focusable-icon-container-elem">
-                                <i style="margin-right: 10px;" class="fa-solid fa-globe"></i>
-                            </span>
+                            <br/>
                             <span class="nl-highlightable-text" tabindex="-1" contenteditable=${isEditMode}>
-                                https://yourwebsite.com
+                                ${(userDetails?.website_url || "https://yourwebsiteurl.com")}
                             </span>
                         </p>
                         <div onclick="removeElement(event);" class="nl-page-elem-delete-button">
