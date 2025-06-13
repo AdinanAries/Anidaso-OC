@@ -18,7 +18,7 @@ const NewsLetterPreviewerDarkular = (props) => {
         business_instagram_link,
     } = userDetails.company_info;
 
-    return `<table ondragend='handleDragEnd(event)' ondragleave='handleDragLeave(event)' ondrop="handleDrop(event)" ondragover="handleDragOver(event)" style="width: 100%; border-spacing: 0; background-color: rgb(0, 41, 59);">
+    return `<table ondragend='handleDragEnd(event)' ondragleave='handleDragLeave(event)' ondrop="handleDrop(event)" ondragover="handleDragOver(event)" style="width: 100%; max-width: 650px; border-spacing: 0; background-color: rgb(0, 41, 59);">
         <tbody>
             <tr>
                 <td>
