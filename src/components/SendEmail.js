@@ -31,6 +31,11 @@ const SendEmail = (props) => {
         }
     }
 
+    const removeEmailFromMailingList = (_email) => {
+        let _list = mailingList?.filter(each=>each?.email !== _email);
+        setMailingList(_list);
+    }
+
     const emailOnInput = (e) => {
         setEmailInput(e.target.value);
     }
@@ -46,7 +51,7 @@ const SendEmail = (props) => {
     const sendEmailOnclick = async () => {
         setIsSendingEmail(true);
         let __title = newsLetterSendObj?.title;
-        let __toEmails = mailingList[0]?.email; // Changes Later.
+        let __toEmails = mailingList?.map(each=>each.email); // Changes Later.
         if(__title?.trim()==="(No Subject)" || __title?.trim()===""){
             alert("Please add email title");
             setIsSendingEmail(false);
@@ -74,7 +79,7 @@ const SendEmail = (props) => {
         let res = await sendNewsLetterEmail(send_obj);
         setIsSendingEmail(false);
         if(!res?.isError){
-            alert("Email Sent!!!")
+            alert("Email Sent!!!");
         }
         console.log(res);
     }
@@ -112,7 +117,7 @@ const SendEmail = (props) => {
                                         {">"}</span>
                                     <span style={{textAlign: "center", top: 10}} className='tool-tip'>
                                         {each?.first_name} {each?.last_name}
-                                        <i style={{color: "red", fontSize: 15, marginLeft: 10}}
+                                        <i onClick={()=>removeEmailFromMailingList(each?.email)} style={{color: "red", fontSize: 15, marginLeft: 10}}
                                             className='fa-solid fa-trash-can'></i>
                                     </span>
                                 </p>
