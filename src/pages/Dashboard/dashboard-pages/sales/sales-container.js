@@ -126,7 +126,7 @@ let SalesContainer = (props) => {
                                     </div>
                                     <div style={{marginTop: 20}}>
                                         <p style={{cursor: "pointer", textDecoration: "underline", color: "lightgreen", fontSize: 13}}>
-                                        <i className="fa-solid fa-tools" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>     
+                                            <i className="fa-solid fa-tools" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>     
                                             Configure Payout Settings</p>
                                         <div style={{marginTop: 10}}>
                                             <div style={{marginBottom: 5, borderTop: "1px solid rgba(255,255,255,0.1)", padding: 10}}>

@@ -25,6 +25,7 @@ const AgentWallet = (props) => {
 
     const PAGI_LIMIT = 10;
 
+    const [ showAddBalanceForm , setshowAddBalanceForm ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ transactions, setTransactions ] = useState([]);
     const [ transactionTypes, setTransactionTypes ] = useState([]);
@@ -115,7 +116,7 @@ const AgentWallet = (props) => {
 
     return <div style={{paddingTop: 30}} className="main-seaction-containers">
         {
-            (userDetails?.wallet_info) ?
+            (userDetails?.wallet_info && !showAddBalanceForm) ?
             <>
                 <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
                     <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
@@ -126,7 +127,7 @@ const AgentWallet = (props) => {
                     <div style={{marginLeft: 30}}>
                         <h1 style={{color: "skyblue"}}> 
                             ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
-                            <span style={{color: "lightgreen", fontWeight: "initial", fontSize: 14, cursor: "pointer", marginLeft: 20, textDecoration: "underline"}}>
+                            <span onClick={()=>setshowAddBalanceForm(true)} style={{color: "lightgreen", fontWeight: "initial", fontSize: 14, cursor: "pointer", marginLeft: 20, textDecoration: "underline"}}>
                             <i style={{marginRight: 5, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
                                 className="fa fa-plus"></i>
                                 Add Balance
@@ -355,18 +356,77 @@ const AgentWallet = (props) => {
             <div>
                 {
                     isAgent &&
-                    <div style={{padding: 20}}>
-                        <p style={{color: "red", fontSize: 13}}>
-                            <i style={{color: "yellow", marginRight: 10}}
-                                className="fa-solid fa-exclamation-triangle"></i>
-                            Wallet not setup for this Agent user.
-                        </p>
-                        <p style={{margin: 20, textDecoration: "underline", cursor: "pointer", color: "lightgreen"}}>
-                            <i style={{color: "rgba(255,255,255,0.5)", marginRight: 10}}
-                                className="fa-solid fa-plus"></i>
-                            Add Wallet
-                        </p>
-                    </div>
+                    <>
+                        {
+                            showAddBalanceForm ?
+                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                                <div style={{width: "calc(50% - 5px)"}}>
+                                    <div>
+                                        <p style={{fontSize: 13, color: "white"}}>
+                                            <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-wallet"></i>
+                                            Balnce Amount
+                                        </p>
+                                        <div>
+                                            <div style={{marginTop: 20}}>
+                                                <div style={{marginTop: 10}}>
+                                                    <div style={{marginBottom: 5, borderTop: "1px solid rgba(255,255,255,0.1)", padding: 10}}>
+                                                        <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                                                            <i className="fa-solid fa-file-signature" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                                                            Basic Tier: $1.00 = 10 actions</p>
+                                                        <div>
+                                                            <input value="0"
+                                                                type="number"
+                                                                style={{marginTop: 10, borderRadius: 8, fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 20, background: "rgba(0,0,0,0.2)", border: "none"}}
+
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style={{marginLeft: 30}}>
+                                                <p style={{marginBottom: 10, color: "rgba(255,255,255,0.6)", fontSize: 13}}>
+                                                    Total:</p>
+                                                <h1 style={{color: "skyblue"}}> 
+                                                    $00.00
+                                                </h1>
+                                                <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 5}}>
+                                                    <span style={{color: "orange"}}>
+                                                        {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))}</span> actions will be added
+                                                </p>
+                                            </div>
+                                            <p onClick={()=>setshowAddBalanceForm(false)} style={{cursor: "pointer", textDecoration: "underline", color: "lightgreen", fontSize: 13, margin: 20}}>
+                                                <i className="fa-solid fa-arrow-left" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>     
+                                                Back</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{width: "calc(50% - 5px)"}}>
+                                    <div>
+                                        <p style={{fontSize: 13, color: "white"}}>
+                                            <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-credit-card"></i>
+                                            Payment Method
+                                        </p>
+                                        
+                                    </div>
+                                    <div style={{color: "white", cursor: "pointer", fontSize: 13, padding: 15, backgroundColor: "darkslateblue", textAlign: "center", borderRadius: 50, marginTop: 20}}>
+                                        Submit
+                                    </div>
+                                </div>
+                            </div> :
+                            <div style={{padding: 20}}>
+                                <p style={{color: "red", fontSize: 13}}>
+                                    <i style={{color: "yellow", marginRight: 10}}
+                                        className="fa-solid fa-exclamation-triangle"></i>
+                                    Wallet not setup for this Agent user.
+                                </p>
+                                <p onClick={()=>setshowAddBalanceForm(true)} style={{margin: 20, textDecoration: "underline", cursor: "pointer", color: "lightgreen"}}>
+                                    <i style={{color: "rgba(255,255,255,0.5)", marginRight: 10}}
+                                        className="fa-solid fa-plus"></i>
+                                    Add Wallet
+                                </p>
+                            </div>
+                        }
+                    </>
                 }
             </div>
         }
