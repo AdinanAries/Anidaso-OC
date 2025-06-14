@@ -10,6 +10,17 @@ function NewDealPackageForm(props){
                 <p className="title-font-color-default" style={{padding: "0 20px", fontSize: 14, marginBottom: 10}}>
                     <i className="fa fa-folder" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                     Please complete the form below to add new deal or package</p>
+                <div style={{display: "flex"}}>
+                    <div style={{fontSize: 13, cursor: "pointer", textDecoration: "underline", color: "orange", padding: 10,}}>
+                        General
+                    </div>
+                    <div style={{fontSize: 13, cursor: "pointer", color: "rgba(255,255,255,0.5)", padding: 10,}}>
+                        Stays
+                    </div>
+                    <div style={{fontSize: 13, color: "rgba(255,255,255,0.5)", cursor: "pointer", padding: 10,}}>
+                        Bus Tour
+                    </div>
+                </div>
                 <div style={{padding: "10px"}}>
                     <div style={{marginBottom: 5,}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", 

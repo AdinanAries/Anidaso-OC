@@ -3,7 +3,7 @@ const OtherInfo = (props) => {
         <div>
             <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12}}>
                 <i className="fa fa-list" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Select Includable Items
+                Select Package Items
             </p>
             <div style={{marginTop: 10}}>
                 <div style={{display: "flex", justifyContent: "center"}}>
@@ -23,7 +23,7 @@ const OtherInfo = (props) => {
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                             position: "relative", width: 80, height: 80, borderRadius: 8, cursor: "pointer", marginRight: 5,
-                            background: "rgba(0,255,0,0.1)", overflow: "hidden"}}>
+                            background: "rgb(0, 29, 55)", overflow: "hidden"}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, top: 0, right: 0, background: "rgba(0,0,0,0.2)"}}>
                             <i style={{color: "red"}} className="fa fa-trash"></i>
                         </div>
@@ -33,6 +33,9 @@ const OtherInfo = (props) => {
                                     className="fa fa-hotel"></i></p>
                             <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, textAlign: "center"}}>
                                 Stays</p>
+                        </div>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, bottom: 0, right: 0}}>
+                            <input type="radio" name="packages-active-includable-item" />
                         </div>
                     </div>  
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",
@@ -89,6 +92,9 @@ const OtherInfo = (props) => {
                                     className="fa fa-bus"></i></p>
                             <p style={{color: "rgba(255,255,255,0.6)", fontSize: 13, textAlign: "center"}}>
                                 Bus Tour</p>
+                        </div>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", width: 20, height: 20, bottom: 0, right: 0}}>
+                            <input type="radio" name="packages-active-includable-item" />
                         </div>
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center",

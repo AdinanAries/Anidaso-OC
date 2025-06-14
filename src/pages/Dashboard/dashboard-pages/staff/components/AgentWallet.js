@@ -9,6 +9,12 @@ import {
     add_commas_to_number
 } from "../../../../../helpers/helper-functions";
 import CONSTANTS from "../../../../../constants/Constants";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from '../../../../../components/CheckoutForm';
+
+// Load your Stripe public key
+const stripePromise = loadStripe('pk_test_51OdjZ3An0YMgH2TtyCpkCBN4vDrMuQlwvmFSNKqBl9gJY996OXSpZ9QLz5dBGHLYLsa7QVvwY51I0DcLHErLxW7y00vjEWv9Lc');
 
 const AgentWallet = (props) => {
 
@@ -102,6 +108,10 @@ const AgentWallet = (props) => {
             ...pageFilters,
             title: filtersTitleFld
         });
+    }
+
+    const checkoutOnComplete = () => {
+        alert("Balance added!!!");
     }
 
     const all_pages = [];
@@ -364,7 +374,7 @@ const AgentWallet = (props) => {
                                     <div>
                                         <p style={{fontSize: 13, color: "white"}}>
                                             <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-wallet"></i>
-                                            Balnce Amount
+                                            Balance Amount
                                         </p>
                                         <div>
                                             <div style={{marginTop: 20}}>
@@ -406,11 +416,12 @@ const AgentWallet = (props) => {
                                             <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-credit-card"></i>
                                             Payment Method
                                         </p>
-                                        
                                     </div>
-                                    <div style={{color: "white", cursor: "pointer", fontSize: 13, padding: 15, backgroundColor: "darkslateblue", textAlign: "center", borderRadius: 50, marginTop: 20}}>
-                                        Submit
-                                    </div>
+                                    <Elements stripe={stripePromise}>
+                                        <CheckoutForm 
+                                            checkoutOnComplete={checkoutOnComplete}
+                                        />
+                                    </Elements>
                                 </div>
                             </div> :
                             <div style={{padding: 20}}>

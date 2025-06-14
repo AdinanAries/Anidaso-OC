@@ -3,6 +3,12 @@ import {
     fetchAgentInfoByAgentIdAndPropName,
     createNewAgentInfo,
 } from "../../../../../services/agentServices";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from '../../../../../components/CheckoutForm';
+
+// Load your Stripe public key
+const stripePromise = loadStripe('pk_test_51OdjZ3An0YMgH2TtyCpkCBN4vDrMuQlwvmFSNKqBl9gJY996OXSpZ9QLz5dBGHLYLsa7QVvwY51I0DcLHErLxW7y00vjEWv9Lc');
 
 const AgentServiceContract = (props) => {
 
@@ -57,7 +63,7 @@ const AgentServiceContract = (props) => {
         setcurrentServicePlan(_plan);
     }
 
-    const submitPayment = () => {
+    const checkoutOnComplete = () => {
         alert("Service Plan Activated Successfully!");
         setIsActive(true);
         setShowPaymentForm(false);
@@ -97,9 +103,11 @@ const AgentServiceContract = (props) => {
                                 $29.25
                             </p>
                         </div>
-                        <div onClick={submitPayment} style={{color: "white", cursor: "pointer", fontSize: 13, padding: 15, backgroundColor: "darkslateblue", textAlign: "center", borderRadius: 50, marginTop: 20}}>
-                            Submit
-                        </div>
+                        <Elements stripe={stripePromise}>
+                            <CheckoutForm 
+                                checkoutOnComplete={checkoutOnComplete}
+                            />
+                        </Elements>
                     </div>
                     <div style={{width: "calc(50% - 5px)"}}>
                         <p onClick={()=>setIsChangeSevicePlan(true)} style={{textDecoration: "underline", cursor: "pointer", marginBottom: 20, fontSize: 13, color: "lightgreen"}}>
