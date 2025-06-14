@@ -86,19 +86,19 @@ const AgentServiceContract = (props) => {
                                 <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-credit-card"></i>
                                 Payment Method
                             </p>
-                            <p style={{color: "rgba(255,255,255,0.7)", fontSize: 11, marginTop: 10}}>
+                            <p style={{color: "rgba(255,255,255,0.7)", fontSize: 13, marginTop: 10}}>
                                 <span style={{marginRight: 5}}>Period:</span>
                                 March 25, 2025 - April 25, 2025
                             </p>
-                            <p style={{color: "rgba(255,255,255,0.7)", fontSize: 11}}>
+                            <p style={{color: "rgba(255,255,255,0.7)", fontSize: 13}}>
                                 <span style={{marginRight: 5}}>Sub Total:</span>
                                 $25.12
                             </p>
-                            <p style={{color: "rgba(255,255,255,0.7)", fontSize: 11}}>
+                            <p style={{color: "rgba(255,255,255,0.7)", fontSize: 13}}>
                                 <span style={{marginRight: 5}}>Tax:</span>
                                 $4.13
                             </p>
-                            <p style={{color: "rgb(140, 255, 0)", fontSize: 14}}>
+                            <p style={{color: "rgb(140, 255, 0)", fontSize: 15, marginTop: 10}}>
                                 <span style={{marginRight: 5}}>Total:</span>
                                 $29.25
                             </p>

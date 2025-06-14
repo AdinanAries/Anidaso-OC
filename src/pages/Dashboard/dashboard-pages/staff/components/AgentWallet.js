@@ -32,6 +32,7 @@ const AgentWallet = (props) => {
     const PAGI_LIMIT = 10;
 
     const [ showAddBalanceForm , setshowAddBalanceForm ] = useState(false);
+    const [ newBalanceAmount, setNewBalanceAmount ] = useState(0);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ transactions, setTransactions ] = useState([]);
     const [ transactionTypes, setTransactionTypes ] = useState([]);
@@ -108,6 +109,10 @@ const AgentWallet = (props) => {
             ...pageFilters,
             title: filtersTitleFld
         });
+    }
+
+    const newBalanceAmountOnInput = (e) => {
+        setNewBalanceAmount(e.target.value);
     }
 
     const checkoutOnComplete = () => {
@@ -384,7 +389,8 @@ const AgentWallet = (props) => {
                                                             <i className="fa-solid fa-file-signature" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                                             Basic Tier: $1.00 = 10 actions</p>
                                                         <div>
-                                                            <input value="0"
+                                                            <input onInput={newBalanceAmountOnInput}
+                                                                value={newBalanceAmount}
                                                                 type="number"
                                                                 style={{marginTop: 10, borderRadius: 8, fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 20, background: "rgba(0,0,0,0.2)", border: "none"}}
 
@@ -396,13 +402,23 @@ const AgentWallet = (props) => {
                                             <div style={{marginLeft: 30}}>
                                                 <p style={{marginBottom: 10, color: "rgba(255,255,255,0.6)", fontSize: 13}}>
                                                     Total:</p>
-                                                <h1 style={{color: "skyblue"}}> 
-                                                    $00.00
-                                                </h1>
-                                                <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 5}}>
-                                                    <span style={{color: "orange"}}>
-                                                        {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))}</span> actions will be added
-                                                </p>
+                                                {
+                                                    newBalanceAmount ?
+                                                    <h1 style={{color: "skyblue"}}> 
+                                                        ${add_commas_to_number(parseFloat(newBalanceAmount)?.toFixed(2))}
+                                                    </h1> : 
+                                                    <p style={{color: "red", fontSize: 13, padding: 10}}>
+                                                        <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-exclamation-triangle"></i>
+                                                        Please enter ballance amount
+                                                    </p>
+                                                }
+                                                {
+                                                    newBalanceAmount ?
+                                                    <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 5}}>
+                                                        <span style={{color: "orange"}}>
+                                                            {add_commas_to_number(calculateActionPoints(newBalanceAmount))}</span> actions will be added
+                                                    </p> : <></>
+                                                }
                                             </div>
                                             <p onClick={()=>setshowAddBalanceForm(false)} style={{cursor: "pointer", textDecoration: "underline", color: "lightgreen", fontSize: 13, margin: 20}}>
                                                 <i className="fa-solid fa-arrow-left" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>     
@@ -417,11 +433,13 @@ const AgentWallet = (props) => {
                                             Payment Method
                                         </p>
                                     </div>
-                                    <Elements stripe={stripePromise}>
-                                        <CheckoutForm 
-                                            checkoutOnComplete={checkoutOnComplete}
-                                        />
-                                    </Elements>
+                                    <div style={{marginTop: 20}}>
+                                        <Elements stripe={stripePromise}>
+                                            <CheckoutForm 
+                                                checkoutOnComplete={checkoutOnComplete}
+                                            />
+                                        </Elements>
+                                    </div>
                                 </div>
                             </div> :
                             <div style={{padding: 20}}>

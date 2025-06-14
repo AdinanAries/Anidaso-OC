@@ -40,7 +40,7 @@ const CheckoutForm = (props) => {
             <CardElement />
             <button style={{color: "white", cursor: "pointer", fontSize: 13, padding: 15, backgroundColor: "darkslateblue", textAlign: "center", borderRadius: 50, marginTop: 20, border: "none", width: "100%"}}
                 type="submit" disabled={!stripe}>
-                Subscribe
+                Submit
             </button>
             </form>
         </div>
