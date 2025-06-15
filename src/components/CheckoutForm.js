@@ -1,11 +1,18 @@
-import React from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import { createSubscription } from '../services/paymentServices';
+import { useState } from 'react';
 
 const CheckoutForm = (props) => {
 
     const {
-        checkoutOnComplete
+        checkoutOnComplete,
+        userDetails,
+        price_amount,
+        PaymentFor,
     } = props;
+
+    const __PAYMENT_FOR_SUBSCRIPTION="subscription";
+    const [ isLoading, setIsLoading ] = useState(false);
 
     const stripe = useStripe();
     const elements = useElements();
@@ -15,6 +22,7 @@ const CheckoutForm = (props) => {
 
         if (!stripe || !elements) return;
 
+        setIsLoading(true);
         const cardElement = elements.getElement(CardElement);
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -26,8 +34,17 @@ const CheckoutForm = (props) => {
             console.error(error);
         } else {
             console.log('PaymentMethod:', paymentMethod);
-            // Send paymentMethod.id to your backend for subscription creation
+            if(PaymentFor===__PAYMENT_FOR_SUBSCRIPTION){
+                const __post_obj = {
+                    paymentMethodId: paymentMethod.id, 
+                    customerEmail: userDetails?.email,
+                    welldugo_product_constant_number: price_amount
+                };
+                const __res = await createSubscription(__post_obj);
+                console.log(__res);
+            }
             checkoutOnComplete();
+            setIsLoading(false)
         }
     };
 
@@ -37,11 +54,18 @@ const CheckoutForm = (props) => {
                 Please add your card below and submit payment!
             </p>
             <form onSubmit={handleSubmit}>
-            <CardElement />
-            <button style={{color: "white", cursor: "pointer", fontSize: 13, padding: 15, backgroundColor: "darkslateblue", textAlign: "center", borderRadius: 50, marginTop: 20, border: "none", width: "100%"}}
-                type="submit" disabled={!stripe}>
-                Submit
-            </button>
+                <CardElement />
+                {
+                    isLoading ?
+                    <div style={{color: "white", cursor: "pointer", fontSize: 13, padding: 15, backgroundColor: "green", textAlign: "center", marginTop: 20, border: "none", width: "100%"}}>
+                        <i style={{marginRight: 10, color: "lightgreen"}} className='fa-solid fa-spinner'></i>
+                        Processing... Please Wait...
+                    </div> :
+                    <button style={{color: "white", cursor: "pointer", fontSize: 13, padding: 15, backgroundColor: "darkslateblue", textAlign: "center", borderRadius: 50, marginTop: 20, border: "none", width: "100%"}}
+                        type="submit" disabled={!stripe}>
+                        Submit
+                    </button>
+                }
             </form>
         </div>
     );

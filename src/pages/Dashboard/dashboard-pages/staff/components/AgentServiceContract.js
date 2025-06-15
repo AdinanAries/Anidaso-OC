@@ -16,6 +16,7 @@ const AgentServiceContract = (props) => {
         userDetails,
     } = props;
 
+    const __PAYMENT_FOR_SUBSCRIPTION="subscription";
     const __SERVICE_PLAN_SETTINGS_PROP_NAME = "service_plan";
     const __SERVICE_PLAN_VALUE_CONSTANTS = {
         free_tier: 1,
@@ -39,7 +40,7 @@ const AgentServiceContract = (props) => {
                 }
             })();
         }
-    }, [])
+    }, []);
 
     const changeServicePlanOnClick = async (_plan) => {
         setIsChangeSevicePlan(false) // State to change a plan for existing expired plan
@@ -106,6 +107,9 @@ const AgentServiceContract = (props) => {
                         <Elements stripe={stripePromise}>
                             <CheckoutForm 
                                 checkoutOnComplete={checkoutOnComplete}
+                                userDetails={userDetails}
+                                price_amount={currentServicePlan}
+                                PaymentFor={__PAYMENT_FOR_SUBSCRIPTION}
                             />
                         </Elements>
                     </div>
