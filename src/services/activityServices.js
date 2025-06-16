@@ -71,7 +71,7 @@ export const logBookingError = async (payload, path="\\api\\activities\\failed-b
     }
 }
 
-export const fetchActivityLogByUserId = async (user_id, offset=1, limit=10, path=`\\api\\activities\\all\\`) => {
+export const fetchActivityLogByUserId = async (user_id, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\activities\\all\\`) => {
     try{
         return await fetch(API_URL+path+user_id+'\\'+offset+'\\'+limit, {
             method: "GET",
@@ -81,8 +81,14 @@ export const fetchActivityLogByUserId = async (user_id, offset=1, limit=10, path
                 'Authorization': `Bearer ${USER_TOKEN}`
             },
         })
-        .then(res => res.json())
-        .then(data => { 
+        .then(res => {
+            for (var pair of res.headers.entries()) {
+                if (pair[0] === 'pagination-total-items') {
+                    setTotalItemsState(pair[1]);
+                }
+            }
+            return res.json()
+        }).then(data => { 
             console.log(data);
             return data
         })

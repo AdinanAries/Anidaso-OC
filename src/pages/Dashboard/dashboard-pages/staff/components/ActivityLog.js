@@ -7,19 +7,34 @@ const ActivityLog = (props) => {
         userDetails,
     } = props;
 
+    const PAGI_LIMIT = 4;
+
     const [ activityLogs, setActivityLogs ] = useState([]);
+    const [ totalItems, setTotalItems ] = useState(0);
+    const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
 
     useEffect(()=>{
         if(userDetails?._id){
             loadComponentData();
         }
-    }, []);
+    }, [pagiCurrentPage]);
 
     const loadComponentData = async () => {
-        const __logs = await fetchActivityLogByUserId(userDetails?._id);
+        const __logs = await fetchActivityLogByUserId(userDetails?._id, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
         if(Array.isArray(__logs))
             setActivityLogs(__logs);
     }
+
+    const all_pages = [];
+    let i=1;
+    while(true){
+        all_pages.push(i);
+        if(i>=totalItems){
+            break
+        }
+        i+=PAGI_LIMIT;
+    }
+
     return <div>
         <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
             <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
@@ -54,13 +69,31 @@ const ActivityLog = (props) => {
             }
             
         </div>
-        <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 10}}>
-            <div className='prev-next-btn inactive'>
-                <i className='fa-solid fa-angle-left'></i></div>
-            <div>1</div>
-            <div className='prev-next-btn inactive'>
-                <i className='fa-solid fa-angle-right'></i></div>
-        </div>
+        {
+            totalItems > PAGI_LIMIT &&
+            <>
+                <select onInput={e=>setpagiCurrentPage(e.target.value)}
+                    value={pagiCurrentPage}
+                    className="select-input-paginator"
+                >
+                    {
+                        all_pages?.map((each, i)=>{
+                            return <option style={{color: "black"}}
+                                value={each}
+                            >{each} - {(each+PAGI_LIMIT-1)}</option>
+                                
+                        })  
+                    }
+                </select>
+                <span style={{color: "grey", marginLeft: 10, fontSize: 12}}>
+                    <span style={{margin: 10, color: "rgba(255,255,255,0.5)", fontSize: 15}}>-</span>
+                    Total: 
+                    <span style={{color: "orange", margin: 5}}>{totalItems}</span> 
+                    item(s)
+                    <span style={{margin: 10, color: "rgba(255,255,255,0.5)", fontSize: 15}}>-</span>
+                </span>
+            </>
+        }
     </div>
 }
 
