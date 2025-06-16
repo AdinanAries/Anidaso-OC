@@ -1,5 +1,8 @@
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-import { createSubscription } from '../services/paymentServices';
+import { 
+    createSubscription, 
+    createPaymentIntent
+} from '../services/paymentServices';
 import { useState } from 'react';
 
 const CheckoutForm = (props) => {
@@ -11,6 +14,7 @@ const CheckoutForm = (props) => {
         PaymentFor,
     } = props;
 
+    const __PAYMENT_FOR_WALLET_BALANCE = "wallet";
     const __PAYMENT_FOR_SUBSCRIPTION="subscription";
     const [ isLoading, setIsLoading ] = useState(false);
 
@@ -41,9 +45,33 @@ const CheckoutForm = (props) => {
                     welldugo_product_constant_number: price_amount
                 };
                 const __res = await createSubscription(__post_obj);
+                checkoutOnComplete();
                 console.log(__res);
             }
-            checkoutOnComplete();
+            if(PaymentFor===__PAYMENT_FOR_WALLET_BALANCE){
+                const __post_obj = {
+                    amount: price_amount, 
+                    currency: "usd"
+                }
+                const __res = await createPaymentIntent(__post_obj);
+                const { clientSecret } = __res;
+
+                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: cardElement, // Assuming you have a card element from Stripe Elements
+                        billing_details: {
+                            name: `${userDetails?.first_name} ${userDetails?.last_name}`,
+                        },
+                    },
+                });
+                if (error) {
+                    console.error('Payment failed:', error.message);
+                } else if (paymentIntent.status === 'succeeded') {
+                    console.log(paymentIntent);
+                    console.log('Payment succeeded!');
+                    checkoutOnComplete();
+                }
+            }
             setIsLoading(false)
         }
     };

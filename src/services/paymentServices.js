@@ -29,7 +29,7 @@ export const createSubscription = async (formData, path=`\\api\\payments\\create
     }
 }
 
-export const processPayment = async (formData, path=`\\api\\payments\\process-payment\\`) => {
+export const createPaymentIntent = async (formData, path=`\\api\\payments\\create-payment-intent\\`) => {
     try{
         return await fetch(API_URL+path, {
             method: "POST",

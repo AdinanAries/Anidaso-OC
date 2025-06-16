@@ -9,7 +9,7 @@ const ENVIRONMENT = {
     wellgo_dev_api_svr: "http://localhost:4000",
     //wellgo_dev_api_svr: "https://welldugo-oc-backend-e0594471c7e0.herokuapp.com", // out-dated
     runtime: {
-        env: CONSTANTS.prod
+        env: CONSTANTS.dev
     }
 }
 

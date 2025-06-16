@@ -165,7 +165,7 @@ const AgentServiceContract = (props) => {
                             Unlimited Customers
                         </span>
                         <span>
-                            You can add up to as many customers as possible with this plan
+                            You can add as many customers as possible with this plan
                         </span>
                     </li>
                     <li style={{fontSize: 13, color: "white", marginBottom: 20, display: "flex"}}>
@@ -235,7 +235,7 @@ const AgentServiceContract = (props) => {
                     </div>
                     <div style={{width: "calc(50% - 5px)"}}>
                         <p onClick={()=>setIsChangeSevicePlan(true)} style={{textDecoration: "underline", cursor: "pointer", marginBottom: 20, fontSize: 13, color: "lightgreen"}}>
-                            Change Service Plan Here
+                            Choose Another Plan
                         </p>
                         <div style={{border: "2px solid lightgreen", backgroundColor: "indigo", padding: 20, borderRadius: 10, boxShadow: "1px 2px 3px rgba(0,0,0,0.6)"}}>
                             {
@@ -282,7 +282,8 @@ const AgentServiceContract = (props) => {
                         <div style={{padding: 20, border: "1px solid red", backgroundColor: "rgba(255,0,0,0.2)", borderRadius: 8}}>
                             <p style={{fontSize: 13, color: "white"}}>
                                 <i style={{marginRight: 10, color: "yellow"}} className="fa-solid fa-credit-card"></i>
-                                Your service contract is inactive. Please verify your payment method and complete the due amount!!!
+                                Your service contract is inactive. Please verify your payment method and pay the due amount!
+                                Your account has been defaulted to free tier until balance due is paid and subscription re-activated.
                             </p>
                             <p onClick={()=>setShowPaymentForm(true)} style={{textDecoration: "underline", cursor: "pointer", marginTop: 20, fontSize: 13, color: "lightgreen"}}>
                                 Complete Payment Here

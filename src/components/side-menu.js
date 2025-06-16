@@ -47,14 +47,14 @@ let SideMenu = (props) => {
                         <p>Packages & Deals</p>
                     </div>
                 </div>
-                <div onClick={()=> toggle_show_main_sections("support")} id="side-menu-support-item" className="side-menu-each-item">
+                <div style={{cursor: "not-allowed"}} onClick={()=> toggle_show_main_sections("support")} id="side-menu-support-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
-                            <img src={supportIcon} />
+                            <img style={{opacity: 0.4}} src={supportIcon} />
                         </p>
                     </div>
                     <div className="side-menu-each-item-name">
-                        <p>Support</p>
+                        <p style={{color: "rgba(255,255,255,0.3)"}}>Support</p>
                     </div>
                 </div>
                 
@@ -98,24 +98,24 @@ let SideMenu = (props) => {
                 <p style={{fontSize: 12, color: "rgb(0,255,255)", margin: "10px", marginTop: 0, marginBottom: "20px"}}>
                     Management
                 </p>
-                <div onClick={()=> toggle_show_main_sections("analytics")} id="side-menu-analytics-item" className="side-menu-each-item">
+                <div style={{cursor: "not-allowed"}} onClick={()=> toggle_show_main_sections("analytics")} id="side-menu-analytics-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
-                            <img src={analyticsIcon} />
+                            <img style={{opacity: 0.4}} src={analyticsIcon} />
                         </p>
                     </div>
                     <div className="side-menu-each-item-name">
-                        <p>Analytics</p>
+                        <p style={{color: "rgba(255,255,255,0.3)"}}>Analytics</p>
                     </div>
                 </div>
-                <div onClick={()=> toggle_show_main_sections("channels")} id="side-menu-channels-item" className="side-menu-each-item">
+                <div style={{cursor: "not-allowed"}} onClick={()=> toggle_show_main_sections("channels")} id="side-menu-channels-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
-                            <img src={channelsIcon} />
+                            <img style={{opacity: 0.4}} src={channelsIcon} />
                         </p>
                     </div>
                     <div className="side-menu-each-item-name">
-                        <p>Channels</p>
+                        <p style={{color: "rgba(255,255,255,0.3)"}}>Channels</p>
                     </div>
                 </div>
                 <div onClick={()=> {
@@ -131,14 +131,14 @@ let SideMenu = (props) => {
                         <p>Profile</p>
                     </div>
                 </div>
-                <div onClick={()=> toggle_show_main_sections("clients")} id="side-menu-clients-item" className="side-menu-each-item">
+                <div style={{cursor: "not-allowed"}} onClick={()=> toggle_show_main_sections("clients")} id="side-menu-clients-item" className="side-menu-each-item">
                     <div style={{marginRight: 10}}>
                         <p>
-                            <img src={clientsIcon} />
+                            <img style={{opacity: 0.4}} src={clientsIcon} />
                         </p>
                     </div>
                     <div className="side-menu-each-item-name">
-                        <p>Partners</p>
+                        <p style={{color: "rgba(255,255,255,0.3)"}}>Partners</p>
                     </div>
                 </div>
             </div>

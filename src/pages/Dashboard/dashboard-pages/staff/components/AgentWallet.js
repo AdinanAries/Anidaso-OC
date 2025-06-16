@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { 
     fetchWalletById,
     fetchTransactionsByWalletId,
-    fetchTransactionTypes
+    fetchTransactionTypes,
+    updateAgentWallet
  } from "../../../../../services/agentServices";
  import { 
     calculateActionPoints,
@@ -30,6 +31,7 @@ const AgentWallet = (props) => {
     let isAgent = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.agent);
 
     const PAGI_LIMIT = 10;
+    const __PAYMENT_FOR_WALLET_BALANCE = "wallet";
 
     const [ showAddBalanceForm , setshowAddBalanceForm ] = useState(false);
     const [ newBalanceAmount, setNewBalanceAmount ] = useState(0);
@@ -115,8 +117,19 @@ const AgentWallet = (props) => {
         setNewBalanceAmount(e.target.value);
     }
 
-    const checkoutOnComplete = () => {
-        alert("Balance added!!!");
+    const checkoutOnComplete = async () => {
+        const __post_obj = {
+            oc_user_id: userDetails?._id,
+            new_balance: newBalanceAmount,
+            balance_currency: "usd"
+        };
+        let __res = await updateAgentWallet(__post_obj);
+        console.log(__res);
+        if(__res?._id){
+            setshowAddBalanceForm(false);
+            loadPageData();
+            alert(newBalanceAmount+" added to wallet balance!");
+        }
     }
 
     const all_pages = [];
@@ -437,6 +450,9 @@ const AgentWallet = (props) => {
                                         <Elements stripe={stripePromise}>
                                             <CheckoutForm 
                                                 checkoutOnComplete={checkoutOnComplete}
+                                                userDetails={userDetails}
+                                                price_amount={newBalanceAmount}
+                                                PaymentFor={__PAYMENT_FOR_WALLET_BALANCE}
                                             />
                                         </Elements>
                                     </div>

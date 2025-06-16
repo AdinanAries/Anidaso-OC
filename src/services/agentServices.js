@@ -26,6 +26,29 @@ export const createNewAgentInfo = async (formData, path=`\\api\\agents\\create\\
     }
 }
 
+export const updateAgentWallet = async (formData, path=`\\api\\wallets\\agent\\update\\`) => {
+    try{
+        return await fetch(API_URL+path, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(res => res.json())
+        .then(data => data)
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}
+
 export const fetchAgentInfoByAgentIdAndPropName = async (user_id, prop_name, path=`\\api\\agents\\`) => {
     try{
         return await fetch(API_URL+path+user_id+"\\"+prop_name, {

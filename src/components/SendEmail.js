@@ -104,7 +104,16 @@ const SendEmail = (props) => {
             </h3>
             <div style={{marginTop: 5, marginBottom: 10, display: "flex"}}>
                 <p style={{fontSize: 13, marginRight: 5, color: "rgba(0,0,0,0.6)"}}>
-                    to:
+                    From: <span style={{color: "rgba(0, 0, 0, 0.92)"}}>
+                            youremailaddress.com
+                        </span>
+                    <span style={{color: "green", marginLeft: 20, textDecoration: "underline", cursor: "pointer"}}>
+                        Setup Sender Account</span>
+                </p>
+            </div>
+            <div style={{marginTop: 5, marginBottom: 10, display: "flex"}}>
+                <p style={{fontSize: 13, marginRight: 5, color: "rgba(0,0,0,0.6)"}}>
+                    To:
                 </p>
                 <div style={{display: "flex", flexWrap: "wrap"}}>
                     {
