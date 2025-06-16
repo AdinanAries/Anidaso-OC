@@ -65,7 +65,7 @@ const AgentWallet = (props) => {
                     current_balance: _wallet?.current_balance
                 }
             }
-            setSelectedStaff(updated_user_info)
+            setSelectedStaff(updated_user_info);
             /*setUserDetails(updated_user_info);*/
         }
 
@@ -127,7 +127,23 @@ const AgentWallet = (props) => {
         console.log(__res);
         if(__res?._id){
             setshowAddBalanceForm(false);
-            loadPageData();
+            if(userDetails?._id === loggedInUserDetails?._id){
+                if(!userDetails?.wallet_info) {
+                    const updated_user_info = {
+                        ...loggedInUserDetails,
+                        wallet_info: {
+                            _id: __res?._id,
+                            oc_user_id: __res.oc_user_id,
+                            last_top_up_date: __res.last_top_up_date,
+                            current_balance: __res.current_balance,
+                            balance_currency: __res.balance_currency,
+                        }
+                    }
+                    setSelectedStaff(updated_user_info);
+                }
+            } else {
+                loadPageData();
+            }
             alert(newBalanceAmount+" added to wallet balance!");
         }
     }

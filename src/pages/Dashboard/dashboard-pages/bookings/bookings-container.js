@@ -70,7 +70,7 @@ let BookingsContainer = (props)=>{
                                     </div>
                                 </div>
                                 {
-                                    isAgent &&
+                                    (isAgent && userDetails?.wallet_info) ?
                                     <div onClick={()=>{
                                         toggle_show_main_sections("staff");
                                         window.__viewStaffInfo(userDetails?._id);
@@ -87,7 +87,13 @@ let BookingsContainer = (props)=>{
                                         <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
                                             {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
                                         </p>
-                                    </div>
+                                    </div> :
+                                    (!isOwner && !isAdmin) &&
+                                        <div style={{color: "white", fontSize: 12, background: "rgba(255,0,0,0.2)", padding: 10, border: "1px solid rgba(255,255,255,0.1)"}}>
+                                            <i style={{marginRight: 5, color: "yellow"}}
+                                                className="fa-solid fa-exclamation-triangle"></i>
+                                                Wallet Not Found
+                                        </div>
                                 }
                             </div>
                             <div className="booking-pane-search-inputs-area">

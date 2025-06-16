@@ -49,7 +49,7 @@ function Header(props){
             if(isLoggedUserAgent){
                 let agent_info = userDetails?.agent_info;
                 let pm_obj = agent_info?.find(each=>each.property==="price_markup");
-                data.price_markup_percentage=pm_obj.value;
+                data.price_markup_percentage=(pm_obj?.value || "N/A");
                 // To do Data Provider for Agent User
             }
             setSvrStatus(data);
