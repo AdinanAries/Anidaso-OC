@@ -45,32 +45,30 @@ const AgentServiceContract = (props) => {
         }
     }, []);
 
-    const changeServicePlanOnClick = async (_plan) => {
+    const changeServicePlanOnClick = (_plan) => {
         setIsChangeSevicePlan(false) // State to change a plan for existing expired plan
-
         if(_plan===currentServicePlan){
             return;
         }
-
         // 1. Collect Payment Details.
         setShowPaymentForm(true);
-
-        // 2. Save To Database
-        const post_obj = {
-            user_id: userDetails?._id,
-            property: __SERVICE_PLAN_SETTINGS_PROP_NAME,
-            value: _plan,
-        }
-        let __res = await createNewAgentInfo(post_obj);
-
-        // 3. Set State
+        // 2. Set State
         setcurrentServicePlan(_plan);
     }
 
-    const checkoutOnComplete = () => {
-        alert("Service Plan Activated Successfully!");
-        setIsActive(true);
-        setShowPaymentForm(false);
+    const checkoutOnComplete = async () => {
+        // 3. Save To Database
+        const post_obj = {
+            user_id: userDetails?._id,
+            property: __SERVICE_PLAN_SETTINGS_PROP_NAME,
+            value: currentServicePlan,
+        }
+        let __res = await createNewAgentInfo(post_obj);
+        if(__res?._id){
+            alert("Service Plan Activated Successfully!");
+            setIsActive(true);
+            setShowPaymentForm(false);
+        }
     }
 
 

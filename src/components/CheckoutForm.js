@@ -36,6 +36,8 @@ const CheckoutForm = (props) => {
 
         if (error) {
             console.error(error);
+            alert(error?.message);
+            setIsLoading(false);
         } else {
             console.log('PaymentMethod:', paymentMethod);
             if(PaymentFor===__PAYMENT_FOR_SUBSCRIPTION){
@@ -45,8 +47,13 @@ const CheckoutForm = (props) => {
                     welldugo_product_constant_number: price_amount
                 };
                 const __res = await createSubscription(__post_obj);
-                checkoutOnComplete();
                 console.log(__res);
+                if(__res?.error){
+                    alert(__res?.error?.message);
+                    setIsLoading(false);
+                    return;
+                }
+                checkoutOnComplete();
             }
             if(PaymentFor===__PAYMENT_FOR_WALLET_BALANCE){
                 const __post_obj = {
@@ -72,7 +79,7 @@ const CheckoutForm = (props) => {
                     checkoutOnComplete();
                 }
             }
-            setIsLoading(false)
+            setIsLoading(false);
         }
     };
 
