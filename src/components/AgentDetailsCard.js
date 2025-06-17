@@ -75,15 +75,15 @@ const AgentDetailsCard = (props) => {
                 </div>
             </div>
             <div style={{backgroundColor: "#2b343d", borderRadius: 6, padding: 20, marginTop: 5, cursor: "pointer"}}>
-                <p onClick={()=>toggle_show_main_sections("settings")}
+                <p onClick={()=>toggle_show_main_sections("marketing")}
                     style={{fontSize: 13, color: "lightblue", textDecoration: "underline"}}>
-                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-plus"></i>
-                    Create Booking Link
+                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-envelope-open-text"></i>
+                    Send News Letter
                 </p>
                 <div style={{marginTop: 10}}>
                     <p style={{fontSize: 12, color: "white"}}>
                         <i style={{marginRight: 10, color: "lightgreen"}} className="fa fa-info"></i>
-                        a booking link allows you to sell by sharing a link with a customer
+                        You can create news letters/emails that include links to your website or booking engine to send to your customers
                     </p>
                 </div>
             </div>
