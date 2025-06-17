@@ -3,6 +3,10 @@ import {
     fetchAgentInfoByAgentIdAndPropName,
     createNewAgentInfo,
 } from "../../../../../services/agentServices";
+import { 
+    getStripeCustomerByEmail,
+    getStripeSubscriptionsByCustomerId,
+} from "../../../../../services/paymentServices";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from '../../../../../components/CheckoutForm';
@@ -30,6 +34,7 @@ const AgentServiceContract = (props) => {
     const [ showPaymentForm, setShowPaymentForm ] = useState(false);
     const [ isChangeSevicePlan, setIsChangeSevicePlan ] = useState(false);
     const [ currentServiceTierIndex, setCurrentServiceTierIndex ] = useState(0);
+    const [ customerStripeSubscription, setCustomerStripeSubscription ] = useState(null);
 
     useEffect(()=>{
         if(userDetails?._id){
@@ -39,7 +44,20 @@ const AgentServiceContract = (props) => {
                 if(__res?._id){
                     setcurrentServicePlan(parseInt(__res?.value));
                     setCurrentServiceTierIndex((parseInt(__res?.value) - 1));
-                    // Check payment and set isActive flag
+                    const customer = await getStripeCustomerByEmail({email: userDetails?.email});
+                    if (customer) {
+                        let subscriptions = await getStripeSubscriptionsByCustomerId({customer});
+                        if(subscriptions.length>0){
+                            for( let each of subscriptions ){
+                                if(each?.status==="active"){
+                                    setIsActive(true);
+                                    setCustomerStripeSubscription(each);
+                                }else{
+                                    setIsActive(false);
+                                }
+                            }
+                        }
+                    }
                 }
             })();
         }
@@ -227,6 +245,9 @@ const AgentServiceContract = (props) => {
                                 checkoutOnComplete={checkoutOnComplete}
                                 userDetails={userDetails}
                                 price_amount={currentServicePlan}
+                                options={{
+                                    customerStripeSubscription,
+                                }}
                                 PaymentFor={__PAYMENT_FOR_SUBSCRIPTION}
                             />
                         </Elements>

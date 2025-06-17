@@ -468,6 +468,7 @@ const AgentWallet = (props) => {
                                                 checkoutOnComplete={checkoutOnComplete}
                                                 userDetails={userDetails}
                                                 price_amount={newBalanceAmount}
+                                                options={{}}
                                                 PaymentFor={__PAYMENT_FOR_WALLET_BALANCE}
                                             />
                                         </Elements>

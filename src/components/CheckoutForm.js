@@ -12,6 +12,7 @@ const CheckoutForm = (props) => {
         userDetails,
         price_amount,
         PaymentFor,
+        options
     } = props;
 
     const __PAYMENT_FOR_WALLET_BALANCE = "wallet";
@@ -41,12 +42,24 @@ const CheckoutForm = (props) => {
         } else {
             console.log('PaymentMethod:', paymentMethod);
             if(PaymentFor===__PAYMENT_FOR_SUBSCRIPTION){
-                const __post_obj = {
-                    paymentMethodId: paymentMethod.id, 
-                    customerEmail: userDetails?.email,
-                    welldugo_product_constant_number: price_amount
-                };
-                const __res = await createSubscription(__post_obj);
+
+                const subscriptionExists = options?.customerStripeSubscription;
+                let __res;
+                if(!subscriptionExists || subscriptionExists?.status==="canceled"){
+                    const __post_obj = {
+                        paymentMethodId: paymentMethod.id, 
+                        customerEmail: userDetails?.email,
+                        welldugo_product_constant_number: price_amount
+                    };
+                    __res = await createSubscription(__post_obj);
+                }
+                if(
+                    subscriptionExists?.status==="incomplete_expired" ||
+                    subscriptionExists?.status==="past_due" ||
+                    subscriptionExists?.status==="unpaid"
+                ){
+                    // To do: Update subscriptions here
+                }
                 console.log(__res);
                 if(__res?.error){
                     alert(__res?.error?.message);
