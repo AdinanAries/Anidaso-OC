@@ -888,7 +888,7 @@ main {
 .booking-pane-search-inputs-area-other-section {
   /*padding: 10px;*/
   margin-top: 10px;
-  width: calc(40% - 10px);
+  width: calc(50% - 10px);
   margin-left: 10px;
   /*background-color: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.3);*/

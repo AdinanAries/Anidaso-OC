@@ -56,40 +56,39 @@ const AgentDetailsCard = (props) => {
                                 <span style={{marginLeft: 5, fontSize: 11, color: "rgba(255, 255, 255, 0.57)"}}>
                                     sold in {Last_Available_Total_Month}
                                 </span>
-                            </> : <div style={{color: "red", fontSize: 11}}>
+                            </> : <span style={{color: "red", fontSize: 11, marginLeft: 10}}>
                                 <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-exclamation-triangle"></i>
-                                You haven't made any sales yet.
-                            </div>
+                                No sales to show.
+                            </span>
                         }
                     </p>
                     <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 10}}>
-                        <p style={{letterSpacing: 1, color: "white", fontSize: 12}}>
-                            Flights: 
-                            <span style={{marginLeft: 10, color: "orange"}}>
-                                $3,000
-                            </span>
-                            <span style={{marginLeft: 5, color: "rgba(255, 255, 255, 0.57)"}}>
-                                (450)
-                            </span>
-                        </p>
-                        <p style={{letterSpacing: 1, color: "white", fontSize: 12}}>
-                            Hotels: 
-                            <span style={{marginLeft: 10, color: "orange"}}>
-                                $0
-                            </span>
-                            <span style={{marginLeft: 5, color: "rgba(255, 255, 255, 0.57)"}}>
-                                (0)
-                            </span>
-                        </p>
-                        <p style={{letterSpacing: 1, color: "white", fontSize: 12}}>
-                            Cars: 
-                            <span style={{marginLeft: 10, color: "orange"}}>
-                                $0
-                            </span>
-                            <span style={{marginLeft: 5, color: "rgba(255, 255, 255, 0.57)"}}>
-                                (0)
-                            </span>
-                        </p>
+                        <div style={{display: "flex", marginTop: 10, marginBottom: 5}}>
+                            <div style={{marginRight: 20}}>
+                                <p style={{fontSize: 11, color: "lightblue"}}>
+                                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-users"></i>
+                                    0 Customer(s)
+                                </p>
+                            </div>
+                            <div style={{marginRight: 20}}>
+                                <p style={{fontSize: 11, color: "lightblue"}}>
+                                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-file-signature"></i>
+                                    Free Tier
+                                </p>
+                            </div>
+                            <div style={{marginRight: 20}}>
+                                <p style={{fontSize: 11, color: "lightblue"}}>
+                                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-gauge-high"></i>
+                                    $1/10 actions
+                                </p>
+                            </div>
+                            <div style={{marginRight: 20}}>
+                                <p style={{fontSize: 11, color: "lightblue"}}>
+                                    <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-share-alt"></i>
+                                    1 Supplier (Duffel)
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
