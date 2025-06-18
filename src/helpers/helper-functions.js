@@ -157,6 +157,7 @@ export function toggle_show_main_sections(type){
     }else if(type === "sales"){
         setActiveNavOption("side-menu-each-item", "side-menu-sales-item");
         $("#sales-container").toggle("up");
+        window.__loadSalesPageData();
     }
     else if(type === "marketing"){
         setActiveNavOption("side-menu-each-item", "side-menu-marketing-item");

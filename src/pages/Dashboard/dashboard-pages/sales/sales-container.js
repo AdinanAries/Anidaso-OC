@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import PageRestricted from '../../../../components/page-restricted';
 import CONSTANTS from '../../../../constants/Constants';
-import { toggle_show_main_sections } from '../../../../helpers/helper-functions';
-import { fetchGroupedSalesByMonth } from '../../../../services/salesServices';
+import { 
+    toggle_show_main_sections,
+    add_commas_to_number,
+    get_three_letter_month_from_num
+} from '../../../../helpers/helper-functions';
+import { 
+    fetchAllSales,
+    fetchGroupedSalesByMonth 
+} from '../../../../services/salesServices';
 
 let SalesContainer = (props) => {
             
@@ -10,23 +17,51 @@ let SalesContainer = (props) => {
         userDetails,
     } = props;
 
+    const PAGI_LIMIT = 10;
+
+    const [ isLoading, setIsLoading ] = useState(false);
     const [ selectedSale, setSelectedSale ] = useState({});
+    const [ overrallTotalSale, setOverrallTotalSale ] = useState(0);
+    const [ salesIntervalMonths, setSalesIntervalMonths ] = useState(["", ""]); // have atleast two items
+    const [ salesList, setsalesList ] = useState([]);
+    const [ totalItems, setTotalItems ] = useState(0);
+    const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
+    const [ filters, setFilters ] = useState({
+        interval: "",
+        sale_type: "",
+        product_type: "",
+    });
 
     useEffect(()=>{
-        (async ()=>{
+        if(totalItems){
+            loadPageData();
+        }
+    }, [pagiCurrentPage, filters]);
 
-            let filters={
-                interval: "",
-                sale_type: "",
-                product_type: "",
-            };
-            let __res = await fetchGroupedSalesByMonth(userDetails?._id, filters);
-            console.log("Grouped Sales By Month:", __res);
-            let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
-            render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
-        })()
-    }, []);
+    const loadPageData = async () => {
+        setIsLoading(true);
+        let __all_sales= await fetchAllSales(userDetails?._id, filters, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
+        let __res = await fetchGroupedSalesByMonth(userDetails?._id, filters);
+        console.log("Grouped Sales By Month:", __res);
+        let sales_chart_labels = __res.map(each=>{
+            let _dp = (each?._id?.split("-"));
+            return `${get_three_letter_month_from_num((parseInt(_dp[1])-1))}, ${_dp[0]}`;
+        });
+        let sales_chart_values = __res.map(each=>{
+            let total = 0;
+            for (let bb of each?.documents){
+                total += (bb?.payment_intent.amount/100);
+            }
+            return total;
+        });
+        setsalesList(__all_sales);
+        const salesSum = sales_chart_values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        setOverrallTotalSale(salesSum);
+        setSalesIntervalMonths(sales_chart_labels);
+        setIsLoading(false);
+        render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values); // To fix: Canvas doesn't re-render
+    }
+    window.__loadSalesPageData = loadPageData;
 
     const render_agent_sales_stats_chart = (labels, values) => {
         const ctx = document.getElementById('salesStatsChart');
@@ -64,6 +99,16 @@ let SalesContainer = (props) => {
     const _pageConstant=CONSTANTS.app_page_constants.sales;
     const has_access_this_page=(userDetails?.pages_can_access_constants?.includes(_pageConstant));
 
+    const all_pages = [];
+    let i=1;
+    while(true){
+        all_pages.push(i);
+        if(i>=totalItems){
+            break
+        }
+        i+=PAGI_LIMIT;
+    }
+
     return(
          <section id="sales-container" style={{display: "none"}}>
             {
@@ -72,10 +117,14 @@ let SalesContainer = (props) => {
                 <div>
                     <div style={{padding: 10}}>
                         <div>
-                            <p style={{fontSize: 13, marginBottom: 10, color: "orange"}}>
-                                Current Total Sales:</p>
+                            <p style={{fontSize: 13, marginBottom: 10, color: "rgba(255,255,255,0.7)"}}>
+                                Total sales from <span style={{color: "orange"}}>
+                                    {salesIntervalMonths[(salesIntervalMonths.length-1)]} </span>
+                                    to <span style={{color: "orange"}}>
+                                        {salesIntervalMonths[0]}</span>
+                                </p>
                             <h1 style={{color: "skyblue"}}>
-                                $3,000.23
+                                ${add_commas_to_number(overrallTotalSale.toFixed(2))}
                                 <span style={{fontWeight: "initial", color: "lightgreen", fontSize: 13, marginLeft: 25, textDecoration: "underline", cursor: "pointer"}}>
                                     <i style={{marginRight: 10, color: "rgba(255, 255, 255, 0.5)"}}
                                         className="fa-solid fa-money-check-dollar"></i>
@@ -129,10 +178,10 @@ let SalesContainer = (props) => {
                                         <p style={{color: "orange", fontSize: 13}}>
                                             <i style={{marginRight: 10, color: "lightgreen"}}
                                                 className='fa-solid fa-info-circle'></i>
-                                            Total for March 23, 2024 - March 24, 2025
+                                            {salesIntervalMonths[(salesIntervalMonths.length-1)]} - {salesIntervalMonths[0]}
                                         </p>
                                         <h3 style={{color: "skyblue", margin: 10}}>
-                                            $6,000.00 
+                                            ${add_commas_to_number(overrallTotalSale.toFixed(2))}
                                         </h3>
                                     </div>
                                     <div style={{marginTop: 20}}>
@@ -170,6 +219,13 @@ let SalesContainer = (props) => {
                                             </div>
                                         </div>
                                     </div> :
+                                    
+                                    isLoading ? 
+                                    <div style={{backgroundColor: "green", padding: 20, textAlign: "center",
+                                        fontSize: 12, color: "lightgreen", margin: 10, marginBottom: 20, cursor: "pointer"}}>
+                                        <i style={{marginRight: 10, color: "yellow"}} className="fa fa-spinner"></i>
+                                        Loading.. Please Wait
+                                    </div> :
                                     <>
                                         <table className='app-standard-table white-bg'>
                                             <tr>
@@ -180,214 +236,59 @@ let SalesContainer = (props) => {
                                                 <td>Profit</td>
                                                 <td>Email</td>
                                             </tr>
-                                            <tr onClick={()=>setSelectedSale({_id: "id"})} style={{cursor: "pointer"}}>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Flight
-                                                </td>
-                                                <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                    2025-05-02T02:43:12.636Z
-                                                </td>
-                                                <td>
-                                                    Duffel
-                                                </td>
-                                                <td>
-                                                    $341.22
-                                                </td>
-                                                <td>
-                                                    $43.23
-                                                </td>
-                                                <td>
-                                                    m.adinan@yahoo.com
-                                                </td>
-                                            </tr>
+                                            {
+                                                (salesList?.length > 0) ?
+                                                salesList?.map(each=>{
+                                                    return <tr onClick={()=>setSelectedSale({_id: "id"})} style={{cursor: "pointer"}}>
+                                                        <td>
+                                                            Flight
+                                                        </td>
+                                                        <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
+                                                            {each?.createdAt}
+                                                        </td>
+                                                        <td>
+                                                            Duffel
+                                                        </td>
+                                                        <td>
+                                                            $341.22
+                                                        </td>
+                                                        <td>
+                                                            $43.23
+                                                        </td>
+                                                        <td>
+                                                            m.adinan@yahoo.com
+                                                        </td>
+                                                    </tr>
+                                                }) : <></>
+                                            }
                                         </table>
-                                        <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
-                                            <div className='prev-next-btn'>
-                                                <i className='fa-solid fa-angle-left'></i></div>
-                                            <div>1</div>
-                                            <div className='prev-next-btn'>
-                                                <i className='fa-solid fa-angle-right'></i></div>
-                                        </div>
+                                        {
+                                            totalItems > PAGI_LIMIT &&
+                                            <>
+                                                <select onInput={e=>setpagiCurrentPage(e.target.value)}
+                                                    value={pagiCurrentPage}
+                                                    className="select-input-paginator"
+                                                    style={{backgroundColor: "rgb(0, 69, 109)"}}
+                                                >
+                                                    {
+                                                        all_pages?.map((each, i)=>{
+                                                            return <option style={{color: "black"}}
+                                                                value={each}
+                                                            >{each} - {(each+PAGI_LIMIT-1)}</option>
+                                                                
+                                                        })  
+                                                    }
+                                                </select>
+                                                <span style={{color: "rgb(82, 82, 82)", marginLeft: 10, fontSize: 12}}>
+                                                    <span style={{margin: 10, color: "rgb(179, 178, 178)", fontSize: 15}}>-</span>
+                                                    Total: 
+                                                    <span style={{color: "rgb(0, 109, 182)", margin: 5, fontWeight: "bolder"}}>
+                                                        {totalItems}</span> 
+                                                    item(s)
+                                                    <span style={{margin: 10, color: "rgb(179, 178, 178)", fontSize: 15}}>-</span>
+                                                </span>
+                                            </>
+                                        }
                                     </>
                                 }
                             </div>

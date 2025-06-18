@@ -2,6 +2,7 @@ import { useState } from "react";
 import { 
     add_commas_to_number,
     toggle_show_main_sections,
+    get_three_letter_month_from_num
  } from "../helpers/helper-functions";
 
 const AgentDetailsCard = (props) => {
@@ -10,6 +11,17 @@ const AgentDetailsCard = (props) => {
         userDetails,
         hideSeeDetailsLink
     } = props
+
+    let Last_Available_Total_Month_Sales=0;
+    let Last_Available_Total_Month="";
+    if(userDetails?.last_twelve_months_monthly_sales.length>0) {
+        let _dp = (userDetails?.last_twelve_months_monthly_sales[0]._id?.split("-"));
+        Last_Available_Total_Month = `${get_three_letter_month_from_num((parseInt(_dp[1])-1))}, ${_dp[0]}`;
+                
+        for (let bb of userDetails?.last_twelve_months_monthly_sales[0].documents){
+            Last_Available_Total_Month_Sales += (bb?.payment_intent.amount/100);
+        }
+    }
 
     return <div>
             <div style={{backgroundColor: "#2b343d", borderRadius: 6, padding: 20}}>
@@ -36,12 +48,19 @@ const AgentDetailsCard = (props) => {
                 <div style={{letterSpacing: 1}}>
                     <p style={{letterSpacing: 1, color: "rgb(217, 0, 255)", fontSize: 14, marginBottom: 10}}>
                         Sales: 
-                        <span style={{marginLeft: 10, color: "orange"}}>
-                        $3,000
-                        </span>
-                        <span style={{marginLeft: 5, fontSize: 11, color: "rgba(255, 255, 255, 0.57)"}}>
-                            (profit made this month)
-                        </span>
+                        {
+                            Last_Available_Total_Month_Sales ? <>
+                                <span style={{marginLeft: 10, color: "orange"}}>
+                                    ${add_commas_to_number(Last_Available_Total_Month_Sales.toFixed(2))}
+                                </span>
+                                <span style={{marginLeft: 5, fontSize: 11, color: "rgba(255, 255, 255, 0.57)"}}>
+                                    sold in {Last_Available_Total_Month}
+                                </span>
+                            </> : <div style={{color: "red", fontSize: 11}}>
+                                <i style={{color: "yellow", marginRight: 10}} className="fa-solid fa-exclamation-triangle"></i>
+                                You haven't made any sales yet.
+                            </div>
+                        }
                     </p>
                     <div style={{borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 10}}>
                         <p style={{letterSpacing: 1, color: "white", fontSize: 12}}>

@@ -57,25 +57,10 @@ const StaffInfo = (props) => {
     });
 
     useEffect(()=>{
-        (async ()=>{
-            if(!isAdmin && !isOwner){
-                let sales_chart_labels = selectedStaff?.last_twelve_months_monthly_sales.map(each=>{
-                    let _dp = (each?._id?.split("-"));
-                    return `${get_three_letter_month_from_num((parseInt(_dp[1])-1))}, ${_dp[0]}`;
-                });
-                let sales_chart_values = selectedStaff?.last_twelve_months_monthly_sales.map(each=>{
-                    let total = 0;
-                    for (let bb of each?.documents){
-                        total += (bb?.payment_intent.amount/100);
-                    }
-                    return total;
-                });
-                const salesSum = sales_chart_values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-                setOverrallTotalSale(salesSum);
-                setSalesIntervalMonths(sales_chart_labels);
-                render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
-            }
-        })();
+        
+        if(!isAdmin && !isOwner){
+            loadSalesChartAndInfo();
+        }
 
         (async()=>{
             let _roles = await fetchAppRoles();
@@ -83,13 +68,31 @@ const StaffInfo = (props) => {
         })()
     }, []);
 
+    const loadSalesChartAndInfo = () => {
+        let sales_chart_labels = selectedStaff?.last_twelve_months_monthly_sales.map(each=>{
+            let _dp = (each?._id?.split("-"));
+            return `${get_three_letter_month_from_num((parseInt(_dp[1])-1))}, ${_dp[0]}`;
+        });
+        let sales_chart_values = selectedStaff?.last_twelve_months_monthly_sales.map(each=>{
+            let total = 0;
+            for (let bb of each?.documents){
+                total += (bb?.payment_intent.amount/100);
+            }
+            return total;
+        });
+        const salesSum = sales_chart_values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        setOverrallTotalSale(salesSum);
+        setSalesIntervalMonths(sales_chart_labels);
+        render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+    }
+
     let isYou = (selectedStaff?._id === loggedInUserDetails?._id);
     let isOwner = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.owner);
     let isAdmin = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.admin);
     let isAgent = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.agent);
 
     const render_agent_sales_stats_chart = (labels, values) => {
-        const ctx = document.getElementById('salesStatsChart');
+        const ctx = document.getElementById('salesStatsChartStaffInfoPage');
         new window.Chart(ctx, {
             type: 'line',
             data: {
@@ -384,8 +387,10 @@ const StaffInfo = (props) => {
                             <div style={{width: "calc(50% - 2px)"}}>
                                 <div style={{padding: 10}}>
                                     <div>
-                                        <p style={{fontSize: 13, marginBottom: 10, color: "orange"}}>
-                                            Monthly Sales From {salesIntervalMonths[0]} - {salesIntervalMonths[(salesIntervalMonths.length-1)]}:</p>
+                                        <p style={{fontSize: 13, marginBottom: 10, color: "rgba(255,255,255,0.7)"}}>
+                                            Monthly Sales From <span style={{color: "orange"}}>
+                                            {salesIntervalMonths[(salesIntervalMonths.length-1)]} - {salesIntervalMonths[0]}</span>
+                                        </p>
                                         <h1 style={{color: "skyblue", marginLeft: 20}}>
                                             ${overrallTotalSale.toFixed(2)}
                                             <span style={{fontWeight: "initial", color: "lightgreen", fontSize: 13, marginLeft: 25, textDecoration: "underline", cursor: "pointer"}}>
@@ -396,7 +401,7 @@ const StaffInfo = (props) => {
                                         </h1>
                                     </div>
                                     <div style={{background: "white", height: 180, marginTop: 10, padding: 10, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                                        <canvas id="salesStatsChart" ></canvas>
+                                        <canvas id="salesStatsChartStaffInfoPage" ></canvas>
                                         <div style={{padding: 10}}>
                                             <p style={{fontSize: 12}}>
                                                 <i style={{marginRight: 10, color: "green"}}
