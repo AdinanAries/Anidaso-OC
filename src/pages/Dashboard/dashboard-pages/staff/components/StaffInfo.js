@@ -277,9 +277,7 @@ const StaffInfo = (props) => {
     const showInfoPage = () => {
         setcurrentSubPage(_PAGES?.info);
         setTimeout(()=>{
-            let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
-            render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+            loadSalesChartAndInfo();
         }, 200);
     }
 

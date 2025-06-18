@@ -31,35 +31,57 @@ let SalesContainer = (props) => {
         sale_type: "",
         product_type: "",
     });
+    const [salesChartLabels, setSalesChartLabels] = useState([]);
+    const [ salesChartValues, setSalesChartValues ] = useState([]);
+
+    useEffect(()=>{
+        if(totalItems){
+            const _list_only=true;
+            loadPageData(_list_only);
+        }
+    }, [pagiCurrentPage]);
 
     useEffect(()=>{
         if(totalItems){
             loadPageData();
         }
-    }, [pagiCurrentPage, filters]);
+    }, [filters]);
 
-    const loadPageData = async () => {
+    const loadPageData = async (isListOnly=false) => {
         setIsLoading(true);
         let __all_sales= await fetchAllSales(userDetails?._id, filters, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
-        let __res = await fetchGroupedSalesByMonth(userDetails?._id, filters);
-        console.log("Grouped Sales By Month:", __res);
-        let sales_chart_labels = __res.map(each=>{
-            let _dp = (each?._id?.split("-"));
-            return `${get_three_letter_month_from_num((parseInt(_dp[1])-1))}, ${_dp[0]}`;
-        });
-        let sales_chart_values = __res.map(each=>{
-            let total = 0;
-            for (let bb of each?.documents){
-                total += (bb?.payment_intent.amount/100);
-            }
-            return total;
-        });
         setsalesList(__all_sales);
-        const salesSum = sales_chart_values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-        setOverrallTotalSale(salesSum);
-        setSalesIntervalMonths(sales_chart_labels);
+        if(!isListOnly){
+            let __res = await fetchGroupedSalesByMonth(userDetails?._id, filters);
+            let sales_chart_labels = __res.map(each=>{
+                let _dp = (each?._id?.split("-"));
+                return `${get_three_letter_month_from_num((parseInt(_dp[1])-1))}, ${_dp[0]}`;
+            });
+            setSalesChartLabels(sales_chart_labels);
+            let sales_chart_values = __res.map(each=>{
+                let total = 0;
+                for (let bb of each?.documents){
+                    total += (bb?.payment_intent.amount/100);
+                }
+                return total;
+            });
+            setSalesChartValues(sales_chart_values);
+            const salesSum = sales_chart_values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+            setOverrallTotalSale(salesSum);
+            setSalesIntervalMonths(sales_chart_labels);
+            setTimeout(()=>{
+                // First Time Rendering
+                render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+            }, 200);
+        }else{
+            setTimeout(()=>{
+                // Render Using State Data
+                render_agent_sales_stats_chart(salesChartLabels, salesChartValues);
+            }, 200);
+        }
         setIsLoading(false);
-        render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values); // To fix: Canvas doesn't re-render
+        
+        
     }
     window.__loadSalesPageData = loadPageData;
 
@@ -172,7 +194,14 @@ let SalesContainer = (props) => {
                         </div>
                         <div style={{background: "white", minHeight: 300, padding: 10, display: "flex", justifyContent: "space-between"}}>
                             <div style={{width: "calc(40% - 4px)"}}>
-                                <canvas id="salesStatsChart" ></canvas>
+                                {
+                                    isLoading ? <div style={{backgroundColor: "green", padding: 20, textAlign: "center",
+                                        fontSize: 12, color: "lightgreen", margin: 10, marginBottom: 20, cursor: "pointer"}}>
+                                        <i style={{marginRight: 10, color: "yellow"}} className="fa fa-spinner"></i>
+                                        Loading.. Please Wait
+                                    </div> :
+                                    <canvas id="salesStatsChart" ></canvas>
+                                }
                                 <div style={{marginTop: 10, padding: 10, backgroundColor: "rgb(0, 37, 63)", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
                                     <div>
                                         <p style={{color: "orange", fontSize: 13}}>
