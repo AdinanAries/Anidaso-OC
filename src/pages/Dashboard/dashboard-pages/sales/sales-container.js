@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import PageRestricted from '../../../../components/page-restricted';
 import CONSTANTS from '../../../../constants/Constants';
 import { toggle_show_main_sections } from '../../../../helpers/helper-functions';
+import { fetchGroupedSalesByMonth } from '../../../../services/salesServices';
 
 let SalesContainer = (props) => {
             
@@ -12,9 +13,19 @@ let SalesContainer = (props) => {
     const [ selectedSale, setSelectedSale ] = useState({});
 
     useEffect(()=>{
-        let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
-        render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+        (async ()=>{
+
+            let filters={
+                interval: "",
+                sale_type: "",
+                product_type: "",
+            };
+            let __res = await fetchGroupedSalesByMonth(userDetails?._id, filters);
+            console.log("Grouped Sales By Month:", __res);
+            let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
+            render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+        })()
     }, []);
 
     const render_agent_sales_stats_chart = (labels, values) => {

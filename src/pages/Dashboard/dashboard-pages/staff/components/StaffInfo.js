@@ -4,10 +4,12 @@ import {
     fetchRoleByConstant,
     fetchAppRoles,
  } from "../../../../../services/accountServices";
+ import { fetchGroupedSalesByMonth } from "../../../../../services/salesServices";
  import { 
     add_commas_to_number,
     calculateActionPoints,
-    toggle_show_main_sections
+    toggle_show_main_sections,
+    get_three_letter_month_from_num,
   } from "../../../../../helpers/helper-functions";
 import FormErrorCard from "../../../../../components/FormErrorCard";
 import AgentLinks from "./AgentLinks";
@@ -46,6 +48,8 @@ const StaffInfo = (props) => {
     const [ isLoading, setIsLoading ] = useState(false);
     const [formData, setFormData] = useState(selectedStaff);
     const [appRoleState, setAppRoleState] = useState([]);
+    const [ overrallTotalSale, setOverrallTotalSale ] = useState(0);
+    const [ salesIntervalMonths, setSalesIntervalMonths ] = useState(["", ""]); // have atleast two items
     const [ formValidation, setFormValidation ] = useState({
         type: "warning",
         isError: false,
@@ -53,11 +57,25 @@ const StaffInfo = (props) => {
     });
 
     useEffect(()=>{
-        if(!isAdmin && !isOwner){
-            let sales_chart_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let sales_chart_values = [2233, 2241, 543, 1564, 2300, 0, 0, 0, 0, 0, 0, 0];
-            render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
-        }
+        (async ()=>{
+            if(!isAdmin && !isOwner){
+                let sales_chart_labels = selectedStaff?.last_twelve_months_monthly_sales.map(each=>{
+                    let _dp = (each?._id?.split("-"));
+                    return `${get_three_letter_month_from_num((parseInt(_dp[1])-1))}, ${_dp[0]}`;
+                });
+                let sales_chart_values = selectedStaff?.last_twelve_months_monthly_sales.map(each=>{
+                    let total = 0;
+                    for (let bb of each?.documents){
+                        total += (bb?.payment_intent.amount/100);
+                    }
+                    return total;
+                });
+                const salesSum = sales_chart_values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                setOverrallTotalSale(salesSum);
+                setSalesIntervalMonths(sales_chart_labels);
+                render_agent_sales_stats_chart(sales_chart_labels, sales_chart_values);
+            }
+        })();
 
         (async()=>{
             let _roles = await fetchAppRoles();
@@ -367,9 +385,9 @@ const StaffInfo = (props) => {
                                 <div style={{padding: 10}}>
                                     <div>
                                         <p style={{fontSize: 13, marginBottom: 10, color: "orange"}}>
-                                            Current Total Sales:</p>
-                                        <h1 style={{color: "skyblue"}}>
-                                            $3,000.23
+                                            Monthly Sales From {salesIntervalMonths[0]} - {salesIntervalMonths[(salesIntervalMonths.length-1)]}:</p>
+                                        <h1 style={{color: "skyblue", marginLeft: 20}}>
+                                            ${overrallTotalSale.toFixed(2)}
                                             <span style={{fontWeight: "initial", color: "lightgreen", fontSize: 13, marginLeft: 25, textDecoration: "underline", cursor: "pointer"}}>
                                                 <i style={{marginRight: 10, color: "rgba(255, 255, 255, 0.5)"}}
                                                     className="fa-solid fa-money-check-dollar"></i>

@@ -37,3 +37,31 @@ export const fetchAllSales = async (user_id, filters, setTotalItemsState=()=>{},
         return {isError: true, message: e.message};
     }
 }
+
+export const fetchGroupedSalesByMonth = async (user_id, filters, path=`\\api\\sales\\group\\monthly\\`) => {
+    try{
+        return await fetch(API_URL+path+user_id, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${USER_TOKEN}`
+            },
+            body: JSON.stringify({filters})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data?.status && data?.status === 401)
+                deleteUserToken();
+            console.log(data);
+            return data
+        })
+        .catch(err => {
+            console.log(err);
+            return {isError: true, message: err.message};
+        })
+    } catch (e){
+        console.log(e);
+        return {isError: true, message: e.message};
+    }
+}

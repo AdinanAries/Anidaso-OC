@@ -529,6 +529,11 @@ export const add_commas_to_number = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+export const get_three_letter_month_from_num = (num) => {
+    let _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return _months[num];
+}
+
 window.__init_pagination_helper_functions = (which, total_recs, limit_p, container_elem_id, numbers_list_elem_id, nextbtn, prevbtn, call_back) => {
     set_pagination_initial_pages_numbers(
         which, 
