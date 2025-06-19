@@ -179,6 +179,9 @@ const AgentLinks = (props) => {
                             {
                                 bookingLinks?.map(each=>{
                                     let _full_link = `${each?.client_app_url}?product=${each?.product}&type=${each?.trip_type}&date=${each?.travel_dates}&dpt_airport=${each?.departure_airport}&dst_airport=${each?.destination_airport}&cabin=${each?.cabin}&adults=${each?.num_of_adults}&children=${each?.num_of_children}&infants=${each?.num_of_infants}&ag=${userDetails?._id}&bl=${each?._id}`;
+                                    let utc = new Date(each?.updatedAt);
+                                    let offset = utc.getTimezoneOffset();
+                                    let local = new Date(utc.getTime() + offset * 60000);
                                     return <tr>
                                         <td className="tool-tip-parent" style={{color: "orange"}}>
                                             <span style={{color: "skyblue"}}>
@@ -211,8 +214,11 @@ const AgentLinks = (props) => {
                                                 </a>
                                             </div>
                                         </td>
-                                        <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                            {each?.updatedAt}
+                                        <td className="tool-tip-parent" style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                            {local.toString().substring(0, 25)}
+                                            <span style={{top: "calc(100% - 5px)", color: "black"}} className='tool-tip'>
+                                                {local.toString()}
+                                            </span>
                                         </td>
                                         <td>
                                             {each?.data_provider}

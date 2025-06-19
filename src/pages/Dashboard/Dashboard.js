@@ -34,6 +34,7 @@ const Dashboard = (props) =>  {
         setCurrentElemToolsState,
         bindNewsLetterElemEvents,
         applyNewsLetterChanges,
+        servicePlanTiersList,
     } = props
 
     return <>
@@ -73,6 +74,7 @@ const Dashboard = (props) =>  {
             setCurrentElemToolsState={setCurrentElemToolsState}
             bindNewsLetterElemEvents={bindNewsLetterElemEvents}
             applyNewsLetterChanges={applyNewsLetterChanges}
+            servicePlanTiersList={servicePlanTiersList}
         />
     </>;
 

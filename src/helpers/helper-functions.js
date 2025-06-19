@@ -520,9 +520,21 @@ export const getClient = async () => {
     return client;
 }
 
-export function calculateActionPoints(total_money_amount){
-    let unit_amout = 0.05; // $0.05 is to 1 action
-    return (total_money_amount/unit_amout).toFixed(0);
+export function calculateActionPoints(total_money_amount, actions_per_unit=10){
+    // 10 actions = $1
+    // 1 action = $x;
+    // 10x = 1*1
+    // x = 1/10
+    //let unit_amout = (1/actions_per_unit);
+    if(!total_money_amount){
+        alert("Please add total money amount to calculate action points");
+        return 0;
+    }
+    if(!actions_per_unit){
+        alert("Please add number of actions per unit to calculate action points");
+        return 0;
+    }
+    return (total_money_amount*actions_per_unit).toFixed(0);
 
 }
 

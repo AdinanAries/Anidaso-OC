@@ -24,11 +24,23 @@ const AgentWallet = (props) => {
         setSelectedStaff,
         loggedInUserDetails,
         setUserDetails,
+        servicePlanTiersList
     } = props;
 
     let isOwner = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.owner);
     let isAdmin = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.admin);
     let isAgent = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.agent);
+
+    let current_service_plan = servicePlanTiersList.find(each=>each?.constant===1);
+    let wallet_actions_per_unit = current_service_plan?.actions_per_unit;
+    if(isAgent){
+        let agent_info = userDetails?.agent_info;
+        let sp_obj = agent_info?.find(each=>each.property==="service_plan");
+        if(sp_obj?.value){
+            current_service_plan=servicePlanTiersList.find(each=>each?.constant===parseInt(sp_obj?.value));
+            wallet_actions_per_unit=current_service_plan?.actions_per_unit;
+        }
+    }
 
     const PAGI_LIMIT = 10;
     const __PAYMENT_FOR_WALLET_BALANCE = "wallet";
@@ -185,7 +197,7 @@ const AgentWallet = (props) => {
                         <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 5}}>
                             approx. 
                             <span style={{color: "orange"}}>
-                                {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))}</span> actions remaining
+                                {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2), wallet_actions_per_unit))}</span> actions remaining
                         </p>
                     </div>
                 </div>
@@ -286,7 +298,7 @@ const AgentWallet = (props) => {
                                         <td>Type</td>
                                         <td>Title</td>
                                         <td>Description</td>
-                                        <td style={{backgroundColor: "pink"}}>Updated At</td>
+                                        <td style={{backgroundColor: "pink"}}>Created At</td>
                                         <td>Amount</td>
                                         <td>Points</td>
                                         <td>Balance Before</td>
@@ -330,6 +342,9 @@ const AgentWallet = (props) => {
                                     </tr>*/}
                                     {
                                         transactions?.length && transactions?.map(each=>{
+                                            let utc = new Date(each?.createdAt);
+                                            let offset = utc.getTimezoneOffset();
+                                            let local = new Date(utc.getTime() + offset * 60000);
                                             return <tr>
                                                 <td style={{color: (each?.type_info?.type?.toLowerCase().trim()==="debit" ? "orangered" : "lightgreen"), fontSize: 11}}>
                                                     {
@@ -356,8 +371,11 @@ const AgentWallet = (props) => {
                                                         {each?.description}
                                                     </div>
                                                 </td>
-                                                <td style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                                    {each?.updatedAt}
+                                                <td className="tool-tip-parent" style={{backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                                    {local.toString().substring(0, 25)}
+                                                    <span style={{top: "calc(100% - 5px)", color: "black"}} className='tool-tip'>
+                                                        {local.toString()}
+                                                    </span>
                                                 </td>
                                                 <td>${each?.total_amount}</td>
                                                 <td>{each?.total_action_points} actions</td>
@@ -416,7 +434,7 @@ const AgentWallet = (props) => {
                                                     <div style={{marginBottom: 5, borderTop: "1px solid rgba(255,255,255,0.1)", padding: 10}}>
                                                         <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                                                             <i className="fa-solid fa-file-signature" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                                                            Basic Tier: $1.00 = 10 actions</p>
+                                                            {current_service_plan?.name}: $1.00 = {current_service_plan?.actions_per_unit} actions</p>
                                                         <div>
                                                             <input onInput={newBalanceAmountOnInput}
                                                                 value={newBalanceAmount}
@@ -445,7 +463,7 @@ const AgentWallet = (props) => {
                                                     newBalanceAmount ?
                                                     <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 5}}>
                                                         <span style={{color: "orange"}}>
-                                                            {add_commas_to_number(calculateActionPoints(newBalanceAmount))}</span> actions will be added
+                                                            {add_commas_to_number(calculateActionPoints(newBalanceAmount, wallet_actions_per_unit))}</span> actions will be added
                                                     </p> : <></>
                                                 }
                                             </div>

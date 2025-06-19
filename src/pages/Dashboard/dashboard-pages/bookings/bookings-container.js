@@ -31,7 +31,10 @@ let BookingsContainer = (props)=>{
 
     const {
         userDetails,
+        servicePlanTiersList
     } = props;
+
+    console.log("servicePlanTiers", servicePlanTiersList);
     
     const _pageConstant=CONSTANTS.app_page_constants.bookings;
     const has_access_this_page=(userDetails?.pages_can_access_constants?.includes(_pageConstant));
@@ -39,6 +42,15 @@ let BookingsContainer = (props)=>{
     let isOwner = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.owner);
     let isAdmin = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.admin);
     let isAgent = (userDetails?.role_info?.constant===CONSTANTS.app_role_constants.agent);
+
+    let wallet_actions_per_unit = servicePlanTiersList.find(each=>each?.constant===1)?.actions_per_unit;
+    if(isAgent){
+        let agent_info = userDetails?.agent_info;
+        let sp_obj = agent_info?.find(each=>each.property==="service_plan");
+        if(sp_obj?.value){
+            wallet_actions_per_unit=servicePlanTiersList.find(each=>each?.constant===parseInt(sp_obj?.value))?.actions_per_unit;
+        }
+    }
 
     const [ mostRecentBookingData, setMostRecentBookingData ] = useState({});
 
@@ -85,7 +97,7 @@ let BookingsContainer = (props)=>{
                                             </div>
                                         </div>
                                         <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                                            {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
+                                            {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2), wallet_actions_per_unit))} actions
                                         </p>
                                     </div> :
                                     (!isOwner && !isAdmin) &&
@@ -122,6 +134,7 @@ let BookingsContainer = (props)=>{
                                     {
                                         isAgent && <AgentDetailsCard
                                             userDetails={userDetails}
+                                            servicePlanTiersList={servicePlanTiersList}
                                         />
                                     }
                                 </div>

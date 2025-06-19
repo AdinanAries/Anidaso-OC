@@ -9,8 +9,17 @@ const AgentDetailsCard = (props) => {
 
     const {
         userDetails,
-        hideSeeDetailsLink
+        hideSeeDetailsLink,
+        servicePlanTiersList
     } = props
+
+    let current_service_plan = servicePlanTiersList.find(each=>each?.constant===1);
+    
+    let agent_info = userDetails?.agent_info;
+    let sp_obj = agent_info?.find(each=>each.property==="service_plan");
+    if(sp_obj?.value){
+        current_service_plan=servicePlanTiersList.find(each=>each?.constant===parseInt(sp_obj?.value));
+    }
 
     let Last_Available_Total_Month_Sales=0;
     let Last_Available_Total_Month="";
@@ -73,19 +82,19 @@ const AgentDetailsCard = (props) => {
                             <div style={{marginRight: 20}}>
                                 <p style={{fontSize: 11, color: "lightblue"}}>
                                     <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-file-signature"></i>
-                                    Free Tier
+                                    {current_service_plan?.name}
                                 </p>
                             </div>
                             <div style={{marginRight: 20}}>
                                 <p style={{fontSize: 11, color: "lightblue"}}>
                                     <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-gauge-high"></i>
-                                    $1/10 actions
+                                    $1/{current_service_plan?.actions_per_unit} actions
                                 </p>
                             </div>
-                            <div style={{marginRight: 20}}>
+                            <div>
                                 <p style={{fontSize: 11, color: "lightblue"}}>
                                     <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa-solid fa-share-alt"></i>
-                                    1 Supplier (Duffel)
+                                    {(current_service_plan?.number_of_suppliers_allowed) || "All"} Supplier(s)
                                 </p>
                             </div>
                         </div>

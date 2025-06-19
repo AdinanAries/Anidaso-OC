@@ -40,12 +40,14 @@ let MainSection = (props)=>{
         setCurrentElemToolsState,
         bindNewsLetterElemEvents,
         applyNewsLetterChanges,
+        servicePlanTiersList={servicePlanTiersList}
     } = props;
 
     return (
         <main>
             <BookingsContainer
                 userDetails={userDetails}
+                servicePlanTiersList={servicePlanTiersList}
             />
             <ChannelsContainer
                 userDetails={userDetails}
@@ -65,6 +67,7 @@ let MainSection = (props)=>{
             <StaffContainer
                 userDetails={userDetails}
                 setUserDetails={setUserDetails}
+                servicePlanTiersList={servicePlanTiersList}
             />
             <DealsContainer 
                 userDetails={userDetails}
@@ -99,6 +102,7 @@ let MainSection = (props)=>{
                 setCurrentElemToolsState={setCurrentElemToolsState}
                 bindNewsLetterElemEvents={bindNewsLetterElemEvents}
                 applyNewsLetterChanges={applyNewsLetterChanges}
+                servicePlanTiersList={servicePlanTiersList}
             />
             <SettingsContainer 
                 userDetails={userDetails}

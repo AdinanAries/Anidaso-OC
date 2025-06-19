@@ -64,6 +64,7 @@ let MarketingContainer = (props)=>{
         setCurrentElemToolsState,
         bindNewsLetterElemEvents,
         applyNewsLetterChanges,
+        servicePlanTiersList
     } = props;
     
     const _pageConstant=CONSTANTS.app_page_constants.marketing;
@@ -82,6 +83,15 @@ let MarketingContainer = (props)=>{
     let isLoggedUserOwner = (user_role_const===CONSTANTS.app_role_constants.owner);
     let isLoggedUserAdmin = (user_role_const===CONSTANTS.app_role_constants.admin);
     let isLoggedUserAgent = (user_role_const===CONSTANTS.app_role_constants.agent);
+
+    let wallet_actions_per_unit = servicePlanTiersList.find(each=>each?.constant===1)?.actions_per_unit;
+    if(isLoggedUserAgent){
+        let agent_info = userDetails?.agent_info;
+        let sp_obj = agent_info?.find(each=>each.property==="service_plan");
+        if(sp_obj?.value){
+            wallet_actions_per_unit=servicePlanTiersList.find(each=>each?.constant===parseInt(sp_obj?.value))?.actions_per_unit;
+        }
+    }
 
     const SETTINGS_SVR = {
         customer_app_server: 0,
@@ -142,6 +152,8 @@ let MarketingContainer = (props)=>{
         send_link: 3
     }
     const AGENT_WEBSITE_URL = (userDetails?.website_url || "N/A");
+    const WELLDUGO_MAIN_WEBSITE_URL = "https://welldugo-56d8210b9fe9.herokuapp.com";
+    const AGENT_APP_URL = "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com";
     const PAGI_LIMIT = 10;
     const __PROFIT_TYPE_PROP_KEY="profit_type";
     const __PROFIT_TYPES = {
@@ -191,8 +203,8 @@ let MarketingContainer = (props)=>{
             icon: "globe",
             name: "Website Url",
             value: ( isLoggedUserAgent ?
-                AGENT_WEBSITE_URL : //"https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com" ://"http://localhost:3001" :
-                "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com"
+                AGENT_WEBSITE_URL : //"http://localhost:3001" :
+                WELLDUGO_MAIN_WEBSITE_URL //"http://www.welldugo.com"
             ),
         },
         {
@@ -201,8 +213,8 @@ let MarketingContainer = (props)=>{
             icon: "server",
             name: "Booking Engine",
             value: ( isLoggedUserAgent ?
-                ("https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?ngn=1&ag="+userDetails?._id) ://"http://localhost:3001/?ngn=1&ag=" : 
-                "https://welldugo-56d8210b9fe9.herokuapp.com" //"http://www.welldugo.com",
+                (AGENT_APP_URL+"/?ngn=1&ag="+userDetails?._id) : //"http://localhost:3001/?ngn=1&ag=" : 
+                WELLDUGO_MAIN_WEBSITE_URL //"http://www.welldugo.com",
             ),
         },
         {
@@ -217,7 +229,10 @@ let MarketingContainer = (props)=>{
         title: "(No Subject)",
         from: "adinanaries@outlook.com",
     });
-    const search_link_client_app_url = "https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com";
+    const search_link_client_app_url = (isLoggedUserAgent ? 
+        AGENT_APP_URL : 
+        (WELLDUGO_MAIN_WEBSITE_URL+"/search")
+    );
     const [ previewLink, setPreviewLink ] = useState(
         (search_link_client_app_url+(isLoggedUserAgent ? `/?ag=${userDetails?._id}&product=0` : ""))
     );
@@ -777,7 +792,7 @@ let MarketingContainer = (props)=>{
                                     </div>
                                 </div>
                                 <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                                    {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2)))} actions
+                                    {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2), wallet_actions_per_unit))} actions
                                 </p>
                             </div> :
                             (!isLoggedUserOwner && !isLoggedUserAdmin) &&

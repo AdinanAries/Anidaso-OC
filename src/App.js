@@ -7,6 +7,7 @@ import FullPageLoader from './components/FullPageLoader';
 import CreatePasswordPage from "./pages/CreatePasswordPage";
 import { verifyUserToken } from './services/sessionServices';
 import { fetchAccountInfo } from './services/accountServices';
+import { fetchAllServicePlanTiers } from './services/servicePlanTierServices';
 import { fetchNewsLetterStateByAgentAndTemplateName } from './services/newsLetterServices';
 import { useEffect, useState } from 'react';
 import { dashboardInits } from './helpers/inits';
@@ -411,6 +412,7 @@ function App() {
   const [loggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userDetails, setUserDetails] = useState({});
+  const [servicePlanTiersList, setServicePlanTiersList ] = useState([]);
   const [ currentDesign, setCurrentDesign ] = useState({
     db_obj: {},
     string_snap_shot: "",
@@ -508,6 +510,8 @@ function App() {
             string_snap_shot: nl_init_template,
             changes_history: [nl_init_template],
           });
+          const __spl=await fetchAllServicePlanTiers();
+          setServicePlanTiersList(__spl);
           setIsLoading(false);
           setTimeout(()=>{
             dashboardInits();
@@ -564,6 +568,7 @@ function App() {
                 setCurrentElemToolsState={setCurrentElemToolsState}
                 bindNewsLetterElemEvents={bindNewsLetterElemEvents}
                 applyNewsLetterChanges={applyNewsLetterChanges}
+                servicePlanTiersList={servicePlanTiersList}
               /> : 
               <CreatePasswordPage 
                 userDetails={userDetails}

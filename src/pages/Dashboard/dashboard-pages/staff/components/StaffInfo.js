@@ -32,7 +32,8 @@ const StaffInfo = (props) => {
         setUserDetails,
         isLoggedUserAgent,
         isLoggedUserOwner,
-        isLoggedUserAdmin
+        isLoggedUserAdmin,
+        servicePlanTiersList
     } = props;
 
     const _PAGES = {
@@ -90,6 +91,15 @@ const StaffInfo = (props) => {
     let isOwner = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.owner);
     let isAdmin = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.admin);
     let isAgent = (selectedStaff?.role_info?.constant===CONSTANTS.app_role_constants.agent);
+
+    let wallet_actions_per_unit = servicePlanTiersList.find(each=>each?.constant===1)?.actions_per_unit;
+    if(isAgent){
+        let agent_info = selectedStaff?.agent_info;
+        let sp_obj = agent_info?.find(each=>each.property==="service_plan");
+        if(sp_obj?.value){
+            wallet_actions_per_unit=servicePlanTiersList.find(each=>each?.constant===parseInt(sp_obj?.value))?.actions_per_unit;
+        }
+    }
 
     const render_agent_sales_stats_chart = (labels, values) => {
         const ctx = document.getElementById('salesStatsChartStaffInfoPage');
@@ -357,7 +367,7 @@ const StaffInfo = (props) => {
                         </div>
                     </div>
                     <p style={{textAlign: "right", marginTop: 5, color: "rgba(255,255,255,0.5)", fontSize: 12}}>
-                        {add_commas_to_number(calculateActionPoints((selectedStaff?.wallet_info?.current_balance)?.toFixed(2)))} actions
+                        {add_commas_to_number(calculateActionPoints((selectedStaff?.wallet_info?.current_balance)?.toFixed(2), wallet_actions_per_unit))} actions
                     </p>
                 </div> :
                 (!isAdmin && !isOwner) &&
@@ -380,6 +390,7 @@ const StaffInfo = (props) => {
                                 <AgentDetailsCard
                                     hideSeeDetailsLink={true}
                                     userDetails={selectedStaff}
+                                    servicePlanTiersList={servicePlanTiersList}
                                 />
                             </div>
                             <div style={{width: "calc(50% - 2px)"}}>
@@ -626,6 +637,7 @@ const StaffInfo = (props) => {
                 loggedInUserDetails={loggedInUserDetails}
                 setUserDetails={setUserDetails}
                 setSelectedStaff={setSelectedStaff}
+                servicePlanTiersList={servicePlanTiersList}
             />
         }
         {

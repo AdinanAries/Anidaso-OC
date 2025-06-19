@@ -50,6 +50,7 @@ let SalesContainer = (props) => {
     const loadPageData = async (isListOnly=false) => {
         setIsLoading(true);
         let __all_sales= await fetchAllSales(userDetails?._id, filters, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
+        console.log(__all_sales);
         setsalesList(__all_sales);
         if(!isListOnly){
             let __res = await fetchGroupedSalesByMonth(userDetails?._id, filters);
@@ -247,8 +248,12 @@ let SalesContainer = (props) => {
                                                 Sales List
                                             </div>
                                         </div>
+                                        <div>
+                                            <pre>{
+                                                JSON.stringify(selectedSale, null, 2)
+                                            }</pre>
+                                        </div>
                                     </div> :
-                                    
                                     isLoading ? 
                                     <div style={{backgroundColor: "green", padding: 20, textAlign: "center",
                                         fontSize: 12, color: "lightgreen", margin: 10, marginBottom: 20, cursor: "pointer"}}>
@@ -256,36 +261,58 @@ let SalesContainer = (props) => {
                                         Loading.. Please Wait
                                     </div> :
                                     <>
-                                        <table className='app-standard-table white-bg'>
+                                        <table className='app-standard-table white-bg' style={{borderSpacing: 0}}>
                                             <tr>
-                                                <td>Type</td>
-                                                <td style={{backgroundColor: "rgb(0, 46, 106)"}}>Timestamp</td>
-                                                <td>Data Provider</td>
-                                                <td>Total</td>
+                                                <td style={{backgroundColor: "rgb(0, 44, 69)"}}>
+                                                    Type</td>
+                                                <td style={{backgroundColor: "rgb(0, 46, 106)"}}>
+                                                    Timestamp</td>
+                                                <td style={{backgroundColor: "rgb(0, 46, 106)"}}>
+                                                    Email</td>
+                                                <td>Price</td>
+                                                <td>Paid</td>
                                                 <td>Profit</td>
-                                                <td>Email</td>
                                             </tr>
                                             {
                                                 (salesList?.length > 0) ?
                                                 salesList?.map(each=>{
-                                                    return <tr onClick={()=>setSelectedSale({_id: "id"})} style={{cursor: "pointer"}}>
-                                                        <td>
-                                                            Flight
+                                                    let total_paid = (each?.payment_intent.amount/100);
+                                                    let price = parseFloat(each?.booking_order.data.payments[0].amount);
+                                                    let profit = (total_paid - price);
+                                                    let email = each?.booking_order.data.passengers[0].email;
+                                                    let is_flight = (each?.booking_order?.data?.passengers ? true : false);
+                                                    let utc = new Date(each?.createdAt);
+                                                    let offset = utc.getTimezoneOffset();
+                                                    let local = new Date(utc.getTime() + offset * 60000);
+                                                    return <tr onClick={()=>setSelectedSale(each)} style={{cursor: "pointer"}}>
+                                                        <td className="tool-tip-parent" style={{color: "white", border: "none", textAlign: "center"}}>
+                                                            {
+                                                                is_flight && 
+                                                                <i style={{fontSize: 12, color: "rgb(158, 158, 158)"}} 
+                                                                    className="fa-solid fa-plane-departure"></i>
+                                                            }
+                                                            <span style={{top: "calc(100% - 5px)", color: "black", fontSize: 12}} className='tool-tip'>
+                                                                {is_flight && "Flight Booking"}
+                                                            </span>
+                                                        </td>
+                                                        <td className="tool-tip-parent"
+                                                            style={{backgroundColor: "rgba(0, 0, 0, 0.09)", fontSize: 12}}>
+                                                            {local.toString().substring(0, 25)}
+                                                            <span style={{top: "calc(100% - 5px)"}} className='tool-tip'>
+                                                                {local.toString()}
+                                                            </span>
                                                         </td>
                                                         <td style={{backgroundColor: "rgba(0, 0, 0, 0.09)"}}>
-                                                            {each?.createdAt}
+                                                            {email}
                                                         </td>
                                                         <td>
-                                                            Duffel
+                                                            ${add_commas_to_number(price.toFixed(2))}
                                                         </td>
                                                         <td>
-                                                            $341.22
+                                                            ${add_commas_to_number(total_paid.toFixed(2))}
                                                         </td>
                                                         <td>
-                                                            $43.23
-                                                        </td>
-                                                        <td>
-                                                            m.adinan@yahoo.com
+                                                            ${add_commas_to_number(profit.toFixed(2))}
                                                         </td>
                                                     </tr>
                                                 }) : <></>

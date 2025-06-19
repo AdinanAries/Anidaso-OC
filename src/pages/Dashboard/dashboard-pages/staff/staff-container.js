@@ -12,7 +12,8 @@ let StaffContainer = (props)=>{
 
     const {
         userDetails,
-        setUserDetails
+        setUserDetails,
+        servicePlanTiersList
     } = props;
 
     const _pageConstant=CONSTANTS.app_page_constants.staff;
@@ -62,6 +63,7 @@ let StaffContainer = (props)=>{
                                 isLoggedUserAgent={isLoggedUserAgent}
                                 isLoggedUserOwner={isLoggedUserOwner}
                                 isLoggedUserAdmin={isLoggedUserAdmin}
+                                servicePlanTiersList={servicePlanTiersList}
                             />
                         </div> : ((isLoggedUserAdmin || isLoggedUserOwner) &&
                             <div style={{display: "flex", justifyContent: "space-between"}}>
