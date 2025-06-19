@@ -152,6 +152,8 @@ const AgentWallet = (props) => {
                         }
                     }
                     setSelectedStaff(updated_user_info);
+                } else {
+                    loadPageData();
                 }
             } else {
                 loadPageData();
