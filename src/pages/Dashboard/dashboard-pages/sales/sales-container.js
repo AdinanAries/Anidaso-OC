@@ -167,6 +167,31 @@ let SalesContainer = (props) => {
                                     <option style={{color: "black"}}>
                                         Flights
                                     </option>
+                                    <option style={{color: "black"}}>
+                                        Stays
+                                    </option>
+                                    <option style={{color: "black"}}>
+                                        Rental Cars
+                                    </option>
+                                </select>
+                            </div>
+                            <div style={{marginRight: 10}}>
+                                <p className="regular-font-color-dark-bg" 
+                                    style={{fontSize: 13, marginBottom: 5}}>
+                                        Agent/Welldugo</p>
+                                <select style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                    <option style={{color: "black"}}>
+                                        All
+                                    </option>
+                                    <option style={{color: "black"}}>
+                                        Agents only
+                                    </option>
+                                    <option style={{color: "black"}}>
+                                        One Agent
+                                    </option>
+                                    <option style={{color: "black"}}>
+                                        Welldugo Only
+                                    </option>
                                 </select>
                             </div>
                             <div style={{marginRight: 10}}>
@@ -175,10 +200,13 @@ let SalesContainer = (props) => {
                                         Sale Type</p>
                                 <select style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
                                     <option style={{color: "black"}}>
+                                        All Sales
+                                    </option>
+                                    <option style={{color: "black"}}>
                                         Booking Links
                                     </option>
                                     <option style={{color: "black"}}>
-                                        Customer Own Search
+                                        Customer Search
                                     </option>
                                 </select>
                             </div>
@@ -192,6 +220,12 @@ let SalesContainer = (props) => {
                                     placeholder="select dates here..."
                                     style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
                             </div>
+                            <div>
+                            <div
+                                style={{padding: "10px 20px", marginTop: 21, cursor: "pointer", backgroundColor: "green", color: "white", borderRadius: 50, fontSize: 13}}>
+                                Filter
+                            </div>
+                        </div>
                         </div>
                         <div style={{background: "white", minHeight: 300, padding: 10, display: "flex", justifyContent: "space-between"}}>
                             <div style={{width: "calc(40% - 4px)"}}>

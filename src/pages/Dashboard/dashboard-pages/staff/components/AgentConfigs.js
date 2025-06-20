@@ -10,10 +10,20 @@ import AgentServiceContract from "./AgentServiceContract";
 const AgentConfigs = (props) => {
 
     const {
-        userDetails
+        userDetails,
+        servicePlanTiersList
     } = props;
 
-    const isLoggedUserAgent = true;
+    const isLoggedUserAgent = true; // Assuming only Agents have Info on this page
+
+    let current_service_plan = servicePlanTiersList.find(each=>each?.constant===1);
+    if(isLoggedUserAgent){
+        let agent_info = userDetails?.agent_info;
+        let sp_obj = agent_info?.find(each=>each.property==="service_plan");
+        if(sp_obj?.value){
+            current_service_plan = servicePlanTiersList.find(each=>each?.constant===parseInt(sp_obj?.value));
+        }
+    }
 
     const __PROFIT_TYPE_PROP_KEY="profit_type";
     const __PROFIT_TYPES = {
@@ -58,7 +68,7 @@ const AgentConfigs = (props) => {
             color: "skyblue",
             icon: "file-signature",
             name: "Service Plan",
-            value: "Basic Tier"
+            value: current_service_plan?.name,
         },
     ]);
     const [ formValidation, setFormValidation ] = useState({

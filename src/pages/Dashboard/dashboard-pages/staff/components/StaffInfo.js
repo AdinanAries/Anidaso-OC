@@ -628,6 +628,7 @@ const StaffInfo = (props) => {
                 loggedInUserDetails={loggedInUserDetails}
                 setUserDetails={setUserDetails}
                 setSelectedStaff={setSelectedStaff}
+                servicePlanTiersList={servicePlanTiersList}
             />
         }
         {

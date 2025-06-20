@@ -84,12 +84,14 @@ let MarketingContainer = (props)=>{
     let isLoggedUserAdmin = (user_role_const===CONSTANTS.app_role_constants.admin);
     let isLoggedUserAgent = (user_role_const===CONSTANTS.app_role_constants.agent);
 
-    let wallet_actions_per_unit = servicePlanTiersList.find(each=>each?.constant===1)?.actions_per_unit;
+    let current_service_plan = servicePlanTiersList.find(each=>each?.constant===1);
+    let wallet_actions_per_unit = current_service_plan?.actions_per_unit;
     if(isLoggedUserAgent){
         let agent_info = userDetails?.agent_info;
         let sp_obj = agent_info?.find(each=>each.property==="service_plan");
         if(sp_obj?.value){
-            wallet_actions_per_unit=servicePlanTiersList.find(each=>each?.constant===parseInt(sp_obj?.value))?.actions_per_unit;
+            current_service_plan = servicePlanTiersList.find(each=>each?.constant===parseInt(sp_obj?.value))
+            wallet_actions_per_unit = current_service_plan?.actions_per_unit;
         }
     }
 
@@ -222,7 +224,7 @@ let MarketingContainer = (props)=>{
             color: "skyblue",
             icon: "file-signature",
             name: "Service Plan",
-            value: "Basic Tier"
+            value: current_service_plan?.name,
         },
     ]);
     const [ newsLetterSendObj, setNewsLetterSendObj ] = useState({

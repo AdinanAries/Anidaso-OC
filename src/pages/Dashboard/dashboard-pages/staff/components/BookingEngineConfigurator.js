@@ -570,27 +570,27 @@ const BookingEngineConfigurator = (props) => {
                                                     <h1 style={{color: BESettings?.greetingsCardTextColor, fontSize: 20, textAlign: "center"}}>
                                                     {business_name || "Business Name"}</h1>
                                                 }
-                                                <p style={{fontWeight: "bolder", fontSize: 12, color: BESettings?.greetingsCardTitleColor, textAlign: "center", marginBottom: 15, marginTop: 20, letterSpacing: 0.5, fontFamily: "Courgette"}}>
+                                                <p style={{fontWeight: "bolder", fontSize: 12, color: BESettings?.greetingsCardTitleColor, textAlign: "center", marginBottom: 15, marginTop: 20, letterSpacing: 0.5}}>
                                                         - Agent Details -</p>
                                                 <p style={{ display: "flex", justifyContent: "center", 
                                                         color: BESettings?.greetingsCardTextColor, marginTop: 10}}>
                                                     <i style={{marginRight: 10, color: BESettings?.greetingsCardIconColor}}
                                                         className="fa-solid fa-user-tie"></i>
-                                                    Mohammed Adinan
+                                                    {userDetails?.first_name} {userDetails?.last_name}
                                                 </p>
                                                 <p style={{color: BESettings?.greetingsCardSecTextColor, fontSize: 13, textAlign: "center", marginTop: 5}}>
-                                                    7327999546, adinanaries@outlook.com</p>
+                                                    {userDetails?.phone}, {userDetails?.email}</p>
                                                 <div className="footer_section_each_flex_section_container" style={{marginTop: 20}}>
-                                                    <p style={{fontWeight: "bolder", color: BESettings?.greetingsCardTitleColor, fontSize: 12, textAlign: "center", marginBottom: 15, letterSpacing: 0.5, fontFamily: "Courgette"}}>
+                                                    <p style={{fontWeight: "bolder", color: BESettings?.greetingsCardTitleColor, fontSize: 12, textAlign: "center", marginBottom: 15, letterSpacing: 0.5}}>
                                                         - Contact Us -</p>
                                                     <div style={{marginTop: 10}}>
                                                         <p style={{color: BESettings?.greetingsCardTextColor, textAlign: "center"}}>
                                                             <i style={{marginRight: 10, color: BESettings?.greetingsCardIconColor, marginBottom: 8}} className="fa fa-envelope"></i>
-                                                            business@email.com
+                                                            {business_email || "business@email.com"}
                                                         </p>
                                                         <p style={{color: BESettings?.greetingsCardTextColor, textAlign: "center"}}>
                                                             <i style={{marginRight: 10, color: BESettings?.greetingsCardIconColor, marginBottom: 10}} className="fa fa-phone"></i>
-                                                            +1 123-123-123
+                                                            {business_phone || "+1 123-123-123"}
                                                         </p>
                                                         <p style={{color: BESettings?.greetingsCardIconColor, textAlign: "center"}}>
                                                             <span style={{padding: "5px", marginRight: 10, borderRadius: 4, cursor: "pointer"}}>
