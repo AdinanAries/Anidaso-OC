@@ -15,12 +15,23 @@ import {
     fetchClientAppSvrPingInfo
 } from "../services/accountServices";
 import { useEffect, useState } from "react";
+import LOGO_PLACEHOLDER from "../LOGO_PLACEHOLDER.jpg";
 
 function Header(props){
 
     const {
         userDetails,
     } = props;
+
+    const {
+        business_name,
+        logo_url,
+        business_email,
+        business_phone,
+        business_facebook_link,
+        business_twitter_link,
+        business_instagram_link,
+    } = userDetails?.company_info;
 
     const user_role_const = userDetails?.role_info?.constant;
     let isLoggedUserOwner = (user_role_const===CONSTANTS.app_role_constants.owner);
@@ -71,15 +82,27 @@ function Header(props){
                     <div style={{display: "flex", alignItems: "center"}}>
                         <div className="main-menu-company-title" >
                             <div className="site_logo_container">
-                                <div style={{height: "100%", display: "flex"}}>
-                                    <p style={{marginRight: 5}}>
-                                        <img style={{width: 45}} src={wellgo_logo} alt="Logo"/></p>
-                                    <p>Welldugo
-                                        <sup style={{fontSize: 12}}>&reg;</sup></p>
+                                <div style={{height: "100%", display: "flex", alignItems: "center", width: 200}}>
+                                    {
+                                        isLoggedUserAgent ?
+                                        <>
+                                            <p style={{marginRight: 10}}>
+                                                <img style={{width: 45, borderRadius: "50%"}} src={LOGO_PLACEHOLDER} alt="Logo"/></p>
+                                            <p style={{fontSize: 15}}>
+                                                {business_name || "Business Name"}
+                                            </p>
+                                        </> :
+                                        <>
+                                            <p style={{marginRight: 5}}>
+                                                <img style={{width: 45}} src={wellgo_logo} alt="Logo"/></p>
+                                            <p>Welldugo
+                                                <sup style={{fontSize: 12}}>&reg;</sup></p>
+                                        </>
+                                    }
                                 </div>
                             </div>
                         </div>
-                        <div style={{marginLeft: 40}}>
+                        <div>
                             <div className="main-search-box" 
                                 style={{borderRadius: 50, width: "calc(100vw - 152px)",
                                 maxWidth: 350, margin: "auto", overflow: "hidden", backgroundColor: "rgba(255,255,255,0.2)"}}>

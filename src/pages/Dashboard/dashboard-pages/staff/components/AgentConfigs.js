@@ -29,6 +29,7 @@ const AgentConfigs = (props) => {
     const __PROFIT_TYPES = {
         percentage: "price_markup",
         flat_rate: "flat_rate",
+        data_provider: "data_provider",
     };
     const AGENT_WEBSITE_URL = (userDetails?.website_url || "N/A");
     const [ profitType, setProfitType ] = useState(__PROFIT_TYPES?.percentage);
@@ -41,6 +42,11 @@ const AgentConfigs = (props) => {
         user_id: userDetails?._id,
         property: __PROFIT_TYPES?.flat_rate,
         value: 0,
+    });
+    const [ agentDataProvider, setAgentDataProvider ] = useState({
+        user_id: userDetails?._id,
+        property: __PROFIT_TYPES?.data_provider,
+        value: 'duffel',
     });
     const [ appConfigs, setAppConfigs ] = useState([
         {
@@ -125,6 +131,16 @@ const AgentConfigs = (props) => {
         }
 
         // 4. Agents Set Data Provder
+        let dp_res = await fetchAgentInfoByAgentIdAndPropName(
+            agentDataProvider?.user_id, 
+            agentDataProvider?.property
+        );
+        if(dp_res?._id){
+            setAgentDataProvider({
+                ...agentDataProvider,
+                value: dp_res?.value,
+            });
+        }
     }
 
     const agentPriceMarkupOnchange = (e) => {
@@ -139,6 +155,14 @@ const AgentConfigs = (props) => {
         resetFormValidation();
         setAgentFlatRate({
             ...agentFlatRate,
+            value: e.target.value
+        })
+    }
+
+    const agentDataProviderOnchange = (e) => {
+        resetFormValidation();
+        setAgentDataProvider({
+            ...agentDataProvider,
             value: e.target.value
         })
     }
@@ -163,6 +187,10 @@ const AgentConfigs = (props) => {
             return
         }
 
+        if(!agentDataProvider?.value){
+            return;
+        }
+
         // 1. Saving Current Profit Type
         let pt_res = await createNewAgentInfo({
             user_id: userDetails?._id,
@@ -177,7 +205,7 @@ const AgentConfigs = (props) => {
         let flp_res = await createNewAgentInfo(agentFlatRate);
 
         // 4. Data Provider
-        //---Here for Data Provider--//
+        let dp_res = await createNewAgentInfo(agentDataProvider);
 
         alert(`Booking parameters modified!`);
 
@@ -231,7 +259,8 @@ const AgentConfigs = (props) => {
                             <i className="fa fa-share-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                             Data Supplier</p>
                         <div style={{border: "none"}}>
-                            <select
+                            <select onInput={agentDataProviderOnchange}
+                                value={agentDataProvider?.value}
                                 type="text" placeholder="type here..."
                                 style={{fontSize: 14, color: "white", width: "calc(100% - 20px)", padding: 10, background: "none", border: "none"}}>
                                     <option style={{color: "black"}} value="duffel">Duffel</option>

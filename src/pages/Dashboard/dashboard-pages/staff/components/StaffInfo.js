@@ -385,7 +385,7 @@ const StaffInfo = (props) => {
                 {
                     (!isAdmin && !isOwner) &&
                     <>
-                        <div style={{display: "flex", justifyContent: "space-between", marginBottom: 5}}>
+                        <div style={{display: "flex", justifyContent: "space-between", marginBottom: 10}}>
                             <div style={{width: "calc(50% - 2px)"}}>
                                 <AgentDetailsCard
                                     hideSeeDetailsLink={true}
@@ -394,8 +394,8 @@ const StaffInfo = (props) => {
                                 />
                             </div>
                             <div style={{width: "calc(50% - 2px)"}}>
-                                <div style={{padding: 10}}>
-                                    <div>
+                                <div>
+                                    <div style={{paddingLeft: 10}}>
                                         <p style={{fontSize: 13, marginBottom: 10, color: "rgba(255,255,255,0.7)"}}>
                                             Monthly Sales From <span style={{color: "orange"}}>
                                             {salesIntervalMonths[(salesIntervalMonths.length-1)]} - {salesIntervalMonths[0]}</span>
