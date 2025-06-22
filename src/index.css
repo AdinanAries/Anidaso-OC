@@ -816,16 +816,19 @@ body {
 .side-menu-each-item-name {
   /*height: 100%;
   display: flex;*/
-  background: black;
-  top: calc(100% - 5px);
-  text-align: center;
+  background: #232F3A;
+  border-radius: 0 !important;
+  box-shadow: none;
+  top: 0;
+  padding: 14px;
+  left: calc(100% - 5px);
   flex-direction: column;
   justify-content: center;
 }
 main {
   width: calc(100vw - 15px);
-  padding-left: 70px;
-  padding-top: 80px;
+  padding-left: 75px;
+  padding-top: 85px;
   padding-right: 10px;
 }
 .main-seaction-containers {

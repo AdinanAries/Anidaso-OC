@@ -188,6 +188,11 @@ const AgentConfigs = (props) => {
         }
 
         if(!agentDataProvider?.value){
+            setFormValidation({
+                type: "error",
+                isError: true,
+                message: "Data provider must field is required",
+            });
             return;
         }
 

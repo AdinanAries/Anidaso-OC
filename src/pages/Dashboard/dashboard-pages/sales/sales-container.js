@@ -173,6 +173,12 @@ let SalesContainer = (props) => {
                                     <option style={{color: "black"}}>
                                         Rental Cars
                                     </option>
+                                    <option style={{color: "black"}}>
+                                        Deals
+                                    </option>
+                                    <option style={{color: "black"}}>
+                                        Pakckages
+                                    </option>
                                 </select>
                             </div>
                             <div style={{marginRight: 10}}>

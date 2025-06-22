@@ -364,7 +364,7 @@ const AgentServiceFees = (props) => {
                     <div>
                         <p style={{color: "yellow", fontSize: 13, marginLeft: 20}}>
                             Checkout Overview</p>
-                        <div style={{backgroundColor: "rgb(0, 166, 243)", border: "4px solid yellow", borderRadius: 9, padding: 20, margin: 10}}>
+                        <div style={{backgroundColor: "white", padding: 20, margin: 10}}>
                             
                             <p style={{fontSize: 16, letterSpacing: 1, fontWeight: "bolder", fontFamily: "Prompt, sans-serif", color: "rgba(0, 0, 0, 0.8)"}}>
                                 Price Summary
@@ -443,19 +443,6 @@ const AgentServiceFees = (props) => {
                                             ?.reduce((accumulator, current_elem) => accumulator + current_elem?.price, 0)))
                                     }
                                 </p>
-                            </div>
-                            <div>
-                                <div style={{display: "flex", marginTop: 20, justifyContent: "space-between"}}>
-                                    <div style={{cursor: "pointer", boxShadow: "rgba(0, 0, 0, 0.3) 1px 2px 3px", backgroundColor: "rgb(167, 149, 149)", color: "grey", borderRadius: "100%", width: 40, height: 40, display: "flex", justifyContent: "center", alignItems: "center"}}>
-                                        <i className="fa-solid fa-arrow-left" ariaHidden="true"></i>
-                                    </div>
-                                    <div style={{cursor: "pointer", marginTop: 0, display: "flex", justifyContent: "center", alignItems: "center", width: "calc(100% - 50px)", backgroundColor: "rgb(138, 141, 144)", color: "grey", borderRadius: 50}}>
-                                        Continue
-                                        <span style={{fontSize: 13, color: "rgba(255, 255, 255, 0.4)", marginLeft: 10}}>
-                                            (Passengers)
-                                        </span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

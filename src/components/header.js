@@ -82,7 +82,7 @@ function Header(props){
                     <div style={{display: "flex", alignItems: "center"}}>
                         <div className="main-menu-company-title" >
                             <div className="site_logo_container">
-                                <div style={{height: "100%", display: "flex", alignItems: "center", width: 200}}>
+                                <div style={{height: "100%", display: "flex", alignItems: "center"}}>
                                     {
                                         isLoggedUserAgent ?
                                         <>
@@ -105,10 +105,10 @@ function Header(props){
                         <div>
                             <div className="main-search-box" 
                                 style={{borderRadius: 50, width: "calc(100vw - 152px)",
-                                maxWidth: 350, margin: "auto", overflow: "hidden", backgroundColor: "rgba(255,255,255,0.2)"}}>
+                                maxWidth: 350, margin: "auto",  marginLeft: 20, overflow: "hidden", backgroundColor: "rgba(255,255,255,0.2)"}}>
                                 <input onInput={searchByConfirmationOninput} 
                                     id="search-booking-by-confirmation-input" 
-                                    style={{border: "none", width: "calc(100% - 60px)", padding: "20px 10px", background: "none", color: "white"}} 
+                                    style={{border: "none", width: "calc(100% - 60px)", padding: "5px 20px", background: "none", color: "white"}} 
                                     placeholder="Enter booking reference number here"/>
                                 <button onClick={()=>{
                                     onclickGetBookingByConfirmation();

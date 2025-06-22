@@ -37,7 +37,8 @@ let SideMenu = (props) => {
                         <p>Bookings</p>
                     </div>
                 </div>
-                <div onClick={()=> toggle_show_main_sections("deals")} id="side-menu-deals-item" className="side-menu-each-item tool-tip-parent">
+                <div onClick={()=> toggle_show_main_sections("deals")}
+                    id="side-menu-deals-item" className="side-menu-each-item tool-tip-parent">
                     <div style={{marginRight: 10}}>
                         <p>
                             <img src={dealsIcon} />
