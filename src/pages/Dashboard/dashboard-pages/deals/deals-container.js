@@ -44,6 +44,7 @@ let DealsContainer = (props)=>{
     const [selectedDealPackage, setSelectedDealPackage] = useState({});
     const [ createNewPackageData, setCreateNewPackageData ] = useState({
         type: 1, // ["1 => Package", "2 => Deal"]
+        view_template: 1, // Template for viewing this package on the published page for customers
         title: "",
         total_price: "",
         items: []

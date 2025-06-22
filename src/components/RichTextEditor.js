@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-const RichTexEditor = () => {
+const RichTextEditor = () => {
 
   const editorRef = useRef(null);
 
@@ -36,4 +36,4 @@ const RichTexEditor = () => {
   );
 }
 
-export default RichTexEditor;
+export default RichTextEditor;

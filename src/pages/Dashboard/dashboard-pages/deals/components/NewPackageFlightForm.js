@@ -1,4 +1,4 @@
-import RichTexEditor from "../../../../../components/RichTexEditor";
+import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
 
 const NewPackageFlightForm = (props) => {
 
@@ -90,8 +90,8 @@ const NewPackageFlightForm = (props) => {
                 <span style={{color: "orange"}}> Passport Information (for international travel):</span> Passport number, issue and expiry dates, and nationality.
                 <span style={{color: "orange"}}> Special Requirements:</span> Note any special meal preferences, seating preferences, or accessibility needs
             </p>
-            <div>
-                <RichTexEditor />
+            <div style={{backgroundColor: "white"}}>
+                <RichTextEditorQuill elem_id="new_package_flight_info_form_details_field" />
             </div>
         </div>
     </div>

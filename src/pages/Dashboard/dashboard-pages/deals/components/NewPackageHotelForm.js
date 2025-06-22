@@ -1,4 +1,4 @@
-import RichTexEditor from "../../../../../components/RichTexEditor";
+import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
 
 const NewPackageHotelForm = (props) => {
 
@@ -6,7 +6,7 @@ const NewPackageHotelForm = (props) => {
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Departure Airport</p>
+                Hotel Address</p>
             <div style={{border: "none"}}>
                 <input 
                     type="text" placeholder="type here..."  
@@ -15,8 +15,8 @@ const NewPackageHotelForm = (props) => {
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Destination Airport</p>
+                <i className="fa fa-building" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                Brand Name</p>
             <div style={{border: "none"}}>
                 <input 
                     type="text" placeholder="type here..."  
@@ -24,39 +24,152 @@ const NewPackageHotelForm = (props) => {
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-plane-departure" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Airline(s)</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                    <i className="fa fa-list-check" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                    Rating</p>
+                <div style={{border: "none"}}>
+                    <select 
+                        value={5}
+                        style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+                        <option value={1}
+                            style={{color: "black"}}>1 Star - Very Bad</option>
+                        <option value={2}
+                            style={{color: "black"}}>2 Stars - Bad</option>
+                        <option value={3}
+                            style={{color: "black"}}>3 Stars - Average</option>
+                        <option value={4}
+                            style={{color: "black"}}>4 Stars - Good</option>
+                        <option value={5}
+                            style={{color: "black"}}>5 Stars - Excellent</option>
+                    </select>
+                </div>
             </div>
-        </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-calender" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Departure - Return Dates
-                <span style={{fontSize: 12, color: "white", marginLeft: 30}}>
+                <i className="fa fa-list-check" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                Room Amenities</p>
+            <div style={{marginTop: 20}}> 
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
                     <input className="cm-toggle"
                         type="checkbox" />
-                    <label>
-                        <span style={{marginLeft: 10}}>
-                            Return Flights
+                    <span style={{marginLeft: 10, fontSize: 13}}>
+                        <label>
+                            <span style={{color: "orange"}}>Sleeping:</span> Comfortable beds (king or queen), premium linens, pillows.
+                        </label>
+                    </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                    <span style={{marginLeft: 10, fontSize: 13}}>
+                        <label>
+                            <span style={{color: "orange"}}>Bathroom:</span> Toiletries (shampoo, conditioner, soap, lotion), towels, hairdryer. 
+                        </label>
+                    </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                    <span style={{marginLeft: 10, fontSize: 13}}>
+                        <label>
+                            <span style={{color: "orange"}}>Entertainment:</span> Television, Wi-Fi. 
+                        </label>
+                    </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                    <span style={{marginLeft: 10, fontSize: 13}}>
+                        <label>
+                            <span style={{color: "orange"}}>Comfort:</span> Air conditioning/heating, desk, wardrobe, iron and ironing board. 
+                        </label>
+                    </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                    <span style={{marginLeft: 10, fontSize: 13}}>
+                        <label>
+                            <span style={{color: "orange"}}>Convenience:</span> Mini-fridge, coffee maker, safe, telephone. 
+                        </label>
+                    </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                    <span style={{marginLeft: 10, fontSize: 13}}>
+                        <label>
+                            <span style={{color: "orange"}}>Other:</span> Writing desk, chair, luggage rack, in-room safe, blackout curtains.
+                        </label>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
+            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                <i className="fa fa-list-check" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                Room Type(s)</p>
+            <div style={{marginTop: 20}}>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                    <span style={{marginLeft: 10, fontSize: 13}}>
+                        <label>
+                            <span style={{color: "orange"}}>Deluxe Room:</span> Offers more space and amenities than a standard room, potentially with better views, a larger work area, and more luxurious decor. 
+                        </label>
+                    </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                        <span style={{marginLeft: 10, fontSize: 13}}>
+                            <label>
+                                <span style={{color: "orange"}}>Executive Room:</span> Designed for business travelers, offering features like larger workspaces, better Wi-Fi, and access to executive lounges.
+                            </label>
                         </span>
-                    </label>
-                </span>
-            </p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+                    </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                        <span style={{marginLeft: 10, fontSize: 13}}>
+                            <label>
+                                <span style={{color: "orange"}}>Single Room:</span> Designed for one person, typically with one bed. 
+                            </label>
+                        </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                        <span style={{marginLeft: 10, fontSize: 13}}>
+                            <label>
+                                <span style={{color: "orange"}}>Standard Room:</span> The most basic and affordable option, typically featuring one or two beds, a private bathroom, and basic amenities like Wi-Fi and a TV.
+                            </label>
+                        </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                        <span style={{marginLeft: 10, fontSize: 13}}>
+                            <label>
+                                <span style={{color: "orange"}}>Double Room:</span> Designed for two people, typically with one double bed or two twin beds. 
+                            </label>
+                        </span>
+                </p>
+                <p style={{color: "white", margin: "10px 0", display: "flex"}}>
+                    <input className="cm-toggle"
+                        type="checkbox" />
+                        <span style={{marginLeft: 10, fontSize: 13}}>
+                            <label>
+                                <span style={{color: "orange"}}>Twin Room:</span> Designed for two people, with two separate twin beds.
+                            </label>
+                        </span>
+                </p>
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Flight(s) Only Price</p>
+                Hotel(s) Only Price</p>
             <div style={{border: "none"}}>
                 <input 
                     type="text" placeholder="type here..."  
@@ -76,22 +189,17 @@ const NewPackageHotelForm = (props) => {
             </p>
             <p style={{fontSize: 12, color: "white", padding: 10}}>
                 The information you include in this sections may include;
-                <span style={{color: "orange"}}> Flight Numbers:</span> Provide the specific flight numbers for each leg of the journey. 
-                <span style={{color: "orange"}}> Departure and Arrival Airports:</span> List the departure and arrival airports for each flight. Include airport codes for clarity. 
-                <span style={{color: "orange"}}> Price Competitiveness:</span> Calculate costs and set a competitive price that reflects the value of your package.
-                <span style={{color: "orange"}}> Baggage Allowance:</span> Specify the included baggage allowance (checked and carry-on) and any associated fees.
-                <span style={{color: "orange"}}> Airline Policies:</span> Include relevant airline policies, such as cancellation fees, change fees, and no-show policies.
-                <span style={{color: "orange"}}> Travel Insurance Details:</span> If travel insurance is included or recommended, provide details on coverage and how to file claims.
-                <span style={{color: "orange"}}> Emergency Contact Information:</span> Include emergency contact information for the travel company and any relevant local contacts.
-                <span style={{color: "orange"}}> Detailed Daily Schedule:</span> Provide a detailed daily schedule for the entire trip, including flight information, transportation arrangements (transfers, car rentals, etc.), accommodation details, and planned activities/excursions.
-                <span style={{color: "orange"}}> Layover/Connecting Flight Details:</span> If the itinerary includes layovers or connecting flights, include the airport, duration of the layover, and any relevant details.
-                <span style={{color: "orange"}}> Check-in & Check-out Times:</span> Clearly list check-in and check-out times for accommodations and any deadlines for activities. 
-                <span style={{color: "orange"}}> Full Name(s):</span> Include the full names of all travelers as they appear on their passports.
-                <span style={{color: "orange"}}> Passport Information (for international travel):</span> Passport number, issue and expiry dates, and nationality.
-                <span style={{color: "orange"}}> Special Requirements:</span> Note any special meal preferences, seating preferences, or accessibility needs
+                <span style={{color: "orange"}}> Room Type:</span> Clearly state the specific room category (e.g., standard double, deluxe suite, family room).
+                <span style={{color: "orange"}}> Room Amenities:</span> List essential amenities like bathroom facilities, air conditioning, TV, Wi-Fi, etc.
+                <span style={{color: "orange"}}> Hotel Facilities:</span> Mention any on-site facilities like a restaurant, bar, pool, spa, gym, etc.
+                <span style={{color: "orange"}}> Meals:</span> Indicate if meals are included (e.g., breakfast only, half-board, full-board) and the type of dining (buffet, à la carte).
+                <span style={{color: "orange"}}> Spa Treatments:</span> If spa treatments are included, specify the type and duration.
+                <span style={{color: "orange"}}> Blackout Dates:</span> Note any dates where the package is not available.
+                <span style={{color: "orange"}}> Cancellation Policy:</span> Clearly state the cancellation policy for the hotel and the package.
+                <span style={{color: "orange"}}> Other Restrictions:</span> Include any other relevant restrictions, such as age limits for certain activities or room occupancy limits.
             </p>
-            <div>
-                <RichTexEditor />
+            <div style={{backgroundColor: "white"}}>
+                <RichTextEditorQuill elem_id="new_package_hotel_info_form_details_field" />
             </div>
         </div>
     </div>

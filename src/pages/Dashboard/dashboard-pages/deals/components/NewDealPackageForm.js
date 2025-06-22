@@ -33,13 +33,12 @@ function NewDealPackageForm(props){
 
     return (
         <div>
-            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
+            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.3)", padding: 10, borderRadius: 8}}>
                 <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                     <i className="fa fa-list-check" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                     Type</p>
                 <div style={{border: "none"}}>
                     <select 
-                        type="text"  
                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                         <option value={1}
                             style={{color: "black"}}>Package</option>

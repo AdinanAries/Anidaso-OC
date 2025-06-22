@@ -1,4 +1,4 @@
-import RichTexEditor from "../../../../../components/RichTexEditor";
+import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
 
 const NewPackageGeneralInfoForm = (props) => {
 
@@ -37,7 +37,7 @@ const NewPackageGeneralInfoForm = (props) => {
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-user-group" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Age Group</p>
+                Age Group(s)</p>
             <div style={{display: "flex", marginTop: 20}}>
                 <p style={{fontSize: 12, color: "white", marginRight: 30}}>
                     <input className="cm-toggle"
@@ -142,14 +142,14 @@ const NewPackageGeneralInfoForm = (props) => {
                 <span style={{color: "orange"}}> Ticket Number:</span> Include the ticket number, not just the reservation number, as this is crucial for replacement if lost.
                 <span style={{color: "orange"}}> Reservation Number:</span> While the ticket number is essential, the reservation number can also be included for convenience
             </p>
-            <div style={{border: "none"}}>
+            <div style={{backgroundColor: "white"}}>
                 {/* -- Required Component
                     <textarea  
                         style={{fontSize: 14, width: "calc(100% - 20px)", minHeight: 130, padding: 10, background: "none", color: "white", border: "none"}}
                     >
                     type here...
                     </textarea>*/}
-                <RichTexEditor />
+                <RichTextEditorQuill elem_id="new_package_general_info_form_description_field" />
             </div>
         </div>
     </div>
