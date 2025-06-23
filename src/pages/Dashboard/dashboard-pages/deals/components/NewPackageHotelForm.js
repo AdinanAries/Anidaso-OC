@@ -189,7 +189,8 @@ const NewPackageHotelForm = (props) => {
             </p>
             <p style={{fontSize: 12, color: "white", padding: 10}}>
                 The information you include in this sections may include;
-                <span style={{color: "orange"}}> Room Type:</span> Clearly state the specific room category (e.g., standard double, deluxe suite, family room).
+                <span style={{color: "orange"}}> Hotels:</span> The package usually includes a specified number of nights at pre-selected hotels, often chosen for their proximity to attractions or for their amenities.
+                <span style={{color: "orange"}}> Room Types:</span> Clearly state the specific room category (e.g., standard double, deluxe suite, family room).
                 <span style={{color: "orange"}}> Room Amenities:</span> List essential amenities like bathroom facilities, air conditioning, TV, Wi-Fi, etc.
                 <span style={{color: "orange"}}> Hotel Facilities:</span> Mention any on-site facilities like a restaurant, bar, pool, spa, gym, etc.
                 <span style={{color: "orange"}}> Meals:</span> Indicate if meals are included (e.g., breakfast only, half-board, full-board) and the type of dining (buffet, à la carte).

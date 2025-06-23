@@ -3,6 +3,11 @@ import FormErrorCard from "../../../../../components/FormErrorCard";
 import NewPackageGeneralInfoForm from "./NewPackageGeneralInfoForm";
 import NewPackageFlightForm from "./NewPackageFlightForm";
 import NewPackageHotelForm from "./NewPackageHotelForm";
+import NewPackageRentalCarForm from "./NewPackageRentalCarForm";
+import NewPackageEventForm from "./NewPackageEventForm";
+import NewPackageCruiseForm from "./NewPackageCruiseForm";
+import NewPackageBusTourForm from "./NewPackageBusTourForm";
+import NewPackageRestaurantForm from "./NewPackageRestaurantForm";
 
 function NewDealPackageForm(props){
 
@@ -41,9 +46,9 @@ function NewDealPackageForm(props){
                     <select 
                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                         <option value={1}
-                            style={{color: "black"}}>Package</option>
+                            style={{color: "black"}}>Packaged Deal</option>
                         <option value={2}
-                            style={{color: "black"}}>Deal</option>
+                            style={{color: "black"}}>Single Item Deal</option>
                     </select>
                 </div>
             </div>
@@ -104,6 +109,36 @@ function NewDealPackageForm(props){
                             newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.stay &&
                             <div style={{marginTop: 10}}>
                                 <NewPackageHotelForm />
+                            </div>
+                        }
+                        {
+                            newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.rental_car &&
+                            <div style={{marginTop: 10}}>
+                                <NewPackageRentalCarForm />
+                            </div>
+                        }
+                        {
+                            newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.event &&
+                            <div style={{marginTop: 10}}>
+                                <NewPackageEventForm />
+                            </div>
+                        }
+                        {
+                            newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.cruise &&
+                            <div style={{marginTop: 10}}>
+                                <NewPackageCruiseForm />
+                            </div>
+                        }
+                        {
+                            newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.bus_tour &&
+                            <div style={{marginTop: 10}}>
+                                <NewPackageBusTourForm />
+                            </div>
+                        }
+                        {
+                            newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.restaurant &&
+                            <div style={{marginTop: 10}}>
+                                <NewPackageRestaurantForm />
                             </div>
                         }
                         {
