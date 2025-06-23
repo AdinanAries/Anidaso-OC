@@ -98,6 +98,18 @@ let DealsContainer = (props)=>{
                                 />
                             </div>
                             <div style={{width: "calc(45% - 7px)"}}>
+                                <div style={{height: "100vh", background: "white"}}>
+                                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-end", padding: 20, borderBottom: "1px solid rgba(0,0,0,0.1)", background: "rgb(0, 37, 63)"}}>
+                                        <h3 style={{maxWidth: 160, color: "yellow"}}>
+                                            How Customers Will View This Package!</h3>
+                                        <div>
+                                            <select style={{padding: 20, border: "none", color: "white", background: "rgba(0,0,0,0.2)", borderRadius: 8}}>
+                                                <option style={{color: "black"}}>Classic Page</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
                                 <DealsPackagesList
                                     viewDealPackageInfo={viewDealPackageInfo}
                                 />
