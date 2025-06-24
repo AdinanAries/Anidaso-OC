@@ -91,16 +91,6 @@ const NewPackageRentalCarForm = (props) => {
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Car(s) Only Price</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
-            </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-paragraph" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Details (Guide)
                 <span className="tool-tip-parent" style={{marginLeft: 15, cursor: "pointer", color: "lightgreen"}}>
@@ -111,7 +101,7 @@ const NewPackageRentalCarForm = (props) => {
                 </span>
             </p>
             <p style={{fontSize: 12, color: "white", padding: 10}}>
-                The information you include in this sections may include;
+                The information you include in this section may include;
                 <span style={{color: "orange"}}> Insurance Coverage:</span> Detail what insurance is included (e.g., Loss Damage Waiver, Collision Damage Waiver, Liability Insurance) and any potential deductibles. Clarify if any additional insurance options are available and their costs. 
                 <span style={{color: "orange"}}> Mileage:</span> Specify if unlimited mileage is included or if there are mileage restrictions and associated costs for exceeding them. 
                 <span style={{color: "orange"}}> Additional Drivers:</span> Indicate if there are any fees associated with adding additional drivers or if it's included in the package. 

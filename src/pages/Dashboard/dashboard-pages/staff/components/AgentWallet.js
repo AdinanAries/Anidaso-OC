@@ -63,6 +63,12 @@ const AgentWallet = (props) => {
     useEffect(()=>{
         if(userDetails?.wallet_info)
             loadPageData();
+        let agent_stats_headers = ["Emails", "GDS Data", "Storage", "Cloud"];
+        let agent_stats_values = [112, 45, 135, 290];
+        render_wallet_stats_chart(
+            agent_stats_headers,
+            agent_stats_values
+        );
     }, [pagiCurrentPage, pageFilters]);
 
     const loadPageData = async () => {
@@ -99,6 +105,39 @@ const AgentWallet = (props) => {
         if(Array.isArray(__trans))
             setTransactions(__trans);
         setIsLoading(false);
+    }
+
+    const render_wallet_stats_chart = (labels, values) => {
+        const ctx = document.getElementById('WalletStatsChart');
+        new window.Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                {
+                    label: "Your API's Useage Meter",
+                    data: values,
+                    borderWidth: 1,
+                    pointStyle: 'circle',
+                    pointRadius: 5,
+                    pointHoverRadius: 15
+                },
+            ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    /*title: {
+                      display: true,
+                      text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
+                    }*/
+                  }
+            }
+        });
     }
 
     const transTypeFilterOnInput = (e) => {
@@ -172,111 +211,127 @@ const AgentWallet = (props) => {
         i+=PAGI_LIMIT;
     }
 
-    return <div style={{paddingTop: 30}} className="main-seaction-containers">
+    return <div className="main-seaction-containers">
         {
             (userDetails?.wallet_info && !showAddBalanceForm) ?
             <>
-                <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
-                    <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
-                        className="fa fa-wallet"></i>
-                    Wallet Balance:
-                </p>
                 <div>
-                    <div style={{marginLeft: 30}}>
-                        <h1 style={{color: "skyblue"}}> 
-                            ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
-                            <span onClick={()=>setshowAddBalanceForm(true)} style={{color: "lightgreen", fontWeight: "initial", fontSize: 14, cursor: "pointer", marginLeft: 20, textDecoration: "underline"}}>
-                            <i style={{marginRight: 5, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
-                                className="fa fa-plus"></i>
-                                Add Balance
-                            </span>
-                            <span onClick={loadPageData} 
-                                style={{textDecoration: "underline", fontWeight: "initial", fontSize: 14, width: 90, color: "lightgreen", marginLeft: 20, cursor: "pointer"}}>
-                                <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-refresh"></i>
-                                Refresh
-                            </span>
-                        </h1>
-                        <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 5}}>
-                            approx. 
-                            <span style={{color: "orange"}}>
-                                {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2), wallet_actions_per_unit))}</span> actions remaining
-                        </p>
-                    </div>
-                </div>
-                <div style={{marginTop: 20}}>
-                    <div style={{padding: 10, display: "flex"}}>
-                        <div style={{marginRight: 10}}>
-                            <p className="regular-font-color-dark-bg" 
-                                style={{fontSize: 13, marginBottom: 5}}>
-                                    Product</p>
-                            <select onInput={productFilterOninput}
-                                value={pageFilters?.product}
-                                style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                <option value={-1}
-                                    style={{color: "black"}}>
-                                    All
-                                </option>
-                                <option value={0}
-                                    style={{color: "black"}}>
-                                    Flights
-                                </option>
-                                <option value={1}
-                                    style={{color: "black"}}>
-                                    Stays
-                                </option>
-                                <option value={2}
-                                    style={{color: "black"}}>
-                                    Cars
-                                </option>
-                            </select>
-                        </div>
-                        <div style={{marginRight: 10}}>
-                            <p className="regular-font-color-dark-bg" 
-                                style={{fontSize: 13, marginBottom: 5}}>
-                                    Trans. Type</p>
-                            <select onInput={transTypeFilterOnInput}
-                                value={pageFilters?.trans_type}
-                                style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
-                                <option value="all"
-                                    style={{color: "black"}}>
-                                    All
-                                </option>
-                                <option value="debit"
-                                    style={{color: "black"}}>
-                                    Debit
-                                </option>
-                                <option value="credit"
-                                    style={{color: "black"}}>
-                                    Credit
-                                </option>
-                            </select>
-                        </div>
-                        <div style={{marginRight: 10}}>
-                            <div style={{display: "flex"}}>
-                                <p className="regular-font-color-dark-bg" 
-                                    style={{fontSize: 13, marginBottom: 5}}>
-                                    Trans. Title</p>
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <div style={{paddingTop: 20}}>
+                            <p className="title-font-color-default" style={{fontWeight: "bolder", fontSize: 12, marginBottom: 20}}>
+                                <i style={{marginRight: 10, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
+                                    className="fa fa-wallet"></i>
+                                Wallet Balance:
+                            </p>
+                            <div style={{marginLeft: 30}}>
+                                <h1 style={{color: "skyblue"}}> 
+                                    ${add_commas_to_number((userDetails?.wallet_info?.current_balance).toFixed(2))}
+                                    <span onClick={()=>setshowAddBalanceForm(true)} style={{color: "lightgreen", fontWeight: "initial", fontSize: 14, cursor: "pointer", marginLeft: 20, textDecoration: "underline"}}>
+                                    <i style={{marginRight: 5, fontSize: 16, color: "rgba(255,255,255,0.5)"}} 
+                                        className="fa fa-plus"></i>
+                                        Add Balance
+                                    </span>
+                                    <span onClick={loadPageData} 
+                                        style={{textDecoration: "underline", fontWeight: "initial", fontSize: 14, width: 90, color: "lightgreen", marginLeft: 20, cursor: "pointer"}}>
+                                        <i style={{marginRight: 10, color: "rgba(255,255,255,0.5)"}} className="fa fa-refresh"></i>
+                                        Refresh
+                                    </span>
+                                </h1>
+                                <p style={{color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 5}}>
+                                    approx. 
+                                    <span style={{color: "orange"}}>
+                                        {add_commas_to_number(calculateActionPoints((userDetails?.wallet_info?.current_balance).toFixed(2), wallet_actions_per_unit))}</span> actions remaining
+                                </p>
                             </div>
-                            <input onInput={(e)=>setFiltersTitleFld(e.target.value)}
-                                value={filtersTitleFld}
-                                placeholder="enter title here..."
-                                style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
-                        </div>
-                        <div style={{marginRight: 10}}>
-                            <div style={{display: "flex"}}>
-                                <p className="regular-font-color-dark-bg" 
-                                    style={{fontSize: 13, marginBottom: 5}}>
-                                    Time Interval</p>
+                            <div style={{marginTop: 20}}>
+                                <div style={{padding: 10, display: "flex"}}>
+                                    <div style={{marginRight: 10}}>
+                                        <p className="regular-font-color-dark-bg" 
+                                            style={{fontSize: 13, marginBottom: 5}}>
+                                                Product</p>
+                                        <select onInput={productFilterOninput}
+                                            value={pageFilters?.product}
+                                            style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                            <option value={-1}
+                                                style={{color: "black"}}>
+                                                All
+                                            </option>
+                                            <option value={0}
+                                                style={{color: "black"}}>
+                                                Flights
+                                            </option>
+                                            <option value={1}
+                                                style={{color: "black"}}>
+                                                Stays
+                                            </option>
+                                            <option value={2}
+                                                style={{color: "black"}}>
+                                                Cars
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div style={{marginRight: 10}}>
+                                        <p className="regular-font-color-dark-bg" 
+                                            style={{fontSize: 13, marginBottom: 5}}>
+                                                Trans. Type</p>
+                                        <select onInput={transTypeFilterOnInput}
+                                            value={pageFilters?.trans_type}
+                                            style={{padding: "10px 20px", borderRadius:  50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}>
+                                            <option value="all"
+                                                style={{color: "black"}}>
+                                                All
+                                            </option>
+                                            <option value="debit"
+                                                style={{color: "black"}}>
+                                                Debit
+                                            </option>
+                                            <option value="credit"
+                                                style={{color: "black"}}>
+                                                Credit
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div style={{marginRight: 10}}>
+                                        <div style={{display: "flex"}}>
+                                            <p className="regular-font-color-dark-bg" 
+                                                style={{fontSize: 13, marginBottom: 5}}>
+                                                Trans. Title</p>
+                                        </div>
+                                        <input onInput={(e)=>setFiltersTitleFld(e.target.value)}
+                                            value={filtersTitleFld}
+                                            placeholder="enter title here..."
+                                            style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
+                                    </div>
+                                    <div style={{marginRight: 10}}>
+                                        <div style={{display: "flex"}}>
+                                            <p className="regular-font-color-dark-bg" 
+                                                style={{fontSize: 13, marginBottom: 5}}>
+                                                Time Interval</p>
+                                        </div>
+                                        <input readOnly="true" 
+                                            placeholder="select dates here..."
+                                            style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
+                                    </div>
+                                    <div>
+                                        <div onClick={filterButtonOnclick}
+                                            style={{padding: "10px 20px", marginTop: 23, cursor: "pointer", backgroundColor: "green", color: "white", borderRadius: 50, fontSize: 13}}>
+                                            Filter
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <input readOnly="true" 
-                                placeholder="select dates here..."
-                                style={{padding: "10px 20px", borderRadius: 50, color: "white", border: "1px solid rgba(0,0,0,0.1)", backgroundColor: "rgba(255,255,255,0.1)"}}/>
                         </div>
-                        <div>
-                            <div onClick={filterButtonOnclick}
-                                style={{padding: "10px 20px", marginTop: 23, cursor: "pointer", backgroundColor: "green", color: "white", borderRadius: 50, fontSize: 13}}>
-                                Filter
-                            </div>
+                        <div style={{marginLeft: 30, maxWidth: 630}}>
+                            <p style={{display: 'flex', marginBottom: 10, padding: "10px 20px", backgroundColor: "white", border: "2px dashed rgba(0,0,0,0.5)", boxShadow: "1px 2px 3px rgba(0,0,0,0.8)"}}>
+                                <span>
+                                    <i style={{marginRight: 10, color: "green"}} className="fa-solid fa-info"></i>
+                                </span>
+                                <span style={{fontSize: 13}}>
+                                    This website uses paid, metered, third party API's to give you access to the various data and services required, 
+                                    therefore wallet balance is needed to get you access to these API's and services.
+                                </span>
+                            </p>
+                            <canvas style={{maxHeight: 130, marginBottom: 10}} id="WalletStatsChart"></canvas>
                         </div>
                     </div>
                     {

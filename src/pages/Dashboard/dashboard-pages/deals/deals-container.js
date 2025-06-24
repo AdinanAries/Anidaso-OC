@@ -108,7 +108,43 @@ let DealsContainer = (props)=>{
                                             </select>
                                         </div>
                                     </div>
-
+                                    <div>
+                                        <div style={{display: "flex", justifyContent: "center", alignItems: "center",
+                                            backgroundImage: `url('https://welldugo-oc-53db16692066.herokuapp.com/static/media/news-letter-bg1.f922fef0.jpg')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", height: 400}}>
+                                            <div>
+                                                <h1 style={{textAlign: "center", color: "white", textShadow: "1px 2px 3px rgba(0,0,0,0.9)"}}>
+                                                    Heading Title Here</h1>
+                                                <p style={{textAlign: "center", color: "skyblue", textShadow: "1px 2px 3px rgba(0,0,0,0.9)"}}>
+                                                    Travel Destination</p>
+                                            </div>
+                                        </div>
+                                        <div style={{padding: 20}}>
+                                            <div style={{backgroundColor: "yellow", marginTop: -50, padding: 20}}>
+                                                <div style={{padding: 20, width: "fit-content", marginTop: -60, backgroundColor: "orange"}}>
+                                                    <h1>$5,000</h1>
+                                                    <p style={{fontSize: 13}}>1 Person</p>
+                                                </div>
+                                                <div style={{padding: 10}}>
+                                                    <h5 style={{marginBottom: 10}}>
+                                                        Includes:</h5>
+                                                    <ul>
+                                                        <li style={{marginBottom: 10}}>
+                                                            <p style={{fontSize: 13}}>
+                                                                <span style={{fontWeight: "bolder"}}>
+                                                                    Hotels</span> - It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use
+                                                            </p>
+                                                        </li>
+                                                        <li style={{marginBottom: 10}}>
+                                                            <p style={{fontSize: 13}}>
+                                                                <span style={{fontWeight: "bolder"}}>
+                                                                    Rental Cars</span> - It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use
+                                                            </p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <DealsPackagesList
                                     viewDealPackageInfo={viewDealPackageInfo}

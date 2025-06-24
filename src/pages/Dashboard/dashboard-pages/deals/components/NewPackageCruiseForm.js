@@ -103,7 +103,7 @@ const NewPackageCruiseForm = (props) => {
                 </span>
             </p>
             <p style={{fontSize: 12, color: "white", padding: 10}}>
-                The information you include in this sections may include;
+                The information you include in this section may include;
                 <span style={{color: "orange"}}> Cabin Type:</span> Describe the type of cabin (stateroom) included in the package, such as inside, ocean view, balcony, or suite.
                 <span style={{color: "orange"}}> Cabin Location:</span> Mention the general location of the cabin on the ship (e.g., lower decks, midship, or upper decks). You may also want to explain the pros and cons of different locations (e.g., midship cabins are good for those prone to seasickness).
                 <span style={{color: "orange"}}> Cabin Amenities:</span> Detail the amenities found in the cabin, such as bed type, bathroom setup, closet, and any additional features specific to the cabin type. 

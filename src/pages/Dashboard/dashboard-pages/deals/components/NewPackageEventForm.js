@@ -73,16 +73,6 @@ const NewPackageEventForm = (props) => {
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Car(s) Only Price</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
-            </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-paragraph" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Details (Guide)
                 <span className="tool-tip-parent" style={{marginLeft: 15, cursor: "pointer", color: "lightgreen"}}>
@@ -93,7 +83,7 @@ const NewPackageEventForm = (props) => {
                 </span>
             </p>
             <p style={{fontSize: 12, color: "white", padding: 10}}>
-                The information you include in this sections may include;
+                The information you include in this section may include;
                 <span style={{color: "orange"}}> Dates and Times:</span> Include the specific dates and times for the event, sessions, activities, registration, and setup/teardown times.
                 <span style={{color: "orange"}}> Marquee Speakers, Sponsors, and Exhibitors:</span> List prominent speakers, sponsors, or exhibitors involved in the event.
                 <span style={{color: "orange"}}> Event Objectives/Goals:</span> If applicable, state the event's goals or intended outcomes. 

@@ -6,7 +6,7 @@ const NewPackageBusTourForm = (props) => {
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-building" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Company Name</p>
+                Tour Company Name</p>
             <div style={{border: "none"}}>
                 <input 
                     type="text" placeholder="type here..."  
@@ -45,44 +45,6 @@ const NewPackageBusTourForm = (props) => {
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-link" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Event Website and Registration Link</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
-            </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-list-car" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Event Format</p>
-            <div style={{border: "none"}}>
-                <select 
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                    <option value={1}
-                        style={{color: "black"}}>Conference</option>
-                    <option value={2}
-                        style={{color: "black"}}>Festival</option>
-                    <option value={3}
-                        style={{color: "black"}}>Concert</option>
-                    <option value={4}
-                        style={{color: "black"}}>Sporting</option>
-                </select>
-            </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Car(s) Only Price</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
-            </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-paragraph" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Details (Guide)
                 <span className="tool-tip-parent" style={{marginLeft: 15, cursor: "pointer", color: "lightgreen"}}>
@@ -93,7 +55,7 @@ const NewPackageBusTourForm = (props) => {
                 </span>
             </p>
             <p style={{fontSize: 12, color: "white", padding: 10}}>
-                The information you include in this sections may include;
+                The information you include in this section may include;
                 <span style={{color: "orange"}}> Accessibility Information:</span> Include details on accessibility features at the venue. 
                 <span style={{color: "orange"}}> Motorcoach:</span> The core of the package, providing comfortable, air-conditioned travel between destinations and often including a professional driver. 
                 <span style={{color: "orange"}}> Specific routes and stops:</span> Tours often have pre-planned routes and designated stops at key attractions. 

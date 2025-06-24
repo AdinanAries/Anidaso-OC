@@ -101,6 +101,16 @@ const NewPackageGeneralInfoForm = (props) => {
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                Price Per Person</p>
+            <div style={{border: "none"}}>
+                <input 
+                    type="text" placeholder="type here..."  
+                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+            </div>
+        </div>
+        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
+            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Total Price</p>
             <div style={{border: "none"}}>
                 <input 
@@ -134,7 +144,7 @@ const NewPackageGeneralInfoForm = (props) => {
                 </span>
             </p>
             <p style={{fontSize: 12, color: "white", padding: 10}}>
-                The information you include in this sections may include;
+                The information you include in this section may include;
                 <span style={{color: "orange"}}> Crafted Activities:</span> Develop a detailed itinerary with a mix of activities, attractions, and free time. 
                 <span style={{color: "orange"}}> Considered Logistics:</span> Plan transportation, accommodation, and other logistical elements to ensure a smooth and enjoyable experience. 
                 <span style={{color: "orange"}}> Travel Dates and Times:</span> Specify the exact dates and times of departure and arrival for each flight, noting the local time at each location.

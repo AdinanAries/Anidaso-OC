@@ -24,26 +24,26 @@ const NewPackageHotelForm = (props) => {
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                    <i className="fa fa-list-check" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                    Rating</p>
-                <div style={{border: "none"}}>
-                    <select 
-                        value={5}
-                        style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                        <option value={1}
-                            style={{color: "black"}}>1 Star - Very Bad</option>
-                        <option value={2}
-                            style={{color: "black"}}>2 Stars - Bad</option>
-                        <option value={3}
-                            style={{color: "black"}}>3 Stars - Average</option>
-                        <option value={4}
-                            style={{color: "black"}}>4 Stars - Good</option>
-                        <option value={5}
-                            style={{color: "black"}}>5 Stars - Excellent</option>
-                    </select>
-                </div>
+            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                <i className="fa fa-list-check" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                Rating</p>
+            <div style={{border: "none"}}>
+                <select 
+                    value={5}
+                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
+                    <option value={1}
+                        style={{color: "black"}}>1 Star - Very Bad</option>
+                    <option value={2}
+                        style={{color: "black"}}>2 Stars - Bad</option>
+                    <option value={3}
+                        style={{color: "black"}}>3 Stars - Average</option>
+                    <option value={4}
+                        style={{color: "black"}}>4 Stars - Good</option>
+                    <option value={5}
+                        style={{color: "black"}}>5 Stars - Excellent</option>
+                </select>
             </div>
+        </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-list-check" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
@@ -168,16 +168,6 @@ const NewPackageHotelForm = (props) => {
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Hotel(s) Only Price</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
-            </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-paragraph" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Details (Guide)
                 <span className="tool-tip-parent" style={{marginLeft: 15, cursor: "pointer", color: "lightgreen"}}>
@@ -188,7 +178,7 @@ const NewPackageHotelForm = (props) => {
                 </span>
             </p>
             <p style={{fontSize: 12, color: "white", padding: 10}}>
-                The information you include in this sections may include;
+                The information you include in this section may include;
                 <span style={{color: "orange"}}> Hotels:</span> The package usually includes a specified number of nights at pre-selected hotels, often chosen for their proximity to attractions or for their amenities.
                 <span style={{color: "orange"}}> Room Types:</span> Clearly state the specific room category (e.g., standard double, deluxe suite, family room).
                 <span style={{color: "orange"}}> Room Amenities:</span> List essential amenities like bathroom facilities, air conditioning, TV, Wi-Fi, etc.
