@@ -71,10 +71,11 @@ function NewDealPackageForm(props){
                                         name: "general",
                                     })
                                 }} 
-                                style={{fontSize: 13, cursor: "pointer", 
+                                style={{cursor: "pointer", 
                                 textDecoration: newPackageCurrentEditItem?.name==="general" ? "underline" : "none", 
                                 color: newPackageCurrentEditItem?.name==="general" ? "orange" : "rgba(255,255,255,0.5)", padding: 10}}>
-                                General
+                                <h3 style={{fontSize: 13}}>
+                                    General</h3>
                             </div>
                             {
                                 INCLUDED_ITEMS_NAME_ARRAY?.map((each, i) =>{
@@ -85,10 +86,11 @@ function NewDealPackageForm(props){
                                                 name: each,
                                             })
                                         }}
-                                        style={{fontSize: 13, cursor: "pointer",             
+                                        style={{cursor: "pointer",             
                                         textDecoration: newPackageCurrentEditItem?.name===each ? "underline" : "none", 
                                         color: newPackageCurrentEditItem?.name===each ? "orange" : "rgba(255,255,255,0.5)", padding: 10}}>
-                                        {__name}
+                                        <h3 style={{fontSize: 13}}>
+                                            {__name}</h3>
                                     </div>
                                 })
                             }

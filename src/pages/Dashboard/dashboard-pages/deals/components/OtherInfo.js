@@ -1,6 +1,7 @@
 const OtherInfo = (props) => {
 
     const {
+        setshowPackageDealForm,
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
@@ -27,7 +28,7 @@ const OtherInfo = (props) => {
         })
     }
 
-    return <div className="main-seaction-containers">
+    return <div className="main-seaction-containers" style={{marginBottom: 5}}>
         <div style={{padding: 10}}>
             <p className="title-font-color-default" style={{fontSize: 14}}>
                 <i className="fa fa-list" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>

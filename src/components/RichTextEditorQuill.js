@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const RichTextEditorQuill = (props) => {
 
@@ -6,22 +6,29 @@ const RichTextEditorQuill = (props) => {
         elem_id
     } = props;
 
+    const [quill, setQuill ] = useState(null);
+
     useEffect(()=>{
-        const quill = new window.Quill(('#'+elem_id), {
-            modules: {
-                toolbar: [
-                    ['bold', 'italic'],
-                    ['link', 'blockquote', 'code-block', 'image'],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                ],
-            },
-            theme: 'snow',
-        });
-        quill.setContents([
-            {
-                insert: "type here...",
-            }
-        ]);
+
+        if(!quill){
+            let __quill = new window.Quill(('#'+elem_id), {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic'],
+                        ['link', 'blockquote', 'code-block', 'image'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                    ],
+                },
+                theme: 'snow',
+            });
+            setQuill(__quill);
+        }
+        if(quill)
+            quill.setContents([
+                {
+                    insert: "type here...",
+                }
+            ]);
     });
 
     return <div id={elem_id}>

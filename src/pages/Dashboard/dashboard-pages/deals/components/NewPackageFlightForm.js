@@ -35,7 +35,7 @@ const NewPackageFlightForm = (props) => {
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-calender" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                <i className="fa-solid fa-calendar-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Departure - Return Dates
                 <span style={{fontSize: 12, color: "white", marginLeft: 30}}>
                     <input className="cm-toggle"

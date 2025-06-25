@@ -55,7 +55,7 @@ const NewPackageCruiseForm = (props) => {
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-link" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                <i className="fa fa-stopwatch" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Cruise Duration</p>
             <div style={{border: "none"}}>
                 <input 
@@ -65,7 +65,7 @@ const NewPackageCruiseForm = (props) => {
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-list-car" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                <i className="fa fa-list" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Cabin Type</p>
             <div style={{border: "none"}}>
                 <select 

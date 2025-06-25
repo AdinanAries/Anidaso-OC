@@ -6,6 +6,7 @@ import DealsPackagesList from './components/DealsPackagesList';
 import OtherInfo from './components/OtherInfo';
 import { useState } from 'react';
 import CONSTANTS from '../../../../constants/Constants';
+import DealsPackagesPreviewPage from './components/DealsPackagesPreviewPage';
 
 let DealsContainer = (props)=>{
 
@@ -51,7 +52,8 @@ let DealsContainer = (props)=>{
     });
     const [ newPackageCurrentEditItem, setNewPackageCurrentEditItem ] = useState({
         name: "general",
-    })
+    });
+    const [ showPackageDealForm, setshowPackageDealForm ] = useState(true);
 
     const viewDealPackageInfo = (staff) => {
         setSelectedDealPackage(staff);
@@ -80,75 +82,45 @@ let DealsContainer = (props)=>{
                         </div> :
                         <div style={{display: "flex", justifyContent: "space-between"}}>
                             <div style={{width: "55%"}}>
-                                <OtherInfo 
-                                    createNewPackageData={createNewPackageData}
-                                    setCreateNewPackageData={setCreateNewPackageData}
-                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
-                                    return_new_package_item_props={return_new_package_item_props}
-                                    newPackageCurrentEditItem={newPackageCurrentEditItem}
-                                    setNewPackageCurrentEditItem={setNewPackageCurrentEditItem}
-                                />
-                                <NewDealPackageForm
-                                    createNewPackageData={createNewPackageData}
-                                    setCreateNewPackageData={setCreateNewPackageData}
-                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
-                                    return_new_package_item_props={return_new_package_item_props}
-                                    newPackageCurrentEditItem={newPackageCurrentEditItem}
-                                    setNewPackageCurrentEditItem={setNewPackageCurrentEditItem}
-                                />
+                                <div style={{display: "flex", backgroundColor: "rgb(0, 37, 63)", justifyContent: "center", padding: 10, marginBottom: 5}}>
+                                    <p onClick={()=>setshowPackageDealForm(true)} style={{cursor: "pointer", margin: 10, color: showPackageDealForm ? "yellow" : "rgba(255,255,255,0.7)", fontSize: 13, textDecoration: showPackageDealForm ? "underline" : "none"}}>
+                                        <i className="fa-solid fa-pencil" style={{color: "rgba(255,255,255,0.5)", marginRight: 10}}></i>
+                                        Create New/Edit Package
+                                    </p>
+                                    <p onClick={()=>setshowPackageDealForm(false)} style={{cursor: "pointer", margin: 10, color: !showPackageDealForm ? "yellow" : "rgba(255,255,255,0.7)", fontSize: 13, textDecoration: !showPackageDealForm ? "underline" : "none"}}>
+                                        <i className="fa-solid fa-list" style={{color: "rgba(255,255,255,0.5)", marginRight: 10}}></i>
+                                        View Packages/Deals List
+                                    </p>
+                                </div>
+                                {
+                                    showPackageDealForm ?
+                                    <>
+                                        <OtherInfo 
+                                            setshowPackageDealForm={setshowPackageDealForm}
+                                            createNewPackageData={createNewPackageData}
+                                            setCreateNewPackageData={setCreateNewPackageData}
+                                            INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                            return_new_package_item_props={return_new_package_item_props}
+                                            newPackageCurrentEditItem={newPackageCurrentEditItem}
+                                            setNewPackageCurrentEditItem={setNewPackageCurrentEditItem}
+                                        />
+                                        <NewDealPackageForm
+                                            setshowPackageDealForm={setshowPackageDealForm}
+                                            createNewPackageData={createNewPackageData}
+                                            setCreateNewPackageData={setCreateNewPackageData}
+                                            INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                            return_new_package_item_props={return_new_package_item_props}
+                                            newPackageCurrentEditItem={newPackageCurrentEditItem}
+                                            setNewPackageCurrentEditItem={setNewPackageCurrentEditItem}
+                                        />
+                                    </> :
+                                    <DealsPackagesList
+                                        viewDealPackageInfo={viewDealPackageInfo}
+                                    />
+                                }
                             </div>
                             <div style={{width: "calc(45% - 7px)"}}>
-                                <div style={{height: "100vh", background: "white"}}>
-                                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-end", padding: 20, borderBottom: "1px solid rgba(0,0,0,0.1)", background: "rgb(0, 37, 63)"}}>
-                                        <h3 style={{maxWidth: 160, color: "yellow"}}>
-                                            How Customers Will View This Package!</h3>
-                                        <div>
-                                            <select style={{padding: 20, border: "none", color: "white", background: "rgba(0,0,0,0.2)", borderRadius: 8}}>
-                                                <option style={{color: "black"}}>Classic Page</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div style={{display: "flex", justifyContent: "center", alignItems: "center",
-                                            backgroundImage: `url('https://welldugo-oc-53db16692066.herokuapp.com/static/media/news-letter-bg1.f922fef0.jpg')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", height: 400}}>
-                                            <div>
-                                                <h1 style={{textAlign: "center", color: "white", textShadow: "1px 2px 3px rgba(0,0,0,0.9)"}}>
-                                                    Heading Title Here</h1>
-                                                <p style={{textAlign: "center", color: "skyblue", textShadow: "1px 2px 3px rgba(0,0,0,0.9)"}}>
-                                                    Travel Destination</p>
-                                            </div>
-                                        </div>
-                                        <div style={{padding: 20}}>
-                                            <div style={{backgroundColor: "yellow", marginTop: -50, padding: 20}}>
-                                                <div style={{padding: 20, width: "fit-content", marginTop: -60, backgroundColor: "orange"}}>
-                                                    <h1>$5,000</h1>
-                                                    <p style={{fontSize: 13}}>1 Person</p>
-                                                </div>
-                                                <div style={{padding: 10}}>
-                                                    <h5 style={{marginBottom: 10}}>
-                                                        Includes:</h5>
-                                                    <ul>
-                                                        <li style={{marginBottom: 10}}>
-                                                            <p style={{fontSize: 13}}>
-                                                                <span style={{fontWeight: "bolder"}}>
-                                                                    Hotels</span> - It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use
-                                                            </p>
-                                                        </li>
-                                                        <li style={{marginBottom: 10}}>
-                                                            <p style={{fontSize: 13}}>
-                                                                <span style={{fontWeight: "bolder"}}>
-                                                                    Rental Cars</span> - It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use
-                                                            </p>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <DealsPackagesList
-                                    viewDealPackageInfo={viewDealPackageInfo}
-                                />
+                                <DealsPackagesPreviewPage />
                             </div>
                         </div>
                     }
