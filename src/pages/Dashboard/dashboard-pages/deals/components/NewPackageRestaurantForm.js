@@ -2,6 +2,12 @@ import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
 
 const NewPackageRestaurantForm = (props) => {
 
+    const {
+        createNewPackageData,
+        setCreateNewPackageData,
+        INCLUDE_ITEMS,
+    } = props;
+    
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>

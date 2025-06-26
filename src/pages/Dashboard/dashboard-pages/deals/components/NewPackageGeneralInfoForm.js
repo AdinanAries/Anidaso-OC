@@ -2,13 +2,98 @@ import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
 
 const NewPackageGeneralInfoForm = (props) => {
 
+    const {
+        createNewPackageData,
+        setCreateNewPackageData,
+        INCLUDE_ITEMS,
+    } = props;
+
+        /*
+        cover_picture: "",
+        html_description: "",*/
+
+        const titleOnInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                title: e.target.value,
+            });
+        }
+        const totalPriceOnInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                total_price: e.target.value,
+            });
+        }
+
+        const travelDestinationOnInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                travel_destination: e.target.value,
+            });
+        }
+
+        const packageWindowOnInput = (e) => {
+            let dates = e.target.value.split(" - ");
+            let sd = dates[0];
+            let ed = dates[1];
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                start_date: sd,
+                end_date: ed
+            });
+            
+        }
+
+        const includeAdultsOnInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                include_dults: (!e.target.checked),
+            });
+        }
+
+        const includeChildrenOnInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                include_children: (!e.target.checked),
+            });
+        }
+
+        const includeInfantsInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                include_infants: (!e.target.checked),
+            });
+        }
+
+        const maxAdultsOnInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                max_num_of_adults: e.target.value,
+            });
+        }
+
+        const maxChildrenOnInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                max_num_of_children: e.target.value,
+            });
+        }
+
+        const maxInfantsOnInput = (e) => {
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                max_num_of_infants: e.target.value,
+            });
+        }
+
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-globe" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Travel Destination</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={travelDestinationOnInput}
+                    value={createNewPackageData?.travel_destination}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -18,7 +103,8 @@ const NewPackageGeneralInfoForm = (props) => {
                 <i className="fa fa-heading" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Heading/Title</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={titleOnInput}
+                    value={createNewPackageData?.title}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -29,7 +115,7 @@ const NewPackageGeneralInfoForm = (props) => {
                 Package Window <span style={{color: "rgba(255,255,255,0.7)"}}>
                     (Date Start - Date End)</span></p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={packageWindowOnInput}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -40,27 +126,36 @@ const NewPackageGeneralInfoForm = (props) => {
                 Age Group(s)</p>
             <div style={{display: "flex", marginTop: 20}}>
                 <p style={{fontSize: 12, color: "white", marginRight: 30}}>
-                    <input className="cm-toggle"
+                    <input onInput={includeAdultsOnInput}
+                        checked={createNewPackageData?.include_dults}
+                        id="new_package_include_adults_check"
+                        className="cm-toggle"
                         type="checkbox" />
-                    <label>
+                    <label htmlFor="new_package_include_adults_check">
                         <span style={{marginLeft: 5}}>
                             Adults (18+ years)
                         </span>
                     </label>
                 </p>
                 <p style={{fontSize: 12, color: "white", marginRight: 30}}>
-                    <input className="cm-toggle"
+                    <input onInput={includeChildrenOnInput}
+                        checked={createNewPackageData?.include_children}
+                        id="new_package_include_children_check"
+                        className="cm-toggle"
                         type="checkbox" />
-                    <label>
+                    <label htmlFor="new_package_include_children_check">
                         <span style={{marginLeft: 5}}>
                             Children (2-17 years)
                         </span>
                     </label>
                 </p>
                 <p style={{fontSize: 12, color: "white", marginRight: 30}}>
-                    <input className="cm-toggle"
+                    <input onInput={includeInfantsInput}
+                        checked={createNewPackageData?.include_infants}
+                         id="new_package_include_infants_check"
+                        className="cm-toggle"
                         type="checkbox" />
-                    <label>
+                    <label  htmlFor="new_package_include_infants_check">
                         <span style={{marginLeft: 5}}>
                             Infants (below 2 years)
                         </span>
@@ -68,53 +163,56 @@ const NewPackageGeneralInfoForm = (props) => {
                 </p>
             </div>
         </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-            Max No. of Adults</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+        {
+            createNewPackageData?.include_dults &&
+            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
+                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                    <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                Max No. of Adults</p>
+                <div style={{border: "none"}}>
+                    <input onInput={maxAdultsOnInput}
+                        value={createNewPackageData?.max_num_of_adults}
+                        type="text" placeholder="type here..."  
+                        style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+                </div>
             </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-            Max No. of Children</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+        }
+        {
+            createNewPackageData?.include_children &&
+            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
+                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                    <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                Max No. of Children</p>
+                <div style={{border: "none"}}>
+                    <input onInput={maxChildrenOnInput}
+                        value={createNewPackageData?.max_num_of_children}
+                        type="text" placeholder="type here..."  
+                        style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+                </div>
             </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-            Max No. of Infants</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+        }
+        {
+            createNewPackageData?.include_infants &&
+            <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
+                <p className="subtitle-font-color-default" style={{fontSize: 13}}>
+                    <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
+                Max No. of Infants</p>
+                <div style={{border: "none"}}>
+                    <input onInput={maxInfantsOnInput}
+                        value={createNewPackageData?.max_num_of_infants}
+                        type="text" placeholder="type here..."  
+                        style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+                </div>
             </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Price Per Person</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
-            </div>
-        </div>
+        }
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Total Price</p>
             <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
+                <input onInput={totalPriceOnInput}
+                    value={createNewPackageData?.total_price}
+                    type="number" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
         </div>
@@ -159,7 +257,11 @@ const NewPackageGeneralInfoForm = (props) => {
                     >
                     type here...
                     </textarea>*/}
-                <RichTextEditorQuill elem_id="new_package_general_info_form_description_field" />
+                <RichTextEditorQuill 
+                    createNewPackageData={createNewPackageData}
+                    setCreateNewPackageData={setCreateNewPackageData}
+                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                    elem_id="new_package_general_info_form_description_field" />
             </div>
         </div>
     </div>

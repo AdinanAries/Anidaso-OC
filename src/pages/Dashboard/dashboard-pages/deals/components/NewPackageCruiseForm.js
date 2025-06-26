@@ -2,6 +2,12 @@ import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
 
 const NewPackageCruiseForm = (props) => {
 
+    const {
+        createNewPackageData,
+        setCreateNewPackageData,
+        INCLUDE_ITEMS,
+    } = props;
+
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
@@ -79,16 +85,6 @@ const NewPackageCruiseForm = (props) => {
                     <option value={4}
                         style={{color: "black"}}>Suite</option>
                 </select>
-            </div>
-        </div>
-        <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
-            <p className="subtitle-font-color-default" style={{fontSize: 13}}>
-                <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Cruise(s) Only Price</p>
-            <div style={{border: "none"}}>
-                <input 
-                    type="text" placeholder="type here..."  
-                    style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>

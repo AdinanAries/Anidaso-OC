@@ -29,13 +29,77 @@ let DealsContainer = (props)=>{
         let _obj = {
             name: INCLUDE_ITEMS[name],
             image_url: "",
-            price_currency: "",
-            price: "",
+            htmL_details: "",
         }
-        if(name==="flight"){
-            
-        } else if (name==="rental_cars"){
+        if(name===INCLUDE_ITEMS?.flight){
+            _obj = {
+                ..._obj,
+                departure_airport: "",
+                destination_airport: "",
+                airlines: "",
+                departure_date: "",
+                return_date: "",
 
+            }
+        } else if (name===INCLUDE_ITEMS?.stay){
+            _obj = {
+                ..._obj,
+                hotel_address: "",
+                brand_name: "",
+                rating: 5,
+                room_amenities: [],
+                room_types: [],
+            }
+        } else if (name===INCLUDE_ITEMS?.bus_tour){
+            _obj = {
+                ..._obj,
+                tour_company_name: "",
+                start_location: "",
+                start_date: "",
+                Start_time: "",
+            }
+        } else if (name===INCLUDE_ITEMS?.cruise){
+            _obj = {
+                ..._obj,
+                cruise_line_and_ship: "",
+                departure_ports: "",
+                arrival_ports: "",
+                start_date: "",
+                start_time: "",
+                cruise_duration: "",
+                cabin_type: "",
+            }
+        } else if (name===INCLUDE_ITEMS?.event){
+            _obj = {
+                ..._obj,
+                event_name_and_tagline: "",
+                venue_location: "",
+                event_start_date: "",
+                event_start_time: "",
+                event_website_and_registration_link: "",
+                event_format: "",
+            }
+        } else if (name===INCLUDE_ITEMS?.rental_car){
+            _obj = {
+                ..._obj,
+                rental_company: "",
+                pick_up_location: "",
+                drop_off_location: "",
+                pick_up_date: "",
+                drop_off_date: "",
+                pick_up_time: "",
+                drop_off_time: "",
+                vehicle_type: "",
+            }
+        } else if (name===INCLUDE_ITEMS?.restaurant){
+            _obj = {
+                ..._obj,
+                restaurant_name: "",
+                location_address: "",
+                rating: 5,
+                website_link: "",
+                price_range_value: "",
+            }
         }
         return _obj;
     }
@@ -47,7 +111,19 @@ let DealsContainer = (props)=>{
         type: 1, // ["1 => Package", "2 => Deal"]
         view_template: 1, // Template for viewing this package on the published page for customers
         title: "",
-        total_price: "",
+        total_price: 0,
+        price_currency: "usd",
+        travel_destination: "",
+        start_date: "",
+        end_date: "",
+        include_dults: true,
+        include_children: false,
+        include_infants: false,
+        max_num_of_adults: 1,
+        max_num_of_children: 0,
+        max_num_of_infants: 0,
+        cover_picture: "",
+        html_description: "",
         items: []
     });
     const [ newPackageCurrentEditItem, setNewPackageCurrentEditItem ] = useState({
@@ -120,7 +196,9 @@ let DealsContainer = (props)=>{
                                 }
                             </div>
                             <div style={{width: "calc(45% - 7px)"}}>
-                                <DealsPackagesPreviewPage />
+                                <DealsPackagesPreviewPage 
+                                    createNewPackageData={createNewPackageData}
+                                />
                             </div>
                         </div>
                     }

@@ -63,8 +63,8 @@ const AgentWallet = (props) => {
     useEffect(()=>{
         if(userDetails?.wallet_info)
             loadPageData();
-        let agent_stats_headers = ["Emails", "GDS Data", "Storage", "Cloud"];
-        let agent_stats_values = [112, 45, 135, 290];
+        let agent_stats_headers = ["Emails", "GDS Data", "Storage", "Cloud", "AI"];
+        let agent_stats_values = [112, 45, 135, 290, 26];
         render_wallet_stats_chart(
             agent_stats_headers,
             agent_stats_values

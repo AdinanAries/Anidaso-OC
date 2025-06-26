@@ -98,49 +98,81 @@ function NewDealPackageForm(props){
                         {
                             newPackageCurrentEditItem?.name==="general" &&
                             <div style={{marginTop: 10}}>
-                                <NewPackageGeneralInfoForm />
+                                <NewPackageGeneralInfoForm 
+                                    createNewPackageData={createNewPackageData}
+                                    setCreateNewPackageData={setCreateNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                />
                             </div>
                         }
                         {
                             newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.flight &&
                             <div style={{marginTop: 10}}>
-                                <NewPackageFlightForm />
+                                <NewPackageFlightForm 
+                                    createNewPackageData={createNewPackageData}
+                                    setCreateNewPackageData={setCreateNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                />
                             </div>
                         }
                         {
                             newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.stay &&
                             <div style={{marginTop: 10}}>
-                                <NewPackageHotelForm />
+                                <NewPackageHotelForm 
+                                    createNewPackageData={createNewPackageData}
+                                    setCreateNewPackageData={setCreateNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                />
                             </div>
                         }
                         {
                             newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.rental_car &&
                             <div style={{marginTop: 10}}>
-                                <NewPackageRentalCarForm />
+                                <NewPackageRentalCarForm 
+                                    createNewPackageData={createNewPackageData}
+                                    setCreateNewPackageData={setCreateNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                />
                             </div>
                         }
                         {
                             newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.event &&
                             <div style={{marginTop: 10}}>
-                                <NewPackageEventForm />
+                                <NewPackageEventForm 
+                                    createNewPackageData={createNewPackageData}
+                                    setCreateNewPackageData={setCreateNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                />
                             </div>
                         }
                         {
                             newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.cruise &&
                             <div style={{marginTop: 10}}>
-                                <NewPackageCruiseForm />
+                                <NewPackageCruiseForm 
+                                    createNewPackageData={createNewPackageData}
+                                    setCreateNewPackageData={setCreateNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                />
                             </div>
                         }
                         {
                             newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.bus_tour &&
                             <div style={{marginTop: 10}}>
-                                <NewPackageBusTourForm />
+                                <NewPackageBusTourForm 
+                                    createNewPackageData={createNewPackageData}
+                                    setCreateNewPackageData={setCreateNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                />
                             </div>
                         }
                         {
                             newPackageCurrentEditItem?.name===INCLUDE_ITEMS?.restaurant &&
                             <div style={{marginTop: 10}}>
-                                <NewPackageRestaurantForm />
+                                <NewPackageRestaurantForm 
+                                    createNewPackageData={createNewPackageData}
+                                    setCreateNewPackageData={setCreateNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                />
                             </div>
                         }
                         {

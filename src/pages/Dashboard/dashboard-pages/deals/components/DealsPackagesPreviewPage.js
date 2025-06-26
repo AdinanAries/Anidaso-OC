@@ -1,4 +1,17 @@
+import { add_commas_to_number } from "../../../../../helpers/helper-functions";
+
 const DealsPackagesPreviewPage = (props) => {
+
+    const {
+        createNewPackageData,
+    } = props;
+
+    const {
+        title,
+        travel_destination,
+        total_price,
+    } = createNewPackageData;
+
     return <div style={{background: "white"}}>
             <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-end", padding: 20, borderBottom: "1px solid rgba(0,0,0,0.1)", background: "rgb(0, 37, 63)"}}>
                 <h3 style={{maxWidth: 160, color: "yellow"}}>
@@ -17,16 +30,20 @@ const DealsPackagesPreviewPage = (props) => {
                     backgroundImage: `url('https://welldugo-oc-53db16692066.herokuapp.com/static/media/news-letter-bg1.f922fef0.jpg')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", height: 400}}>
                     <div>
                         <h1 style={{textAlign: "center", color: "white", textShadow: "1px 2px 3px rgba(0,0,0,0.9)"}}>
-                            Heading Title Here</h1>
+                            {title|| "Heading Title Here"}</h1>
                         <p style={{textAlign: "center", backgroundColor: "yellow", color: "black"}}>
                             <i className="fa-solid fa-map-marker-alt" style={{marginRight: 10}}></i>
-                            Travel Destination</p>
+                            {travel_destination || "Travel Destination"}</p>
                     </div>
                 </div>
                 <div style={{padding: 10}}>
                     <div style={{backgroundColor: "yellow", marginTop: -50, padding: 20, paddingBottom: 40}}>
                         <div style={{padding: 20, width: "fit-content", marginTop: -60, backgroundColor: "orange"}}>
-                            <h1>$5,000</h1>
+                            {
+                                total_price ?
+                                <h1>${add_commas_to_number(parseFloat(total_price)?.toFixed(2)) || "0.00"}</h1> :
+                                <h1>$0.00</h1>
+                            }
                             <p style={{fontSize: 13}}>1 Person</p>
                         </div>
                         <div style={{padding: 10}}>
