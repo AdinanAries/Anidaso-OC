@@ -38,34 +38,28 @@ const DealsPackagesPreviewPage = (props) => {
                 </div>
                 <div style={{padding: 10}}>
                     <div style={{backgroundColor: "yellow", marginTop: -50, padding: 20, paddingBottom: 40}}>
-                        <div style={{padding: 20, width: "fit-content", marginTop: -60, backgroundColor: "orange"}}>
+                        <div style={{padding: 20, width: "fit-content", marginTop: -70, backgroundColor: "orange"}}>
                             {
                                 total_price ?
-                                <h1>${add_commas_to_number(parseFloat(total_price)?.toFixed(2)) || "0.00"}</h1> :
-                                <h1>$0.00</h1>
+                                <h1>$ {add_commas_to_number(parseFloat(total_price)?.toFixed(2)) || "0.00"}</h1> :
+                                <h1>$ 0.00</h1>
                             }
-                            <p style={{fontSize: 13}}>1 Person</p>
+                            <div style={{marginTop: 5}}>
+                                <p style={{fontSize: 13}}>
+                                    <i style={{marginRight: 10}} className="fa-solid fa-user"></i>
+                                    1 Person</p>
+                                <p style={{fontSize: 13}}>
+                                    <i style={{marginRight: 10}} className="fa-solid fa-calendar-alt"></i>
+                                    23-03-2025 - 04-05-2025</p>
+                            </div>
                         </div>
                         <div style={{padding: 10}}>
                             <p style={{fontSize: 13, marginBottom: 20}}>
                                 The information you include in this section may include; Crafted Activities: Develop a detailed itinerary with a mix of activities, attractions, and free time. Considered Logistics: Plan transportation, accommodation, and other logistical elements to ensure a smooth and enjoyable experience. Travel Dates and Times: Specify the exact dates and times of departure and arrival for each flight, noting the local time at each location. Confirmation Number: Provide the flight confirmation or booking reference number. Ticket Number: Include the ticket number, not just the reservation number, as this is crucial for replacement if lost. Reservation Number: While the ticket number is essential, the reservation number can also be included for convenience
                             </p>
-                            <h5 style={{marginBottom: 10}}>
-                                Includes:</h5>
-                            <ul>
-                                <li style={{marginBottom: 10}}>
-                                    <p style={{fontSize: 13}}>
-                                        <span style={{fontWeight: "bolder"}}>
-                                            Hotels</span> - The information you include in this section may include; Hotels: The package usually includes a specified 
-                                    </p>
-                                </li>
-                                <li style={{marginBottom: 10}}>
-                                    <p style={{fontSize: 13}}>
-                                        <span style={{fontWeight: "bolder"}}>
-                                            Rental Cars</span> - It is a long established fact that a reader will be distracted by the readable content of a page 
-                                    </p>
-                                </li>
-                            </ul>
+                            <p style={{fontSize: 14, textAlign: "center"}}>
+                                <span style={{fontWeight: "bolder"}}>
+                                    Includes: </span>Flights, Hotels, Rental Cars</p>
                         </div>
                     </div>
                     <div style={{display: "flex", justifyContent: "center", flexWrap: "wrap", marginTop: -25}}>
