@@ -7,14 +7,93 @@ const NewPackageRentalCarForm = (props) => {
         setCreateNewPackageData,
         INCLUDE_ITEMS,
     } = props;
-    
+
+    const rentalCompanyOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.rental_car ? { ...item, rental_company: e.target.value  } : item
+            )
+        })
+    }
+
+    const pickupLocationOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.rental_car ? { ...item, pick_up_location: e.target.value  } : item
+            )
+        })
+    }
+
+    const dropoffLocationOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.rental_car ? { ...item, drop_off_location: e.target.value  } : item
+            )
+        })
+    }
+
+    const pickupDropOffDatesOnInput = (e) => {
+        let _dates = e.target.value?.split(" - ");
+        if(_dates.length < 1){
+            _dates.push("");
+        }
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.rental_car ? { 
+                    ...item, 
+                    pick_up_date: _dates[0],
+                    drop_off_date: _dates[1]
+                } : item
+            )
+        })
+    }
+
+    const pickupDropOffTimesOnInput = (e) => {
+        let _times = e.target.value?.split(" - ");
+        if(_times.length < 1){
+            _times.push("");
+        }
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.rental_car ? { 
+                    ...item, 
+                    pick_up_time: _times[0],
+                    drop_off_time: _times[1],
+                } : item
+            )
+        })
+    }
+
+    const vehicleTypeOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.rental_car ? { ...item, vehicle_type: e.target.value  } : item
+            )
+        })
+    }
+
+    let rentalCarData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.rental_car)[0];
+
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-building" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Rental Company</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={rentalCompanyOnInput}
+                    value={rentalCarData?.rental_company}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -24,7 +103,8 @@ const NewPackageRentalCarForm = (props) => {
                 <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Pick-up Location</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={pickupLocationOnInput}
+                    value={rentalCarData?.pick_up_location}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -34,7 +114,8 @@ const NewPackageRentalCarForm = (props) => {
                 <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Drop-off Location</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={dropoffLocationOnInput}
+                    value={rentalCarData?.drop_off_location}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -44,7 +125,8 @@ const NewPackageRentalCarForm = (props) => {
                 <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Pick-up - Drop-off Dates</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={pickupDropOffDatesOnInput}
+                    value={(rentalCarData?.pick_up_date + (rentalCarData?.drop_off_date ? (" - " + rentalCarData?.drop_off_date) : ""))}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -54,7 +136,8 @@ const NewPackageRentalCarForm = (props) => {
                 <i className="fa fa-clock" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Pick-up - Drop-off Times</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={pickupDropOffTimesOnInput}
+                    value={(rentalCarData?.pick_up_time + (rentalCarData?.drop_off_time ? (" - " + rentalCarData?.drop_off_time) : ""))}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -64,25 +147,40 @@ const NewPackageRentalCarForm = (props) => {
                 <i className="fa fa-car" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Vehicle Type</p>
             <div style={{border: "none"}}>
-                <select 
+                <select onInput={vehicleTypeOnInput}
+                    value={rentalCarData?.vehicle_type}
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                    <option value={1}
+                    <option value="Economy/Compact"
                         style={{color: "black"}}>Economy/Compact</option>
-                    <option value={2}
+                    <option value="Sedans"
                         style={{color: "black"}}>Sedans</option>
-                    <option value={3}
+                    <option value="SUVs"
                         style={{color: "black"}}>SUVs</option>
-                    <option value={4}
+                    <option value="Vans"
                         style={{color: "black"}}>Vans</option>
-                    <option value={5}
+                    <option value="Trucks"
                         style={{color: "black"}}>Trucks</option>
-                    <option value={6}
+                    <option value="Luxury"
                         style={{color: "black"}}>Luxury</option>
-                    <option value={7}
+                    <option value="Convertibles"
                         style={{color: "black"}}>Convertibles</option>
-                    <option value={8}
+                    <option value="Specialty"
                         style={{color: "black"}}>Specialty</option>
                 </select>
+            </div>
+        </div>
+        <div style={{marginBottom: 5}}>
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", 
+                width: "100%", height: 200, background: "rgba(0,0,0,0.2)", borderRadius: 8,
+                cursor: "pointer"}}>
+                <div>
+                    <p style={{textAlign: "center"}}>
+                        <i style={{color: "orange", fontSize: 27}} className="fa fa-plus"></i>
+                    </p>
+                    <p style={{marginTop: 5, fontSize: 13, textAlign: "center", color: "rgba(255,255,255,0.6)"}}>
+                        Add Cover Picture
+                    </p>
+                </div>
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>

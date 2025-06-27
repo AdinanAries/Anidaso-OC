@@ -7,14 +7,67 @@ const NewPackageRestaurantForm = (props) => {
         setCreateNewPackageData,
         INCLUDE_ITEMS,
     } = props;
-    
+
+    const restaurantNameOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.restaurant ? { ...item, restaurant_name: e.target.value  } : item
+            )
+        })
+    }
+
+    const locationOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.restaurant ? { ...item, location_address: e.target.value  } : item
+            )
+        })
+    }
+
+    const ratingOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.restaurant ? { ...item, rating: e.target.value  } : item
+            )
+        })
+    }
+
+    const websiteLinkOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.restaurant ? { ...item, website_link: e.target.value  } : item
+            )
+        })
+    }
+
+    const priceRangeOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.restaurant ? { ...item, price_range_value: e.target.value  } : item
+            )
+        })
+    }
+
+    let restaurantData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.restaurant)[0];
+
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-building" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Restaurant Name</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={restaurantNameOnInput}
+                    value={restaurantData?.restaurant_name}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -24,7 +77,8 @@ const NewPackageRestaurantForm = (props) => {
                 <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Location Address</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={locationOnInput}
+                    value={restaurantData?.location_address}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -34,8 +88,8 @@ const NewPackageRestaurantForm = (props) => {
                 <i className="fa fa-list-check" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Rating</p>
             <div style={{border: "none"}}>
-                <select 
-                    value={5}
+                <select onInput={ratingOnInput}
+                    value={restaurantData?.rating}
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                     <option value={1}
                         style={{color: "black"}}>1 Star - Very Bad</option>
@@ -55,7 +109,8 @@ const NewPackageRestaurantForm = (props) => {
                 <i className="fa fa-link" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Website Link</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={websiteLinkOnInput}
+                    value={restaurantData?.website_link}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -65,9 +120,24 @@ const NewPackageRestaurantForm = (props) => {
                 <i className="fa fa-tag" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Price Range & Value</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={priceRangeOnInput}
+                    value={restaurantData?.price_range_value}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+            </div>
+        </div>
+        <div style={{marginBottom: 5}}>
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", 
+                width: "100%", height: 200, background: "rgba(0,0,0,0.2)", borderRadius: 8,
+                cursor: "pointer"}}>
+                <div>
+                    <p style={{textAlign: "center"}}>
+                        <i style={{color: "orange", fontSize: 27}} className="fa fa-plus"></i>
+                    </p>
+                    <p style={{marginTop: 5, fontSize: 13, textAlign: "center", color: "rgba(255,255,255,0.6)"}}>
+                        Add Cover Picture
+                    </p>
+                </div>
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>

@@ -8,13 +8,56 @@ const NewPackageBusTourForm = (props) => {
         INCLUDE_ITEMS,
     } = props;
 
+    const companyNameOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.bus_tour ? { ...item, tour_company_name: e.target.value  } : item
+            )
+        })
+    }
+
+    const startLocationOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.bus_tour ? { ...item, start_location: e.target.value  } : item
+            )
+        })
+    }
+
+    const startDateOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.bus_tour ? { ...item, start_date: e.target.value  } : item
+            )
+        })
+    }
+
+    const startTimeOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.bus_tour ? { ...item, start_time: e.target.value  } : item
+            )
+        })
+    }
+
+    let busTourData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.bus_tour)[0];
+
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-building" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Tour Company Name</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={companyNameOnInput}
+                    value={busTourData?.tour_company_name}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -24,7 +67,8 @@ const NewPackageBusTourForm = (props) => {
                 <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Start Location</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={startLocationOnInput}
+                    value={busTourData?.start_location}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -34,7 +78,8 @@ const NewPackageBusTourForm = (props) => {
                 <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Start Date</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={startDateOnInput}
+                    value={busTourData?.start_date}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -44,9 +89,24 @@ const NewPackageBusTourForm = (props) => {
                 <i className="fa fa-clock" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Start Time</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={startTimeOnInput}
+                    value={busTourData?.Start_time}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
+            </div>
+        </div>
+        <div style={{marginBottom: 5}}>
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", 
+                width: "100%", height: 200, background: "rgba(0,0,0,0.2)", borderRadius: 8,
+                cursor: "pointer"}}>
+                <div>
+                    <p style={{textAlign: "center"}}>
+                        <i style={{color: "orange", fontSize: 27}} className="fa fa-plus"></i>
+                    </p>
+                    <p style={{marginTop: 5, fontSize: 13, textAlign: "center", color: "rgba(255,255,255,0.6)"}}>
+                        Add Cover Picture
+                    </p>
+                </div>
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>

@@ -46,6 +46,8 @@ let DealsContainer = (props)=>{
                 ..._obj,
                 hotel_address: "",
                 brand_name: "",
+                check_in_date: "",
+                check_out_date: "",
                 rating: 5,
                 room_amenities: [],
                 room_types: [],
@@ -56,7 +58,7 @@ let DealsContainer = (props)=>{
                 tour_company_name: "",
                 start_location: "",
                 start_date: "",
-                Start_time: "",
+                start_time: "",
             }
         } else if (name===INCLUDE_ITEMS?.cruise){
             _obj = {
@@ -198,6 +200,7 @@ let DealsContainer = (props)=>{
                             <div style={{width: "calc(45% - 7px)"}}>
                                 <DealsPackagesPreviewPage 
                                     createNewPackageData={createNewPackageData}
+                                    INCLUDE_ITEMS={INCLUDE_ITEMS}
                                 />
                             </div>
                         </div>

@@ -8,13 +8,76 @@ const NewPackageEventForm = (props) => {
         INCLUDE_ITEMS,
     } = props;
 
+    const eventNameOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.event ? { ...item, event_name_and_tagline: e.target.value  } : item
+            )
+        })
+    }
+
+    const eventVenueOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.event ? { ...item, venue_location: e.target.value  } : item
+            )
+        })
+    }
+
+    const eventStartDateOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.event ? { ...item, event_start_date: e.target.value  } : item
+            )
+        })
+    }
+
+    const eventStartTimeOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.event ? { ...item, event_start_time: e.target.value  } : item
+            )
+        })
+    }
+
+    const eventWebsiteOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.event ? { ...item, event_website_and_registration_link: e.target.value  } : item
+            )
+        })
+    }
+
+    const eventFormatOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.event ? { ...item, event_format: e.target.value  } : item
+            )
+        })
+    }
+
+    let eventsData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.event)[0];
+
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-heading" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Event Name and Tagline</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={eventNameOnInput}
+                    value={eventsData?.event_name_and_tagline}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -24,7 +87,8 @@ const NewPackageEventForm = (props) => {
                 <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Venue/Location</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={eventVenueOnInput}
+                    value={eventsData?.venue_location}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -34,7 +98,8 @@ const NewPackageEventForm = (props) => {
                 <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Event Start Date</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={eventStartDateOnInput}
+                    value={eventsData?.event_start_date}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -44,7 +109,8 @@ const NewPackageEventForm = (props) => {
                 <i className="fa fa-clock" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Event Start Time</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={eventStartTimeOnInput}
+                    value={eventsData?.event_start_time}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -54,7 +120,8 @@ const NewPackageEventForm = (props) => {
                 <i className="fa fa-link" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Event Website and Registration Link</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={eventWebsiteOnInput}
+                    value={eventsData?.event_website_and_registration_link}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -64,17 +131,34 @@ const NewPackageEventForm = (props) => {
                 <i className="fa fa-list" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Event Format</p>
             <div style={{border: "none"}}>
-                <select 
+                <select onInput={eventFormatOnInput}
+                    value={eventsData?.event_format}
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                    <option value={1}
+                    <option value="Conference"
                         style={{color: "black"}}>Conference</option>
-                    <option value={2}
+                    <option value="Festival"
                         style={{color: "black"}}>Festival</option>
-                    <option value={3}
+                    <option value="Concert"
                         style={{color: "black"}}>Concert</option>
-                    <option value={4}
+                    <option value="Sporting"
                         style={{color: "black"}}>Sporting</option>
+                    <option value="Other"
+                        style={{color: "black"}}>Other</option>
                 </select>
+            </div>
+        </div>
+        <div style={{marginBottom: 5}}>
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", 
+                width: "100%", height: 200, background: "rgba(0,0,0,0.2)", borderRadius: 8,
+                cursor: "pointer"}}>
+                <div>
+                    <p style={{textAlign: "center"}}>
+                        <i style={{color: "orange", fontSize: 27}} className="fa fa-plus"></i>
+                    </p>
+                    <p style={{marginTop: 5, fontSize: 13, textAlign: "center", color: "rgba(255,255,255,0.6)"}}>
+                        Add Cover Picture
+                    </p>
+                </div>
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>

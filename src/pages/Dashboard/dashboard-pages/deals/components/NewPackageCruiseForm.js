@@ -8,13 +8,86 @@ const NewPackageCruiseForm = (props) => {
         INCLUDE_ITEMS,
     } = props;
 
+    const cruiseLineShipOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.cruise ? { ...item, cruise_line_and_ship: e.target.value  } : item
+            )
+        })
+    }
+
+    const departurePortOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.cruise ? { ...item, departure_ports: e.target.value  } : item
+            )
+        })
+    }
+
+    const arrivalPortOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.cruise ? { ...item, arrival_ports: e.target.value  } : item
+            )
+        })
+    }
+
+    const startDateOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.cruise ? { ...item, start_date: e.target.value  } : item
+            )
+        })
+    }
+
+    const startTimeOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.cruise ? { ...item, start_time: e.target.value  } : item
+            )
+        })
+    }
+
+    const durationOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.cruise ? { ...item, cruise_duration: e.target.value  } : item
+            )
+        })
+    }
+
+    const cabinTypeOnInput = (e) => {
+        let _items = createNewPackageData?.items;
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            items: _items?.map(item=>
+                item.name === INCLUDE_ITEMS?.cruise ? { ...item, cabin_type: e.target.value  } : item
+            )
+        })
+    }
+
+    let cruiseData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.cruise)[0];
+
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa fa-ship" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Cruise Line and Ship</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={cruiseLineShipOnInput}
+                    value={cruiseData?.cruise_line_and_ship}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -24,7 +97,8 @@ const NewPackageCruiseForm = (props) => {
                 <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Departure ports</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={departurePortOnInput}
+                    value={cruiseData?.departure_ports}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -34,7 +108,8 @@ const NewPackageCruiseForm = (props) => {
                 <i className="fa fa-map-marker" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Arrival ports</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={arrivalPortOnInput}
+                    value={cruiseData?.arrival_ports}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -44,7 +119,8 @@ const NewPackageCruiseForm = (props) => {
                 <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Start Date</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={startDateOnInput}
+                    value={cruiseData?.start_date}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -54,7 +130,8 @@ const NewPackageCruiseForm = (props) => {
                 <i className="fa fa-clock" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Start Time</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={startTimeOnInput}
+                    value={cruiseData?.start_time}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -64,7 +141,8 @@ const NewPackageCruiseForm = (props) => {
                 <i className="fa fa-stopwatch" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Cruise Duration</p>
             <div style={{border: "none"}}>
-                <input 
+                <input onInput={durationOnInput}
+                    value={cruiseData?.cruise_duration}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -74,17 +152,32 @@ const NewPackageCruiseForm = (props) => {
                 <i className="fa fa-list" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Cabin Type</p>
             <div style={{border: "none"}}>
-                <select 
+                <select onInput={cabinTypeOnInput}
+                    value={cruiseData?.cabin_type}
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
-                    <option value={1}
+                    <option value="Inside/Interior"
                         style={{color: "black"}}>Inside/Interior</option>
-                    <option value={2}
+                    <option value="Ocean View/Outside"
                         style={{color: "black"}}>Ocean View/Outside</option>
-                    <option value={3}
+                    <option value="Balcony"
                         style={{color: "black"}}>Balcony</option>
-                    <option value={4}
+                    <option value="Suite"
                         style={{color: "black"}}>Suite</option>
                 </select>
+            </div>
+        </div>
+        <div style={{marginBottom: 5}}>
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", 
+                width: "100%", height: 200, background: "rgba(0,0,0,0.2)", borderRadius: 8,
+                cursor: "pointer"}}>
+                <div>
+                    <p style={{textAlign: "center"}}>
+                        <i style={{color: "orange", fontSize: 27}} className="fa fa-plus"></i>
+                    </p>
+                    <p style={{marginTop: 5, fontSize: 13, textAlign: "center", color: "rgba(255,255,255,0.6)"}}>
+                        Add Cover Picture
+                    </p>
+                </div>
             </div>
         </div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
