@@ -6,9 +6,11 @@ const NewPackageBusTourForm = (props) => {
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
+        resetFormValidation,
     } = props;
 
     const companyNameOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -19,6 +21,7 @@ const NewPackageBusTourForm = (props) => {
     }
 
     const startLocationOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -29,6 +32,7 @@ const NewPackageBusTourForm = (props) => {
     }
 
     const startDateOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -39,6 +43,7 @@ const NewPackageBusTourForm = (props) => {
     }
 
     const startTimeOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -141,7 +146,9 @@ const NewPackageBusTourForm = (props) => {
                 <span style={{color: "orange"}}> Social aspect:</span> Bus tours can be a social experience, particularly for those traveling solo or in small groups. 
             </p>
             <div style={{backgroundColor: "white"}}>
-                <RichTextEditorQuill elem_id="new_package_hotel_info_form_details_field" />
+                <RichTextEditorQuill 
+                    elem_id="new_package_hotel_info_form_details_field" 
+                />
             </div>
         </div>
     </div>

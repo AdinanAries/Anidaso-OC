@@ -6,9 +6,11 @@ const NewPackageRentalCarForm = (props) => {
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
+        resetFormValidation,
     } = props;
 
     const rentalCompanyOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -19,6 +21,7 @@ const NewPackageRentalCarForm = (props) => {
     }
 
     const pickupLocationOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -29,6 +32,7 @@ const NewPackageRentalCarForm = (props) => {
     }
 
     const dropoffLocationOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -39,6 +43,7 @@ const NewPackageRentalCarForm = (props) => {
     }
 
     const pickupDropOffDatesOnInput = (e) => {
+        resetFormValidation();
         let _dates = e.target.value?.split(" - ");
         if(_dates.length < 1){
             _dates.push("");
@@ -57,6 +62,7 @@ const NewPackageRentalCarForm = (props) => {
     }
 
     const pickupDropOffTimesOnInput = (e) => {
+        resetFormValidation();
         let _times = e.target.value?.split(" - ");
         if(_times.length < 1){
             _times.push("");
@@ -75,6 +81,7 @@ const NewPackageRentalCarForm = (props) => {
     }
 
     const vehicleTypeOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -210,7 +217,9 @@ const NewPackageRentalCarForm = (props) => {
                 <span style={{color: "orange"}}> Taxes and Fees:</span> Clearly state all taxes and fees associated with the rental, including any location fees or administrative fees. 
             </p>
             <div style={{backgroundColor: "white"}}>
-                <RichTextEditorQuill elem_id="new_package_hotel_info_form_details_field" />
+                <RichTextEditorQuill 
+                    elem_id="new_package_hotel_info_form_details_field" 
+                />
             </div>
         </div>
     </div>

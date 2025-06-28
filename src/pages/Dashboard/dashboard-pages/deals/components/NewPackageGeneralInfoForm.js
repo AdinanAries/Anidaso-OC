@@ -6,6 +6,7 @@ const NewPackageGeneralInfoForm = (props) => {
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
+        resetFormValidation,
     } = props;
 
         /*
@@ -13,12 +14,14 @@ const NewPackageGeneralInfoForm = (props) => {
         html_description: "",*/
 
         const titleOnInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 title: e.target.value,
             });
         }
         const totalPriceOnInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 total_price: e.target.value,
@@ -26,6 +29,7 @@ const NewPackageGeneralInfoForm = (props) => {
         }
 
         const travelDestinationOnInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 travel_destination: e.target.value,
@@ -33,6 +37,7 @@ const NewPackageGeneralInfoForm = (props) => {
         }
 
         const packageWindowOnInput = (e) => {
+            resetFormValidation();
             let dates = e.target.value.split(" - ");
             let sd = dates[0];
             let ed = dates[1];
@@ -45,6 +50,7 @@ const NewPackageGeneralInfoForm = (props) => {
         }
 
         const includeAdultsOnInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 include_dults: (!e.target.checked),
@@ -52,6 +58,7 @@ const NewPackageGeneralInfoForm = (props) => {
         }
 
         const includeChildrenOnInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 include_children: (!e.target.checked),
@@ -59,6 +66,7 @@ const NewPackageGeneralInfoForm = (props) => {
         }
 
         const includeInfantsInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 include_infants: (!e.target.checked),
@@ -66,6 +74,7 @@ const NewPackageGeneralInfoForm = (props) => {
         }
 
         const maxAdultsOnInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 max_num_of_adults: e.target.value,
@@ -73,6 +82,7 @@ const NewPackageGeneralInfoForm = (props) => {
         }
 
         const maxChildrenOnInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 max_num_of_children: e.target.value,
@@ -80,9 +90,22 @@ const NewPackageGeneralInfoForm = (props) => {
         }
 
         const maxInfantsOnInput = (e) => {
+            resetFormValidation();
             setCreateNewPackageData({
                 ...createNewPackageData,
                 max_num_of_infants: e.target.value,
+            });
+        }
+
+        const setHTMLDescription = (html_text) => {
+            let _html_text = html_text
+            ?.replaceAll("input", "input style='display: none;'")
+            ?.replaceAll('contenteditable="true"', 'contenteditable="false"')
+            ?.replaceAll('class="ql-editor"', 'class="ql-editor" style="padding: 0; font-size: 13px;"');
+            resetFormValidation();
+            setCreateNewPackageData({
+                ...createNewPackageData,
+                html_description: _html_text,
             });
         }
 
@@ -258,9 +281,7 @@ const NewPackageGeneralInfoForm = (props) => {
                     type here...
                     </textarea>*/}
                 <RichTextEditorQuill 
-                    createNewPackageData={createNewPackageData}
-                    setCreateNewPackageData={setCreateNewPackageData}
-                    INCLUDE_ITEMS={INCLUDE_ITEMS}
+                    setContent={setHTMLDescription}
                     elem_id="new_package_general_info_form_description_field" />
             </div>
         </div>

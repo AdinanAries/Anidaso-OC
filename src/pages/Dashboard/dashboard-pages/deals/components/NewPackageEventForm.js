@@ -6,9 +6,11 @@ const NewPackageEventForm = (props) => {
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
+        resetFormValidation,
     } = props;
 
     const eventNameOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -19,6 +21,7 @@ const NewPackageEventForm = (props) => {
     }
 
     const eventVenueOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -29,6 +32,7 @@ const NewPackageEventForm = (props) => {
     }
 
     const eventStartDateOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -39,6 +43,7 @@ const NewPackageEventForm = (props) => {
     }
 
     const eventStartTimeOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -49,6 +54,7 @@ const NewPackageEventForm = (props) => {
     }
 
     const eventWebsiteOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -59,6 +65,7 @@ const NewPackageEventForm = (props) => {
     }
 
     const eventFormatOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,

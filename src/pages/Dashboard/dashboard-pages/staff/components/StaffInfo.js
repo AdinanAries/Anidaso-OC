@@ -321,23 +321,11 @@ const StaffInfo = (props) => {
                 {
                     (!isAdmin && !isOwner) &&
                     <>
-                        <div  onClick={()=>setcurrentSubPage(_PAGES?.links)}
-                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.links) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                            <i style={{color: (currentSubPage===_PAGES?.links) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
-                            Links
-                            <div style={{border: (currentSubPage===_PAGES?.links) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-                        </div>
-                        <div  onClick={()=>setcurrentSubPage(_PAGES?.customers)}
-                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.customers) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                            <i style={{color: (currentSubPage===_PAGES?.customers) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-users"></i>
-                            customers
-                            <div style={{border: (currentSubPage===_PAGES?.customers) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
-                        </div>
-                        <div  onClick={()=>setcurrentSubPage(_PAGES?.configs)}
-                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                            <i style={{color: (currentSubPage===_PAGES?.configs) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
-                            configs
-                            <div style={{border: (currentSubPage===_PAGES?.configs) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.booking_engine_configurator)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.booking_engine_configurator) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.booking_engine_configurator) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa-solid fa-file-contract"></i>
+                            Compliance
+                            <div style={{border: (currentSubPage===_PAGES?.booking_engine_configurator) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                         </div>
                         <div onClick={showWalletPage}
                             style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.wallet) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
@@ -350,6 +338,24 @@ const StaffInfo = (props) => {
                             <i style={{color: (currentSubPage===_PAGES?.booking_engine_configurator) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-server"></i>
                             Engine
                             <div style={{border: (currentSubPage===_PAGES?.booking_engine_configurator) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        </div>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.configs)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.configs) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
+                            configs
+                            <div style={{border: (currentSubPage===_PAGES?.configs) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        </div>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.links)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.links) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.links) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
+                            Links
+                            <div style={{border: (currentSubPage===_PAGES?.links) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                        </div>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.customers)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.customers) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.customers) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-users"></i>
+                            customers
+                            <div style={{border: (currentSubPage===_PAGES?.customers) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                         </div>
                     </>
                 }

@@ -6,9 +6,11 @@ const NewPackageCruiseForm = (props) => {
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
+        resetFormValidation,
     } = props;
 
     const cruiseLineShipOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -19,6 +21,7 @@ const NewPackageCruiseForm = (props) => {
     }
 
     const departurePortOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -29,6 +32,7 @@ const NewPackageCruiseForm = (props) => {
     }
 
     const arrivalPortOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -39,6 +43,7 @@ const NewPackageCruiseForm = (props) => {
     }
 
     const startDateOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -49,6 +54,7 @@ const NewPackageCruiseForm = (props) => {
     }
 
     const startTimeOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -59,6 +65,7 @@ const NewPackageCruiseForm = (props) => {
     }
 
     const durationOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -69,6 +76,7 @@ const NewPackageCruiseForm = (props) => {
     }
 
     const cabinTypeOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -211,7 +219,9 @@ const NewPackageCruiseForm = (props) => {
                 <span style={{color: "orange"}}> Onboard Policies:</span> Briefly mention any important ship policies, such as smoking restrictions, laundry services, or alcohol restrictions. 
             </p>
             <div style={{backgroundColor: "white"}}>
-                <RichTextEditorQuill elem_id="new_package_hotel_info_form_details_field" />
+                <RichTextEditorQuill 
+                    elem_id="new_package_hotel_info_form_details_field" 
+                />
             </div>
         </div>
     </div>

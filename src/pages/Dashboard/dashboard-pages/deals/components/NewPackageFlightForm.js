@@ -6,9 +6,11 @@ const NewPackageFlightForm = (props) => {
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
+        resetFormValidation,
     } = props;
 
     const departureAirportOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -19,6 +21,7 @@ const NewPackageFlightForm = (props) => {
     }
 
     const destinationAirportOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -29,6 +32,7 @@ const NewPackageFlightForm = (props) => {
     }
 
     const airlinesOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -39,6 +43,7 @@ const NewPackageFlightForm = (props) => {
     }
 
     const departureReturnDatesOnInput = (e) => {
+        resetFormValidation();
         let _dates = e.target.value?.split(" - ");
         if(_dates.length < 1){
             _dates.push("");
@@ -155,7 +160,9 @@ const NewPackageFlightForm = (props) => {
                 <span style={{color: "orange"}}> Special Requirements:</span> Note any special meal preferences, seating preferences, or accessibility needs
             </p>
             <div style={{backgroundColor: "white"}}>
-                <RichTextEditorQuill elem_id="new_package_flight_info_form_details_field" />
+                <RichTextEditorQuill 
+                    elem_id="new_package_flight_info_form_details_field" 
+                />
             </div>
         </div>
     </div>

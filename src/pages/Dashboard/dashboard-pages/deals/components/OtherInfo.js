@@ -7,11 +7,13 @@ const OtherInfo = (props) => {
         INCLUDE_ITEMS,
         return_new_package_item_props,
         newPackageCurrentEditItem,
+        resetFormValidation,
     } = props;
 
     const INCLUDED_ITEMS_NAME_ARRAY = createNewPackageData.items?.map(each=>each.name);
 
     const toggle_include_item = (name) => {
+        resetFormValidation();
         let __all_items = createNewPackageData.items;
         if(INCLUDED_ITEMS_NAME_ARRAY.includes(name)){
             let __confirm = window.confirm("All unsaved data for this item will lost. Are you sure you want to remove this item?")

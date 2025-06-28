@@ -6,9 +6,11 @@ const NewPackageRestaurantForm = (props) => {
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
+        resetFormValidation,
     } = props;
 
     const restaurantNameOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -19,6 +21,7 @@ const NewPackageRestaurantForm = (props) => {
     }
 
     const locationOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -29,6 +32,7 @@ const NewPackageRestaurantForm = (props) => {
     }
 
     const ratingOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -39,6 +43,7 @@ const NewPackageRestaurantForm = (props) => {
     }
 
     const websiteLinkOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -49,6 +54,7 @@ const NewPackageRestaurantForm = (props) => {
     }
 
     const priceRangeOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -165,7 +171,9 @@ const NewPackageRestaurantForm = (props) => {
                 <span style={{color: "orange"}}> Nearby Attractions:</span> Mention nearby attractions or activities that can be combined with a visit to the restaurant to enhance the overall travel experience. 
             </p>
             <div style={{backgroundColor: "white"}}>
-                <RichTextEditorQuill elem_id="new_package_hotel_info_form_details_field" />
+                <RichTextEditorQuill 
+                    elem_id="new_package_hotel_info_form_details_field" 
+                />
             </div>
         </div>
     </div>

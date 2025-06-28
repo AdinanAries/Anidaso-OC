@@ -18,24 +18,14 @@ function NewDealPackageForm(props){
         return_new_package_item_props,
         newPackageCurrentEditItem,
         setNewPackageCurrentEditItem,
+        createNewDealPackageOnClick,
+        formValidation, 
+        setFormValidation,
+        resetFormValidation,
     } = props;
 
     const INCLUDED_ITEMS_NAME_ARRAY = createNewPackageData.items?.map(each=>each.name);
-
-    const [ formValidation, setFormValidation ] = useState({
-        type: "warning",
-        isError: false,
-        message: "",
-    });
-
-    const resetFormValidation = () => {
-        setFormValidation({
-            type: "warning",
-            isError: false,
-            message: "",
-        });
-    }
-
+    
     return (
         <div>
             <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.3)", padding: 10, borderRadius: 8}}>
@@ -102,6 +92,7 @@ function NewDealPackageForm(props){
                                     createNewPackageData={createNewPackageData}
                                     setCreateNewPackageData={setCreateNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                    resetFormValidation={resetFormValidation}
                                 />
                             </div>
                         }
@@ -112,6 +103,7 @@ function NewDealPackageForm(props){
                                     createNewPackageData={createNewPackageData}
                                     setCreateNewPackageData={setCreateNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                    resetFormValidation={resetFormValidation}
                                 />
                             </div>
                         }
@@ -122,6 +114,7 @@ function NewDealPackageForm(props){
                                     createNewPackageData={createNewPackageData}
                                     setCreateNewPackageData={setCreateNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                    resetFormValidation={resetFormValidation}
                                 />
                             </div>
                         }
@@ -132,6 +125,7 @@ function NewDealPackageForm(props){
                                     createNewPackageData={createNewPackageData}
                                     setCreateNewPackageData={setCreateNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                    resetFormValidation={resetFormValidation}
                                 />
                             </div>
                         }
@@ -142,6 +136,7 @@ function NewDealPackageForm(props){
                                     createNewPackageData={createNewPackageData}
                                     setCreateNewPackageData={setCreateNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                    resetFormValidation={resetFormValidation}
                                 />
                             </div>
                         }
@@ -152,6 +147,7 @@ function NewDealPackageForm(props){
                                     createNewPackageData={createNewPackageData}
                                     setCreateNewPackageData={setCreateNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                    resetFormValidation={resetFormValidation}
                                 />
                             </div>
                         }
@@ -162,6 +158,7 @@ function NewDealPackageForm(props){
                                     createNewPackageData={createNewPackageData}
                                     setCreateNewPackageData={setCreateNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                    resetFormValidation={resetFormValidation}
                                 />
                             </div>
                         }
@@ -172,6 +169,7 @@ function NewDealPackageForm(props){
                                     createNewPackageData={createNewPackageData}
                                     setCreateNewPackageData={setCreateNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
+                                    resetFormValidation={resetFormValidation}
                                 />
                             </div>
                         }
@@ -182,7 +180,7 @@ function NewDealPackageForm(props){
                             />
                         }
                         <div style={{marginTop: 10}}>
-                            <div onClick={()=>alert("here")} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
+                            <div onClick={createNewDealPackageOnClick} style={{color: "white", cursor: "pointer", backgroundColor: "rgb(24, 67, 98)", boxShadow: "0 0 5px rgba(0,0,0,0.5)", textAlign: "center", padding: 13, borderRadius: 50}}>
                                 <i style={{marginRight: 10, fontSize: 14, color: "rgba(255,255,255,0.5)"}} className="fa fa-check-square-o"></i>
                                 Create
                             </div>

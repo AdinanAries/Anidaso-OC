@@ -1,13 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DealPackageListItem from "./DealPackageListItem";
+import { 
+    fetchDealsPackages,
+    fetchDealsPackagesBySearchQuery
+} from "../../../../../services/dealPackageServices";
 
 const DealsPackagesList = (props) => {
 
     const {
+        userDetails,
         viewDealPackageInfo,
     } = props;
 
-    const [ dealsPackagesList , setdealsPackagesList ] = useState([]);
+    const PAGI_LIMIT = 10;
+
+    const [ dealsPackagesList , setDealsPackagesList ] = useState([]);
+    const [ totalItems, setTotalItems ] = useState(0);
+    const [ pagiCurrentPage, setpagiCurrentPage ] = useState(1);
+    const [ pageFilters, setPageFilters ] = useState({
+        // Filters yet to be defined
+    });
+
+    useEffect(()=>{
+        if(userDetails?._id){
+            loadPageData();
+        }
+    }, []);
+
+    const loadPageData = async () => {
+        let dp_res = await fetchDealsPackages(userDetails?._id, pageFilters, setTotalItems, pagiCurrentPage, PAGI_LIMIT);
+        if(Array.isArray(dp_res))
+            setDealsPackagesList(dp_res);
+    }
+
+    const all_pages = [];
+    let i=1;
+    while(true){
+        all_pages.push(i);
+        if(i>=totalItems){
+            break
+        }
+        i+=PAGI_LIMIT;
+    }
 
     return <div style={{padding: "20px 10px", borderRadius: 8, backgroundColor: "rgba(255,255,255,0.1)", overflow: "hidden"}}>
         <p  className="title-font-color-default" style={{padding: "0 20px", fontSize: 14, marginBottom: 10}}>
@@ -80,19 +114,29 @@ const DealsPackagesList = (props) => {
             />*/}
         </div>
         {
-            (dealsPackagesList?.length>0) &&
-            <>
-                <div className='app-standard-paginator theme-blend-bg-dark' style={{marginTop: 5}}>
-                    <div className='prev-next-btn inactive'>
-                        <i className='fa-solid fa-angle-left'></i></div>
-                    <div>1</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div className='prev-next-btn inactive'>
-                        <i className='fa-solid fa-angle-right'></i></div>
-                </div>
-            </>
+            totalItems > PAGI_LIMIT &&
+            <div style={{marginTop: 10}}>
+                <select onInput={e=>setpagiCurrentPage(e.target.value)}
+                    value={pagiCurrentPage}
+                    className="select-input-paginator"
+                >
+                    {
+                        all_pages?.map((each, i)=>{
+                            return <option style={{color: "black"}}
+                                value={each}
+                            >{each} - {(each+PAGI_LIMIT-1)}</option>
+                                
+                        })  
+                    }
+                </select>
+                <span style={{color: "grey", marginLeft: 10, fontSize: 12}}>
+                    <span style={{margin: 10, color: "rgba(255,255,255,0.5)", fontSize: 15}}>-</span>
+                    Total: 
+                    <span style={{color: "orange", margin: 5}}>{totalItems}</span> 
+                    item(s)
+                    <span style={{margin: 10, color: "rgba(255,255,255,0.5)", fontSize: 15}}>-</span>
+                </span>
+            </div>
         }
     </div>
 }

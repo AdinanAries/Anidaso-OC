@@ -11,6 +11,7 @@ const DealsPackagesPreviewPage = (props) => {
         title,
         travel_destination,
         total_price,
+        html_description,
         items,
     } = createNewPackageData;
 
@@ -22,9 +23,11 @@ const DealsPackagesPreviewPage = (props) => {
                     How Customers Will View This Package!</h3>
                 <div>
                     <select style={{padding: 20, border: "none", color: "white", background: "rgba(0,0,0,0.2)", borderRadius: 8}}>
-                        <option style={{color: "black"}}>Page: Highlighter</option>
+                        <option value="highlighter"
+                            style={{color: "black"}}>Page: Highlighter</option>
                     </select>
-                    <select style={{marginLeft: 5, padding: 20, border: "none", color: "white", background: "rgba(0,0,0,0.2)", borderRadius: 8}}>
+                    <select value="sunshine"
+                        style={{marginLeft: 5, padding: 20, border: "none", color: "white", background: "rgba(0,0,0,0.2)", borderRadius: 8}}>
                         <option style={{color: "black"}}>Color: Sunshine</option>
                     </select>
                 </div>
@@ -58,9 +61,14 @@ const DealsPackagesPreviewPage = (props) => {
                             </div>
                         </div>
                         <div style={{padding: 10}}>
-                            <p style={{fontSize: 13, marginBottom: 20}}>
-                                The information you include in this section may include; Crafted Activities: Develop a detailed itinerary with a mix of activities, attractions, and free time. Considered Logistics: Plan transportation, accommodation, and other logistical elements to ensure a smooth and enjoyable experience. Travel Dates and Times: Specify the exact dates and times of departure and arrival for each flight, noting the local time at each location. Confirmation Number: Provide the flight confirmation or booking reference number. Ticket Number: Include the ticket number, not just the reservation number, as this is crucial for replacement if lost. Reservation Number: While the ticket number is essential, the reservation number can also be included for convenience
-                            </p>
+                            {
+                                html_description ? 
+                                <div style={{fontSize: 13, marginBottom: 20}} 
+                                    dangerouslySetInnerHTML={{ __html: html_description }} /> :
+                                <p style={{fontSize: 13, marginBottom: 20}}>
+                                    The information you include in this section may include; Crafted Activities: Develop a detailed itinerary with a mix of activities, attractions, and free time. Considered Logistics: Plan transportation, accommodation, and other logistical elements to ensure a smooth and enjoyable experience. Travel Dates and Times: Specify the exact dates and times of departure and arrival for each flight, noting the local time at each location. Confirmation Number: Provide the flight confirmation or booking reference number. Ticket Number: Include the ticket number, not just the reservation number, as this is crucial for replacement if lost. Reservation Number: While the ticket number is essential, the reservation number can also be included for convenience
+                                </p>
+                            }
                             {
                                 (INCLUDED_ITEMS_NAME_ARRAY.length > 0) ?
                                 <p style={{fontSize: 14, textAlign: "center"}}>

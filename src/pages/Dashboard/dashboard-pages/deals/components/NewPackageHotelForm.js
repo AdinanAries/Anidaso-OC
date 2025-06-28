@@ -6,9 +6,11 @@ const NewPackageHotelForm = (props) => {
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,
+        resetFormValidation,
     } = props;
 
     const hotelAddressOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -19,6 +21,7 @@ const NewPackageHotelForm = (props) => {
     }
 
     const hotelBrandNameOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -29,6 +32,7 @@ const NewPackageHotelForm = (props) => {
     }
 
     const hotelRatingsOnInput = (e) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -39,6 +43,7 @@ const NewPackageHotelForm = (props) => {
     }
 
     const hotelAmenitiesOnInput = (amenity) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -62,6 +67,7 @@ const NewPackageHotelForm = (props) => {
     }
 
     const hotelRoomTypesOnInput = (room_type) => {
+        resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
@@ -85,6 +91,7 @@ const NewPackageHotelForm = (props) => {
     }
 
     const checkInCheckOutDatesOnInput = (e) => {
+        resetFormValidation();
         let _dates = e.target.value?.split(" - ");
         if(_dates.length < 1){
             _dates.push("");
@@ -356,7 +363,9 @@ const NewPackageHotelForm = (props) => {
                 <span style={{color: "orange"}}> Other Restrictions:</span> Include any other relevant restrictions, such as age limits for certain activities or room occupancy limits.
             </p>
             <div style={{backgroundColor: "white"}}>
-                <RichTextEditorQuill elem_id="new_package_hotel_info_form_details_field" />
+                <RichTextEditorQuill 
+                    elem_id="new_package_hotel_info_form_details_field" 
+                />
             </div>
         </div>
     </div>

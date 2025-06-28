@@ -7,6 +7,9 @@ import OtherInfo from './components/OtherInfo';
 import { useState } from 'react';
 import CONSTANTS from '../../../../constants/Constants';
 import DealsPackagesPreviewPage from './components/DealsPackagesPreviewPage';
+import { 
+    createNewDealPackage,
+} from '../../../../services/dealPackageServices';
 
 let DealsContainer = (props)=>{
 
@@ -110,8 +113,10 @@ let DealsContainer = (props)=>{
     const has_access_this_page=(userDetails?.pages_can_access_constants?.includes(_pageConstant));
     const [selectedDealPackage, setSelectedDealPackage] = useState({});
     const [ createNewPackageData, setCreateNewPackageData ] = useState({
+        oc_user_id: userDetails?._id,
         type: 1, // ["1 => Package", "2 => Deal"]
-        view_template: 1, // Template for viewing this package on the published page for customers
+        view_template: "highlighter", // Template for viewing this package on the published page for customers
+        view_theme: "sunshine",
         title: "",
         total_price: 0,
         price_currency: "usd",
@@ -132,6 +137,19 @@ let DealsContainer = (props)=>{
         name: "general",
     });
     const [ showPackageDealForm, setshowPackageDealForm ] = useState(true);
+    const [ formValidation, setFormValidation ] = useState({
+        type: "warning",
+        isError: false,
+        message: "",
+    });
+
+    const resetFormValidation = () => {
+        setFormValidation({
+            type: "warning",
+            isError: false,
+            message: "",
+        });
+    }
 
     const viewDealPackageInfo = (staff) => {
         setSelectedDealPackage(staff);
@@ -140,6 +158,27 @@ let DealsContainer = (props)=>{
 
     const unSelectDealPackage = () => {
         setSelectedDealPackage({});
+    }
+
+    const createNewDealPackageOnClick = async () => {
+        if(createNewPackageData?.items.length < 1){
+            setFormValidation({
+                type: "warning",
+                isError: true,
+                message: "Your must add atleast one or more items to the deal/package",
+            });
+            return;
+        }
+        let __res = await createNewDealPackage(createNewPackageData);
+        if(__res?._id){
+            alert("Deal/Package Created/Updated Successfully");
+        }else{
+            setFormValidation({
+                type: "warning",
+                isError: true,
+                message: __res?.message,
+            });
+        }
     }
 
     return(
@@ -181,6 +220,7 @@ let DealsContainer = (props)=>{
                                             return_new_package_item_props={return_new_package_item_props}
                                             newPackageCurrentEditItem={newPackageCurrentEditItem}
                                             setNewPackageCurrentEditItem={setNewPackageCurrentEditItem}
+                                            resetFormValidation={resetFormValidation}
                                         />
                                         <NewDealPackageForm
                                             setshowPackageDealForm={setshowPackageDealForm}
@@ -190,9 +230,14 @@ let DealsContainer = (props)=>{
                                             return_new_package_item_props={return_new_package_item_props}
                                             newPackageCurrentEditItem={newPackageCurrentEditItem}
                                             setNewPackageCurrentEditItem={setNewPackageCurrentEditItem}
+                                            createNewDealPackageOnClick={createNewDealPackageOnClick}
+                                            formValidation={formValidation}
+                                            setFormValidation={setFormValidation}
+                                            resetFormValidation={resetFormValidation}
                                         />
                                     </> :
                                     <DealsPackagesList
+                                        userDetails={userDetails}
                                         viewDealPackageInfo={viewDealPackageInfo}
                                     />
                                 }
