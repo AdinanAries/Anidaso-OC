@@ -1,4 +1,8 @@
 import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
+import {
+    prepareQuilEditorContentForStorage
+} from "../../../../../helpers/helper-functions";
+import { useEffect } from "react";
 
 const NewPackageHotelForm = (props) => {
 
@@ -8,6 +12,16 @@ const NewPackageHotelForm = (props) => {
         INCLUDE_ITEMS,
         resetFormValidation,
     } = props;
+
+    let hotelData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.stay)[0];
+    let hotelInfoQuilContent = hotelData?.text_editor_content;
+
+    useEffect(()=>{
+        window.__initCreateDealPackageHotelInfoCheckinCheckoutDatesInput();
+        setTimeout(()=>{
+            document.getElementById("createDealPackageHotelInfoCheckinCheckoutDatesInput").value = (hotelData?.check_in_date + (hotelData?.check_out_date ? (" - " + hotelData?.check_out_date) : ""));
+        }, 200);
+    }, []);
 
     const hotelAddressOnInput = (e) => {
         resetFormValidation();
@@ -90,9 +104,9 @@ const NewPackageHotelForm = (props) => {
         })
     }
 
-    const checkInCheckOutDatesOnInput = (e) => {
+    const checkInCheckOutDatesOnInput = (_dates_p) => {
         resetFormValidation();
-        let _dates = e.target.value?.split(" - ");
+        let _dates = _dates_p?.split(" - ");
         if(_dates.length < 1){
             _dates.push("");
         }
@@ -108,8 +122,22 @@ const NewPackageHotelForm = (props) => {
             )
         })
     }
+    window.__createDealPackageSetHotelCheckinCheckoutDates = checkInCheckOutDatesOnInput;
 
-    let hotelData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.stay)[0];
+    const setHTMDetails = (html_text, editor_content) => {
+        let _html_text = prepareQuilEditorContentForStorage(html_text);
+        resetFormValidation();
+        setCreateNewPackageData((prevState) => ({
+            ...prevState,
+            items: prevState?.items?.map(item=>
+                item.name === INCLUDE_ITEMS?.stay ? { 
+                    ...item, 
+                    html_details: _html_text,  
+                    text_editor_content: editor_content,
+                } : item
+            )
+        }))
+    }
 
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
@@ -140,8 +168,8 @@ const NewPackageHotelForm = (props) => {
                 Checkin - Checkout Dates
             </p>
             <div style={{border: "none"}}>
-                <input onInput={checkInCheckOutDatesOnInput}
-                    value={(hotelData?.check_in_date + (hotelData?.check_out_date ? (" - " + hotelData?.check_out_date) : ""))}
+                <input id="createDealPackageHotelInfoCheckinCheckoutDatesInput"
+                    readOnly={true}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -364,6 +392,8 @@ const NewPackageHotelForm = (props) => {
             </p>
             <div style={{backgroundColor: "white"}}>
                 <RichTextEditorQuill 
+                    currentContent={hotelInfoQuilContent}
+                    setContent={setHTMDetails}
                     elem_id="new_package_hotel_info_form_details_field" 
                 />
             </div>

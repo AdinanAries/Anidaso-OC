@@ -520,6 +520,12 @@ export const getClient = async () => {
     return client;
 }
 
+export const prepareQuilEditorContentForStorage = (html_text) => {
+    return html_text?.replaceAll("input", "input style='display: none;'")
+            ?.replaceAll('contenteditable="true"', 'contenteditable="false"')
+            ?.replaceAll('class="ql-editor"', 'class="ql-editor" style="padding: 0; font-size: 13px;"');
+}
+
 export function calculateActionPoints(total_money_amount, actions_per_unit=10){
     // 10 actions = $1
     // 1 action = $x;

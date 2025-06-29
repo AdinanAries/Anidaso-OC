@@ -1,7 +1,6 @@
 const OtherInfo = (props) => {
 
     const {
-        setshowPackageDealForm,
         createNewPackageData,
         setCreateNewPackageData,
         INCLUDE_ITEMS,

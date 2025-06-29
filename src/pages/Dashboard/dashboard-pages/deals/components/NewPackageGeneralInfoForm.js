@@ -1,4 +1,8 @@
+import { useEffect } from "react";
 import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
+import {
+    prepareQuilEditorContentForStorage
+} from "../../../../../helpers/helper-functions";
 
 const NewPackageGeneralInfoForm = (props) => {
 
@@ -9,105 +13,108 @@ const NewPackageGeneralInfoForm = (props) => {
         resetFormValidation,
     } = props;
 
-        /*
-        cover_picture: "",
-        html_description: "",*/
+    useEffect(()=>{
+        window.__initCreateDealPackageGeneralInfoPackageWindowDatesInput();
+        setTimeout(()=>{
+            document.getElementById("createDealPackageGeneralInfoWindowDatesInput").value = (createNewPackageData?.start_date + (createNewPackageData?.end_date ? (" - " + createNewPackageData?.end_date) : ""));
+        }, 200);
+    }, []);
 
-        const titleOnInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                title: e.target.value,
-            });
-        }
-        const totalPriceOnInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                total_price: e.target.value,
-            });
-        }
+    const titleOnInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            title: e.target.value,
+        });
+    }
+    const totalPriceOnInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            total_price: e.target.value,
+        });
+    }
 
-        const travelDestinationOnInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                travel_destination: e.target.value,
-            });
-        }
+    const travelDestinationOnInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            travel_destination: e.target.value,
+        });
+    }
 
-        const packageWindowOnInput = (e) => {
-            resetFormValidation();
-            let dates = e.target.value.split(" - ");
-            let sd = dates[0];
-            let ed = dates[1];
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                start_date: sd,
-                end_date: ed
-            });
-            
-        }
+    const packageWindowOnInput = (_dates) => {
+        resetFormValidation();
+        let dates = _dates.split(" - ");
+        let sd = dates[0];
+        let ed = dates[1];
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            start_date: sd,
+            end_date: ed
+        }); 
+    }
+    window.__createDealPackageSetGeneralInfoPackageWindowDates = packageWindowOnInput;
 
-        const includeAdultsOnInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                include_dults: (!e.target.checked),
-            });
-        }
+    const includeAdultsOnInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            include_adults: (!e.target.checked),
+        });
+    }
 
-        const includeChildrenOnInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                include_children: (!e.target.checked),
-            });
-        }
+    const includeChildrenOnInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            include_children: (!e.target.checked),
+        });
+    }
 
-        const includeInfantsInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                include_infants: (!e.target.checked),
-            });
-        }
+    const includeInfantsInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            include_infants: (!e.target.checked),
+        });
+    }
 
-        const maxAdultsOnInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                max_num_of_adults: e.target.value,
-            });
-        }
+    const maxAdultsOnInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            max_num_of_adults: e.target.value,
+        });
+    }
 
-        const maxChildrenOnInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                max_num_of_children: e.target.value,
-            });
-        }
+    const maxChildrenOnInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            max_num_of_children: e.target.value,
+        });
+    }
 
-        const maxInfantsOnInput = (e) => {
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                max_num_of_infants: e.target.value,
-            });
-        }
+    const maxInfantsOnInput = (e) => {
+        resetFormValidation();
+        setCreateNewPackageData({
+            ...createNewPackageData,
+            max_num_of_infants: e.target.value,
+        });
+    }
 
-        const setHTMLDescription = (html_text) => {
-            let _html_text = html_text
-            ?.replaceAll("input", "input style='display: none;'")
-            ?.replaceAll('contenteditable="true"', 'contenteditable="false"')
-            ?.replaceAll('class="ql-editor"', 'class="ql-editor" style="padding: 0; font-size: 13px;"');
-            resetFormValidation();
-            setCreateNewPackageData({
-                ...createNewPackageData,
-                html_description: _html_text,
-            });
-        }
+    const setHTMLDescription = (html_text, editor_content) => {
+        let _html_text = prepareQuilEditorContentForStorage(html_text);
+        resetFormValidation();
+        setCreateNewPackageData((prevState)=>({
+            ...prevState,
+            html_description: _html_text,
+            text_editor_content: editor_content,
+        }));
+    }
+
+    let generalInfoQuilContent = createNewPackageData?.text_editor_content;
 
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
@@ -138,7 +145,8 @@ const NewPackageGeneralInfoForm = (props) => {
                 Package Window <span style={{color: "rgba(255,255,255,0.7)"}}>
                     (Date Start - Date End)</span></p>
             <div style={{border: "none"}}>
-                <input onInput={packageWindowOnInput}
+                <input id="createDealPackageGeneralInfoWindowDatesInput" 
+                    readOnly={true}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -150,7 +158,7 @@ const NewPackageGeneralInfoForm = (props) => {
             <div style={{display: "flex", marginTop: 20}}>
                 <p style={{fontSize: 12, color: "white", marginRight: 30}}>
                     <input onInput={includeAdultsOnInput}
-                        checked={createNewPackageData?.include_dults}
+                        checked={createNewPackageData?.include_adults}
                         id="new_package_include_adults_check"
                         className="cm-toggle"
                         type="checkbox" />
@@ -187,7 +195,7 @@ const NewPackageGeneralInfoForm = (props) => {
             </div>
         </div>
         {
-            createNewPackageData?.include_dults &&
+            createNewPackageData?.include_adults &&
             <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
                 <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                     <i className="fa fa-users" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
@@ -281,6 +289,7 @@ const NewPackageGeneralInfoForm = (props) => {
                     type here...
                     </textarea>*/}
                 <RichTextEditorQuill 
+                    currentContent={generalInfoQuilContent}
                     setContent={setHTMLDescription}
                     elem_id="new_package_general_info_form_description_field" />
             </div>

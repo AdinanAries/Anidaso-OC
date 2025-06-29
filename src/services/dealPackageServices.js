@@ -64,15 +64,16 @@ export const fetchDealsPackages = async (user_id, filters, setTotalItemsState=()
     }
 }
 
-export const fetchDealsPackagesBySearchQuery = async (agent_id, query, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\travel-deals-packages\\search\\`) => {
+export const fetchDealsPackagesBySearchQuery = async (agent_id, query, filters, setTotalItemsState=()=>{}, offset=1, limit=10, path=`\\api\\travel-deals-packages\\search\\`) => {
     try{
         return await fetch(API_URL+path+agent_id+'\\'+offset+'\\'+limit+'\\'+query, {
-            method: "GET",
+            method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${USER_TOKEN}`
             },
+            body: JSON.stringify({filters})
         })
         .then(res => {
             for (var pair of res.headers.entries()) {

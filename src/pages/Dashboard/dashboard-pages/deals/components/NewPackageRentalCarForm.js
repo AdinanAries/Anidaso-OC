@@ -1,4 +1,8 @@
 import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
+import {
+    prepareQuilEditorContentForStorage
+} from "../../../../../helpers/helper-functions";
+import { useEffect } from "react";
 
 const NewPackageRentalCarForm = (props) => {
 
@@ -8,6 +12,16 @@ const NewPackageRentalCarForm = (props) => {
         INCLUDE_ITEMS,
         resetFormValidation,
     } = props;
+
+    let rentalCarData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.rental_car)[0];
+    let rentalCarInfoQuilContent = rentalCarData?.text_editor_content;
+
+    useEffect(()=>{
+        window.__initCreateDealPackageRentalCarInfoPickupDropoffDatesInput();
+        setTimeout(()=>{
+            document.getElementById("createDealPackageRentalCarInfoPickupDropoffDatesInput").value = (rentalCarData?.pick_up_date + (rentalCarData?.drop_off_date ? (" - " + rentalCarData?.drop_off_date) : ""));
+        }, 200);
+    }, []);
 
     const rentalCompanyOnInput = (e) => {
         resetFormValidation();
@@ -42,9 +56,9 @@ const NewPackageRentalCarForm = (props) => {
         })
     }
 
-    const pickupDropOffDatesOnInput = (e) => {
+    const pickupDropOffDatesOnInput = (_dates_p) => {
         resetFormValidation();
-        let _dates = e.target.value?.split(" - ");
+        let _dates = _dates_p?.split(" - ");
         if(_dates.length < 1){
             _dates.push("");
         }
@@ -60,6 +74,7 @@ const NewPackageRentalCarForm = (props) => {
             )
         })
     }
+    window.__createDealPackageSetRentalCarPickupDropoffDates = pickupDropOffDatesOnInput;
 
     const pickupDropOffTimesOnInput = (e) => {
         resetFormValidation();
@@ -91,7 +106,20 @@ const NewPackageRentalCarForm = (props) => {
         })
     }
 
-    let rentalCarData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.rental_car)[0];
+    const setHTMDetails = (html_text, editor_content) => {
+        let _html_text = prepareQuilEditorContentForStorage(html_text);
+        resetFormValidation();
+        setCreateNewPackageData((prevState) => ({
+            ...prevState,
+            items: prevState?.items?.map(item=>
+                item.name === INCLUDE_ITEMS?.rental_car ? { 
+                    ...item, 
+                    html_details: _html_text,
+                    text_editor_content: editor_content,
+                } : item
+            )
+        }))
+    }
 
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
@@ -132,8 +160,8 @@ const NewPackageRentalCarForm = (props) => {
                 <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Pick-up - Drop-off Dates</p>
             <div style={{border: "none"}}>
-                <input onInput={pickupDropOffDatesOnInput}
-                    value={(rentalCarData?.pick_up_date + (rentalCarData?.drop_off_date ? (" - " + rentalCarData?.drop_off_date) : ""))}
+                <input id="createDealPackageRentalCarInfoPickupDropoffDatesInput"
+                    readOnly={true}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -218,6 +246,8 @@ const NewPackageRentalCarForm = (props) => {
             </p>
             <div style={{backgroundColor: "white"}}>
                 <RichTextEditorQuill 
+                    currentContent={rentalCarInfoQuilContent}
+                    setContent={setHTMDetails}
                     elem_id="new_package_hotel_info_form_details_field" 
                 />
             </div>

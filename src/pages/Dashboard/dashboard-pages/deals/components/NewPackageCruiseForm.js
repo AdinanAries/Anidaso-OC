@@ -1,4 +1,8 @@
 import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
+import {
+    prepareQuilEditorContentForStorage
+} from "../../../../../helpers/helper-functions";
+import { useEffect } from "react";
 
 const NewPackageCruiseForm = (props) => {
 
@@ -8,6 +12,17 @@ const NewPackageCruiseForm = (props) => {
         INCLUDE_ITEMS,
         resetFormValidation,
     } = props;
+
+    let cruiseData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.cruise)[0];
+    let cruiseInfoQuilContent = cruiseData?.text_editor_content;
+
+    useEffect(()=>{
+        const isSingleDate=true;
+        window.__initCreateDealPackageCruiseInfoStartDateInput(isSingleDate);
+        setTimeout(()=>{
+            document.getElementById("createDealPackageCruiseInfoStartDateInput").value = cruiseData?.start_date;
+        }, 200);
+    }, []);
 
     const cruiseLineShipOnInput = (e) => {
         resetFormValidation();
@@ -42,16 +57,17 @@ const NewPackageCruiseForm = (props) => {
         })
     }
 
-    const startDateOnInput = (e) => {
+    const startDateOnInput = (_date) => {
         resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
             items: _items?.map(item=>
-                item.name === INCLUDE_ITEMS?.cruise ? { ...item, start_date: e.target.value  } : item
+                item.name === INCLUDE_ITEMS?.cruise ? { ...item, start_date: _date } : item
             )
         })
     }
+    window.__createDealPackageSetCruiseStartDate = startDateOnInput;
 
     const startTimeOnInput = (e) => {
         resetFormValidation();
@@ -86,7 +102,20 @@ const NewPackageCruiseForm = (props) => {
         })
     }
 
-    let cruiseData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.cruise)[0];
+    const setHTMDetails = (html_text, editor_content) => {
+        let _html_text = prepareQuilEditorContentForStorage(html_text);
+        resetFormValidation();
+        setCreateNewPackageData((prevState) => ({
+            ...prevState,
+            items: prevState?.items?.map(item=>
+                item.name === INCLUDE_ITEMS?.cruise ? { 
+                    ...item, 
+                    html_details: _html_text,
+                    text_editor_content: editor_content,
+                } : item
+            )
+        }))
+    }
 
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
@@ -127,8 +156,8 @@ const NewPackageCruiseForm = (props) => {
                 <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Start Date</p>
             <div style={{border: "none"}}>
-                <input onInput={startDateOnInput}
-                    value={cruiseData?.start_date}
+                <input id="createDealPackageCruiseInfoStartDateInput"
+                    readOnly={true}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -220,6 +249,8 @@ const NewPackageCruiseForm = (props) => {
             </p>
             <div style={{backgroundColor: "white"}}>
                 <RichTextEditorQuill 
+                    currentContent={cruiseInfoQuilContent}
+                    setContent={setHTMDetails}
                     elem_id="new_package_hotel_info_form_details_field" 
                 />
             </div>

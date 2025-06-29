@@ -1,4 +1,8 @@
 import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
+import {
+    prepareQuilEditorContentForStorage
+} from "../../../../../helpers/helper-functions";
+import { useEffect, useState } from "react";
 
 const NewPackageFlightForm = (props) => {
 
@@ -8,6 +12,19 @@ const NewPackageFlightForm = (props) => {
         INCLUDE_ITEMS,
         resetFormValidation,
     } = props;
+
+    let flightData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.flight)[0];
+    let flightInfoQuilContent = flightData?.text_editor_content;
+
+    const [includeReturnFlights, setIncludeReturnFlights ] = useState(true);
+
+    useEffect(()=>{
+        let isSingleDate = (!includeReturnFlights);
+        window.__initCreateDealPackageFlightInfoDepartureReturnDatesInput(isSingleDate);
+        setTimeout(()=>{
+            document.getElementById("createDealPackageFlightInfoDepartureReturnDatesInput").value = (flightData?.departure_date + (flightData?.return_date ? (" - " + flightData?.return_date) : ""));
+        }, 200);
+    }, [includeReturnFlights]);
 
     const departureAirportOnInput = (e) => {
         resetFormValidation();
@@ -42,9 +59,9 @@ const NewPackageFlightForm = (props) => {
         })
     }
 
-    const departureReturnDatesOnInput = (e) => {
+    const departureReturnDatesOnInput = (_dates_p) => {
         resetFormValidation();
-        let _dates = e.target.value?.split(" - ");
+        let _dates = _dates_p?.split(" - ");
         if(_dates.length < 1){
             _dates.push("");
         }
@@ -60,8 +77,22 @@ const NewPackageFlightForm = (props) => {
             )
         })
     }
+    window.__createDealPackageSetFlightDepartureReturnDates = departureReturnDatesOnInput;
 
-    let flightData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.flight)[0];
+    const setHTMDetails = (html_text, editor_content) => {
+        let _html_text = prepareQuilEditorContentForStorage(html_text);
+        resetFormValidation();
+        setCreateNewPackageData((prevState) => ({
+            ...prevState,
+            items: prevState?.items?.map(item=>
+                item.name === INCLUDE_ITEMS?.flight ? { 
+                    ...item, 
+                    html_details: _html_text,
+                    text_editor_content: editor_content,
+                } : item
+            )
+        }))
+    }
 
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
@@ -100,11 +131,14 @@ const NewPackageFlightForm = (props) => {
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
             <p className="subtitle-font-color-default" style={{fontSize: 13}}>
                 <i className="fa-solid fa-calendar-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
-                Departure - Return Dates
+                Departure {(includeReturnFlights ? "- Return Dates" : "Date")}
                 <span style={{fontSize: 12, color: "white", marginLeft: 30}}>
-                    <input className="cm-toggle"
+                    <input id="createDealPackageFlightFormIncludeReturnFlightCheck" 
+                        onInput={()=>setIncludeReturnFlights(!includeReturnFlights)}
+                        checked={includeReturnFlights}
+                        className="cm-toggle"
                         type="checkbox" />
-                    <label>
+                    <label htmlFor="createDealPackageFlightFormIncludeReturnFlightCheck">
                         <span style={{marginLeft: 10}}>
                             Return Flights
                         </span>
@@ -112,8 +146,8 @@ const NewPackageFlightForm = (props) => {
                 </span>
             </p>
             <div style={{border: "none"}}>
-                <input onInput={departureReturnDatesOnInput}
-                    value={(flightData?.departure_date + (flightData?.return_date ? (" - " + flightData?.return_date) : ""))}
+                <input id="createDealPackageFlightInfoDepartureReturnDatesInput"
+                    readOnly={true}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -161,6 +195,8 @@ const NewPackageFlightForm = (props) => {
             </p>
             <div style={{backgroundColor: "white"}}>
                 <RichTextEditorQuill 
+                    currentContent={flightInfoQuilContent}
+                    setContent={setHTMDetails}
                     elem_id="new_package_flight_info_form_details_field" 
                 />
             </div>

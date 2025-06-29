@@ -1,4 +1,8 @@
 import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
+import {
+    prepareQuilEditorContentForStorage
+} from "../../../../../helpers/helper-functions";
+import { useEffect } from "react";
 
 const NewPackageBusTourForm = (props) => {
 
@@ -8,6 +12,17 @@ const NewPackageBusTourForm = (props) => {
         INCLUDE_ITEMS,
         resetFormValidation,
     } = props;
+
+    let busTourData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.bus_tour)[0];
+    let busTourInfoQuilContent = busTourData?.text_editor_content;
+
+    useEffect(()=>{
+        const isSingleDate=true;
+        window.__initCreateDealPackageBusTourInfoStartDateInput(isSingleDate);
+        setTimeout(()=>{
+            document.getElementById("createDealPackageBusTourInfoStartDateInput").value = busTourData?.start_date;
+        }, 200);
+    }, []);
 
     const companyNameOnInput = (e) => {
         resetFormValidation();
@@ -31,16 +46,17 @@ const NewPackageBusTourForm = (props) => {
         })
     }
 
-    const startDateOnInput = (e) => {
+    const startDateOnInput = (_date) => {
         resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
             items: _items?.map(item=>
-                item.name === INCLUDE_ITEMS?.bus_tour ? { ...item, start_date: e.target.value  } : item
+                item.name === INCLUDE_ITEMS?.bus_tour ? { ...item, start_date: _date } : item
             )
         })
     }
+    window.__createDealPackageSetBusTourStartDate = startDateOnInput;
 
     const startTimeOnInput = (e) => {
         resetFormValidation();
@@ -53,7 +69,20 @@ const NewPackageBusTourForm = (props) => {
         })
     }
 
-    let busTourData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.bus_tour)[0];
+    const setHTMDetails = (html_text, editor_content) => {
+        let _html_text = prepareQuilEditorContentForStorage(html_text);
+        resetFormValidation();
+        setCreateNewPackageData((prevState) => ({
+            ...prevState,
+            items: prevState?.items?.map(item=>
+                item.name === INCLUDE_ITEMS?.bus_tour ? { 
+                    ...item, 
+                    html_details: _html_text,
+                    text_editor_content: editor_content
+                } : item
+            )
+        }))
+    }
 
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
@@ -83,8 +112,8 @@ const NewPackageBusTourForm = (props) => {
                 <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Start Date</p>
             <div style={{border: "none"}}>
-                <input onInput={startDateOnInput}
-                    value={busTourData?.start_date}
+                <input id="createDealPackageBusTourInfoStartDateInput" 
+                    readOnly={true}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -146,7 +175,9 @@ const NewPackageBusTourForm = (props) => {
                 <span style={{color: "orange"}}> Social aspect:</span> Bus tours can be a social experience, particularly for those traveling solo or in small groups. 
             </p>
             <div style={{backgroundColor: "white"}}>
-                <RichTextEditorQuill 
+                <RichTextEditorQuill
+                    currentContent={busTourInfoQuilContent}
+                    setContent={setHTMDetails}
                     elem_id="new_package_hotel_info_form_details_field" 
                 />
             </div>

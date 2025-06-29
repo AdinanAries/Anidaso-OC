@@ -21,6 +21,139 @@ window.__initCreateSearchLinkDateInput = (isSingleDatePicker=false) => {
   
 }
 
+window.__initCreateDealPackageGeneralInfoPackageWindowDatesInput = (isSingleDatePicker=false) => {
+  $(function() {
+    $('#createDealPackageGeneralInfoWindowDatesInput').daterangepicker({
+      singleDatePicker: isSingleDatePicker,
+      opens: 'left',
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    }, function(start, end, label) {
+      setTimeout(()=>{
+        let d_val = start.format('YYYY-MM-DD') +(!isSingleDatePicker ? (" - "+ end.format('YYYY-MM-DD')) : "");
+        window.__createDealPackageSetGeneralInfoPackageWindowDates(d_val);
+        document.getElementById("createDealPackageGeneralInfoWindowDatesInput").value = d_val;
+      }, 100);
+    });
+  });
+}
+
+window.__initCreateDealPackageCruiseInfoStartDateInput = (isSingleDatePicker=false) => {
+  $(function() {
+    $('#createDealPackageCruiseInfoStartDateInput').daterangepicker({
+      singleDatePicker: isSingleDatePicker,
+      opens: 'left',
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    }, function(start, end, label) {
+      setTimeout(()=>{
+        let d_val = start.format('YYYY-MM-DD') +(!isSingleDatePicker ? (" - "+ end.format('YYYY-MM-DD')) : "");
+        window.__createDealPackageSetCruiseStartDate(d_val);
+        document.getElementById("createDealPackageCruiseInfoStartDateInput").value = d_val;
+      }, 100);
+    });
+  });
+}
+
+window.__initCreateDealPackageBusTourInfoStartDateInput = (isSingleDatePicker=false) => {
+  $(function() {
+    $('#createDealPackageBusTourInfoStartDateInput').daterangepicker({
+      singleDatePicker: isSingleDatePicker,
+      opens: 'left',
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    }, function(start, end, label) {
+      setTimeout(()=>{
+        let d_val = start.format('YYYY-MM-DD') +(!isSingleDatePicker ? (" - "+ end.format('YYYY-MM-DD')) : "");
+        window.__createDealPackageSetBusTourStartDate(d_val);
+        document.getElementById("createDealPackageBusTourInfoStartDateInput").value = d_val;
+      }, 100);
+    });
+  });
+}
+
+window.__initCreateDealPackageEventInfoStartDateInput = (isSingleDatePicker=false) => {
+  $(function() {
+    $('#createDealPackageEventInfoStartDateInput').daterangepicker({
+      singleDatePicker: isSingleDatePicker,
+      opens: 'left',
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    }, function(start, end, label) {
+      setTimeout(()=>{
+        let d_val = start.format('YYYY-MM-DD') +(!isSingleDatePicker ? (" - "+ end.format('YYYY-MM-DD')) : "");
+        window.__createDealPackageSetEventStartDate(d_val);
+        document.getElementById("createDealPackageEventInfoStartDateInput").value = d_val;
+      }, 100);
+    });
+  });
+}
+
+window.__initCreateDealPackageFlightInfoDepartureReturnDatesInput = (isSingleDatePicker=false) => {
+  $(function() {
+    $('#createDealPackageFlightInfoDepartureReturnDatesInput').daterangepicker({
+      singleDatePicker: isSingleDatePicker,
+      opens: 'left',
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    }, function(start, end, label) {
+      setTimeout(()=>{
+        let d_val = start.format('YYYY-MM-DD') +(!isSingleDatePicker ? (" - "+ end.format('YYYY-MM-DD')) : "");
+        window.__createDealPackageSetFlightDepartureReturnDates(d_val);
+        document.getElementById("createDealPackageFlightInfoDepartureReturnDatesInput").value = d_val;
+      }, 100);
+    });
+  });
+}
+
+window.__initCreateDealPackageHotelInfoCheckinCheckoutDatesInput = (isSingleDatePicker=false) => {
+  $(function() {
+    $('#createDealPackageHotelInfoCheckinCheckoutDatesInput').daterangepicker({
+      singleDatePicker: isSingleDatePicker,
+      opens: 'left',
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    }, function(start, end, label) {
+      setTimeout(()=>{
+        let d_val = start.format('YYYY-MM-DD') +(!isSingleDatePicker ? (" - "+ end.format('YYYY-MM-DD')) : "");
+        window.__createDealPackageSetHotelCheckinCheckoutDates(d_val);
+        document.getElementById("createDealPackageHotelInfoCheckinCheckoutDatesInput").value = d_val;
+      }, 100);
+    });
+  });
+}
+
+window.__initCreateDealPackageRentalCarInfoPickupDropoffDatesInput = (isSingleDatePicker=false) => {
+  $(function() {
+    $('#createDealPackageRentalCarInfoPickupDropoffDatesInput').daterangepicker({
+      singleDatePicker: isSingleDatePicker,
+      opens: 'left',
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    }, function(start, end, label) {
+      setTimeout(()=>{
+        let d_val = start.format('YYYY-MM-DD') +(!isSingleDatePicker ? (" - "+ end.format('YYYY-MM-DD')) : "");
+        window.__createDealPackageSetRentalCarPickupDropoffDates(d_val);
+        document.getElementById("createDealPackageRentalCarInfoPickupDropoffDatesInput").value = d_val;
+      }, 100);
+    });
+  });
+}
+
 export const dashboardInits = () => {
 
     setTimeout(()=>{

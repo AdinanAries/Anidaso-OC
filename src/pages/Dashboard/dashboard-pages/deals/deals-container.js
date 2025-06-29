@@ -31,8 +31,9 @@ let DealsContainer = (props)=>{
     const return_new_package_item_props = (name) => {
         let _obj = {
             name: INCLUDE_ITEMS[name],
-            image_url: "",
-            htmL_details: "",
+            image_url: 'https://welldugo-oc-53db16692066.herokuapp.com/static/media/news-letter-bg1.f922fef0.jpg',
+            html_details: "",
+            text_editor_content: {},
         }
         if(name===INCLUDE_ITEMS?.flight){
             _obj = {
@@ -123,20 +124,21 @@ let DealsContainer = (props)=>{
         travel_destination: "",
         start_date: "",
         end_date: "",
-        include_dults: true,
+        include_adults: true,
         include_children: false,
         include_infants: false,
         max_num_of_adults: 1,
         max_num_of_children: 0,
         max_num_of_infants: 0,
-        cover_picture: "",
+        cover_picture: 'https://welldugo-oc-53db16692066.herokuapp.com/static/media/news-letter-bg1.f922fef0.jpg',
         html_description: "",
+        text_editor_content: {},
         items: []
     });
     const [ newPackageCurrentEditItem, setNewPackageCurrentEditItem ] = useState({
         name: "general",
     });
-    const [ showPackageDealForm, setshowPackageDealForm ] = useState(true);
+    const [ showPackageDealForm, setShowPackageDealForm ] = useState(true);
     const [ formValidation, setFormValidation ] = useState({
         type: "warning",
         isError: false,
@@ -200,11 +202,11 @@ let DealsContainer = (props)=>{
                         <div style={{display: "flex", justifyContent: "space-between"}}>
                             <div style={{width: "55%"}}>
                                 <div style={{display: "flex", backgroundColor: "rgb(0, 37, 63)", justifyContent: "center", padding: 10, marginBottom: 5}}>
-                                    <p onClick={()=>setshowPackageDealForm(true)} style={{cursor: "pointer", margin: 10, color: showPackageDealForm ? "yellow" : "rgba(255,255,255,0.7)", fontSize: 13, textDecoration: showPackageDealForm ? "underline" : "none"}}>
+                                    <p onClick={()=>setShowPackageDealForm(true)} style={{cursor: "pointer", margin: 10, color: showPackageDealForm ? "yellow" : "rgba(255,255,255,0.7)", fontSize: 13, textDecoration: showPackageDealForm ? "underline" : "none"}}>
                                         <i className="fa-solid fa-pencil" style={{color: "rgba(255,255,255,0.5)", marginRight: 10}}></i>
                                         Create New/Edit Package
                                     </p>
-                                    <p onClick={()=>setshowPackageDealForm(false)} style={{cursor: "pointer", margin: 10, color: !showPackageDealForm ? "yellow" : "rgba(255,255,255,0.7)", fontSize: 13, textDecoration: !showPackageDealForm ? "underline" : "none"}}>
+                                    <p onClick={()=>setShowPackageDealForm(false)} style={{cursor: "pointer", margin: 10, color: !showPackageDealForm ? "yellow" : "rgba(255,255,255,0.7)", fontSize: 13, textDecoration: !showPackageDealForm ? "underline" : "none"}}>
                                         <i className="fa-solid fa-list" style={{color: "rgba(255,255,255,0.5)", marginRight: 10}}></i>
                                         View Packages/Deals List
                                     </p>
@@ -213,7 +215,6 @@ let DealsContainer = (props)=>{
                                     showPackageDealForm ?
                                     <>
                                         <OtherInfo 
-                                            setshowPackageDealForm={setshowPackageDealForm}
                                             createNewPackageData={createNewPackageData}
                                             setCreateNewPackageData={setCreateNewPackageData}
                                             INCLUDE_ITEMS={INCLUDE_ITEMS}
@@ -223,7 +224,6 @@ let DealsContainer = (props)=>{
                                             resetFormValidation={resetFormValidation}
                                         />
                                         <NewDealPackageForm
-                                            setshowPackageDealForm={setshowPackageDealForm}
                                             createNewPackageData={createNewPackageData}
                                             setCreateNewPackageData={setCreateNewPackageData}
                                             INCLUDE_ITEMS={INCLUDE_ITEMS}
@@ -238,12 +238,15 @@ let DealsContainer = (props)=>{
                                     </> :
                                     <DealsPackagesList
                                         userDetails={userDetails}
+                                        setShowPackageDealForm={setShowPackageDealForm}
+                                        setCreateNewPackageData={setCreateNewPackageData}
                                         viewDealPackageInfo={viewDealPackageInfo}
                                     />
                                 }
                             </div>
                             <div style={{width: "calc(45% - 7px)"}}>
                                 <DealsPackagesPreviewPage 
+                                    userDetails={userDetails}
                                     createNewPackageData={createNewPackageData}
                                     INCLUDE_ITEMS={INCLUDE_ITEMS}
                                 />

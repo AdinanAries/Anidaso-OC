@@ -1,4 +1,8 @@
 import RichTextEditorQuill from "../../../../../components/RichTextEditorQuill";
+import {
+    prepareQuilEditorContentForStorage
+} from "../../../../../helpers/helper-functions";
+import { useEffect } from "react";
 
 const NewPackageEventForm = (props) => {
 
@@ -8,6 +12,17 @@ const NewPackageEventForm = (props) => {
         INCLUDE_ITEMS,
         resetFormValidation,
     } = props;
+
+    let eventsData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.event)[0];
+    let eventInfoQuilContent = eventsData?.text_editor_content;
+
+    useEffect(()=>{
+        const isSingleDate=true;
+        window.__initCreateDealPackageEventInfoStartDateInput(isSingleDate);
+        setTimeout(()=>{
+            document.getElementById("createDealPackageEventInfoStartDateInput").value = eventsData?.event_start_date;
+        }, 200);
+    }, []);
 
     const eventNameOnInput = (e) => {
         resetFormValidation();
@@ -31,16 +46,17 @@ const NewPackageEventForm = (props) => {
         })
     }
 
-    const eventStartDateOnInput = (e) => {
+    const eventStartDateOnInput = (_date) => {
         resetFormValidation();
         let _items = createNewPackageData?.items;
         setCreateNewPackageData({
             ...createNewPackageData,
             items: _items?.map(item=>
-                item.name === INCLUDE_ITEMS?.event ? { ...item, event_start_date: e.target.value  } : item
+                item.name === INCLUDE_ITEMS?.event ? { ...item, event_start_date: _date } : item
             )
         })
     }
+    window.__createDealPackageSetEventStartDate = eventStartDateOnInput;
 
     const eventStartTimeOnInput = (e) => {
         resetFormValidation();
@@ -75,7 +91,20 @@ const NewPackageEventForm = (props) => {
         })
     }
 
-    let eventsData = createNewPackageData?.items?.filter(each=>each.name===INCLUDE_ITEMS?.event)[0];
+    const setHTMDetails = (html_text, editor_content) => {
+        let _html_text = prepareQuilEditorContentForStorage(html_text);
+        resetFormValidation();
+        setCreateNewPackageData((prevState) => ({
+            ...prevState,
+            items: prevState?.items?.map(item=>
+                item.name === INCLUDE_ITEMS?.event ? { 
+                    ...item, 
+                    html_details: _html_text,
+                    text_editor_content: editor_content,
+                } : item
+            )
+        }))
+    }
 
     return <div>
         <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
@@ -105,8 +134,8 @@ const NewPackageEventForm = (props) => {
                 <i className="fa fa-calendar" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                 Event Start Date</p>
             <div style={{border: "none"}}>
-                <input onInput={eventStartDateOnInput}
-                    value={eventsData?.event_start_date}
+                <input id="createDealPackageEventInfoStartDateInput"
+                    readOnly={true}
                     type="text" placeholder="type here..."  
                     style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
             </div>
@@ -202,7 +231,11 @@ const NewPackageEventForm = (props) => {
                 <span style={{color: "orange"}}> Accessibility Information:</span> Include details on accessibility features at the venue. 
             </p>
             <div style={{backgroundColor: "white"}}>
-                <RichTextEditorQuill elem_id="new_package_hotel_info_form_details_field" />
+                <RichTextEditorQuill 
+                    currentContent={eventInfoQuilContent}
+                    setContent={setHTMDetails}
+                    elem_id="new_package_hotel_info_form_details_field" 
+                />
             </div>
         </div>
     </div>
