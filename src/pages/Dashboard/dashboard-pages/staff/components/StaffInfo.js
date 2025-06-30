@@ -21,6 +21,7 @@ import AgentDetailsCard from "../../../../../components/AgentDetailsCard";
 import AgentCompanyDetails from "./AgentCompanyDetails";
 import EngineConfiguratorPage from "./EngineConfiguratorPage";
 import ActivityLog from "./ActivityLog";
+import LegalCompliance from "./LegalCompliance";
 
 const StaffInfo = (props) => {
 
@@ -43,6 +44,7 @@ const StaffInfo = (props) => {
         configs: 4,
         wallet: 5,
         booking_engine_configurator: 6,
+        legal_compliance: 7,
     }
 
     const [ currentSubPage, setcurrentSubPage ] = useState(_PAGES.info);
@@ -321,11 +323,11 @@ const StaffInfo = (props) => {
                 {
                     (!isAdmin && !isOwner) &&
                     <>
-                        <div  onClick={()=>setcurrentSubPage(_PAGES?.booking_engine_configurator)}
-                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.booking_engine_configurator) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                            <i style={{color: (currentSubPage===_PAGES?.booking_engine_configurator) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa-solid fa-file-contract"></i>
+                        <div  onClick={()=>setcurrentSubPage(_PAGES?.legal_compliance)}
+                            style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.legal_compliance) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
+                            <i style={{color: (currentSubPage===_PAGES?.legal_compliance) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa-solid fa-file-contract"></i>
                             Compliance
-                            <div style={{border: (currentSubPage===_PAGES?.booking_engine_configurator) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
+                            <div style={{border: (currentSubPage===_PAGES?.legal_compliance) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                         </div>
                         <div onClick={showWalletPage}
                             style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.wallet) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
@@ -614,6 +616,12 @@ const StaffInfo = (props) => {
                     </div>
                 </div>
             </>
+        }
+        {
+            (currentSubPage===_PAGES?.legal_compliance) &&
+            <LegalCompliance 
+                userDetails={selectedStaff}
+            />
         }
         {
             (currentSubPage===_PAGES?.links) &&
