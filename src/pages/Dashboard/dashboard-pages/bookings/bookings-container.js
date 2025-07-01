@@ -3,6 +3,7 @@ import BookedHotelsSearchForm from "../../../../components/booked-hotels-search-
 import BookedCarsSearchForm from "../../../../components/booked-cars-search-form";
 import SearchResultsPage from "../search-results/SearchResultsPage";
 import PageRestricted from "../../../../components/page-restricted";
+import RequiredActions from "../../../../components/RequiredActions";
 
 import { 
     show_booking_search_type_form, 
@@ -61,6 +62,9 @@ let BookingsContainer = (props)=>{
                 <PageRestricted /> :
                 <>
                     <div id="bookings-container-main-pane">
+                        <div style={{marginBottom: 10}}>
+                            <RequiredActions />
+                        </div>
                         <div className="main-seaction-containers">
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <div className="booking-pane-search-type-options">
