@@ -3,7 +3,52 @@ import { useState } from "react";
 
 const LegalCompliance = (props) => {
 
+    const {
+        userDetails,
+    } = props;
+
     const [ showUploadDocumentsPage, setShowUploadDocumentsPage ] = useState(false);
+    const [ pageDate, setPageDate ] = useState({
+        business_country: "",
+        business_state: "",
+        business_town: "",
+        business_entity_type: "",
+        business_entity_id_number: "",
+        primary_agent_date_of_birth: "",
+        primary_agent_education_qualification: "",
+        primary_agent_has_computer_skills: false,
+        certifications: [],
+        licenses: [],
+        insurances: [],
+        required_documents: [
+            {
+                type: "", // e.g. certificate, license, insurance, etc.
+                title: "",
+                download_link: "",
+            }
+        ],
+        certificate_documents: [
+            {
+                type: "",
+                title: "",
+                download_link: "",
+            }
+        ],
+        insurance_documents: [
+            {
+                type: "",
+                title: "",
+                download_link: "",
+            }
+        ],
+        other_documents: [
+            {
+                type: "",
+                title: "",
+                download_link: "",
+            }
+        ]
+    });
 
     const hideDocumentPage = () => {
         setShowUploadDocumentsPage(false);
