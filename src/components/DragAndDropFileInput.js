@@ -6,7 +6,11 @@ const DragAndDropFileInput = ({
   onFilesSelected,
   width,
   height,
+  input_elem_id,
 }) => {
+
+  const _input_elem_id = (input_elem_id || "browse")
+
   const [files, setFiles] = useState([]);
 
   const handleFileChange = (event) => {
@@ -77,7 +81,7 @@ const DragAndDropFileInput = ({
           <input
             type="file"
             hidden
-            id="browse"
+            id={_input_elem_id}
             onChange={handleFileChange}
             accept=".pdf,.docx,.pptx,.txt,.xlsx"
             multiple
@@ -110,7 +114,7 @@ const DragAndDropFileInput = ({
             <p>{files.length} file(s) selected</p>
           </div>
         )}
-        <label htmlFor="browse" className="browse-btn">
+        <label htmlFor={_input_elem_id} className="browse-btn">
             Browse Files
         </label>
       </div>

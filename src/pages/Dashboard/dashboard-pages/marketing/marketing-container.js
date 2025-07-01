@@ -1346,7 +1346,7 @@ let MarketingContainer = (props)=>{
                             Preview - Customer App
                         </p>}
                         <iframe id="business-settings-page-customer-app-preview-iframe" 
-                            style={{width: "100%", height: "calc(100vh - 130px)", border: "none", borderRadius: 8}} 
+                            style={{width: "100%", height: "calc(100vh - 130px)", border: "none", borderRadius: 8, background: "white"}} 
                             src={previewLink} title="description"></iframe>
                     </div>
                     }

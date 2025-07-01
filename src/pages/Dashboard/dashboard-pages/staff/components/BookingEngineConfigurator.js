@@ -686,7 +686,7 @@ const BookingEngineConfigurator = (props) => {
         <div>
             <iframe id="be_configurator_preview_url_window" 
                 src={("https://welldugo-agent-client-app-82f461dc93ac.herokuapp.com/?ngn=1&ag="+userDetails?._id)}
-                style={{width: "100%", border: "none", height: "calc(100vh - 84px)"}}
+                style={{width: "100%", border: "none", height: "calc(100vh - 84px)", background: "white"}}
             />
         </div>
     </div>
