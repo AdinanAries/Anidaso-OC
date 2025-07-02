@@ -782,7 +782,7 @@ let MarketingContainer = (props)=>{
                         <div style={{display: "flex", margin: 10}}>
                             <div onClick={showCampaignPage}
                                 style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.campaign) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
-                                <i style={{color: (currentSubPage===_PAGES?.campaign) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-link"></i>
+                                <i style={{color: (currentSubPage===_PAGES?.campaign) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa-solid fa-newspaper"></i>
                                 Campaign
                                 <div style={{border: (currentSubPage===_PAGES?.campaign) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                             </div>

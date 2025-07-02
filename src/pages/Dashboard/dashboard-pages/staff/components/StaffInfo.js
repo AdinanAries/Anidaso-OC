@@ -286,6 +286,11 @@ const StaffInfo = (props) => {
         setIsLoading(false);
     } 
 
+    const showLegalCompliancePage = () => {
+        setcurrentSubPage(_PAGES?.legal_compliance);
+    }
+    window.__showLegalCompliancePage = showLegalCompliancePage;
+
     const showInfoPage = () => {
         setcurrentSubPage(_PAGES?.info);
         setTimeout(()=>{
@@ -323,7 +328,7 @@ const StaffInfo = (props) => {
                 {
                     (!isAdmin && !isOwner) &&
                     <>
-                        <div  onClick={()=>setcurrentSubPage(_PAGES?.legal_compliance)}
+                        <div  onClick={showLegalCompliancePage}
                             style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.legal_compliance) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                             <i style={{color: (currentSubPage===_PAGES?.legal_compliance) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa-solid fa-file-contract"></i>
                             Compliance
