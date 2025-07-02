@@ -147,7 +147,8 @@ const AgentCustomers = (props) => {
                                 <i className="fa-solid fa-user-check"></i>
                             </p>
                             <p style={{textAlign: "center", color: "orange"}}>
-                                Awareness</p>
+                                <span style={{color: "rgba(255,255,255,0.6)", fontSize: 12}}>
+                                    (20%)</span> Awareness</p>
                             <p style={{textAlign: "center", color: "white", fontSize: 13, marginTop: 10}}>
                                 This is the initial stage where potential customers first become aware of your brand, product, or service. They may encounter your business through marketing campaigns, social media, or word-of-mouth.
                             </p>
@@ -159,7 +160,8 @@ const AgentCustomers = (props) => {
                                 <i className="fa-solid fa-comment-dollar"></i>
                             </p>
                             <p style={{textAlign: "center", color: "orange"}}>
-                                Acquisition</p>
+                                <span style={{color: "rgba(255,255,255,0.6)", fontSize: 12}}>
+                                    (20%)</span> Acquisition</p>
                             <p style={{textAlign: "center", color: "white", fontSize: 13, marginTop: 10}}>
                                 In this stage, the focus shifts to converting these leads into actual customers. Strategies like offering free trials, discounts, or personalized consultations can be employed. 
                             </p>
@@ -171,7 +173,8 @@ const AgentCustomers = (props) => {
                                 <i className="fa-solid fa-money-bill-trend-up"></i>
                             </p>
                             <p style={{textAlign: "center", color: "orange"}}>
-                                Conversion</p>
+                                <span style={{color: "rgba(255,255,255,0.6)", fontSize: 12}}>
+                                    (20%)</span> Conversion</p>
                             <p style={{textAlign: "center", color: "white", fontSize: 13, marginTop: 10}}>
                                 This stage marks the successful transition from lead to paying customer. It involves providing a seamless buying experience, efficient order processing, and onboarding new customers. 
                             </p>
@@ -183,7 +186,8 @@ const AgentCustomers = (props) => {
                                 <i className="fa-solid fa-star"></i>
                             </p>
                             <p style={{textAlign: "center", color: "orange"}}>
-                                Retention</p>
+                                <span style={{color: "rgba(255,255,255,0.6)", fontSize: 12}}>
+                                    (20%)</span> Retention</p>
                             <p style={{textAlign: "center", color: "white", fontSize: 13, marginTop: 10}}>
                                 After the initial purchase, the goal is to keep customers engaged and satisfied with your brand. This is achieved through ongoing communication, personalized support, and proactive problem-solving. 
                             </p>
@@ -195,7 +199,8 @@ const AgentCustomers = (props) => {
                                 <i className="fa-solid fa-crown"></i>
                             </p>
                             <p style={{textAlign: "center", color: "orange"}}>
-                                Loyalty</p>
+                                <span style={{color: "rgba(255,255,255,0.6)", fontSize: 12}}>
+                                    (20%)</span> Loyalty</p>
                             <p style={{textAlign: "center", color: "white", fontSize: 13, marginTop: 10}}>
                                 The final stage aims to transform satisfied customers into loyal advocates for your brand. This can be done through loyalty programs, exclusive offers, and exceptional customer service that fosters a strong emotional connection. 
                             </p>
