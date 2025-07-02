@@ -299,6 +299,11 @@ const AgentServiceFees = (props) => {
                                     <i style={{marginRight: 10, color: currentProduct===__PRODUCT_TYPE?.cars ? "yellow" : "rgba(255,255,255,0.5)"}} className="fa-solid fa-car"></i>
                                     Cars
                                 </div>
+                                <div onClick={()=>setCurrentProduct(__PRODUCT_TYPE?.cars)}
+                                    style={{color: currentProduct===__PRODUCT_TYPE?.cars ? "skyblue" : "grey", padding: 10, fontSize: 13, cursor: "pointer", marginRight: 10}}>
+                                    <i style={{marginRight: 10, color: currentProduct===__PRODUCT_TYPE?.cars ? "yellow" : "rgba(255,255,255,0.5)"}} className="fa-solid fa-box-open"></i>
+                                    Travel Packages
+                                </div>
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap"}}>
                                 {
