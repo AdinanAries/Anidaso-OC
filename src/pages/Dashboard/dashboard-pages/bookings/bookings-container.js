@@ -95,7 +95,7 @@ let BookingsContainer = (props)=>{
                                 type="checkbox" />
                             <span style={{marginLeft: 10, fontSize: 13, textDecoration: "underline"}}>
                                 <label htmlFor="booking_page_toggle_book_new_or_search_booking_check">
-                                    <span style={{color: "orange"}}>Booking Engine Page: </span>
+                                    <span style={{color: "orange"}}>Booking Engine Page</span>
                                     {
                                         showBookNewPage ?
                                         <span style={{marginLeft: 30, textDecoration: "none"}}>
@@ -109,7 +109,7 @@ let BookingsContainer = (props)=>{
                                                     </label>
                                                 </span>
                                         </span> :
-                                        "Your booking engine will allow you to book a new travel item."
+                                        " - Your booking engine will allow you and your customers to book travel items."
                                     }
                                 </label>
                             </span>

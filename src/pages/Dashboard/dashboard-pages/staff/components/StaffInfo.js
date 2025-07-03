@@ -297,6 +297,7 @@ const StaffInfo = (props) => {
             loadSalesChartAndInfo();
         }, 200);
     }
+    window.__showInfoPage = showInfoPage;
 
     const showWalletPage = () => {
         setcurrentSubPage(_PAGES?.wallet);
@@ -307,6 +308,11 @@ const StaffInfo = (props) => {
         setcurrentSubPage(_PAGES?.booking_engine_configurator);
     }
     window.__showBookingEnginePage = showBookingEnginePage;
+
+    const showAgentConfigsPage = () => {
+        setcurrentSubPage(_PAGES?.configs);
+    }
+    window.__showAgentConfigsPage = showAgentConfigsPage;
 
     return <div>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
@@ -346,7 +352,7 @@ const StaffInfo = (props) => {
                             Engine
                             <div style={{border: (currentSubPage===_PAGES?.booking_engine_configurator) ? "2px solid yellow" : "none", marginTop: 10, borderRadius: 100}}></div>
                         </div>
-                        <div  onClick={()=>setcurrentSubPage(_PAGES?.configs)}
+                        <div  onClick={showAgentConfigsPage}
                             style={{padding: "20px 15px", paddingBottom: 10, color: (currentSubPage===_PAGES?.configs) ? "white" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, }} >
                             <i style={{color: (currentSubPage===_PAGES?.configs) ? "yellow" : "rgba(255,255,255,0.5)", marginRight: 10}} className="fa fa-cogs"></i>
                             configs

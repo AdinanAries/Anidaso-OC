@@ -9,14 +9,110 @@ const RequiredActions = (props) => {
 
     const [ isMinimizedWindow, setIsMinimizedWindow ] = useState(false);
 
-    return <div style={{padding: 20, backgroundColor: "white"}}>
+    return <div style={{padding: isMinimizedWindow ? 10 : 20, paddingBottom: isMinimizedWindow ? 0 : 20, backgroundColor: isMinimizedWindow ? "rgb(0, 37, 63)" : "white"}}>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
             <div style={{width: "calc(100% - 50px)"}}>
-                <h4>
-                    <i style={{marginRight: 10, color: "crimson"}}
-                        className="fa-solid fa-exclamation-triangle"></i>
-                    Action(s) Required! <span onClick={()=>setIsMinimizedWindow(!isMinimizedWindow)}
-                        style={{color: "green", fontWeight: "initial", cursor: "pointer", marginLeft: 30, fontSize: 13, textDecoration: "underline"}}>
+                <div style={{display: "flex", alignItems: "center"}}>
+                    {
+                        isMinimizedWindow ?
+                        <div style={{display: "flex"}}>
+                            <div onClick={()=>{
+                                    toggle_show_main_sections("staff");
+                                    window.__viewStaffInfo(userDetails?._id);
+                                    window.__showLegalCompliancePage();
+                                }}
+                                className="tool-tip-parent">
+                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-file-contract"></i>
+                                </div>
+                                <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
+                                    className="tool-tip">
+                                    Business Compliance is Not OK...
+                                </div>
+                            </div>
+                            <div onClick={()=>{
+                                    toggle_show_main_sections("staff");
+                                    window.__viewStaffInfo(userDetails?._id);
+                                    window.__showWalletPage();
+                                }} 
+                                className="tool-tip-parent">
+                                <div style={{width: 40, height: 40, backgroundColor: "rgba(0,255,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <i style={{fontSize: 16, color: "lightgreen"}} className="fa-solid fa-wallet"></i>
+                                </div>
+                                <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
+                                    className="tool-tip">
+                                    Balance Wallet is OK...
+                                </div>
+                            </div>
+                            <div onClick={()=>{
+                                    toggle_show_main_sections("staff");
+                                    window.__viewStaffInfo(userDetails?._id);
+                                    window.__showInfoPage();
+                                }} 
+                                className="tool-tip-parent">
+                                <div style={{width: 40, height: 40, backgroundColor: "rgba(0,255,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <i style={{fontSize: 16, color: "lightgreen"}} className="fa-solid fa-briefcase"></i>
+                                </div>
+                                <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
+                                    className="tool-tip">
+                                    Business Information is OK...
+                                </div>
+                            </div>
+                            <div onClick={()=>{
+                                    toggle_show_main_sections("staff");
+                                    window.__viewStaffInfo(userDetails?._id);
+                                    window.__showBookingEnginePage();
+                                }}
+                                className="tool-tip-parent">
+                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-server"></i>
+                                </div>
+                                <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
+                                    className="tool-tip">
+                                    Booking Engine is Not OK...
+                                </div>
+                            </div>
+                            <div className="tool-tip-parent">
+                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-money-bill-transfer"></i>
+                                </div>
+                                <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
+                                    className="tool-tip">
+                                    Business Bank is Not OK...
+                                </div>
+                            </div>
+                            <div onClick={()=>{
+                                    toggle_show_main_sections("staff");
+                                    window.__viewStaffInfo(userDetails?._id);
+                                    window.__showAgentConfigsPage();
+                                }}
+                                className="tool-tip-parent">
+                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-percent"></i>
+                                </div>
+                                <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
+                                    className="tool-tip">
+                                    Price-bound Profit is Not OK...
+                                </div>
+                            </div>
+                            <div className="tool-tip-parent">
+                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-envelope"></i>
+                                </div>
+                                <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
+                                    className="tool-tip">
+                                    Email Sender is Not OK...
+                                </div>
+                            </div>
+                        </div> :
+                        <h4>
+                            <i style={{marginRight: 10, color: "crimson"}}
+                                className="fa-solid fa-tools"></i>
+                            Required Configs
+                        </h4>
+                    } 
+                    <p onClick={()=>setIsMinimizedWindow(!isMinimizedWindow)}
+                        style={{color: isMinimizedWindow ? "lightgreen" : "green", fontWeight: "initial", cursor: "pointer", marginLeft: 20, fontSize: 13, textDecoration: "underline"}}>
                         {
                             isMinimizedWindow ? "See Details" : "Minimize Window"
                         }
@@ -24,8 +120,8 @@ const RequiredActions = (props) => {
                             <i style={{color: "rgba(0,0,0,0.5)", marginLeft: 10}}
                                 className={"fa-solid fa-angle-" + (isMinimizedWindow ? "down" : "up")}></i>
                         </span>
-                    </span>
-                </h4>
+                    </p>
+                </div>
                 {
                     !isMinimizedWindow &&
                     <div style={{marginTop: 10}}>
@@ -42,9 +138,9 @@ const RequiredActions = (props) => {
                                         window.__viewStaffInfo(userDetails?._id);
                                         window.__showLegalCompliancePage();
                                     }}
-                                    style={{cursor: "pointer", color: "green", textDecoration: "underline", marginTop: 15}}>
-                                    Take Action
-                                    <i style={{marginLeft: 10, fontSize: 16, color: "rgba(0,0,0,0.5)"}} className="fa-solid fa-arrow-right"></i>
+                                    style={{fontSize: 13, cursor: "pointer", color: "red", textDecoration: "underline", marginTop: 15}}>
+                                    <i style={{marginRight: 10, fontSize: 16, color: "red"}} className="fa-solid fa-exclamation-triangle"></i>
+                                    Not Ok, take action...
                                 </p>
                             </div>
                             <div style={{margin: "0 2px", width: "calc(33.3% - 6px)", maxWidth: 400, border: "1px solid rgba(0,0,0,0.1)", borderRadius: 9, padding: 20}}>
@@ -54,14 +150,14 @@ const RequiredActions = (props) => {
                                 <p style={{fontSize: 12, marginTop: 10, color: "rgba(0,0,0,0.8)"}}>
                                     This website uses paid, metered, third party API's to give you access to the various data and services required for your business operations, therefore wallet balance is needed to get you access to these API's and services.
                                 </p>
-                                <p  onClick={()=>{
+                                <p onClick={()=>{
                                         toggle_show_main_sections("staff");
                                         window.__viewStaffInfo(userDetails?._id);
                                         window.__showWalletPage();
                                     }}
-                                    style={{cursor: "pointer", color: "green", textDecoration: "underline", marginTop: 15}}>
-                                    Take Action
-                                    <i style={{marginLeft: 10, fontSize: 16, color: "rgba(0,0,0,0.5)"}} className="fa-solid fa-arrow-right"></i>
+                                    style={{fontSize: 13, cursor: "pointer", color: "green", textDecoration: "underline", marginTop: 15}}>
+                                    <i style={{marginRight: 10, fontSize: 16, color: "green"}} className="fa-solid fa-check"></i>
+                                    OK, go to page...
                                 </p>
                             </div>
                             <div style={{margin: "0 2px", width: "calc(33.3% - 6px)", maxWidth: 400, border: "1px solid rgba(0,0,0,0.1)", borderRadius: 9, padding: 20}}>
@@ -76,9 +172,9 @@ const RequiredActions = (props) => {
                                         window.__viewStaffInfo(userDetails?._id);
                                         window.__showBookingEnginePage();
                                     }}
-                                    style={{cursor: "pointer", color: "green", textDecoration: "underline", marginTop: 15}}>
-                                    Take Action
-                                    <i style={{marginLeft: 10, fontSize: 16, color: "rgba(0,0,0,0.5)"}} className="fa-solid fa-arrow-right"></i>
+                                    style={{fontSize: 13, cursor: "pointer", color: "red", textDecoration: "underline", marginTop: 15}}>
+                                    <i style={{marginRight: 10, fontSize: 16, color: "red"}} className="fa-solid fa-exclamation-triangle"></i>
+                                    Not Ok, take action...
                                 </p>
                             </div>
                         </div>
@@ -87,7 +183,7 @@ const RequiredActions = (props) => {
             </div>
             <div className="tool-tip-parent">
                 <div style={{width: 40, height: 40, borderRadius: "100%", border: "1px solid rgba(0,0,0,0.1)", background: "rgba(0,0,0,0.1)", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                    <i style={{color: "green"}} className="fa-solid fa-angle-right"></i>
+                    <i style={{color: isMinimizedWindow ? "lightgreen" : "green"}} className="fa-solid fa-angle-right"></i>
                 </div>
                 <div style={{left: -15, minWidth: 80, textAlign: "center", fontSize: 13}}
                     className="tool-tip">

@@ -104,7 +104,7 @@ const LoginPage = (props) => {
                     </div>
                 </div>
                 <p style={{color: "white", textAlign: "center", marginTop: 5}}>
-                    Affordable & Reliable Travel, & Trusted by Many.
+                    Your Direct Access to GDS, Supplies, & Cosolidators.
                 </p>
                 <p style={{fontSize: 14, color: "skyblue", textAlign: "center", marginTop: 5}}>
                     Independent Travel Agent (ITA)

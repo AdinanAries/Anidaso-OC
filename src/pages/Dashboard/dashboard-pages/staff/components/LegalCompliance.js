@@ -8,7 +8,7 @@ const LegalCompliance = (props) => {
     } = props;
 
     const [ showUploadDocumentsPage, setShowUploadDocumentsPage ] = useState(false);
-    const [ pageDate, setPageDate ] = useState({
+    const [ pageData, setPageData ] = useState({
         business_country: "",
         business_state: "",
         business_town: "",
@@ -54,6 +54,94 @@ const LegalCompliance = (props) => {
         setShowUploadDocumentsPage(false);
     }
 
+    const businessCountryOnInput = (e) => {
+        setPageData({
+            ...pageData,
+            business_country: e.target.value,
+        })
+    }
+    const businessStateOnInput = (e) => {
+        setPageData({
+            ...pageData,
+            business_state: e.target.value,
+        })
+    }
+    const businessTownOnInput = (e) => {
+        setPageData({
+            ...pageData,
+            business_town: e.target.value,
+        })
+    }
+    const businessEntityTypeOnInput = (e) => {
+        setPageData({
+            ...pageData,
+            business_entity_type: e.target.value,
+        })
+    }
+    const businessEntityIdNumberOnInput = (e) => {
+        setPageData({
+            ...pageData,
+            business_entity_id_number: e.target.value,
+        })
+    }
+    const primaryAgentDateOfBirthOnInput = (e) => {
+        setPageData({
+            ...pageData,
+            primary_agent_date_of_birth: e.target.value,
+        })
+    }
+    const primaryAgentEducationQualificationOnInput = (e) => {
+        setPageData({
+            ...pageData,
+            primary_agent_education_qualification: e.target.value,
+        })
+    }
+    const primaryAgentHasComputerSkillsOnInput = (true_false) => {
+        setPageData({
+            ...pageData,
+            primary_agent_has_computer_skills: true_false,
+        })
+    }
+
+    const certificationsOnInput = (certification) => {
+        let __certifications = pageData?.certifications;
+        if(__certifications.includes(certification)){
+            __certifications = __certifications.filter(each=>each!==certification);
+        }else{
+            __certifications.push(certification);
+        }
+        setPageData({
+            ...pageData,
+            certifications: __certifications,
+        })
+    }
+
+    const licensesOnInput = (license) => {
+        let __licenses = pageData?.licenses;
+        if(__licenses.includes(license)){
+            __licenses = __licenses.filter(each=>each!==license);
+        }else{
+            __licenses.push(license);
+        }
+        setPageData({
+            ...pageData,
+            licenses: __licenses,
+        })
+    }
+
+    const insurancesOnInput = (insurance) => {
+        let __insurances = pageData?.insurances;
+        if(__insurances.includes(insurance)){
+            __insurances = __insurances.filter(each=>each!==insurance);
+        }else{
+            __insurances.push(insurance);
+        }
+        setPageData({
+            ...pageData,
+            insurances: __insurances,
+        })
+    }
+
     return <div>
         {
             !showUploadDocumentsPage ?
@@ -91,7 +179,8 @@ const LegalCompliance = (props) => {
                                     <i className="fa-solid fa-earth-americas" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                     Country</p>
                                 <div style={{border: "none"}}>
-                                    <select 
+                                    <select onInput={businessCountryOnInput}
+                                        value={pageData?.business_country}
                                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                                         <option value="usa"
                                             style={{color: "black"}}>USA</option>
@@ -103,7 +192,8 @@ const LegalCompliance = (props) => {
                                     <i className="fa fa-city" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                     City/State</p>
                                 <div style={{border: "none"}}>
-                                    <select 
+                                    <select onInput={businessStateOnInput}
+                                        value={pageData?.business_state}
                                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                                         <option value="new york"
                                             style={{color: "black"}}>New York</option>
@@ -115,7 +205,8 @@ const LegalCompliance = (props) => {
                                     <i className="fa fa-city" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                     Town (Optional)</p>
                                 <div style={{border: "none"}}>
-                                    <select 
+                                    <select onInput={businessTownOnInput}
+                                        value={pageData?.business_town}
                                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                                         <option value="new york"
                                             style={{color: "black"}}>New York</option>
@@ -133,7 +224,8 @@ const LegalCompliance = (props) => {
                                     <i className="fa-solid fa-briefcase" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                     Entity Type</p>
                                 <div style={{border: "none"}}>
-                                    <select 
+                                    <select onInput={businessEntityTypeOnInput}
+                                        value={pageData?.business_entity_type}
                                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                                         <option value="llc"
                                             style={{color: "black"}}>LLC</option>
@@ -145,7 +237,8 @@ const LegalCompliance = (props) => {
                                     <i className="fa fa-id-card" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                     Business Entity Number (e.g. EIN)</p>
                                 <div style={{border: "none"}}>
-                                    <input
+                                    <input onInput={businessEntityIdNumberOnInput}
+                                        value={pageData?.business_entity_id_number}
                                         type="text" placeholder="type here..."  
                                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
                                 </div>
@@ -161,7 +254,8 @@ const LegalCompliance = (props) => {
                                     <i className="fa-solid fa-calendar-alt" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                     Date of Birth</p>
                                 <div style={{border: "none"}}>
-                                    <input
+                                    <input onInput={primaryAgentDateOfBirthOnInput}
+                                        value={pageData?.primary_agent_date_of_birth}
                                         type="text" placeholder="type here..."  
                                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}/>
                                 </div>
@@ -171,7 +265,8 @@ const LegalCompliance = (props) => {
                                     <i className="fa-solid fa-briefcase" style={{marginRight: 10, color: "rgba(255,255,255,0.8)"}}></i>
                                     Education</p>
                                 <div style={{border: "none"}}>
-                                    <select 
+                                    <select onInput={primaryAgentEducationQualificationOnInput}
+                                        value={pageData?.primary_agent_education_qualification}
                                         style={{fontSize: 14, width: "calc(100% - 20px)", padding: 10, background: "none", color: "white", border: "none"}}>
                                         <option value="diploma"
                                             style={{color: "black"}}>High school diploma or equivalent</option>
@@ -180,12 +275,13 @@ const LegalCompliance = (props) => {
                             </div>
                             <div style={{marginBottom: 5, backgroundColor: "rgba(0,0,0,0.1)", padding: 10, borderRadius: 8}}>
                                 <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                    <input
+                                    <input onInput={()=>primaryAgentHasComputerSkillsOnInput(!pageData?.primary_agent_has_computer_skills)}
+                                        checked={pageData?.primary_agent_has_computer_skills}
                                         className="cm-toggle"
-                                        id=""
+                                        id="legal_compliance_page_agent_computer_literacy_check"
                                         type="checkbox" />
                                     <span style={{marginLeft: 10, fontSize: 13}}>
-                                        <label htmlFor="">
+                                        <label htmlFor="legal_compliance_page_agent_computer_literacy_check">
                                             <span style={{color: "skyblue"}}>Computer Skills: </span> 
                                             Proficiency in using computers and reservation systems.
                                         </label>
