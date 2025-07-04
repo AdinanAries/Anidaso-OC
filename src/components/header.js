@@ -35,6 +35,13 @@ function Header(props){
         business_instagram_link,
     } = userDetails?.company_info;
 
+    const __SETTINGS_TYPES = {
+        percentage: "price_markup",
+        flat_rate: "flat_rate",
+        data_provider: "data_provider",
+        profit_type: "profit_type",
+    }
+
     const user_role_const = userDetails?.role_info?.constant;
     let isLoggedUserOwner = (user_role_const===CONSTANTS.app_role_constants.owner);
     let isLoggedUserAdmin = (user_role_const===CONSTANTS.app_role_constants.admin);
@@ -67,13 +74,39 @@ function Header(props){
             data.client_app_active_env = c_data?.svr_env?.active_env;
             data.client_url = c_data?.svr_env?.client_url;
             data.payment_processor = c_data?.svr_env?.payment_processor;
-            data.flights_api_provider = c_data?.svr_env?.flights_api_provider;
+            data.data_provider = c_data?.svr_env?.flights_api_provider;
+            data.profit_type = __SETTINGS_TYPES?.percentage;
             data.price_markup_percentage = c_data?.price_markup_percentage;
+
+            // For Agents Only
             if(isLoggedUserAgent){
                 let agent_info = userDetails?.agent_info;
-                let pm_obj = agent_info?.find(each=>each.property==="price_markup");
-                data.price_markup_percentage=(pm_obj?.value || "N/A");
-                // To do Data Provider for Agent User
+                let profit_type = agent_info?.find(each=>each.property===__SETTINGS_TYPES?.profit_type);
+                if(profit_type?.property){
+                    data.profit_type=profit_type?.value;
+                    if(profit_type?.value===__SETTINGS_TYPES?.percentage){
+                        let pm_obj = agent_info?.find(each=>each.property===__SETTINGS_TYPES?.percentage);
+                        if(pm_obj?.value)
+                            data.price_markup_percentage=pm_obj?.value;
+                        else
+                            data.price_markup_percentage=""
+                    }else if(profit_type?.value===__SETTINGS_TYPES?.flat_rate){
+                        let fl_obj = agent_info?.find(each=>each.property===__SETTINGS_TYPES?.flat_rate);
+                        if(fl_obj?.value)
+                            data.flat_rate_amount=fl_obj?.value;
+                        else
+                            data.flat_rate_amount="";
+                    }
+                }else{
+                    data.profit_type="";
+                }
+                let data_provider = agent_info?.find(each=>each.property===__SETTINGS_TYPES?.data_provider);
+                if(data_provider?.value){
+                    data.data_provider=(data_provider?.value).toUpperCase();
+                } else {
+                    data.data_provider=""
+                }
+                
             }
             setSvrStatus(data);
         })();
@@ -174,17 +207,55 @@ function Header(props){
                             |
                         </div>
                         <div className="tool-tip-parent">
-                            <div className="tool-tip">
-                                <p>Current price markup is {svrStatus?.price_markup_percentage}%</p>
-                            </div>
-                            <p onClick={()=>setShowPriceMarkupSettings(true)} style={{textDecoration: "underline", color: "lightgreen", fontSize: 12}}>
-                               <span style={{color: "rgba(0, 191, 255, 0.6)", marginRight: 5}}>
-                                <i style={{fontSize: 14}} className="fa fa-level-up"></i></span> 
-                                {svrStatus?.price_markup_percentage}%</p>
+                            {
+                                !svrStatus?.profit_type &&
+                                <>
+                                    <div className="tool-tip">
+                                        <p>Price-Bound Profit Type (Percentage or Flat Rate) for your Booking Engine has NOT been set</p>
+                                    </div>
+                                    <p onClick={()=>setShowPriceMarkupSettings(true)} style={{textDecoration: "underline", color: "lightgreen", fontSize: 12}}>
+                                        <span style={{color: "red", marginRight: 5}}>
+                                        <i style={{fontSize: 14}} className="fa fa-level-up"></i></span> 
+                                    </p>
+                                </>
+                            }
+                            {
+                                (svrStatus?.profit_type===__SETTINGS_TYPES?.percentage) &&
+                                <>
+                                    <div className="tool-tip">
+                                        {
+                                            svrStatus?.price_markup_percentage ?
+                                            <p>Price-Bound Profit of {svrStatus?.price_markup_percentage}% applied on your Booking Engine. This is the percentage of the prices you set to earn as profit from original prices from suppliers.</p> :
+                                            <p>Price-Bound Profit for your Booking Engine has NOT been set</p>
+                                        }
+                                    </div>
+                                    <p onClick={()=>setShowPriceMarkupSettings(true)} style={{textDecoration: "underline", color: "lightgreen", fontSize: 12}}>
+                                        <span style={{color: svrStatus?.price_markup_percentage ? "rgba(0, 191, 255, 0.6)" : "red", marginRight: 5}}>
+                                            <i style={{fontSize: 14}} className="fa fa-level-up"></i></span> 
+                                        {svrStatus?.price_markup_percentage}%</p>
+                                </>
+                            }
+                            {
+                                (svrStatus?.profit_type===__SETTINGS_TYPES?.flat_rate) &&
+                                <>
+                                    <div className="tool-tip">
+                                    {
+                                        svrStatus?.flat_rate_amount ?
+                                        <p>Price-Bound Profit of ${svrStatus?.flat_rate_amount} applied on your Booking Engine. This is the amount you set to earn as profit from original prices from suppliers.</p> :
+                                        <p>Price-Bound Profit for your Booking Engine has NOT been set</p>
+                                    }
+                                    </div>
+                                    <p onClick={()=>setShowPriceMarkupSettings(true)} style={{textDecoration: "underline", color: "lightgreen", fontSize: 12}}>
+                                        <span style={{color: svrStatus?.flat_rate_amount ? "rgba(0, 191, 255, 0.6)" : "red", marginRight: 5}}>
+                                            <i style={{fontSize: 14}} className="fa fa-level-up"></i></span> 
+                                        ${svrStatus?.flat_rate_amount}</p>
+                                </>
+                            }
                             {
                                 showPriceMarkupSettings &&
                                 <GenericPopupSettingsPane 
-                                    name="price_markup"
+                                    userDetails={userDetails}
+                                    name={(svrStatus?.profit_type || __SETTINGS_TYPES?.percentage)}
                                     closeFunc={hidePriceMarkupSettingsPane}
                                 />
                             }
@@ -194,15 +265,20 @@ function Header(props){
                         </div>
                         <div className="tool-tip-parent">
                             <div className="tool-tip">
-                                <p>Flights data is provided by {svrStatus?.flights_api_provider}</p>
+                                {
+                                    svrStatus?.data_provider ?
+                                    <p>Your Booking Engine Supplier is set to {svrStatus?.data_provider}</p> :
+                                    <p>Your Booking Engine Supplier has NOT been set</p>
+                                }
                             </div>
                             <p onClick={()=>setShowDataProviderSettings(true)} style={{textDecoration: "underline", color: "lightgreen", fontSize: 12}}>
-                               <span style={{color: "rgba(0, 191, 255, 0.6)", marginRight: 5}}>
+                               <span style={{color: svrStatus?.data_provider ? "rgba(0, 191, 255, 0.6)" : "red", marginRight: 5}}>
                                     <i style={{fontSize: 14}} className="fa fa-share-alt"></i></span> 
-                                    {svrStatus?.flights_api_provider}</p>
+                                    {svrStatus?.data_provider}</p>
                             {
                                 showDataProviderSettings &&
                                 <GenericPopupSettingsPane 
+                                    userDetails={userDetails}
                                     name="data_provider"
                                     closeFunc={hideDataProviderSettingsPane}
                                 />

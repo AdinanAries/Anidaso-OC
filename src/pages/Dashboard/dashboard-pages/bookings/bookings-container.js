@@ -69,11 +69,13 @@ let BookingsContainer = (props)=>{
                 <PageRestricted /> :
                 <>
                     <div id="bookings-container-main-pane">
-                        <div>
-                            <RequiredActions 
-                                userDetails={userDetails}
-                            />
-                        </div>
+                        {
+                            isAgent && <div>
+                                <RequiredActions 
+                                    userDetails={userDetails}
+                                />
+                            </div>
+                        }
                         <p style={{color: "white", padding: 20, display: "flex", background: "rgb(0, 37, 63)"}}>
                             <span onClick={()=>{
                                     toggle_show_main_sections("staff");
