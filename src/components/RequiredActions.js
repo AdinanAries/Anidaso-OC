@@ -22,12 +22,14 @@ const RequiredActions = (props) => {
                                     window.__showLegalCompliancePage();
                                 }}
                                 className="tool-tip-parent">
-                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <div style={{width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-file-contract"></i>
                                 </div>
                                 <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
                                     className="tool-tip">
-                                    Business Compliance is Not OK...
+                                    Business Compliance is 
+                                    <span style={{color: "red", fontWeight: "bolder"}}> Not OK</span>
+                                    ...
                                 </div>
                             </div>
                             <div onClick={()=>{
@@ -36,12 +38,14 @@ const RequiredActions = (props) => {
                                     window.__showWalletPage();
                                 }} 
                                 className="tool-tip-parent">
-                                <div style={{width: 40, height: 40, backgroundColor: "rgba(0,255,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <div style={{width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <i style={{fontSize: 16, color: "lightgreen"}} className="fa-solid fa-wallet"></i>
                                 </div>
                                 <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
                                     className="tool-tip">
-                                    Balance Wallet is OK...
+                                    Balance Wallet is 
+                                    <span style={{color: "green", fontWeight: "bolder"}}> OK</span>
+                                    ...
                                 </div>
                             </div>
                             <div onClick={()=>{
@@ -50,12 +54,14 @@ const RequiredActions = (props) => {
                                     window.__showInfoPage();
                                 }} 
                                 className="tool-tip-parent">
-                                <div style={{width: 40, height: 40, backgroundColor: "rgba(0,255,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <div style={{width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <i style={{fontSize: 16, color: "lightgreen"}} className="fa-solid fa-briefcase"></i>
                                 </div>
                                 <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
                                     className="tool-tip">
-                                    Business Information is OK...
+                                    Business Information is
+                                    <span style={{color: "green", fontWeight: "bolder"}}> OK</span>
+                                    ...
                                 </div>
                             </div>
                             <div onClick={()=>{
@@ -64,21 +70,25 @@ const RequiredActions = (props) => {
                                     window.__showBookingEnginePage();
                                 }}
                                 className="tool-tip-parent">
-                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <div style={{width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-server"></i>
                                 </div>
                                 <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
                                     className="tool-tip">
-                                    Booking Engine is Not OK...
+                                    Booking Engine is
+                                    <span style={{color: "red", fontWeight: "bolder"}}> Not OK</span>
+                                    ...
                                 </div>
                             </div>
                             <div className="tool-tip-parent">
-                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <div style={{width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-money-bill-transfer"></i>
                                 </div>
                                 <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
                                     className="tool-tip">
-                                    Business Bank is Not OK...
+                                    Business Bank is
+                                    <span style={{color: "red", fontWeight: "bolder"}}> Not OK</span>
+                                    ...
                                 </div>
                             </div>
                             <div onClick={()=>{
@@ -87,21 +97,25 @@ const RequiredActions = (props) => {
                                     window.__showAgentConfigsPage();
                                 }}
                                 className="tool-tip-parent">
-                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <div style={{width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-percent"></i>
                                 </div>
                                 <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
                                     className="tool-tip">
-                                    Price-bound Profit is Not OK...
+                                    Price-bound Profit is
+                                    <span style={{color: "red", fontWeight: "bolder"}}> Not OK</span>
+                                    ...
                                 </div>
                             </div>
                             <div className="tool-tip-parent">
-                                <div style={{width: 40, height: 40, backgroundColor: "rgba(255,0,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                <div style={{width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <i style={{fontSize: 16, color: "red"}} className="fa-solid fa-envelope"></i>
                                 </div>
                                 <div style={{left: -15, minWidth: 120, textAlign: "center", fontSize: 13}}
                                     className="tool-tip">
-                                    Email Sender is Not OK...
+                                    Email Sender is
+                                    <span style={{color: "red", fontWeight: "bolder"}}> Not OK</span>
+                                    ...
                                 </div>
                             </div>
                         </div> :

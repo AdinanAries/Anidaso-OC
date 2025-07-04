@@ -294,70 +294,76 @@ const LegalCompliance = (props) => {
                                     Other Certificate(s)</p>
                                 <div style={{marginTop: 20}}>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>certificationsOnInput("Airlines Reporting Corporation Accreditation")}
+                                            checked={pageData?.certifications?.includes("Airlines Reporting Corporation Accreditation")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_arc_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_arc_check">
                                                 <span style={{color: "skyblue"}}>ARC Accreditation (Airlines Reporting Corporation): </span>
                                                 Accreditation from ARC can provide recognition and opportunities for travel agents in the US. 
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>certificationsOnInput("Certified Travel Associate")}
+                                            checked={pageData?.certifications?.includes("Certified Travel Associate")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_cta_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_cta_check">
                                                 <span style={{color: "skyblue"}}>Certified Travel Associate (CTA): </span>
                                                 Earned after 18 months of industry experience and passing an exam.  
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>certificationsOnInput("Certified Travel Counselor")}
+                                            checked={pageData?.certifications?.includes("Certified Travel Counselor")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_ctc_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_ctc_check">
                                                 <span style={{color: "skyblue"}}>Certified Travel Counselor (CTC)</span>
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>certificationsOnInput("Certified Travel Industry Executive")}
+                                            checked={pageData?.certifications?.includes("Certified Travel Industry Executive")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_ctie_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_ctie_check">
                                                 <span style={{color: "skyblue"}}>Certified Travel Industry Executive (CTIE)</span>
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>certificationsOnInput("CLIA Certifications")}
+                                            checked={pageData?.certifications?.includes("CLIA Certifications")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_clia_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_clia_check">
                                                 <span style={{color: "skyblue"}}>CLIA Certifications: </span>
                                                 Cruise Line International Association offers various levels of certification.   
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>certificationsOnInput("The Travel Institute's programs")}
+                                            checked={pageData?.certifications?.includes("The Travel Institute's programs")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_ttip_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_ttip_check">
                                                 <span style={{color: "skyblue"}}>The Travel Institute's programs: </span>
                                                 Offers certification and continuing education.
                                             </label>
@@ -379,72 +385,78 @@ const LegalCompliance = (props) => {
                                     What license(s) do you have?</p>
                                 <div style={{marginTop: 20}}>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>licensesOnInput("IATA Number")}
+                                            checked={pageData?.licenses?.includes("IATA Number")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_iata_number_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_iata_number_check">
                                                 <span style={{color: "skyblue"}}>IATA Number: </span> 
                                                 This is the primary requirement for travel agents in New York who want to book flights and earn commissions. 
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>licensesOnInput("Seller of Travel Registration")}
+                                            checked={pageData?.licenses?.includes("Seller of Travel Registration")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_sotr_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_sotr_check">
                                                 <span style={{color: "skyblue"}}>Seller of Travel Registration: </span> 
                                                 While not required in New York, some states have "Seller of Travel" laws and registration requirements, particularly if you plan to operate in those states. 
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>licensesOnInput("Business Licenses")}
+                                            checked={pageData?.licenses?.includes("Business Licenses")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_lbl_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_lbl_check">
                                                 <span style={{color: "skyblue"}}>Business Licenses: </span> 
                                                 You may need to obtain local business licenses, depending on your specific business structure and location. 
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>licensesOnInput("Insurance Agent License")}
+                                            checked={pageData?.licenses?.includes("Insurance Agent License")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_ial_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_ial_check">
                                                 <span style={{color: "skyblue"}}>Insurance Agent License: </span> 
                                                 If you plan to sell travel insurance, you will need to be licensed as an insurance agent in New York. 
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>licensesOnInput("Certifications")}
+                                            checked={pageData?.licenses?.includes("Certifications")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_other_certs_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_other_certs_check">
                                                 <span style={{color: "skyblue"}}>Certifications: </span> 
                                                 While not mandatory, certifications from organizations like ASTA (American Society of Travel Advisors) or IATA can be beneficial for building credibility and expanding your business. 
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>licensesOnInput("Host Agency")}
+                                            checked={pageData?.licenses?.includes("Host Agency")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_host_agency_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_host_agency_check">
                                                 <span style={{color: "skyblue"}}>Host Agency: </span> 
                                                 Many independent travel agents partner with a host agency, which provides access to booking systems, training, and often helps secure the IATA number. 
                                             </label>
@@ -464,72 +476,78 @@ const LegalCompliance = (props) => {
                                     What insurance(s) do you have?</p>
                                 <div style={{marginTop: 20}}>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>insurancesOnInput("Errors and Omissions (E&O) Insurance")}
+                                            checked={pageData?.insurances?.includes("Errors and Omissions (E&O) Insurance")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_e&o_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_e&o_check">
                                                 <span style={{color: "skyblue"}}>Errors and Omissions (E&O) Insurance: </span> 
                                                     This is the most crucial type of insurance for travel agents, as it covers financial losses, legal fees, and defense costs associated with claims of professional mistakes, negligence, or inaccurate advice. For example, if a travel agent books a flight that arrives after the wedding ceremony, E&O insurance could help cover the costs associated with the client's claim
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>insurancesOnInput("General Liability Insurance")}
+                                            checked={pageData?.insurances?.includes("General Liability Insurance")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_glins_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_glins_check">
                                                 <span style={{color: "skyblue"}}>General Liability Insurance: </span> 
                                                 This policy protects the agency from claims of bodily injury or property damage to third parties. For example, if a client trips and falls in the agency's office, general liability insurance could cover their medical expenses and any legal costs if they sue
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>insurancesOnInput("Business Owner's Policy (BOP)")}
+                                            checked={pageData?.insurances?.includes("Business Owner's Policy (BOP)")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_bop_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_bop_check">
                                                 <span style={{color: "skyblue"}}>Business Owner's Policy (BOP): </span> 
                                                 A BOP combines general liability and commercial property insurance into one convenient package. It covers the physical assets of the business, like the office space and equipment, and protects against risks like fire or theft
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>insurancesOnInput("Workers' Compensation Insurance")}
+                                            checked={pageData?.insurances?.includes("Workers' Compensation Insurance")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_wci_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_wci_check">
                                                 <span style={{color: "skyblue"}}>Workers' Compensation Insurance: </span> 
                                                 If the travel agency employs staff, this insurance is usually required. It provides coverage for employees injured on the job, covering lost wages and medical expenses
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>insurancesOnInput("Cyber Insurance")}
+                                            checked={pageData?.insurances?.includes("Cyber Insurance")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_cbri_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_cbri_check">
                                                 <span style={{color: "skyblue"}}>Cyber Insurance: </span> 
                                                 In today's digital age, cyber insurance is increasingly important to protect against data breaches, hacking, and other cyberattacks that could compromise sensitive client information. 
                                             </label>
                                         </span>
                                     </p>
                                     <p style={{color: "white", margin: "10px 0", display: "flex"}}>
-                                        <input
+                                        <input onInput={()=>insurancesOnInput("Other potential coverages")}
+                                            checked={pageData?.insurances?.includes("Other potential coverages")}
                                             className="cm-toggle"
-                                            id=""
+                                            id="legal_compliance_page_opcvrg_check"
                                             type="checkbox" />
                                         <span style={{marginLeft: 10, fontSize: 13}}>
-                                            <label htmlFor="">
+                                            <label htmlFor="legal_compliance_page_opcvrg_check">
                                                 <span style={{color: "skyblue"}}>Other potential coverages: </span> 
                                                 Depending on the specific needs of the agency, other types of insurance may be considered, such as non-owned & hired auto liability (for transportation arrangements) or personal injury liability (for claims of libel or slander).
                                             </label>

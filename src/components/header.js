@@ -17,6 +17,8 @@ import {
 import { useEffect, useState } from "react";
 import LOGO_PLACEHOLDER from "../LOGO_PLACEHOLDER.jpg";
 
+import GenericPopupSettingsPane from "./GenericPopupSettingsPane";
+
 function Header(props){
 
     const {
@@ -47,6 +49,16 @@ function Header(props){
         flights_api_provider: "...",
         price_markup_percentage: 0
     });
+    const [ showDataProviderSettings, setShowDataProviderSettings ] = useState(false);
+    const [ showPriceMarkupSettings, setShowPriceMarkupSettings ] = useState(false);
+
+    const hideDataProviderSettingsPane = () => {
+        setShowDataProviderSettings(false);
+    }
+
+    const hidePriceMarkupSettingsPane = () => {
+        setShowPriceMarkupSettings(false);
+    }
 
     useEffect(()=>{
         (async () => {
@@ -141,7 +153,7 @@ function Header(props){
                             <div className="tool-tip">
                                 <p>Payment is currently processed with {svrStatus?.payment_processor?.toUpperCase()}</p>
                             </div>
-                            <p style={{color: "orange", fontSize: 12}}>
+                            <p style={{color: "rgba(255,255,255,0.6)", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                 <i style={{fontSize: 14}} className="fa-solid fa-building-columns"></i></span> 
                                 {svrStatus?.payment_processor?.toUpperCase()}</p>
@@ -153,7 +165,7 @@ function Header(props){
                             <div className="tool-tip">
                                 <p>Currency is USD</p>
                             </div>
-                            <p style={{color: "orange", fontSize: 12}}>
+                            <p style={{color: "rgba(255,255,255,0.6)", fontSize: 12}}>
                                <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
                                 <i style={{fontSize: 14}} className="fa fa-globe"></i></span> 
                                 USD</p>
@@ -165,10 +177,17 @@ function Header(props){
                             <div className="tool-tip">
                                 <p>Current price markup is {svrStatus?.price_markup_percentage}%</p>
                             </div>
-                            <p style={{color: "orange", fontSize: 12}}>
-                               <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
+                            <p onClick={()=>setShowPriceMarkupSettings(true)} style={{textDecoration: "underline", color: "lightgreen", fontSize: 12}}>
+                               <span style={{color: "rgba(0, 191, 255, 0.6)", marginRight: 5}}>
                                 <i style={{fontSize: 14}} className="fa fa-level-up"></i></span> 
                                 {svrStatus?.price_markup_percentage}%</p>
+                            {
+                                showPriceMarkupSettings &&
+                                <GenericPopupSettingsPane 
+                                    name="price_markup"
+                                    closeFunc={hidePriceMarkupSettingsPane}
+                                />
+                            }
                         </div>
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
@@ -177,10 +196,17 @@ function Header(props){
                             <div className="tool-tip">
                                 <p>Flights data is provided by {svrStatus?.flights_api_provider}</p>
                             </div>
-                            <p style={{color: "orange", fontSize: 12}}>
-                               <span style={{color: "rgba(255,255,255,0.6)", marginRight: 5}}>
+                            <p onClick={()=>setShowDataProviderSettings(true)} style={{textDecoration: "underline", color: "lightgreen", fontSize: 12}}>
+                               <span style={{color: "rgba(0, 191, 255, 0.6)", marginRight: 5}}>
                                     <i style={{fontSize: 14}} className="fa fa-share-alt"></i></span> 
                                     {svrStatus?.flights_api_provider}</p>
+                            {
+                                showDataProviderSettings &&
+                                <GenericPopupSettingsPane 
+                                    name="data_provider"
+                                    closeFunc={hideDataProviderSettingsPane}
+                                />
+                            }
                         </div>
                         <div style={{fontSize: 12, margin: "0 10px", color: "rgba(255,255,255,0.1)"}}>
                             |
